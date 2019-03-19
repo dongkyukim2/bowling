@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <variable
+      name="bindingReadViewModel"
+      type="com.dk.project.post.viewModel.ReadViewModel"/>
+  </data>
+
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#ffffff"
+      android:orientation="vertical">
+
+      <androidx.core.widget.NestedScrollView
+        android:id="@+id/root_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+          <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+              android:id="@+id/user_info_parent"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingBottom="8dp"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+              <com.dk.project.post.ui.widget.CircleImageView
+                android:id="@+id/user_profile"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                app:srcCompat="@drawable/ic_user_profile"/>
+
+              <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                  android:id="@+id/user_name"
+                  android:textStyle="bold"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:layout_marginBottom="1dp"
+                  android:text="@{bindingReadViewModel.postModel.userName}"
+                  android:textColor="@color/text_like_counter"
+                  android:textSize="15dp"/>
+
+                <TextView
+                  android:id="@+id/write_date"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="1dp"
+                  android:textColor="#969696"
+                  android:textSize="11dp"/>
+
+              </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+              android:id="@+id/read_content_root"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+              <RelativeLayout
+                android:id="@+id/read_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:setReadPost="@{bindingReadViewModel.postModel}">
+
+                <LinearLayout
+                  android:id="@+id/info_parent"
+                  android:layout_width="match_parent"
+                  android:layout_height="60dp"
+                  android:orientation="horizontal">
+
+                  <LinearLayout
+                    android:id="@+id/like_image_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                      android:id="@+id/like_image_view"
+                      android:layout_width="25dp"
+                      android:layout_height="25dp"
+                      android:layout_marginLeft="10dp"
+                      android:onClick="@{bindingReadViewModel::onClick}"
+                      app:srcCompat="@drawable/ic_heart_outline_grey"/>
+
+                    <TextView
+                      android:id="@+id/like_count_text"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="6dp"
+                      android:text="0"
+                      android:textColor="#000000"
+                      android:textSize="14dp"/>
+                  </LinearLayout>
+
+                  <LinearLayout
+                    android:id="@+id/reply_image_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                      android:id="@+id/reply_image_view"
+                      android:layout_width="25dp"
+                      android:layout_height="25dp"
+                      android:layout_marginLeft="10dp"
+                      app:srcCompat="@drawable/ic_comment_outline_grey"/>
+
+                    <TextView
+                      android:id="@+id/reply_count_text"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="6dp"
+                      android:textColor="#000000"
+                      android:textSize="14dp"/>
+                  </LinearLayout>
+
+                  <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                      android:id="@+id/reply_more"
+                      android:textStyle="bold"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="6dp"
+                      android:paddingLeft="6dp"
+                      android:paddingRight="6dp"
+                      android:text="모두 보기"
+                      android:textColor="@color/colorPrimary"
+                      android:textSize="14dp"/>
+                  </LinearLayout>
+
+                  <LinearLayout
+                    android:id="@+id/more_image_parent"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                      android:id="@+id/more_image_view"
+                      android:layout_width="25dp"
+                      android:layout_height="25dp"
+                      app:srcCompat="@drawable/ic_more_grey"/>
+                  </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/reply_list"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="-10dp"
+                  android:layout_below="@id/info_parent"
+                  android:nestedScrollingEnabled="false"
+                  android:overScrollMode="never"
+                  android:scrollbars="none"/>
+              </RelativeLayout>
+
+            </RelativeLayout>
+
+          </LinearLayout>
+
+        </LinearLayout>
+
+      </androidx.core.widget.NestedScrollView>
+
+
+      <RelativeLayout
+        android:id="@+id/reply_input_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_gravity="bottom"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:background="@drawable/reply_round">
+
+        <RelativeLayout
+          android:id="@+id/reply_send_parent"
+          android:layout_width="50dp"
+          android:layout_height="wrap_content"
+          android:layout_alignBottom="@+id/reply_edit_text"
+          android:layout_alignParentRight="true"
+          android:layout_alignTop="@+id/reply_edit_text"
+          android:background="@drawable/reply_send_round"
+          android:onClick="@{bindingReadViewModel::onClick}">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="등록"
+            android:textColor="#ffffff"
+            android:textSize="15dp"/>
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatEditText
+          android:id="@+id/reply_edit_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_centerVertical="true"
+          android:layout_toLeftOf="@id/reply_send_parent"
+          android:padding="8dp"
+          android:background="@color/background_color"
+          android:hint="댓글을 남겨주세요."
+          android:maxLines="3"
+          android:textSize="16dp"/>
+
+      </RelativeLayout>
+    </LinearLayout>
+
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

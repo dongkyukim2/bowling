@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.dk.project.post">
+
+  <!--<uses-permission android:name="android.permission.CAMERA"/>-->
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+  <application
+    android:largeHeap="true"
+    android:usesCleartextTraffic="true">
+
+
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.WriteActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"
+      android:launchMode="singleTask"
+      android:windowSoftInputMode="adjustResize">
+      <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+      </intent-filter>
+    </activity>
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.ReadActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"
+      android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.MediaSelectActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"/>
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.MediaSelectListActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"/>
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.ReplyModifyActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"
+      android:windowSoftInputMode="adjustResize"/>
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.SearchContentsActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"
+      android:windowSoftInputMode="adjustResize"/>
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.YoutubeFullScreenActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"/>
+
+    <activity
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:name=".ui.activity.ReplyMoreActivity"
+      android:screenOrientation="portrait"
+      android:theme="@style/AppTheme.NoActionBar"/>
+
+    <service
+      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+      android:enabled="true"
+      android:exported="false"
+      android:name=".service.CommunityService"/>
+  </application>
+
+</manifest>

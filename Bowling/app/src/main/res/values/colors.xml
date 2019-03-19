@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#b4b4b4</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#01bcd5</color>
+    <color name="toolbar_color">@color/colorPrimaryDark</color>
+    <color name="status_bar_color">#ffffff</color>
+
+
+
+
+
+    <color name="gray_background_color">#ededed</color>
+    <color name="main_background_color">#ffffff</color>
+
+
+
+
+    <color name="black_text">#4a5158</color>
+    <color name="divider">#E0E0E0</color>
+    <color name="text_like_counter">#2b5a83</color>
+
+    <color name="gray_text_color">#969696</color>
+</resources>

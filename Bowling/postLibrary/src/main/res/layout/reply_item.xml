@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+    <variable
+      name="replyHolder"
+      type="com.dk.project.post.ui.viewHolder.ReplyViewHolder"/>
+  </data>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <com.dk.project.post.ui.widget.CircleImageView
+        android:id="@+id/reply_profile_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_user_profile"/>
+
+
+      <RelativeLayout
+        android:id="@+id/reply_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/reply_profile_image"
+        android:paddingLeft="10dp">
+
+        <TextView
+          android:id="@+id/reply_date_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:paddingRight="4dp"
+          android:textColor="#b3b3b3"
+          android:textSize="12dp"/>
+
+        <TextView
+          android:id="@+id/reply_user_name_text"
+          android:textStyle="bold"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="7dp"
+          android:layout_alignParentLeft="true"
+          android:layout_toLeftOf="@id/reply_date_text"
+          android:textColor="@color/text_like_counter"
+          android:textSize="15dp"/>
+
+        <TextView
+          android:id="@+id/reply_contents_text"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@id/reply_user_name_text"
+          android:layout_below="@id/reply_user_name_text"
+          android:paddingBottom="0dp"
+          android:textColor="@color/black_text"
+          android:textSize="15dp"/>
+
+
+      </RelativeLayout>
+
+    </RelativeLayout>
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:layout_marginTop="7dp"
+      android:layout_marginLeft="7dp"
+      android:layout_alignLeft="@id/reply_parent"
+      android:layout_alignParentBottom="true"
+      android:background="@color/divider"/>
+
+  </LinearLayout>
+
+
+</layout>
