@@ -14,9 +14,13 @@ public class InfoRecentScoresViewHolder extends BindViewHolder<ViewHolderInfoRec
 
   @Override
   public void onBindView(ScoreModel item, int position) {
-//    binding.recentDateText.setText(item.getPlayDate());
-//    binding.recentAvgText.setText(String.valueOf(item.getAvgScore()));
-//    binding.recentMaxText.setText(String.valueOf(item.getMaxScore()));
-//    binding.recentMinText.setText(String.valueOf(item.getMinScore()));
+
+    if (position == 1) {
+      binding.score.setText(String.valueOf(item.getMaxScore()));
+      binding.scoreTitle.setText("이번달 최고점");
+    } else {
+      binding.score.setText(String.valueOf(item.getMinScore()));
+      binding.scoreTitle.setText("이번달 최저점");
+    }
   }
 }

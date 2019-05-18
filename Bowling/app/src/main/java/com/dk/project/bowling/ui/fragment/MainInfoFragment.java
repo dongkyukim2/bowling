@@ -64,13 +64,11 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
 //      binding.monthMaxText.setText(String.valueOf(scoreModel.getMaxScore()));
 //      binding.monthMinText.setText(String.valueOf(scoreModel.getMinScore()));
 
-      System.out.println("==================     이번달 평균");
     });
 
     viewModel.getAvgListLiveData().observe(this, responseModel -> { // 일평균 목록
       isLoading = false;
       recentScoresAdapter.setRecentScoreList(responseModel.first.getData(), responseModel.second);
-      System.out.println("==================     일 평균");
     });
 
     //점수 등록했을 때 갱신
@@ -88,14 +86,14 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
         .observeOn(AndroidSchedulers.mainThread()).
         subscribe(aBoolean -> {
           isLoading = true;
-          viewModel.getRecentAvgLive(recentScoresAdapter.getItemCount());
+          viewModel.getRecentAvgLive(recentScoresAdapter.getItemCount()-3);
         });
 
     binding.recentScoresRecycler.setOnScrollChangeListener(
         (v, scrollX, scrollY, oldScrollX, oldScrollY) ->
-            nextDataSubject.onNext(!isLoading && recentScoresAdapter.getItemCount() > 19 &&
-                gridLayoutManager.findLastVisibleItemPosition()
-                    == recentScoresAdapter.getItemCount() - 1));
+            nextDataSubject.onNext(!isLoading &&
+                (recentScoresAdapter.getItemCount() - 3) % 20 == 0 &&
+                gridLayoutManager.findLastVisibleItemPosition() == recentScoresAdapter.getItemCount() - 1));
 
     recentScoresAdapter = new RecentScoresAdapter();
     gridLayoutManager = new GridLayoutManager(getActivity(), 2);
