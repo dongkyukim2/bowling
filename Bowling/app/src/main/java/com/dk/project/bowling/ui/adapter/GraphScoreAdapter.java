@@ -24,7 +24,7 @@ public class GraphScoreAdapter extends BaseRecyclerViewAdapter<GraphRecentScoreV
 
   @Override
   public void onBindViewHolder(GraphRecentScoreViewHolder holder, int position) {
-    holder.onBindView(graphScoreList.get(position));
+    holder.onBindView(graphScoreList.get(position), position);
   }
 
   @Override

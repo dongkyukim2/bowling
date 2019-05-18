@@ -107,7 +107,7 @@ public class ContentsListViewHolder<T extends PostModel> extends BaseContentsVie
   }
 
   @Override
-  public void onBindView(T postModel) {
+  public void onBindView(T postModel, int position) {
     this.postModel = postModel;
     String[] textArray = postModel.getInputText().split(IMAGE_DIVIDER);
     StringBuffer stringBuffer = new StringBuffer();

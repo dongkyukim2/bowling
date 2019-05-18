@@ -49,7 +49,7 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
 
   @Override
   public void onBindViewHolder(BindViewHolder holder, int position) {
-    holder.onBindView(recentScoresList.get(position));
+    holder.onBindView(recentScoresList.get(position), position);
   }
 
   @Override

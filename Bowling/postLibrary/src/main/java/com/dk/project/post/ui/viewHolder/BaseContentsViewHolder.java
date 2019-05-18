@@ -24,7 +24,7 @@ public class BaseContentsViewHolder<B extends ViewDataBinding, T> extends BindVi
   }
 
   @Override
-  public void onBindView(T item) {
+  public void onBindView(T item, int position) {
 
   }
 

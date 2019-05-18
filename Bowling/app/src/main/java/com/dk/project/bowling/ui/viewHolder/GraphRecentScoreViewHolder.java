@@ -16,7 +16,7 @@ public class GraphRecentScoreViewHolder extends
   }
 
   @Override
-  public void onBindView(ScoreModel item) {
+  public void onBindView(ScoreModel item, int position) {
 
     binding.graphScore.setText(String.valueOf(item.getAvgScore()));
     binding.graphDate.setText(item.getPlayDateTime().split(" ")[0].split("-")[2] + "일");

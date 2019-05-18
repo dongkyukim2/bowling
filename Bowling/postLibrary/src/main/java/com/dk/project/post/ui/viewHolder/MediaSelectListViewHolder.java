@@ -23,7 +23,7 @@ public class MediaSelectListViewHolder<T extends MediaSelectModel> extends BindV
 
 
   @Override
-  public void onBindView(MediaSelectModel item) {
+  public void onBindView(MediaSelectModel item, int position) {
     binding.folderName.setText(item.getName());
     binding.fileCount.setText(String.valueOf(item.getAlbumCount()));
     setThumbnail(item);

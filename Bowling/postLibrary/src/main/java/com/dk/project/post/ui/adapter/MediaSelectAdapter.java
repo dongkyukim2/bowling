@@ -31,7 +31,7 @@ public class MediaSelectAdapter extends BaseRecyclerViewAdapter {
 
     @Override
     public void onBindViewHolder(BindViewHolder holder, int position) {
-        holder.onBindView(mediaList.get(position));
+        holder.onBindView(mediaList.get(position), position);
     }
 
     @Override

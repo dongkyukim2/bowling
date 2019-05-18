@@ -35,7 +35,7 @@ public class ContentsHorizontalListAdapter extends BaseRecyclerViewAdapter {
 
   @Override
   public void onBindViewHolder(BindViewHolder holder, int position) {
-    holder.onBindView(imageList.get(position));
+    holder.onBindView(imageList.get(position), position);
   }
 
   @Override

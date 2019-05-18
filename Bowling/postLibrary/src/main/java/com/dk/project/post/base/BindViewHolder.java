@@ -17,7 +17,7 @@ public abstract class BindViewHolder<B extends ViewDataBinding, T> extends BaseV
         binding = DataBindingUtil.bind(itemView);
     }
 
-    public abstract void onBindView(T item);
+    public abstract void onBindView(T item, int position);
 
     public B getBinding() {
         return binding;

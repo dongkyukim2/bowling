@@ -43,7 +43,7 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder>  impl
 
   @Override
   public void onBindViewHolder(@NonNull ReplyViewHolder holder, int position) {
-      holder.onBindView(replyItemArrayList.get(position));
+      holder.onBindView(replyItemArrayList.get(position), position);
   }
 
   @Override

@@ -62,7 +62,7 @@ public class ContentsListAdapter extends BaseRecyclerViewAdapter {
     } else {
       viewHolderMap.put((ContentsListViewHolder) holder, position);
     }
-    holder.onBindView(postList.get(position));
+    holder.onBindView(postList.get(position), position);
   }
 
   @Override

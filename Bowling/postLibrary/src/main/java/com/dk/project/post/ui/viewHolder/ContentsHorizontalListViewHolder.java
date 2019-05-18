@@ -34,7 +34,7 @@ public class ContentsHorizontalListViewHolder<T extends MediaSelectListModel> ex
     }
 
     @Override
-    public void onBindView(T imageModel) {
+    public void onBindView(T imageModel, int position) {
         Context context = itemView.getContext();
         binding.attachLayout.removeAllViews();
         if (!TextUtils.isEmpty(imageModel.getYoutubeUrl())) {

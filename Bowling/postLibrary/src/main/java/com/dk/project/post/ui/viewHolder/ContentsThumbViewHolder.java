@@ -118,7 +118,7 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
   }
 
   @Override
-  public void onBindView(T postModel) {
+  public void onBindView(T postModel, int position) {
     this.postModel = postModel;
     String[] textArray = postModel.getInputText().split(IMAGE_DIVIDER);
     StringBuffer stringBuffer = new StringBuffer();

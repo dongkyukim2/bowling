@@ -27,7 +27,7 @@ public class MediaSelectListGridViewHolder<T extends MediaSelectListModel> exten
   }
 
   @Override
-  public void onBindView(T item) {
+  public void onBindView(T item, int position) {
 
     ViewGroup.LayoutParams params = itemView.getLayoutParams();
     params.height = width / 3;

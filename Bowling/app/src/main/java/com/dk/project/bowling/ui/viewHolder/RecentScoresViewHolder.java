@@ -12,7 +12,7 @@ public class RecentScoresViewHolder extends BindViewHolder<ViewHolderRecentScore
   }
 
   @Override
-  public void onBindView(ScoreModel item) {
+  public void onBindView(ScoreModel item, int position) {
     binding.recentDateText.setText(item.getPlayDate());
     binding.recentAvgText.setText(String.valueOf(item.getAvgScore()));
     binding.recentMaxText.setText(String.valueOf(item.getMaxScore()));
