@@ -59,14 +59,18 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
 
     viewModel.getMonthAvgLiveData().observe(this, responseModel -> { // 이번달 평균
       ScoreModel scoreModel = responseModel.getData();
+      recentScoresAdapter.setMonthAvg(scoreModel);
 //      binding.monthAvgText.setText(String.valueOf(scoreModel.getAvgScore()));
 //      binding.monthMaxText.setText(String.valueOf(scoreModel.getMaxScore()));
 //      binding.monthMinText.setText(String.valueOf(scoreModel.getMinScore()));
+
+      System.out.println("==================     이번달 평균");
     });
 
-    viewModel.getAvgListLiveData().observe(this, responseModel -> {
+    viewModel.getAvgListLiveData().observe(this, responseModel -> { // 일평균 목록
       isLoading = false;
       recentScoresAdapter.setRecentScoreList(responseModel.first.getData(), responseModel.second);
+      System.out.println("==================     일 평균");
     });
 
     //점수 등록했을 때 갱신
@@ -94,12 +98,13 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                     == recentScoresAdapter.getItemCount() - 1));
 
     recentScoresAdapter = new RecentScoresAdapter();
-//    linearLayoutManager = new LinearLayoutManager(getActivity());
     gridLayoutManager = new GridLayoutManager(getActivity(), 2);
     gridLayoutManager.setSpanSizeLookup(new SpanSizeLookup() {
       @Override
       public int getSpanSize(int position) {
-        if (position < 4) {
+        if (position == 0) {
+          return 2;
+        } else if (position < 3) {
           return 1;
         } else {
           return 2;

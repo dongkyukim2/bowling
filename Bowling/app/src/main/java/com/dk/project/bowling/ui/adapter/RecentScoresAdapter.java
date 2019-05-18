@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.ui.viewHolder.InfoRecentScoresViewHolder;
+import com.dk.project.bowling.ui.viewHolder.MainInfoGraphViewHolder;
 import com.dk.project.bowling.ui.viewHolder.RecentScoresViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindViewHolder;
@@ -14,16 +15,19 @@ import java.util.ArrayList;
 
 public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder> {
 
-  private final int INFO_SCORE = 0;
-  private final int DAY_SCORE = 1;
+  private final int GRAPH_SCORE = 0;
+  private final int INFO_SCORE = 1;
+  private final int DAY_SCORE = 2;
 
 
+  private ScoreModel monthAvg;
   private ArrayList<ScoreModel> recentScoresList = new ArrayList<>();
-
 
   @Override
   public int getItemViewType(int position) {
-    if (position < 4) {
+    if (position == 0) {
+      return GRAPH_SCORE;
+    } else if (position < 3) {
       return INFO_SCORE;
     } else {
       return DAY_SCORE;
@@ -33,7 +37,9 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
   @Override
   public BindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-    if (viewType == INFO_SCORE) {
+    if (viewType == GRAPH_SCORE) {
+      return new MainInfoGraphViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_main_info_graph, parent, false));
+    } else if (viewType == INFO_SCORE) {
       return new InfoRecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_info_recent_scores, parent, false));
     } else {
       return new RecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_recent_scores, parent, false));
@@ -53,16 +59,22 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
 
 
   public void setRecentScoreList(ArrayList<ScoreModel> recentScoresList, boolean clear) {
-    recentScoresList.add(0,new ScoreModel());
-    recentScoresList.add(0,new ScoreModel());
-    recentScoresList.add(0,new ScoreModel());
-    recentScoresList.add(0,new ScoreModel());
+
     if (this.recentScoresList.isEmpty()) {
+
+      recentScoresList.add(0, monthAvg);
+      recentScoresList.add(0, monthAvg);
+      recentScoresList.add(0, monthAvg);
+
       this.recentScoresList = recentScoresList;
       notifyItemRangeInserted(0, recentScoresList.size());
     } else {
       ArrayList<ScoreModel> list = new ArrayList<>();
-      if (!clear) {
+      if(clear){
+        list.add(monthAvg);
+        list.add(monthAvg);
+        list.add(monthAvg);
+      } else {
         list.addAll(this.recentScoresList);
       }
       list.addAll(recentScoresList);
@@ -102,5 +114,9 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
       }
     });
     return diffResult;
+  }
+
+  public void setMonthAvg(ScoreModel monthAvg) {
+    this.monthAvg = monthAvg;
   }
 }

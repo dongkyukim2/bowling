@@ -96,6 +96,7 @@ public class BowlingApi {
             throwable -> retroClient.errorHandling(throwable, errorCallback));
   }
 
+  // 일평균 목록과 이번달 평균 목록 요청
   public Disposable getTest(SuccessCallback<ResponseModel<ScoreModel>> recentAgvCallback,
       SuccessCallback<ResponseModel<ScoreModel>> monthAvgCallback,
       SuccessCallback<ResponseModel<ArrayList<ScoreModel>>> avgListCallback,
