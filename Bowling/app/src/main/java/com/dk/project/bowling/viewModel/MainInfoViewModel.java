@@ -1,6 +1,7 @@
 package com.dk.project.bowling.viewModel;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
@@ -8,8 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
+import com.dk.project.bowling.ui.activity.ScoreListActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.retrofit.ResponseModel;
+
 import java.util.ArrayList;
 
 /**
@@ -58,6 +61,10 @@ public class MainInfoViewModel extends BaseViewModel {
         avgListLiveData.setValue(new Pair<>(receivedData, false)), errorData -> {
       Toast.makeText(mContext, "하루평균 가져오기 실패", Toast.LENGTH_SHORT).show();
     });
+  }
+
+  public void getScoreDayList(ScoreModel scoreModel) {
+    mContext.startActivity(new Intent(mContext, ScoreListActivity.class));
   }
 
 

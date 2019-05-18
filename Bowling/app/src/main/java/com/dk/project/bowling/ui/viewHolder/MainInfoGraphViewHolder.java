@@ -14,7 +14,7 @@ public class MainInfoGraphViewHolder extends BindViewHolder<ViewHolderMainInfoGr
 
   @Override
   public void onBindView(ScoreModel item, int position) {
-    binding.scoreGraph.setBottomText("월평균");
+    binding.scoreGraph.setBottomText("이번달 평균");
     binding.scoreGraph.setMax(300);
     if (item == null) {
       binding.scoreGraph.setProgress(0);

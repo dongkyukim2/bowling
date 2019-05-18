@@ -90,7 +90,7 @@ public class ArcProgress extends View {
 
     default_suffix_padding = utils.dp2px(getResources(), 4);
     default_suffix_text = "";
-    default_bottom_text_size = utils.sp2px(getResources(), 18);
+    default_bottom_text_size = utils.sp2px(getResources(), 14);
     default_stroke_width = utils.dp2px(getResources(), 4);
 
     TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ArcProgress, defStyleAttr, 0);

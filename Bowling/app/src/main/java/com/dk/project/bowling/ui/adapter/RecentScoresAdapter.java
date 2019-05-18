@@ -57,6 +57,10 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
     return recentScoresList.size();
   }
 
+  public ScoreModel getItem(int position){
+    return recentScoresList.get(position);
+  }
+
 
   public void setRecentScoreList(ArrayList<ScoreModel> recentScoresList, boolean clear) {
 
