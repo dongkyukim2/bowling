@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
-import com.dk.project.post.base.BindFragment;
 import com.dk.project.bowling.databinding.FragmentGraphBinding;
 import com.dk.project.bowling.ui.adapter.GraphScoreAdapter;
 import com.dk.project.bowling.viewModel.GraphViewModel;
+import com.dk.project.post.base.BindFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +27,7 @@ public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewM
 
 
   public static GraphFragment newInstance() {
-    GraphFragment graphFragment = new GraphFragment();
-    return graphFragment;
+    return new GraphFragment();
   }
 
   @Override
@@ -44,6 +43,7 @@ public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewM
   @Override
   protected void registerLiveData() {
     viewModel.getViewTypeLiveData().observe(this, type -> {
+      graphScoreAdapter.setGraphType(type);
       switch (type) {
         case 0:
           binding.graphViewType.setText("평균점수");

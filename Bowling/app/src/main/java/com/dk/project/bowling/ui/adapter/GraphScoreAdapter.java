@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class GraphScoreAdapter extends BaseRecyclerViewAdapter<GraphRecentScoreViewHolder> {
 
   private ArrayList<ScoreModel> graphScoreList = new ArrayList<>();
+  private int graphType;
 
 
   @Override
@@ -24,6 +25,7 @@ public class GraphScoreAdapter extends BaseRecyclerViewAdapter<GraphRecentScoreV
 
   @Override
   public void onBindViewHolder(GraphRecentScoreViewHolder holder, int position) {
+    holder.setGraphType(graphType);
     holder.onBindView(graphScoreList.get(position), position);
   }
 
@@ -70,5 +72,10 @@ public class GraphScoreAdapter extends BaseRecyclerViewAdapter<GraphRecentScoreV
       }
     });
     return diffResult;
+  }
+
+  public void setGraphType(int graphType) {
+    this.graphType = graphType;
+    notifyDataSetChanged();
   }
 }
