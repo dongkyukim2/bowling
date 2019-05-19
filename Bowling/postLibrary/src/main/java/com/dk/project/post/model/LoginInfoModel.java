@@ -2,6 +2,7 @@ package com.dk.project.post.model;
 
 public class LoginInfoModel {
 
+    private int loginType;
     private String userId;
     private String userName;
     private String userPhoto;
@@ -28,5 +29,13 @@ public class LoginInfoModel {
 
     public void setUserPhoto(String userPhoto) {
         this.userPhoto = userPhoto;
+    }
+
+    public int getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(int loginType) {
+        this.loginType = loginType;
     }
 }

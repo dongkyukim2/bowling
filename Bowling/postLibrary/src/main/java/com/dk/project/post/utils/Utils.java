@@ -5,14 +5,21 @@ import static com.dk.project.post.base.Define.YOUTUBE_PACKAGE_NAME;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.Signature;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 import com.dk.project.post.service.CommunityService;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,6 +111,23 @@ public class Utils {
   public static boolean isMainThread() {
     return Looper.myLooper() == Looper.getMainLooper();
   }
+
+  public static void getHashKey(Context contenxt){
+    try {
+      PackageInfo info = contenxt.getPackageManager().getPackageInfo("com.dk.project.bowling", PackageManager.GET_SIGNATURES);
+      for (Signature signature : info.signatures) {
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        md.update(signature.toByteArray());
+        System.out.println("============             "+Base64.encodeToString(md.digest(), Base64.DEFAULT));
+      }
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+  }
+
+
 
 
 }

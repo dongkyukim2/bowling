@@ -3,7 +3,9 @@ package com.dk.project.post.base;
 import android.app.Application;
 import com.dk.project.post.utils.AppExecutors;
 import com.dk.project.post.utils.ImagePipelineConfigFactory;
+import com.dk.project.post.utils.KakaoSDKAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.kakao.auth.KakaoSDK;
 
 /**
  * Created by dkkim on 2017-10-05.
@@ -11,14 +13,29 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class BaseApplication extends Application {
 
-  private AppExecutors mAppExecutors;
+    private AppExecutors mAppExecutors;
+    private static volatile BaseApplication obj = null;
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    Fresco.initialize(this, ImagePipelineConfigFactory.getImagePipelineConfig(this));
-    mAppExecutors = new AppExecutors();
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Fresco.initialize(this, ImagePipelineConfigFactory.getImagePipelineConfig(this));
+        mAppExecutors = new AppExecutors();
+        obj = this;
+        KakaoSDK.init(new KakaoSDKAdapter());
+    }
+
+
+    public static BaseApplication getGlobalApplicationContext() {
+        return obj;
+    }
+
+
+
+
+
+
+
 
    /*
    public AppDatabase getDatabase() {

@@ -27,6 +27,7 @@ import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.BindFragment;
 import com.dk.project.post.controller.LoginController;
+import com.dk.project.post.ui.activity.LoginActivity;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.ToastUtil;
@@ -72,6 +73,8 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         contentsListFragment = ContentsListFragment.newInstance();
 
         setFragment(mainInfoFragment, "info");
+
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override
