@@ -45,20 +45,21 @@ public class LoginActivity extends BindActivity<ActivityLoginBinding, LoginViewM
                 @Override
                 public void onSuccess(MeV2Response result) {
                     long userCode = result.getId(); // 로그인 성공후 유저 고유 키
-                    Toast.makeText(LoginActivity.this,"자동 로그인 성공",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "자동 로그인 성공", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, LoginInfoActivity.class));
                 }
 
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
                     System.out.println("==============   4");
-                    Toast.makeText(LoginActivity.this,"세션 닫힘",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "세션 닫힘", Toast.LENGTH_SHORT).show();
                 }
 
             });
         } else {
             // 무조건 재로그인을 시켜야 하는 경우
             System.out.println("========================  222222");
-            Toast.makeText(LoginActivity.this,"세션 닫힘2",Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "세션 닫힘2", Toast.LENGTH_SHORT).show();
         }
     }
 

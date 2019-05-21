@@ -73,7 +73,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.linecorp:apng:1.1.0'
 
-    implementation 'com.airbnb.android:lottie:3.0.2'
+    implementation 'com.airbnb.android:lottie:3.0.3'
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
