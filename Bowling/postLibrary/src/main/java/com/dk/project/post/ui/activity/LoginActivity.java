@@ -47,6 +47,7 @@ public class LoginActivity extends BindActivity<ActivityLoginBinding, LoginViewM
                     long userCode = result.getId(); // 로그인 성공후 유저 고유 키
                     Toast.makeText(LoginActivity.this, "자동 로그인 성공", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, LoginInfoActivity.class));
+                    finish();
                 }
 
                 @Override

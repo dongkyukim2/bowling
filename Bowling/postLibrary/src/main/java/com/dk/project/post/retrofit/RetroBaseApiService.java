@@ -1,6 +1,7 @@
 package com.dk.project.post.retrofit;
 
 import com.dk.project.post.model.LikeModel;
+import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
 import io.reactivex.Observable;
@@ -36,8 +37,6 @@ public interface RetroBaseApiService {
   @GET("community/post/")
   Observable<ResponseModel<ArrayList<PostModel>>> postList(@Query("page") int page, @Query("search") String search);
 
-
-
   @POST("community/reply/")
   Observable<ResponseModel<ReplyModel>> writeReply(@Body ReplyModel parameters);
 
@@ -64,12 +63,8 @@ public interface RetroBaseApiService {
 
 
 
-
-
-
-
-
-
+  @POST("community/signUp/")
+  Observable<ResponseModel<LoginInfoModel>> signUp(@Body LoginInfoModel parameters);
 
 
 

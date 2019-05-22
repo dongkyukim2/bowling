@@ -3,6 +3,7 @@ package com.dk.project.post.retrofit;
 
 import android.content.Context;
 import android.text.TextUtils;
+import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.retrofit.ProgressRequestBody.ProgressListener;
@@ -45,6 +46,17 @@ public class PostApi {
   public RetroBaseApiService getApiService() {
     return apiService;
   }
+
+
+
+  public Disposable signUp(LoginInfoModel loginInfoModel, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
+    return apiService.signUp(loginInfoModel)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(callback::onSuccess,
+                    throwable -> retroClient.errorHandling(throwable, errorCallback));
+  }
+
 
 
   public Disposable writePost(PostModel postModel, boolean modify, SuccessCallback<ResponseModel> callback, ErrorCallback errorCallback) {

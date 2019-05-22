@@ -2,10 +2,10 @@ package com.dk.project.post.model;
 
 public class LoginInfoModel {
 
-    private int loginType;
     private String userId;
     private String userName;
     private String userPhoto;
+    private String loginType;
 
     public String getUserId() {
         return userId;
@@ -31,11 +31,11 @@ public class LoginInfoModel {
         this.userPhoto = userPhoto;
     }
 
-    public int getLoginType() {
+    public String getLoginType() {
         return loginType;
     }
 
-    public void setLoginType(int loginType) {
+    public void setLoginType(String loginType) {
         this.loginType = loginType;
     }
 }
