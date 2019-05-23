@@ -18,6 +18,8 @@ import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.adapter.RecentScoresAdapter;
 import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BindFragment;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
 
@@ -132,6 +134,14 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                     View child = rv.findChildViewUnder(e.getX(), e.getY());
                     int position = rv.getChildAdapterPosition(child);
                     viewModel.getScoreDayList(recentScoresAdapter.getItem(position));
+
+
+                    UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                        @Override
+                        public void onCompleteLogout() {
+
+                        }
+                    });
                 }
                 return super.onInterceptTouchEvent(rv, e);
             }

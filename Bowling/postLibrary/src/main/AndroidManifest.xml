@@ -9,18 +9,6 @@
             android:largeHeap="true"
             android:usesCleartextTraffic="true">
         <activity
-                android:name=".ui.activity.LoginInfoActivity"
-                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-                android:name=".ui.activity.LoginActivity"
-                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
                 android:name=".ui.activity.WriteActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:launchMode="singleTask"

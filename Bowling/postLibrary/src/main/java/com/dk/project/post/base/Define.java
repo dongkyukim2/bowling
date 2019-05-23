@@ -6,6 +6,8 @@ package com.dk.project.post.base;
 
 public interface Define {
 
+    String USER_CODE = "USER_CODE";
+
     boolean ON_CREATE_LOG = false;
 
     boolean MAIN_PAGER_ACTIVITY = false;

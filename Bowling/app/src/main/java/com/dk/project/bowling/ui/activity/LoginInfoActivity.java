@@ -1,12 +1,13 @@
-package com.dk.project.post.ui.activity;
+package com.dk.project.bowling.ui.activity;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
-import com.dk.project.post.R;
+import com.dk.project.bowling.R;
+import com.dk.project.bowling.databinding.ActivityLoginInfoBinding;
+import com.dk.project.bowling.viewModel.LoginViewModel;
+
 import com.dk.project.post.base.BindActivity;
-import com.dk.project.post.databinding.ActivityLoginInfoBinding;
-import com.dk.project.post.viewModel.LoginViewModel;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
