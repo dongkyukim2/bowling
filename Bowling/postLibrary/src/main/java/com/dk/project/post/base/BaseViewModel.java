@@ -38,7 +38,12 @@ public abstract class BaseViewModel extends AndroidViewModel {
   }
 
   public void executeRx(Disposable disposable) {
-    compositeDisposable.add(disposable);
+    if(compositeDisposable == null){
+      System.out.println("");
+    } else {
+      compositeDisposable.add(disposable);
+    }
+
   }
 
   public void setContext(BaseActivity context) {

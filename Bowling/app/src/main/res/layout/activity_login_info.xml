@@ -6,7 +6,7 @@
 
         <variable
                 name="viewModel"
-                type="com.dk.project.bowling.viewModel.LoginViewModel"/>
+                type="com.dk.project.bowling.viewModel.LoginInfoViewModel"/>
 
     </data>
 

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,6 +31,8 @@ import com.dk.project.post.controller.LoginController;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.util.Calendar;
 
@@ -65,12 +68,28 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         binding.navigation.setOnNavigationItemSelectedListener(this);
         toolbarRightButton.setVisibility(View.GONE);
         toolbarRightAniButton.setVisibility(View.VISIBLE);
+        toolbarLeftButton.setVisibility(View.VISIBLE);
+        toolbarLeftButton.setImageResource(R.drawable.ic_action_menu);
 
         mainInfoFragment = MainInfoFragment.newInstance();
         graphFragment = GraphFragment.newInstance();
         contentsListFragment = ContentsListFragment.newInstance();
 
         setFragment(mainInfoFragment, "info");
+
+        binding.navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.logout:
+                    UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                        @Override
+                        public void onCompleteLogout() {
+                            finish();
+                        }
+                    });
+                    break;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -96,9 +115,14 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     }
 
     @Override
+    public void onToolbarLeftClick() {
+        binding.mainDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    @Override
     public void onToolbarRightClick() {
-        if(!LoginController.getInstance().isLogin()){
-            Toast.makeText(this,"로그인 후 이용해주세요",Toast.LENGTH_SHORT).show();
+        if (!LoginController.getInstance().isLogin()) {
+            Toast.makeText(this, "로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -202,5 +226,14 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             }
         }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.mainDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

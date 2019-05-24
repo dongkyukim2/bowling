@@ -5,13 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityLoginInfoBinding;
-import com.dk.project.bowling.viewModel.LoginViewModel;
-
+import com.dk.project.bowling.viewModel.LoginInfoViewModel;
 import com.dk.project.post.base.BindActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
-public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, LoginViewModel> {
+public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, LoginInfoViewModel> {
 
 
     @Override
@@ -20,8 +19,8 @@ public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, Lo
     }
 
     @Override
-    protected LoginViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(LoginViewModel.class);
+    protected LoginInfoViewModel getViewModel() {
+        return ViewModelProviders.of(this).get(LoginInfoViewModel.class);
     }
 
     @Override

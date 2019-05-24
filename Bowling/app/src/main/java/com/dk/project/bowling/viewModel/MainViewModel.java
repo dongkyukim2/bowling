@@ -12,6 +12,8 @@ import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.Utils;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import static com.dk.project.post.base.Define.USER_CODE;
 
@@ -52,7 +54,6 @@ public class MainViewModel extends BaseViewModel {
 
     @Override
     public void onThrottleClick(View view) {
-
     }
 
     public void writeScore(ScoreModel scoreModel) {

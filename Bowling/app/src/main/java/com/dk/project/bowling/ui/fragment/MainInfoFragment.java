@@ -134,14 +134,6 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                     View child = rv.findChildViewUnder(e.getX(), e.getY());
                     int position = rv.getChildAdapterPosition(child);
                     viewModel.getScoreDayList(recentScoresAdapter.getItem(position));
-
-
-                    UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                        @Override
-                        public void onCompleteLogout() {
-
-                        }
-                    });
                 }
                 return super.onInterceptTouchEvent(rv, e);
             }
