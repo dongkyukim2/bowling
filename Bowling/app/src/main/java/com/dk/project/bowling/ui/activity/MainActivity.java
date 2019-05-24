@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityMainBinding;
+import com.dk.project.bowling.manager.LoginManager;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.fragment.MainInfoFragment;
@@ -83,6 +84,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
                     UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
                         @Override
                         public void onCompleteLogout() {
+                            LoginManager.getInstance().setUserCode(0);
                             finish();
                         }
                     });

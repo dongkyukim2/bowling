@@ -18,8 +18,6 @@ import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.adapter.RecentScoresAdapter;
 import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BindFragment;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
 
@@ -133,7 +131,9 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                 if (gestureDetector.onTouchEvent(e)) {
                     View child = rv.findChildViewUnder(e.getX(), e.getY());
                     int position = rv.getChildAdapterPosition(child);
-                    viewModel.getScoreDayList(recentScoresAdapter.getItem(position));
+                    if (position > 2) {
+                        viewModel.getScoreDayList(recentScoresAdapter.getItem(position));
+                    }
                 }
                 return super.onInterceptTouchEvent(rv, e);
             }

@@ -7,8 +7,9 @@ package com.dk.project.post.base;
 public interface Define {
 
     String USER_CODE = "USER_CODE";
+    String SCORE_DATE = "SCORE_DATE";
 
-    boolean ON_CREATE_LOG = false;
+    boolean ON_CREATE_LOG = true;
 
     boolean MAIN_PAGER_ACTIVITY = false;
 

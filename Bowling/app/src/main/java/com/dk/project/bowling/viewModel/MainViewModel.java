@@ -7,13 +7,12 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import com.dk.project.bowling.manager.LoginManager;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.Utils;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import static com.dk.project.post.base.Define.USER_CODE;
 
@@ -27,7 +26,6 @@ public class MainViewModel extends BaseViewModel {
     // 만약, 작업스레드에서 LiveData를 갱신하려면 postValue(T) 메서드를 호출해야 한다.
 
 
-    private long userCode; // 유저 고유 번호, 아이디 같은것
 
     private final MutableLiveData<ScoreModel> scoreListLiveData = new MutableLiveData<>();
 
@@ -44,7 +42,7 @@ public class MainViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        userCode = mContext.getIntent().getLongExtra(USER_CODE, 0);
+        LoginManager.getInstance().setUserCode(mContext.getIntent().getLongExtra(USER_CODE, 0));
     }
 
     @Override
