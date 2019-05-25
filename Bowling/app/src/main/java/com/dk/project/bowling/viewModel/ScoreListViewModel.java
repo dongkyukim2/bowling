@@ -4,10 +4,10 @@ import android.app.Application;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import com.dk.project.bowling.manager.LoginManager;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.manager.LoginManager;
 
 import java.util.ArrayList;
 

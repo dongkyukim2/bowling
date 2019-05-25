@@ -34,8 +34,7 @@ public class ReplyViewHolder<T extends ReplyModel> extends BindViewHolder<ReplyI
     replyModel = item;
     binding.setReplyHolder(this);
     binding.replyDateText.setText(Utils.converterDate(item.getReplyDate()));
-//    binding.replyUserNameText.setText(item.getUserName());
-    binding.replyUserNameText.setText("김동규");
+    binding.replyUserNameText.setText(item.getUserName());
     binding.replyContentsText.setText(item.getReplyContents());
     Glide.with(mContext).load(item.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.ic_user_profile))
         .into(binding.replyProfileImage);

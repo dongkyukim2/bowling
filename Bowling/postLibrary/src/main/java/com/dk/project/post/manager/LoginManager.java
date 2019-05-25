@@ -1,4 +1,4 @@
-package com.dk.project.bowling.manager;
+package com.dk.project.post.manager;
 
 public class LoginManager {
 

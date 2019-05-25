@@ -15,9 +15,9 @@ import org.jetbrains.annotations.NotNull;
 public class PostModel implements Parcelable {
 
     private long idx;
-    private String userId = "dkkim";
-    private String userName = "김동규";
-    private String userProfile;
+    private String userId;
+    private String userName;
+    private String userPhoto;
     @PrimaryKey
     @NotNull
     private String postId;
@@ -41,7 +41,7 @@ public class PostModel implements Parcelable {
         idx = in.readLong();
         userId = in.readString();
         userName = in.readString();
-        userProfile = in.readString();
+        userPhoto = in.readString();
         postId = in.readString();
         inputText = in.readString();
         likeCount = in.readInt();
@@ -98,11 +98,11 @@ public class PostModel implements Parcelable {
     }
 
     public String getUserProfile() {
-        return userProfile;
+        return userPhoto;
     }
 
     public void setUserProfile(String userProfile) {
-        this.userProfile = userProfile;
+        this.userPhoto = userProfile;
     }
 
     public String getPostId() {
@@ -194,7 +194,7 @@ public class PostModel implements Parcelable {
         dest.writeLong(idx);
         dest.writeString(userId);
         dest.writeString(userName);
-        dest.writeString(userProfile);
+        dest.writeString(userPhoto);
         dest.writeString(postId);
         dest.writeString(inputText);
         dest.writeInt(likeCount);

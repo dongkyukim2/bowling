@@ -16,9 +16,9 @@ public class ReplyModel implements Parcelable {
   @NotNull
   private String replyId;
   private String postId;
-  private String userId = "dkkim";
-  private String userName = "김동규";
-  private String userProfile;
+  private String userId;
+  private String userName;
+  private String userPhoto;
   private String replyContents;
   private String replyDate;
 
@@ -32,7 +32,7 @@ public class ReplyModel implements Parcelable {
     postId = in.readString();
     userId = in.readString();
     userName = in.readString();
-    userProfile = in.readString();
+    userPhoto = in.readString();
     replyContents = in.readString();
     replyDate = in.readString();
   }
@@ -82,11 +82,11 @@ public class ReplyModel implements Parcelable {
   }
 
   public String getUserProfile() {
-    return userProfile;
+    return userPhoto;
   }
 
   public void setUserProfile(String userProfile) {
-    this.userProfile = userProfile;
+    this.userPhoto = userProfile;
   }
 
   public String getReplyContents() {
@@ -116,7 +116,7 @@ public class ReplyModel implements Parcelable {
     dest.writeString(postId);
     dest.writeString(userId);
     dest.writeString(userName);
-    dest.writeString(userProfile);
+    dest.writeString(userPhoto);
     dest.writeString(replyContents);
     dest.writeString(replyDate);
   }

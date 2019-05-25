@@ -172,24 +172,24 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
       binding.pagerPositionText.setText((postModel.getCurrentPosition() + 1) + "/" + postModel.getImageList().size());
     }
 
-    if (postModel.getReplyList().isEmpty()) {
+//    if (postModel.getReplyList().isEmpty()) {
       binding.replyRoot.getChildAt(0).setVisibility(View.GONE);
       binding.replyRoot.getChildAt(1).setVisibility(View.GONE);
-    } else {
-      switch (postModel.getReplyList().size()) {
-        case 1:
-          binding.replyRoot.getChildAt(0).setVisibility(View.VISIBLE);
-          binding.replyRoot.getChildAt(1).setVisibility(View.GONE);
-          setReply(binding.replyRoot.getChildAt(0), postModel.getReplyList().get(0));
-          break;
-        default:
-          binding.replyRoot.getChildAt(0).setVisibility(View.VISIBLE);
-          binding.replyRoot.getChildAt(1).setVisibility(View.VISIBLE);
-          setReply(binding.replyRoot.getChildAt(0), postModel.getReplyList().get(0));
-          setReply(binding.replyRoot.getChildAt(1), postModel.getReplyList().get(1));
-          break;
-      }
-    }
+//    } else {
+//      switch (postModel.getReplyList().size()) {
+//        case 1:
+//          binding.replyRoot.getChildAt(0).setVisibility(View.VISIBLE);
+//          binding.replyRoot.getChildAt(1).setVisibility(View.GONE);
+//          setReply(binding.replyRoot.getChildAt(0), postModel.getReplyList().get(0));
+//          break;
+//        default:
+//          binding.replyRoot.getChildAt(0).setVisibility(View.VISIBLE);
+//          binding.replyRoot.getChildAt(1).setVisibility(View.VISIBLE);
+//          setReply(binding.replyRoot.getChildAt(0), postModel.getReplyList().get(0));
+//          setReply(binding.replyRoot.getChildAt(1), postModel.getReplyList().get(1));
+//          break;
+//      }
+//    }
   }
 
   private void setReply(View view, ReplyModel replyModel) {

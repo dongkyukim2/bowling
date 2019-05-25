@@ -62,6 +62,8 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
     viewModel.executeRx(Observable.timer(1, TimeUnit.SECONDS).
         observeOn(AndroidSchedulers.mainThread()).
         subscribe(aLong -> alertDialog = AlertDialogUtil.showLoadingAlertDialog(this)));
+
+    //todo 댓글 수정 만들어야함
     viewModel.executeRx(PostApi.getInstance().writeReply(replyModel, receivedData -> {
       dismissAlertDialog();
       Intent intent = new Intent();
