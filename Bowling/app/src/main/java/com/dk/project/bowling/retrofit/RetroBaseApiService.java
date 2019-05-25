@@ -3,12 +3,13 @@ package com.dk.project.bowling.retrofit;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.post.retrofit.ResponseModel;
 import io.reactivex.Observable;
-import java.util.ArrayList;
-import java.util.List;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface RetroBaseApiService {
 
@@ -34,4 +35,7 @@ public interface RetroBaseApiService {
 
   @GET("community/bowling/")
   Observable<ResponseModel<List<ScoreModel>>> getScoreList();
+
+  @GET("community/bowling/days/")
+  Observable<ResponseModel<ArrayList<ScoreModel>>> getScoreDayList(@Query("userId") String userId, @Query("date") String date);
 }

@@ -13,8 +13,8 @@ public class LoginManager {
         return loginManager;
     }
 
-    public long getUserCode() {
-        return userCode;
+    public String getUserCode() {
+        return String.valueOf(userCode);
     }
 
     public void setUserCode(long userCode) {

@@ -17,6 +17,8 @@ class ScoreListActivity : BindActivity<ActivityScoreListBinding, ScoreListActivi
     }
 
     override fun subscribeToModel() {
-
+        intent.getStringExtra(SCORE_DATE)?.let {
+            toolbarTitle.text = it
+        }
     }
 }
