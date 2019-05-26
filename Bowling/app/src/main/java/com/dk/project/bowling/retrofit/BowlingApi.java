@@ -1,5 +1,6 @@
 package com.dk.project.bowling.retrofit;
 
+import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ResponseModel;
@@ -41,7 +42,29 @@ public class BowlingApi {
     }
 
 
-    // 글쓰기
+
+    // 클럽 만들기
+    public Disposable createClub(ClubModel clubModel,
+                                 SuccessCallback<ResponseModel<ClubModel>> callback,
+                                 ErrorCallback errorCallback) {
+        return apiService.createClub(clubModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+    // 내가 가입한 클럽 목록
+    public Disposable getSignUpClubList(SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
+                                 ErrorCallback errorCallback) {
+        return apiService.getSignUpClub()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+    // 점수 등록
     public Disposable writeScore(ScoreModel scoreModel,
                                  SuccessCallback<ResponseModel<ScoreModel>> callback,
                                  ErrorCallback errorCallback) {
@@ -117,10 +140,10 @@ public class BowlingApi {
     }
 
     // 특정일 점수 목록
-    public Disposable getScoreDayList(String userId, String date,
+    public Disposable getScoreDayList(String date,
                                       SuccessCallback<ResponseModel<ArrayList<ScoreModel>>> callback,
                                       ErrorCallback errorCallback) {
-        return apiService.getScoreDayList(userId, date)
+        return apiService.getScoreDayList(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,

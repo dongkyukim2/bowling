@@ -1,5 +1,6 @@
 package com.dk.project.bowling.retrofit;
 
+import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.post.retrofit.ResponseModel;
 import io.reactivex.Observable;
@@ -37,5 +38,11 @@ public interface RetroBaseApiService {
   Observable<ResponseModel<List<ScoreModel>>> getScoreList();
 
   @GET("community/bowling/days/")
-  Observable<ResponseModel<ArrayList<ScoreModel>>> getScoreDayList(@Query("userId") String userId, @Query("date") String date);
+  Observable<ResponseModel<ArrayList<ScoreModel>>> getScoreDayList(@Query("date") String date);
+
+  @POST("community/bowling/club/create/")
+  Observable<ResponseModel<ClubModel>> createClub(@Body ClubModel clubModel);
+
+  @GET("community/bowling/club/me/")
+  Observable<ResponseModel<ArrayList<ClubModel>>> getSignUpClub();
 }

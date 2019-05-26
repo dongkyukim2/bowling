@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
-import com.dk.project.post.manager.LoginManager;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,7 @@ public class ScoreListViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         scoreDate = mContext.getIntent().getStringExtra(SCORE_DATE);
-        BowlingApi.getInstance().getScoreDayList(LoginManager.getInstance().getUserCode(), scoreDate,
+        BowlingApi.getInstance().getScoreDayList(scoreDate,
                 receivedData -> {
                     if (receivedData.getCode().equals("0000")) {
                         scoreDayListLiveData.setValue(receivedData.getData());

@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityMainBinding;
 import com.dk.project.bowling.model.ScoreModel;
+import com.dk.project.bowling.ui.fragment.ClubFragment;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
@@ -43,6 +44,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     private FragmentManager fragmentManager;
     private MainInfoFragment mainInfoFragment;
     private GraphFragment graphFragment;
+    private ClubFragment clubFragment;
     private ContentsListFragment contentsListFragment;
 
     @Override
@@ -74,6 +76,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         mainInfoFragment = MainInfoFragment.newInstance();
         graphFragment = GraphFragment.newInstance();
+        clubFragment = ClubFragment.newInstance();
         contentsListFragment = ContentsListFragment.newInstance();
 
         setFragment(mainInfoFragment, "info");
@@ -109,6 +112,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             case R.id.navigation_dashboard:
                 setFragment(graphFragment, "graph");
                 return true;
+            case R.id.navigation_club:
+                setFragment(clubFragment, "club");
+                return true;
             case R.id.navigation_community:
                 setFragment(contentsListFragment, "content");
                 return true;
@@ -128,7 +134,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             return;
         }
 
-        if (binding.navigation.getSelectedItemId() == R.id.navigation_community) {
+        if (binding.navigation.getSelectedItemId() == R.id.navigation_club) {
+            startActivity(new Intent(this, CreateClubActivity.class));
+        } else if (binding.navigation.getSelectedItemId() == R.id.navigation_community) {
             startActivity(new Intent(this, WriteActivity.class));
         } else {
             LayoutInflater inflater = LayoutInflater.from(this);

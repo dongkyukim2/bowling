@@ -56,7 +56,7 @@ public class IntroViewModel extends BaseViewModel {
             mContext.startActivity(intent);
             mContext.finish();
         } else {
-            executeRx(Observable.timer(500, TimeUnit.MILLISECONDS)
+            executeRx(Observable.timer(100, TimeUnit.MILLISECONDS)
                     .subscribe(i -> {
                         // 세션이 열려있는지
                         // todo 로그인되어있으면 열려있는듯

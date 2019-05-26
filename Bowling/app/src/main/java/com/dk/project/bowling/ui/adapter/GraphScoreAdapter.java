@@ -39,7 +39,6 @@ public class GraphScoreAdapter extends BaseRecyclerViewAdapter<GraphRecentScoreV
     DiffUtil.DiffResult result = getDiffUtil(this.graphScoreList, recentScoresList);
     this.graphScoreList = recentScoresList;
     result.dispatchUpdatesTo(this);
-
   }
 
   public DiffUtil.DiffResult getDiffUtil(ArrayList<ScoreModel> oldList,

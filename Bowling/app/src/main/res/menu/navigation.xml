@@ -11,6 +11,12 @@
         android:icon="@drawable/ic_trending_up_black_24dp"
         android:title="@string/title_dashboard" />
 
+
+    <item
+            android:id="@+id/navigation_club"
+            android:icon="@drawable/ic_action_club"
+            android:title="@string/title_club" />
+
     <item
         android:id="@+id/navigation_community"
         android:icon="@drawable/ic_action_community"
