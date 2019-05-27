@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.ui.fragment.ClubDetailFragment;
+import com.dk.project.bowling.ui.fragment.ClubScoreFragment;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,15 @@ public class ClubDetailPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return ClubDetailFragment.newInstance(position, clubModel);
+        switch (position) {
+            case 0:
+                return ClubDetailFragment.newInstance(position, clubModel);
+            case 1:
+                return ClubScoreFragment.newInstance(position, clubModel);
+            default:
+                return ClubDetailFragment.newInstance(position, clubModel);
+        }
+
     }
 
     @Nullable
