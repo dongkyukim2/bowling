@@ -26,10 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.CreateGameActivity"
+        <activity android:name=".ui.activity.ClubUserListActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+                android:name=".ui.activity.CreateGameActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".ui.activity.ClubDetailActivity"
