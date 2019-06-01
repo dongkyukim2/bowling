@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.post.base.BaseViewModel;
 
+import static com.dk.project.post.base.Define.CLUB_MODEL;
+
 /**
  * Created by dkkim on 2017-10-04.
  */
@@ -16,6 +18,13 @@ public class ClubDetailViewModel extends BaseViewModel {
 
     public ClubDetailViewModel(@NonNull Application application) {
         super(application);
+    }
+
+
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+        clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
     }
 
     @Override
@@ -35,9 +44,5 @@ public class ClubDetailViewModel extends BaseViewModel {
 
     public ClubModel getClubModel() {
         return clubModel;
-    }
-
-    public void setClubModel(ClubModel clubModel) {
-        this.clubModel = clubModel;
     }
 }

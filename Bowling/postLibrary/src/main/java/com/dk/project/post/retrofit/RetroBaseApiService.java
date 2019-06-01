@@ -67,7 +67,7 @@ public interface RetroBaseApiService {
   Observable<ResponseModel<LoginInfoModel>> signUp(@Body LoginInfoModel parameters);
 
   @GET("community/alreadySignUp/")
-  Observable<ResponseModel<String>> alreadySignUp(@Query("userId") String userId);
+  Observable<ResponseModel<LoginInfoModel>> getUserInfo(@Query("userId") String userId);
 
 
 

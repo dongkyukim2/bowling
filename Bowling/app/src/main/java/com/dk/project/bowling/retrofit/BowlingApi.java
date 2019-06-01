@@ -2,6 +2,7 @@ package com.dk.project.bowling.retrofit;
 
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.ScoreModel;
+import com.dk.project.bowling.model.UserModel;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ResponseModel;
 import com.dk.project.post.retrofit.SuccessCallback;
@@ -41,6 +42,16 @@ public class BowlingApi {
         return apiService;
     }
 
+    // 클럽에 가입한 유저 목록
+    public Disposable getClubUserList(String clubId,
+                                      SuccessCallback<ResponseModel<ArrayList<UserModel>>> callback,
+                                      ErrorCallback errorCallback) {
+        return apiService.getClubUserList(clubId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
 
 
     // 클럽 만들기
@@ -56,7 +67,7 @@ public class BowlingApi {
 
     // 내가 가입한 클럽 목록
     public Disposable getSignUpClubList(SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
-                                 ErrorCallback errorCallback) {
+                                        ErrorCallback errorCallback) {
         return apiService.getSignUpClub()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

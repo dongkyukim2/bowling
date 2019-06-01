@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_main_info_score_padding">15dp</dimen>
+
+    <dimen name="floating_action_button_right">40dp</dimen>
+    <dimen name="floating_action_button_bottom">40dp</dimen>
+
 </resources>

@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import com.dk.project.post.R;
@@ -115,33 +118,38 @@ public class AlertDialogUtil {
         });
         return dialog;
     }
+
+    public static AlertDialog showEditTextAlertDialog(final Context context, String hint, View.OnClickListener onClickListener) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.edit_text_dialog, null);
+        EditText editText = view.findViewById(R.id.dialog_edit_text);
+        editText.setHint(hint);
+
+        dialogBuilder.setPositiveButton("확인", (dialog, which) -> {
+
+        });
+        dialogBuilder.setNegativeButton("취소", (dialog, which) -> {
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setView(view);
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+
+        Button posBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        posBtn.setOnClickListener(v -> {
+            if (editText.getText().toString().trim().isEmpty()) {
+                Toast.makeText(context, hint, Toast.LENGTH_SHORT).show();
+            } else {
+                onClickListener.onClick(editText);
+                alertDialog.dismiss();
+            }
+        });
+        return alertDialog;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -24,6 +24,11 @@ public abstract class BaseViewModel extends AndroidViewModel {
         subscribe(this::onThrottleClick));
   }
 
+
+
+  protected void onCreate() {
+  }
+
   protected void onCreated() {
   }
 
@@ -39,7 +44,6 @@ public abstract class BaseViewModel extends AndroidViewModel {
 
   public void executeRx(Disposable disposable) {
     if(compositeDisposable == null){
-      System.out.println("");
     } else {
       compositeDisposable.add(disposable);
     }

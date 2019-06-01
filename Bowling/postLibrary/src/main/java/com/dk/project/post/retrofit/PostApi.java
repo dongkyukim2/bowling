@@ -57,8 +57,8 @@ public class PostApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
-    public Disposable alreadySignUp(String userId, SuccessCallback<ResponseModel<String>> callback, ErrorCallback errorCallback) {
-        return apiService.alreadySignUp(userId)
+    public Disposable getUserInfo(String userId, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
+        return apiService.getUserInfo(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,

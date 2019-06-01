@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.dk.project.bowling.ui.activity.LoginInfoActivity;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.kakao.auth.ISessionCallback;
@@ -52,14 +53,15 @@ public class LoginViewModel extends BaseViewModel {
                     public void onSuccess(MeV2Response result) {
                         long userKakaoCode = result.getId();
                         // 회원가입되어있나 로그아웃한것인가 확인
-                        executeRx(PostApi.getInstance().alreadySignUp(String.valueOf(userKakaoCode),
+                        executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
                                 receivedData -> {
-                                    if (receivedData.getCode().equals("0000")) { // 디비에 가입된 이력 없음
+                                    if (receivedData.getData() == null) { // 디비에 가입된 이력 없음
                                         Intent intent = new Intent(mContext, LoginInfoActivity.class);
                                         intent.putExtra(USER_CODE, userKakaoCode);
                                         mContext.startActivity(intent);
                                         mContext.finish();
                                     } else {
+                                        LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
                                         Intent intent = new Intent(mContext, MainActivity.class);
                                         intent.putExtra(USER_CODE, userKakaoCode);
                                         mContext.startActivity(intent);

@@ -1,7 +1,6 @@
 package com.dk.project.bowling.ui.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProviders
@@ -22,8 +21,6 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
     }
 
     override fun subscribeToModel() {
-
-
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
             adapter = ClubDetailPagerAdapter(
@@ -40,8 +37,8 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
                 override fun onPageSelected(position: Int) {
                     when (position) {
-                        1 -> toolbarRightButton.visibility = View.VISIBLE
-                        else -> toolbarRightButton.visibility = View.GONE
+                        1 -> binding.createGameBtn.visibility = View.VISIBLE
+                        else -> binding.createGameBtn.visibility = View.GONE
                     }
                 }
 
@@ -51,17 +48,12 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             })
         }
 
-
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        viewModel.clubModel = intent.getParcelableExtra(CLUB_MODEL)
-        super.onPostCreate(savedInstanceState)
-    }
+        binding.createGameBtn.setOnClickListener {
+            var intent = Intent(this, CreateGameActivity::class.java)
+            intent.putExtra(CLUB_MODEL, viewModel.clubModel)
+            startActivity(intent)
+        }
 
 
-    override fun onToolbarRightClick() {
-        var intent = Intent(this, CreateGameActivity::class.java)
-        startActivity(intent)
     }
 }

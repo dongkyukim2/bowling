@@ -1,11 +1,36 @@
 package com.dk.project.post.model;
 
-public class LoginInfoModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class LoginInfoModel implements Parcelable {
 
     private String userId;
     private String userName;
     private String userPhoto;
     private String loginType;
+
+    public LoginInfoModel() {
+    }
+
+    protected LoginInfoModel(Parcel in) {
+        userId = in.readString();
+        userName = in.readString();
+        userPhoto = in.readString();
+        loginType = in.readString();
+    }
+
+    public static final Creator<LoginInfoModel> CREATOR = new Creator<LoginInfoModel>() {
+        @Override
+        public LoginInfoModel createFromParcel(Parcel in) {
+            return new LoginInfoModel(in);
+        }
+
+        @Override
+        public LoginInfoModel[] newArray(int size) {
+            return new LoginInfoModel[size];
+        }
+    };
 
     public String getUserId() {
         return userId;
@@ -37,5 +62,18 @@ public class LoginInfoModel {
 
     public void setLoginType(String loginType) {
         this.loginType = loginType;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userId);
+        dest.writeString(userName);
+        dest.writeString(userPhoto);
+        dest.writeString(loginType);
     }
 }

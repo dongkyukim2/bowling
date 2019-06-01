@@ -8,6 +8,7 @@ import com.dk.project.bowling.ui.activity.LoginActivity;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
@@ -65,17 +66,19 @@ public class IntroViewModel extends BaseViewModel {
                                 @Override
                                 public void onSuccess(MeV2Response result) {
                                     long userKakaoCode = result.getId();
-                                    executeRx(PostApi.getInstance().alreadySignUp(String.valueOf(userKakaoCode),
+                                    executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
                                             receivedData -> {
-                                                if (receivedData.getCode().equals("0000")) {
+                                                if (receivedData.getData() == null) {
                                                     Intent intent = new Intent(mContext, LoginActivity.class);
                                                     mContext.startActivity(intent);
                                                     mContext.finish();
                                                 } else { // 세션 열려있고 디비에 가입도 되어있음
+                                                    LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
                                                     Intent intent = new Intent(mContext, MainActivity.class);
                                                     intent.putExtra(USER_CODE, userKakaoCode);
                                                     mContext.startActivity(intent);
                                                     mContext.finish();
+
                                                 }
                                             }, errorData -> {
 
