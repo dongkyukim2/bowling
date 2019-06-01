@@ -53,7 +53,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         super.onCreate(savedInstanceState)
 
         toolbarTitle.text = "경기 만들기"
-        toolbarRightButton.visibility = View.VISIBLE;
+        toolbarRightButton.visibility = View.VISIBLE
 
         binding.createGameRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@CreateGameActivity)

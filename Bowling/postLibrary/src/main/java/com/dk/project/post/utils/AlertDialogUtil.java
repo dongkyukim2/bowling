@@ -149,6 +149,8 @@ public class AlertDialogUtil {
                 alertDialog.dismiss();
             }
         });
+
+        editText.post(() -> TextViewUtil.showKeyBoard(context, editText));
         return alertDialog;
     }
 }

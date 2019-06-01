@@ -3,13 +3,11 @@ package com.dk.project.bowling.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.UserModel;
@@ -78,17 +76,17 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                             }
                         }
 
-                        notifyItemRangeChanged(startIndex, count);
+//                        notifyItemRangeChanged(startIndex, count);
+                        notifyDataSetChanged();
                     } else {
                         userModel.setCheck(check);
 
                         Pair<Integer, Boolean> headerIndex = checkTeamSelectAll(position);
 
                         userList.get(headerIndex.first).setCheck(headerIndex.second);
-                        notifyItemChanged(headerIndex.first);
-
-
-                        notifyItemChanged(position);
+//                        notifyItemChanged(headerIndex.first);
+//                        notifyItemChanged(position);
+                        notifyDataSetChanged();
                     }
 
 
@@ -156,36 +154,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     }
 
-    public DiffUtil.DiffResult getDiffUtil(ArrayList<UserModel> oldList,
-                                           ArrayList<UserModel> newList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-            @Override
-            public int getOldListSize() {
-                return oldList.size();
-            }
-
-            @Override
-            public int getNewListSize() {
-                return newList.size();
-            }
-
-            @Override
-            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                UserModel oldModel = oldList.get(oldItemPosition);
-                UserModel newModel = newList.get(newItemPosition);
-                return TextUtils.equals(oldModel.getUserId(), newModel.getUserId());
-            }
-
-            @Override
-            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                UserModel oldModel = oldList.get(oldItemPosition);
-                UserModel newModel = newList.get(newItemPosition);
-                return TextUtils.equals(oldModel.getUserId(), newModel.getUserId());
-            }
-        });
-        return diffResult;
-    }
-
     public MutableLiveData<Integer> getCheckCountLiveData() {
         return checkCountLiveData;
     }
@@ -225,6 +193,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         return new Pair(headerIndex, checkAll);
     }
 
+    // todo 위치 이동 후 체크박스 선택시 갱신 오류 수정해야함
     public void addTeam(UserModel userModel) {
         teamCount++;
         userList.add(userModel);
@@ -232,7 +201,8 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             userList.add(new UserModel(LoginManager.getInstance().getLoginInfoModel()));
             notifyDataSetChanged();
         } else {
-            notifyItemInserted(userList.size() - 1);
+//            notifyItemInserted(userList.size() - 1);
+            notifyDataSetChanged();
         }
 
     }
