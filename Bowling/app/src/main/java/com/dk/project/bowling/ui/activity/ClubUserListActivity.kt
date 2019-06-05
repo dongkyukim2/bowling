@@ -47,6 +47,7 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
             itemAnimator = DefaultItemAnimator()
             adapter = clubUserListAdapter
             RecyclerViewClickListener.setItemClickListener(this) { view, position ->
+                view.visibility
                 clubUserListAdapter.setCheck(
                     position
                 )
