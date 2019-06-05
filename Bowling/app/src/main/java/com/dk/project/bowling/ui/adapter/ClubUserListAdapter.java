@@ -6,6 +6,7 @@ import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.UserModel;
 import com.dk.project.bowling.ui.viewHolder.ClubUserViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 
@@ -39,5 +40,9 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
     public void setCheck(int position) {
         clubUserList.get(position).setCheck(!clubUserList.get(position).isCheck());
         notifyItemChanged(position);
+    }
+
+    public ArrayList<UserModel> getSelectList() {
+        return Observable.fromIterable(clubUserList).filter(UserModel::isCheck).toList().map(userModels -> new ArrayList(userModels)).blockingGet();
     }
 }

@@ -6,7 +6,7 @@ import com.dk.project.post.model.LoginInfoModel;
 public class UserModel extends LoginInfoModel {
 
     // 0이면 팀 , 1이면 유저 정보
-    private int viewType;
+    private int viewType = 1;
     private String teamName;
     private boolean check;
 

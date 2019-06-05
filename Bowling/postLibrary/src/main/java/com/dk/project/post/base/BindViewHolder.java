@@ -11,15 +11,22 @@ import androidx.databinding.ViewDataBinding;
 public abstract class BindViewHolder<B extends ViewDataBinding, T> extends BaseViewHolder {
 
     protected B binding;
+    private int index;
 
     public BindViewHolder(View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
     }
 
-    public abstract void onBindView(T item, int position);
+    public void onBindView(T item, int position) {
+        index = position;
+    }
 
     public B getBinding() {
         return binding;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

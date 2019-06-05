@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -57,7 +56,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
         binding.createGameRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@CreateGameActivity)
-            CreateGameAdapter(this@CreateGameActivity, viewModel.clubModel).let {
+            CreateGameAdapter(this, viewModel.clubModel).let {
                 ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
                 adapter = it
                 createGameAdapter = it
@@ -74,7 +73,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         binding.addTeam.setOnClickListener {
             AlertDialogUtil.showEditTextAlertDialog(this, "팀명을 입력해주세요.", teamTitleClickListener)
         }
-        AlertDialogUtil.showEditTextAlertDialog(this, "팀명을 입력해주세요.",teamTitleClickListener)
+        AlertDialogUtil.showEditTextAlertDialog(this, "팀명을 입력해주세요.", teamTitleClickListener)
 
 
     }
@@ -93,7 +92,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             Define.CLUB_USER_LIST -> {
                 data?.getParcelableArrayListExtra<UserModel>(Define.CLUB_USER_LIST_MODEL)?.let {
                     it.map { it.isCheck = false }
-                    createGameAdapter.setUserList(it)
+                    createGameAdapter.setInviteUserList(it)
                 }
             }
         }

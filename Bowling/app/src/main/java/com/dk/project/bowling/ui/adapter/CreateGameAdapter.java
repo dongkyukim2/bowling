@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.UserModel;
@@ -27,13 +28,16 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private ArrayList<UserModel> userList = new ArrayList<>();
     private MutableLiveData<Integer> checkCountLiveData = new MutableLiveData<>();
 
+    private RecyclerView recyclerView;
     private Context mContext;
     private ClubModel clubModel;
+    private int teamCount;
+    private int selectInviteIndex;
 
-    int teamCount = 0;
+    public CreateGameAdapter(RecyclerView recyclerView, ClubModel clubModel) {
 
-    public CreateGameAdapter(Context context, ClubModel clubModel) {
-        mContext = context;
+        this.recyclerView = recyclerView;
+        mContext = recyclerView.getContext();
         this.clubModel = clubModel;
     }
 
@@ -49,70 +53,53 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         UserModel userModel = userList.get(position);
         holder.onBindView(userModel, position);
 
+
+//        System.out.println("==============   onBindViewHolder   " + position);
+        holder.getBinding().userInviteIcon.setTag(position);
+        holder.itemView.setTag(position);
+
         View.OnClickListener onClickListener = v -> {
+
+            int index = (int) v.getTag();
+
+//            System.out.println("==============   onclick   " + index);
 
             switch (v.getId()) {
                 case R.id.user_invite_icon:
+                    selectInviteIndex = index;
                     Intent intent = new Intent(mContext, ClubUserListActivity.class);
                     intent.putExtra(CLUB_MODEL, clubModel);
+
                     ((BindActivity) mContext).startActivityForResult(intent, Define.CLUB_USER_LIST);
                     break;
                 case R.id.drag_icon:
 
                     break;
                 default:
-                    boolean check = !userModel.isCheck();
-                    if (userModel.getViewType() == 0) {
-                        userModel.setCheck(check);
-                        int startIndex = position;
-                        int count = 1;
-
-                        for (int i = position + 1; i < userList.size(); i++) {
-                            if (userList.get(i).getViewType() == 0) {
-                                break;
-                            } else {
-                                userList.get(i).setCheck(check);
-                                count++;
-                            }
-                        }
-
-//                        notifyItemRangeChanged(startIndex, count);
-                        notifyDataSetChanged();
-                    } else {
-                        userModel.setCheck(check);
-
-                        Pair<Integer, Boolean> headerIndex = checkTeamSelectAll(position);
-
-                        userList.get(headerIndex.first).setCheck(headerIndex.second);
-//                        notifyItemChanged(headerIndex.first);
-//                        notifyItemChanged(position);
-                        notifyDataSetChanged();
-                    }
-
-
-                    int checkUserCount = 0;
-                    for (UserModel tempUserModel : userList) {
-                        if (tempUserModel.isCheck()) {
-                            checkUserCount++;
-                        }
-                    }
-                    checkCountLiveData.setValue(checkUserCount);
+                    setCheckBox(index);
                     break;
             }
         };
 
         holder.getBinding().userInviteIcon.setOnClickListener(onClickListener);
         holder.getBinding().dragIcon.setOnClickListener(onClickListener);
-
-
         holder.itemView.setOnClickListener(onClickListener);
+
     }
+
+
 
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
         if (userList.get(fromPosition).getViewType() == 0) {
             return;
         }
+
+
+//        System.out.println("==============   onRowMoved   fromPosition   " + fromPosition + "    toPosition   " + toPosition);
+
+
+
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 Collections.swap(userList, i, i + 1);
@@ -122,7 +109,27 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                 Collections.swap(userList, i, i - 1);
             }
         }
+
+
+
+        CreateGameViewHolder from = (CreateGameViewHolder) recyclerView.findViewHolderForAdapterPosition(fromPosition);
+        CreateGameViewHolder to = (CreateGameViewHolder) recyclerView.findViewHolderForAdapterPosition(toPosition);
+
+
+//        System.out.println("==============   onRowMoved  00000  fromPosition   " + from.itemView.getTag() + "    toPosition   " + to.itemView.getTag());
+
+        from.itemView.setTag(toPosition);
+        from.getBinding().userInviteIcon.setTag(toPosition);
+
+        to.itemView.setTag(fromPosition);
+        to.getBinding().userInviteIcon.setTag(fromPosition);
+
+//        System.out.println("==============   onRowMoved  11111  fromPosition   " + from.itemView.getTag() + "    toPosition   " + to.itemView.getTag());
+
+
         notifyItemMoved(fromPosition, toPosition);
+
+
     }
 
     @Override
@@ -142,9 +149,9 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
 
-    public void setUserList(ArrayList<UserModel> clubList) {
+    public void setInviteUserList(ArrayList<UserModel> clubList) {
 //        if (userList.isEmpty()) {
-        userList.addAll(clubList);
+        userList.addAll(selectInviteIndex + 1, clubList);
         notifyDataSetChanged();
 //        } else {
 //            DiffUtil.DiffResult result = getDiffUtil(this.userList, clubList);
@@ -197,7 +204,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     public void addTeam(UserModel userModel) {
         teamCount++;
         userList.add(userModel);
-        if(teamCount == 1){
+        if (teamCount == 1) {
             userList.add(new UserModel(LoginManager.getInstance().getLoginInfoModel()));
             notifyDataSetChanged();
         } else {
@@ -205,5 +212,50 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             notifyDataSetChanged();
         }
 
+    }
+
+    public void setCheckBox(int position) {
+        System.out.println("================        "+position);
+        UserModel userModel = userList.get(position);
+        boolean check = !userModel.isCheck();
+        if (userModel.getViewType() == 0) {
+            userModel.setCheck(check);
+            int startIndex = position;
+            int count = 1;
+
+            for (int i = position + 1; i < userList.size(); i++) {
+                if (userList.get(i).getViewType() == 0) {
+                    break;
+                } else {
+                    userList.get(i).setCheck(check);
+                    count++;
+                }
+            }
+
+            notifyItemRangeChanged(startIndex, count);
+//            notifyDataSetChanged();
+        } else {
+            userModel.setCheck(check);
+
+            Pair<Integer, Boolean> headerIndex = checkTeamSelectAll(position);
+
+            userList.get(headerIndex.first).setCheck(headerIndex.second);
+            notifyItemChanged(headerIndex.first);
+            notifyItemChanged(position);
+//            notifyDataSetChanged();
+        }
+
+
+        int checkUserCount = 0;
+        for (UserModel tempUserModel : userList) {
+            if (tempUserModel.isCheck()) {
+                checkUserCount++;
+            }
+        }
+        checkCountLiveData.setValue(checkUserCount);
+    }
+
+    public int getSelectInviteIndex() {
+        return selectInviteIndex;
     }
 }

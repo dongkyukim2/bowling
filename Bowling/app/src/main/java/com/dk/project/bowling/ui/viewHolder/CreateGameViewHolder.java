@@ -7,6 +7,7 @@ import com.dk.project.post.base.BindViewHolder;
 
 public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, UserModel> {
 
+
     public CreateGameViewHolder(View itemView) {
         super(itemView);
     }

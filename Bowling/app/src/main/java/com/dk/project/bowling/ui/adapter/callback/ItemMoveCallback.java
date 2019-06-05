@@ -54,8 +54,7 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public void clearView(RecyclerView recyclerView,
-                          RecyclerView.ViewHolder viewHolder) {
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
 
         if (viewHolder instanceof CreateGameViewHolder) {
