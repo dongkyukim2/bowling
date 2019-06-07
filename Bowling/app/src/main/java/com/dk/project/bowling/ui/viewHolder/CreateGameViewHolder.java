@@ -20,6 +20,7 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.dragIcon.setVisibility(View.INVISIBLE);
             binding.userInviteIcon.setVisibility(View.VISIBLE);
             binding.userNameText.setVisibility(View.INVISIBLE);
+            binding.scoreAdd.setVisibility(View.INVISIBLE);
             binding.createGameTeamName.setVisibility(View.VISIBLE);
 
         } else { // 유저
@@ -27,6 +28,7 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.dragIcon.setVisibility(View.VISIBLE);
             binding.userInviteIcon.setVisibility(View.INVISIBLE);
             binding.userNameText.setVisibility(View.VISIBLE);
+            binding.scoreAdd.setVisibility(View.VISIBLE);
             binding.createGameTeamName.setVisibility(View.INVISIBLE);
         }
         binding.userCheckBox.setChecked(item.isCheck());
