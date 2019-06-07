@@ -9,10 +9,13 @@ import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import io.reactivex.Observable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHolder> {
 
     private ArrayList<UserModel> clubUserList = new ArrayList<>();
+
+    private HashMap<String, Boolean> selectedUserMap = new HashMap<>();
 
     @Override
     public ClubUserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,11 +41,19 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
     }
 
     public void setCheck(int position) {
-        clubUserList.get(position).setCheck(!clubUserList.get(position).isCheck());
+        UserModel userModel = clubUserList.get(position);
+        if (selectedUserMap.containsKey(userModel.getUserId())) {
+            return;
+        }
+        clubUserList.get(position).setCheck(!userModel.isCheck());
         notifyItemChanged(position);
     }
 
     public ArrayList<UserModel> getSelectList() {
         return Observable.fromIterable(clubUserList).filter(UserModel::isCheck).toList().map(userModels -> new ArrayList(userModels)).blockingGet();
+    }
+
+    public void setSelectedUserMap(HashMap<String, Boolean> userMap) {
+        selectedUserMap.putAll(userMap);
     }
 }

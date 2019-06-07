@@ -11,8 +11,10 @@ import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.dk.project.post.base.Define.CLUB_MODEL;
+import static com.dk.project.post.base.Define.SELECTED_USER_MAP;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -21,6 +23,7 @@ import static com.dk.project.post.base.Define.CLUB_MODEL;
 public class ClubUserListViewModel extends BaseViewModel {
 
     private ClubModel clubModel;
+    private HashMap<String, Boolean> userMap;
 
     private MutableLiveData<ArrayList<UserModel>> userListLiveData = new MutableLiveData();
 
@@ -32,6 +35,7 @@ public class ClubUserListViewModel extends BaseViewModel {
     protected void onCreate() {
         super.onCreate();
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
+        userMap = (HashMap<String, Boolean>) mContext.getIntent().getSerializableExtra(SELECTED_USER_MAP);
     }
 
     @Override
@@ -58,5 +62,9 @@ public class ClubUserListViewModel extends BaseViewModel {
 
     public MutableLiveData<ArrayList<UserModel>> getUserListLiveData() {
         return userListLiveData;
+    }
+
+    public HashMap<String, Boolean> getSelectedUserMap() {
+        return userMap;
     }
 }

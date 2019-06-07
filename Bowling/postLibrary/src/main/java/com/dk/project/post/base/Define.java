@@ -9,6 +9,7 @@ public interface Define {
     String USER_CODE = "USER_CODE";
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
+    String SELECTED_USER_MAP = "SELECTED_USER_MAP";
     String CLUB_USER_LIST_MODEL = "CLUB_USER_LIST";
 
     boolean ON_CREATE_LOG = true;

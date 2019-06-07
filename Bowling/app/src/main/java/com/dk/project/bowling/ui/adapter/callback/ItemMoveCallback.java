@@ -44,6 +44,11 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            mAdapter.onDragStart();
+        }
+
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
             if (viewHolder instanceof CreateGameViewHolder) {
                 CreateGameViewHolder myViewHolder = (CreateGameViewHolder) viewHolder;
@@ -72,6 +77,8 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
         void onRowSelected(CreateGameViewHolder myViewHolder);
 
         void onRowClear(CreateGameViewHolder myViewHolder);
+
+        void onDragStart();
 
     }
 }

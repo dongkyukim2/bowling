@@ -38,19 +38,18 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
         super.onCreate(savedInstanceState)
 
         toolbarTitle.text = "초대하기"
-        toolbarRightButton.visibility = View.VISIBLE;
+        toolbarRightButton.visibility = View.VISIBLE
 
 
         binding.clubUserRecycler.apply {
             clubUserListAdapter = ClubUserListAdapter()
+            clubUserListAdapter.setSelectedUserMap(viewModel.selectedUserMap)
             layoutManager = LinearLayoutManager(this@ClubUserListActivity)
             itemAnimator = DefaultItemAnimator()
             adapter = clubUserListAdapter
             RecyclerViewClickListener.setItemClickListener(this) { view, position ->
                 view.visibility
-                clubUserListAdapter.setCheck(
-                    position
-                )
+                clubUserListAdapter.setCheck(position)
             }
         }
     }

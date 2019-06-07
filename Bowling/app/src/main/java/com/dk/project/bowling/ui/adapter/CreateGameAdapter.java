@@ -7,6 +7,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
@@ -19,13 +20,32 @@ import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
 
-    private ArrayList<UserModel> userList = new ArrayList<>();
+    private HashMap<String, Boolean> userMap = new HashMap<>();
+
+    private ArrayList<UserModel> userList = new ArrayList<UserModel>() {
+        @Override
+        public boolean add(UserModel userModel) {
+            if (userModel.getViewType() == 1) {
+                userMap.put(userModel.getUserId(), true);
+            }
+            return super.add(userModel);
+        }
+
+        @Override
+        public boolean addAll(int index, @NonNull Collection<? extends UserModel> c) {
+            Observable.fromIterable(c).filter(o -> o.getViewType() == 1).subscribe(userModel -> userMap.put(userModel.getUserId(), true)).dispose();
+            return super.addAll(index, c);
+        }
+    };
     private MutableLiveData<Integer> checkCountLiveData = new MutableLiveData<>();
 
     private RecyclerView recyclerView;
@@ -35,7 +55,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private int selectInviteIndex;
 
     public CreateGameAdapter(RecyclerView recyclerView, ClubModel clubModel) {
-
         this.recyclerView = recyclerView;
         mContext = recyclerView.getContext();
         this.clubModel = clubModel;
@@ -68,6 +87,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                 case R.id.user_invite_icon:
                     selectInviteIndex = index;
                     Intent intent = new Intent(mContext, ClubUserListActivity.class);
+                    intent.putExtra(SELECTED_USER_MAP, userMap);
                     intent.putExtra(CLUB_MODEL, clubModel);
 
                     ((BindActivity) mContext).startActivityForResult(intent, Define.CLUB_USER_LIST);
@@ -88,7 +108,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
 
-
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
         if (userList.get(fromPosition).getViewType() == 0) {
@@ -97,7 +116,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
 
 //        System.out.println("==============   onRowMoved   fromPosition   " + fromPosition + "    toPosition   " + toPosition);
-
 
 
         if (fromPosition < toPosition) {
@@ -109,7 +127,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                 Collections.swap(userList, i, i - 1);
             }
         }
-
 
 
         CreateGameViewHolder from = (CreateGameViewHolder) recyclerView.findViewHolderForAdapterPosition(fromPosition);
@@ -141,6 +158,18 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     @Override
     public void onRowClear(CreateGameViewHolder myViewHolder) {
         myViewHolder.itemView.setBackgroundColor(Color.WHITE);
+    }
+
+    @Override
+    public void onDragStart() {
+        if (checkCountLiveData.getValue() != null && checkCountLiveData.getValue() > 0) {
+
+            Observable.fromIterable(userList).subscribe(userModel -> userModel.setCheck(false), throwable -> {
+            }, () -> {
+                notifyDataSetChanged();
+                checkCountLiveData.setValue(0);
+            }).dispose();
+        }
     }
 
     @Override
@@ -200,7 +229,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         return new Pair(headerIndex, checkAll);
     }
 
-    // todo 위치 이동 후 체크박스 선택시 갱신 오류 수정해야함
     public void addTeam(UserModel userModel) {
         teamCount++;
         userList.add(userModel);
@@ -215,7 +243,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
     public void setCheckBox(int position) {
-        System.out.println("================        "+position);
         UserModel userModel = userList.get(position);
         boolean check = !userModel.isCheck();
         if (userModel.getViewType() == 0) {
