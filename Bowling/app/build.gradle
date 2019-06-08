@@ -60,9 +60,9 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
 
-    implementation 'androidx.room:room-rxjava2:2.1.0-beta01'
-    implementation 'androidx.room:room-runtime:2.1.0-beta01'
-    annotationProcessor 'androidx.room:room-compiler:2.1.0-beta01'
+    implementation 'androidx.room:room-rxjava2:2.1.0-rc01'
+    implementation 'androidx.room:room-runtime:2.1.0-rc01'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0-rc01'
 
 
     implementation 'com.facebook.fresco:fresco:1.13.0'

@@ -74,7 +74,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
 
 //        System.out.println("==============   onBindViewHolder   " + position);
-        holder.getBinding().scoreAdd.setTag(position);
+
         holder.getBinding().userInviteIcon.setTag(position);
         holder.itemView.setTag(position);
 
@@ -96,16 +96,12 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                 case R.id.drag_icon:
 
                     break;
-                case R.id.score_add:
-
-                    break;
                 default:
                     setCheckBox(index);
                     break;
             }
         };
 
-        holder.getBinding().scoreAdd.setOnClickListener(onClickListener);
         holder.getBinding().userInviteIcon.setOnClickListener(onClickListener);
         holder.getBinding().dragIcon.setOnClickListener(onClickListener);
         holder.itemView.setOnClickListener(onClickListener);
