@@ -29,8 +29,9 @@ import java.util.HashMap;
 
 public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
 
-    private HashMap<String, Boolean> userMap = new HashMap<>();
+    private LayoutInflater layoutInflater;
 
+    private HashMap<String, Boolean> userMap = new HashMap<>();
     private ArrayList<UserModel> userList = new ArrayList<UserModel>() {
         @Override
         public boolean add(UserModel userModel) {
@@ -58,13 +59,12 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         this.recyclerView = recyclerView;
         mContext = recyclerView.getContext();
         this.clubModel = clubModel;
+        layoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public CreateGameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CreateGameViewHolder(
-                LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.view_holder_create_game, parent, false));
+        return new CreateGameViewHolder(layoutInflater.inflate(R.layout.view_holder_create_game, parent, false));
     }
 
     @Override
@@ -77,6 +77,19 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
         holder.getBinding().userInviteIcon.setTag(position);
         holder.itemView.setTag(position);
+
+        holder.getBinding().gameNum1.setTag(position);
+        holder.getBinding().gameNumScore1.setTag(position);
+        holder.getBinding().gameNum2.setTag(position);
+        holder.getBinding().gameNumScore2.setTag(position);
+        holder.getBinding().gameNum3.setTag(position);
+        holder.getBinding().gameNumScore3.setTag(position);
+        holder.getBinding().gameNum4.setTag(position);
+        holder.getBinding().gameNumScore4.setTag(position);
+        holder.getBinding().gameNum5.setTag(position);
+        holder.getBinding().gameNumScore5.setTag(position);
+        holder.getBinding().gameNum6.setTag(position);
+        holder.getBinding().gameNumScore6.setTag(position);
 
         View.OnClickListener onClickListener = v -> {
 
@@ -94,13 +107,49 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     ((BindActivity) mContext).startActivityForResult(intent, Define.CLUB_USER_LIST);
                     break;
                 case R.id.drag_icon:
-
+                    break;
+                case R.id.game_num_1:
+                case R.id.game_num_score_1:
+                    System.out.println("++++++++++++        position   " + index + "    1");
+                    break;
+                case R.id.game_num_2:
+                case R.id.game_num_score_2:
+                    System.out.println("++++++++++++        position   " + index + "    2");
+                    break;
+                case R.id.game_num_3:
+                case R.id.game_num_score_3:
+                    System.out.println("++++++++++++        position   " + index + "    3");
+                    break;
+                case R.id.game_num_4:
+                case R.id.game_num_score_4:
+                    System.out.println("++++++++++++        position   " + index + "    4");
+                    break;
+                case R.id.game_num_5:
+                case R.id.game_num_score_5:
+                    System.out.println("++++++++++++        position   " + index + "    5");
+                    break;
+                case R.id.game_num_6:
+                case R.id.game_num_score_6:
+                    System.out.println("++++++++++++        position   " + index + "    6");
                     break;
                 default:
                     setCheckBox(index);
                     break;
             }
         };
+
+        holder.getBinding().gameNum1.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore1.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum2.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore2.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum3.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore3.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum4.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore4.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum5.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore5.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum6.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore6.setOnClickListener(onClickListener);
 
         holder.getBinding().userInviteIcon.setOnClickListener(onClickListener);
         holder.getBinding().dragIcon.setOnClickListener(onClickListener);
@@ -139,8 +188,34 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         from.itemView.setTag(toPosition);
         from.getBinding().userInviteIcon.setTag(toPosition);
 
+        from.getBinding().gameNum1.setTag(toPosition);
+        from.getBinding().gameNumScore1.setTag(toPosition);
+        from.getBinding().gameNum2.setTag(toPosition);
+        from.getBinding().gameNumScore2.setTag(toPosition);
+        from.getBinding().gameNum3.setTag(toPosition);
+        from.getBinding().gameNumScore3.setTag(toPosition);
+        from.getBinding().gameNum4.setTag(toPosition);
+        from.getBinding().gameNumScore4.setTag(toPosition);
+        from.getBinding().gameNum5.setTag(toPosition);
+        from.getBinding().gameNumScore5.setTag(toPosition);
+        from.getBinding().gameNum6.setTag(toPosition);
+        from.getBinding().gameNumScore6.setTag(toPosition);
+
         to.itemView.setTag(fromPosition);
         to.getBinding().userInviteIcon.setTag(fromPosition);
+
+        to.getBinding().gameNum1.setTag(fromPosition);
+        to.getBinding().gameNumScore1.setTag(fromPosition);
+        to.getBinding().gameNum2.setTag(fromPosition);
+        to.getBinding().gameNumScore2.setTag(fromPosition);
+        to.getBinding().gameNum3.setTag(fromPosition);
+        to.getBinding().gameNumScore3.setTag(fromPosition);
+        to.getBinding().gameNum4.setTag(fromPosition);
+        to.getBinding().gameNumScore4.setTag(fromPosition);
+        to.getBinding().gameNum5.setTag(fromPosition);
+        to.getBinding().gameNumScore5.setTag(fromPosition);
+        to.getBinding().gameNum6.setTag(fromPosition);
+        to.getBinding().gameNumScore6.setTag(fromPosition);
 
 //        System.out.println("==============   onRowMoved  11111  fromPosition   " + from.itemView.getTag() + "    toPosition   " + to.itemView.getTag());
 
