@@ -38,7 +38,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private ArrayList<UserModel> userList = new ArrayList<UserModel>() {
         @Override
         public boolean add(UserModel userModel) {
-            if (userModel.getViewType() == 1) {
+            if (userModel.isUserType()) {
                 userMap.put(userModel.getUserId(), true);
             }
             return super.add(userModel);
@@ -46,7 +46,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
         @Override
         public boolean addAll(int index, @NonNull Collection<? extends UserModel> c) {
-            Observable.fromIterable(c).filter(o -> o.getViewType() == 1).subscribe(userModel -> userMap.put(userModel.getUserId(), true)).dispose();
+            Observable.fromIterable(c).filter(o -> o.isUserType()).subscribe(userModel -> userMap.put(userModel.getUserId(), true)).dispose();
             return super.addAll(index, c);
         }
     };
@@ -168,7 +168,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
-        if (userList.get(fromPosition).getViewType() == 0) {
+        if (!userList.get(fromPosition).isUserType()) {
             return;
         }
 
@@ -284,7 +284,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         boolean checkAll = true;
         for (int i = position - 1; i >= 0; i--) { // 선택한 아이템 위쪽 검사
             userModel = userList.get(i);
-            if (userModel.getViewType() == 0) {
+            if (!userModel.isUserType()) {
                 headerIndex = i;
                 break;
             } else if (!userModel.isCheck()) {
@@ -301,7 +301,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         if (checkAll) {
             for (int i = position + 1; i < userList.size(); i++) { // 선택한 아이템 아래쪽 검사
                 userModel = userList.get(i);
-                if (userModel.getViewType() == 0) {
+                if (!userModel.isUserType()) {
                     break;
                 } else if (!userModel.isCheck()) {
                     checkAll = false;
@@ -329,13 +329,13 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     public void setCheckBox(int position) {
         UserModel userModel = userList.get(position);
         boolean check = !userModel.isCheck();
-        if (userModel.getViewType() == 0) {
+        if (!userModel.isUserType()) {
             userModel.setCheck(check);
             int startIndex = position;
             int count = 1;
 
             for (int i = position + 1; i < userList.size(); i++) {
-                if (userList.get(i).getViewType() == 0) {
+                if (!userList.get(i).isUserType()) {
                     break;
                 } else {
                     userList.get(i).setCheck(check);
@@ -370,7 +370,27 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         return selectInviteIndex;
     }
 
+    public ArrayList<UserModel> getUserList() {
+        return userList;
+    }
+
     private void setScore(UserModel userModel, int index, int score) {
         userModel.setScore(index, score);
+    }
+
+    public void setSortIndex() {
+
+        int teamIndex = 0;
+        int userIndex = 0;
+
+        for (UserModel userModel : userList) {
+
+            if (userModel.isUserType()) {
+
+            } else {
+
+            }
+
+        }
     }
 }

@@ -14,7 +14,7 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
 
     @Override
     public void onBindView(UserModel item, int position) {
-        if (item.getViewType() == 0) { // 헤더
+        if (!item.isUserType()) { // 헤더
             binding.createGameTeamName.setText(item.getTeamName());
             binding.dragIcon.setVisibility(View.INVISIBLE);
             binding.userInviteIcon.setVisibility(View.VISIBLE);

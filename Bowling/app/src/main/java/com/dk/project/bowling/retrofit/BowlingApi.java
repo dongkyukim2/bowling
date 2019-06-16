@@ -1,6 +1,7 @@
 package com.dk.project.bowling.retrofit;
 
 import com.dk.project.bowling.model.ClubModel;
+import com.dk.project.bowling.model.GameModel;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.model.UserModel;
 import com.dk.project.post.retrofit.ErrorCallback;
@@ -155,6 +156,18 @@ public class BowlingApi {
                                       SuccessCallback<ResponseModel<ArrayList<ScoreModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getScoreDayList(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+
+    // 클럽 게임만들기 및 점수 등록
+    public Disposable setGameAndScoreList(GameModel gameModel,
+                                          SuccessCallback<ResponseModel<GameModel>> callback,
+                                          ErrorCallback errorCallback) {
+        return apiService.writeGame(gameModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,

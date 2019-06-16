@@ -59,8 +59,8 @@ public class UserModel extends LoginInfoModel {
         dest.writeString(teamName);
     }
 
-    public int getViewType() {
-        return viewType;
+    public boolean isUserType() {
+        return viewType == 1;
     }
 
     public void setViewType(int viewType) {

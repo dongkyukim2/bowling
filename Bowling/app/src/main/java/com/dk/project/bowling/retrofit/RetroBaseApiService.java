@@ -1,6 +1,7 @@
 package com.dk.project.bowling.retrofit;
 
 import com.dk.project.bowling.model.ClubModel;
+import com.dk.project.bowling.model.GameModel;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.model.UserModel;
 import com.dk.project.post.retrofit.ResponseModel;
@@ -49,4 +50,8 @@ public interface RetroBaseApiService {
 
   @GET("community/bowling/club/user/")
   Observable<ResponseModel<ArrayList<UserModel>>> getClubUserList(@Query("clubId")String clubId);
+
+  @POST("community/bowling/game/")
+  Observable<ResponseModel<GameModel>> writeGame(@Body GameModel gameModel);
+
 }
