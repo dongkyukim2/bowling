@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -79,7 +80,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     }
 
     override fun onToolbarRightClick() {
-
+        Toast.makeText(this, "게임 등록!!!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

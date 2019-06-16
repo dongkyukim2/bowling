@@ -9,6 +9,7 @@ public class UserModel extends LoginInfoModel {
     private int viewType = 1;
     private String teamName;
     private boolean check;
+    private Integer[] scoreList = {0, 0, 0, 0, 0, 0};
 
     public UserModel() {
 
@@ -45,6 +46,19 @@ public class UserModel extends LoginInfoModel {
         }
     };
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(viewType);
+        dest.writeByte((byte) (check ? 1 : 0));
+        dest.writeString(teamName);
+    }
+
     public int getViewType() {
         return viewType;
     }
@@ -69,16 +83,11 @@ public class UserModel extends LoginInfoModel {
         this.teamName = teamName;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setScore(int index, int score) {
+        scoreList[index] = score;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeInt(viewType);
-        dest.writeByte((byte) (check ? 1 : 0));
-        dest.writeString(teamName);
+    public int getScore(int index) {
+        return scoreList[index];
     }
 }

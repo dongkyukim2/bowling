@@ -7,6 +7,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +21,14 @@ import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
+import com.dk.project.post.utils.AlertDialogUtil;
 import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
 
@@ -95,6 +98,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
             int index = (int) v.getTag();
 
+            AtomicInteger scoreIndex = new AtomicInteger(0);
 //            System.out.println("==============   onclick   " + index);
 
             switch (v.getId()) {
@@ -108,29 +112,33 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     break;
                 case R.id.drag_icon:
                     break;
-                case R.id.game_num_1:
-                case R.id.game_num_score_1:
-                    System.out.println("++++++++++++        position   " + index + "    1");
-                    break;
-                case R.id.game_num_2:
-                case R.id.game_num_score_2:
-                    System.out.println("++++++++++++        position   " + index + "    2");
-                    break;
-                case R.id.game_num_3:
-                case R.id.game_num_score_3:
-                    System.out.println("++++++++++++        position   " + index + "    3");
-                    break;
-                case R.id.game_num_4:
-                case R.id.game_num_score_4:
-                    System.out.println("++++++++++++        position   " + index + "    4");
-                    break;
-                case R.id.game_num_5:
-                case R.id.game_num_score_5:
-                    System.out.println("++++++++++++        position   " + index + "    5");
-                    break;
                 case R.id.game_num_6:
                 case R.id.game_num_score_6:
-                    System.out.println("++++++++++++        position   " + index + "    6");
+//                    System.out.println("++++++++++++        position   " + index + "    1");
+                    scoreIndex.incrementAndGet();
+                case R.id.game_num_5:
+                case R.id.game_num_score_5:
+//                    System.out.println("++++++++++++        position   " + index + "    2");
+                    scoreIndex.incrementAndGet();
+                case R.id.game_num_4:
+                case R.id.game_num_score_4:
+                    scoreIndex.incrementAndGet();
+//                    System.out.println("++++++++++++        position   " + index + "    3");
+                case R.id.game_num_3:
+                case R.id.game_num_score_3:
+//                    System.out.println("++++++++++++        position   " + index + "    4");
+                    scoreIndex.incrementAndGet();
+                case R.id.game_num_2:
+                case R.id.game_num_score_2:
+//                    System.out.println("++++++++++++        position   " + index + "    5");
+                    scoreIndex.incrementAndGet();
+                case R.id.game_num_1:
+                case R.id.game_num_score_1:
+//                    System.out.println("++++++++++++        position   " + index + "    6");
+                    AlertDialogUtil.showScoreEditTextAlertDialog(mContext, "점수를 입랙해주세요", editText -> {
+                        setScore(userList.get(index), scoreIndex.get(), Integer.valueOf(((EditText) editText).getText().toString().trim()));
+                        notifyItemChanged(index);
+                    });
                     break;
                 default:
                     setCheckBox(index);
@@ -360,5 +368,9 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     public int getSelectInviteIndex() {
         return selectInviteIndex;
+    }
+
+    private void setScore(UserModel userModel, int index, int score) {
+        userModel.setScore(index, score);
     }
 }

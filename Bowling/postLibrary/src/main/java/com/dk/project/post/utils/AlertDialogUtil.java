@@ -153,5 +153,52 @@ public class AlertDialogUtil {
         editText.post(() -> TextViewUtil.showKeyBoard(context, editText));
         return alertDialog;
     }
+
+    public static AlertDialog showScoreEditTextAlertDialog(final Context context, String hint, View.OnClickListener onClickListener) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.edit_text_dialog, null);
+        EditText editText = view.findViewById(R.id.dialog_edit_text);
+        editText.setHint(hint);
+
+        dialogBuilder.setPositiveButton("확인", (dialog, which) -> {
+
+        });
+        dialogBuilder.setNegativeButton("취소", (dialog, which) -> {
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setView(view);
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+
+        Button posBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        posBtn.setOnClickListener(v -> {
+            if (editText.getText().toString().trim().isEmpty()) {
+                Toast.makeText(context, hint, Toast.LENGTH_SHORT).show();
+            } else {
+
+
+                try {
+                    int score = Integer.valueOf(editText.getText().toString().trim());
+                    if (score < 0 || score > 300) {
+                        Toast.makeText(context, "올바른 점수를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(context, "올바른 점수를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                onClickListener.onClick(editText);
+                alertDialog.dismiss();
+            }
+        });
+
+        editText.post(() -> TextViewUtil.showKeyBoard(context, editText));
+        return alertDialog;
+    }
 }
 

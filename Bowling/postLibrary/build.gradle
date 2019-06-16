@@ -48,9 +48,9 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0-RC1'
     implementation 'com.squareup.okhttp3:okhttp:4.0.0-RC1'
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
@@ -60,9 +60,9 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
 
 
-    implementation 'androidx.room:room-rxjava2:2.1.0-rc01'
-    implementation 'androidx.room:room-runtime:2.1.0-rc01'
-    annotationProcessor 'androidx.room:room-compiler:2.1.0-rc01'
+    implementation 'androidx.room:room-rxjava2:2.1.0'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
 
 
     implementation 'com.facebook.fresco:fresco:1.13.0'
