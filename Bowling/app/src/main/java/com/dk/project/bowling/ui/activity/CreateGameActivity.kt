@@ -85,20 +85,16 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
     override fun onToolbarRightClick() {
 
-        Toast.makeText(this, "게임 등록!!!", Toast.LENGTH_SHORT).show()
-
-
-        createGameAdapter.setSortIndex()
-
-
-        var gameModel = GameModel()
-        gameModel.clubId = viewModel.clubModel.clubId
-        gameModel.gameName = "임시 게임 이름"
-        gameModel.userList = createGameAdapter.userList
-
-        BowlingApi.getInstance().setGameAndScoreList(gameModel, SuccessCallback {  }, ErrorCallback {  })
-
-
+        GameModel().apply {
+            clubId = viewModel.clubModel.clubId
+            gameName = "임시 게임 이름"
+            userList = createGameAdapter.userList
+            BowlingApi.getInstance().setGameAndScoreList(this, SuccessCallback {
+                finish()
+            }, ErrorCallback {
+                Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT).show()
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

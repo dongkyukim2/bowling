@@ -6,10 +6,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.fragment.ClubScoreFragment">
+            tools:context=".ui.fragment.ClubGameListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/club_score_recycler_view"
+                android:id="@+id/club_game_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintRight_toRightOf="parent"

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class BaseViewModel extends AndroidViewModel {
 
   protected BaseActivity mContext;
+  protected BindFragment bindFragment;
   private CompositeDisposable compositeDisposable = new CompositeDisposable();
   protected PublishSubject<View> clickPublishSubject = PublishSubject.create();
 
@@ -56,6 +57,14 @@ public abstract class BaseViewModel extends AndroidViewModel {
 
   public BaseActivity getContext() {
     return mContext;
+  }
+
+  public BindFragment getBindFragment() {
+    return bindFragment;
+  }
+
+  public void setBindFragment(BindFragment bindFragment) {
+    this.bindFragment = bindFragment;
   }
 
   private void unSubscribeFromObservable() {

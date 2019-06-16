@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.ui.fragment.ClubDetailFragment;
-import com.dk.project.bowling.ui.fragment.ClubScoreFragment;
+import com.dk.project.bowling.ui.fragment.ClubGameListFragment;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class ClubDetailPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return ClubDetailFragment.newInstance(position, clubModel);
             case 1:
-                return ClubScoreFragment.newInstance(position, clubModel);
+                return ClubGameListFragment.newInstance(position, clubModel);
             default:
                 return ClubDetailFragment.newInstance(position, clubModel);
         }

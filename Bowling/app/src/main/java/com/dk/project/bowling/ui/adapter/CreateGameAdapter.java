@@ -377,20 +377,4 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private void setScore(UserModel userModel, int index, int score) {
         userModel.setScore(index, score);
     }
-
-    public void setSortIndex() {
-
-        int teamIndex = 0;
-        int userIndex = 0;
-
-        for (UserModel userModel : userList) {
-
-            if (userModel.isUserType()) {
-
-            } else {
-
-            }
-
-        }
-    }
 }

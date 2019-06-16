@@ -3,7 +3,9 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.view.View;
 import androidx.annotation.NonNull;
+import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -12,6 +14,8 @@ import com.dk.project.post.base.BaseViewModel;
 public class ClubScoreListViewModel extends BaseViewModel {
 
 
+    private ClubModel clubModel;
+
     public ClubScoreListViewModel(@NonNull Application application) {
         super(application);
     }
@@ -19,6 +23,8 @@ public class ClubScoreListViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
+
+        clubModel = getBindFragment().getArguments().getParcelable(Define.CLUB_MODEL);
 
     }
 

@@ -67,6 +67,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
                         var item = clubAdapter.getClubModel(position)
                         intent.putExtra(CLUB_MODEL, item)
                         startActivity(intent)
+                        return true
                     }
                     return super.onInterceptTouchEvent(rv, e)
                 }

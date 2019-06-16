@@ -37,6 +37,7 @@ public abstract class BindFragment<B extends ViewDataBinding, T extends BaseView
     binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
     viewModel = createViewModel();
     viewModel.setContext((BindActivity) getActivity());
+    viewModel.setBindFragment(this);
     view = binding.getRoot();
     if (ON_CREATE_LOG) {
       System.out.println("aaaaaaaaaaa      " + getClass().getSimpleName() + "       onCreateView");
