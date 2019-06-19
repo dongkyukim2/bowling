@@ -2,10 +2,10 @@ package com.dk.project.bowling.ui.viewHolder;
 
 import android.view.View;
 import com.dk.project.bowling.databinding.ViewHolderClubGameBinding;
-import com.dk.project.bowling.model.GameModel;
+import com.dk.project.bowling.model.ReadGameModel;
 import com.dk.project.post.base.BindViewHolder;
 
-public class ClubGameViewHolder extends BindViewHolder<ViewHolderClubGameBinding, GameModel> {
+public class ClubGameViewHolder extends BindViewHolder<ViewHolderClubGameBinding, ReadGameModel> {
 
 
     public ClubGameViewHolder(View itemView) {
@@ -14,7 +14,9 @@ public class ClubGameViewHolder extends BindViewHolder<ViewHolderClubGameBinding
 
 
     @Override
-    public void onBindView(GameModel item, int position) {
+    public void onBindView(ReadGameModel item, int position) {
         super.onBindView(item, position);
+        binding.gameName.setText(item.getGameName());
+        binding.gameDate.setText(item.getPlayDateTime());
     }
 }

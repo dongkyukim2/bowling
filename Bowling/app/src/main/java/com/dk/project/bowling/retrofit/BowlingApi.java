@@ -1,9 +1,6 @@
 package com.dk.project.bowling.retrofit;
 
-import com.dk.project.bowling.model.ClubModel;
-import com.dk.project.bowling.model.GameModel;
-import com.dk.project.bowling.model.ScoreModel;
-import com.dk.project.bowling.model.UserModel;
+import com.dk.project.bowling.model.*;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ResponseModel;
 import com.dk.project.post.retrofit.SuccessCallback;
@@ -168,6 +165,17 @@ public class BowlingApi {
                                           SuccessCallback<ResponseModel<GameModel>> callback,
                                           ErrorCallback errorCallback) {
         return apiService.writeGame(gameModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+    // 클럽 게임 및 점수 목롥
+    public Disposable getGameAndScoreList(String clubId, int count,
+                                          SuccessCallback<ResponseModel<ArrayList<ReadGameModel>>> callback,
+                                          ErrorCallback errorCallback) {
+        return apiService.getGameAndScoreList(clubId, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,

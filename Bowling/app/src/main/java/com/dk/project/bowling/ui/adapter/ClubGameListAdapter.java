@@ -3,7 +3,7 @@ package com.dk.project.bowling.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.GameModel;
+import com.dk.project.bowling.model.ReadGameModel;
 import com.dk.project.bowling.ui.viewHolder.ClubGameViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 
@@ -11,13 +11,10 @@ import java.util.ArrayList;
 
 public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHolder> {
 
-    private ArrayList<GameModel> clubList = new ArrayList<>();
+    private ArrayList<ReadGameModel> clubList = new ArrayList<>();
 
     public ClubGameListAdapter() {
-        clubList.add(new GameModel());
-        clubList.add(new GameModel());
-        clubList.add(new GameModel());
-        clubList.add(new GameModel());
+
     }
 
     @Override
@@ -38,8 +35,12 @@ public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHol
         return clubList.size();
     }
 
+    public void setClubList(ArrayList<ReadGameModel> clubList) {
+        this.clubList = clubList;
+        notifyDataSetChanged();
+    }
 
-//    public void setClubList(ArrayList<ClubModel> clubList) {
+    //    public void setClubList(ArrayList<ClubModel> clubList) {
 //        if (clubList.isEmpty()) {
 //            clubList.addAll(clubList);
 //            notifyDataSetChanged();

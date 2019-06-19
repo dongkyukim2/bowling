@@ -4,6 +4,7 @@ package com.dk.project.bowling.ui.fragment
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,10 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
     override fun createViewModel() = ViewModelProviders.of(this).get(ClubScoreListViewModel::class.java)
 
     override fun registerLiveData() {
+
+        viewModel.gameMutableLiveData.observe(this, Observer {
+            clubGameListAdapter.setClubList(it)
+        })
 
     }
 
