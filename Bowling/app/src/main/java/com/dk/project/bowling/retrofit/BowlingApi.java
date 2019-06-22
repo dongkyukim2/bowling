@@ -171,7 +171,7 @@ public class BowlingApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
-    // 클럽 게임 및 점수 목롥
+    // 클럽 게임 및 점수 목록
     public Disposable getGameAndScoreList(String clubId, int count,
                                           SuccessCallback<ResponseModel<ArrayList<ReadGameModel>>> callback,
                                           ErrorCallback errorCallback) {

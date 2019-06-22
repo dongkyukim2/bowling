@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
+import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
 
@@ -51,9 +52,13 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         binding.createGameBtn.setOnClickListener {
             var intent = Intent(this, CreateGameActivity::class.java)
             intent.putExtra(CLUB_MODEL, viewModel.clubModel)
-            startActivity(intent)
+            startActivityForResult(intent, REFRESH_GAME_LIST)
         }
+    }
 
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        supportFragmentManager.fragments.filterIsInstance<ClubGameListFragment>()
+            .map { fragment -> fragment.onActivityResult(requestCode, resultCode, data) }
     }
 }

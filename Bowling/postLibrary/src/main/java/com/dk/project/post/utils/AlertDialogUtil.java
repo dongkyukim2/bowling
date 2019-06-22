@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -161,6 +163,13 @@ public class AlertDialogUtil {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.edit_text_dialog, null);
         EditText editText = view.findViewById(R.id.dialog_edit_text);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(3);
+        editText.setFilters(FilterArray);
+
+
         editText.setHint(hint);
 
         dialogBuilder.setPositiveButton("확인", (dialog, which) -> {

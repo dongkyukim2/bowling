@@ -4,6 +4,7 @@ import android.app.Application;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.ReadGameModel;
@@ -22,7 +23,7 @@ public class ClubScoreListViewModel extends BaseViewModel {
 
     private ClubModel clubModel;
 
-    private MutableLiveData<ArrayList<ReadGameModel>> gameMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Pair<ArrayList<ReadGameModel>, Boolean>> gameMutableLiveData = new MutableLiveData<>();
 
     public ClubScoreListViewModel(@NonNull Application application) {
         super(application);
@@ -32,11 +33,7 @@ public class ClubScoreListViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         clubModel = getBindFragment().getArguments().getParcelable(Define.CLUB_MODEL);
-
-        BowlingApi.getInstance().getGameAndScoreList(clubModel.getClubId(), 0, receivedData ->
-                gameMutableLiveData.setValue(receivedData.getData()), errorData ->
-                Toast.makeText(mContext, "게임 목록 에러", Toast.LENGTH_SHORT).show());
-
+        setGameList(0);
     }
 
     @Override
@@ -49,7 +46,14 @@ public class ClubScoreListViewModel extends BaseViewModel {
 
     }
 
-    public MutableLiveData<ArrayList<ReadGameModel>> getGameMutableLiveData() {
+    public MutableLiveData<Pair<ArrayList<ReadGameModel>, Boolean>> getGameMutableLiveData() {
         return gameMutableLiveData;
+    }
+
+    public void setGameList(int count) {
+
+        BowlingApi.getInstance().getGameAndScoreList(clubModel.getClubId(), count, receivedData ->
+                gameMutableLiveData.setValue(new Pair<ArrayList<ReadGameModel>,Boolean>(receivedData.getData(),true)), errorData ->
+                Toast.makeText(mContext, "게임 목록 에러", Toast.LENGTH_SHORT).show());
     }
 }

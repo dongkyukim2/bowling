@@ -50,6 +50,8 @@ public interface Define {
     int MODIFY_POST = 5000;
     int CLUB_USER_LIST = 1597;
 
+    int REFRESH_GAME_LIST = 2597;
+
 
     int PERMISSION_REQUEST_STORAGE = 7;
 

@@ -1,7 +1,6 @@
 package com.dk.project.bowling.ui.activity
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -19,7 +18,6 @@ import com.dk.project.bowling.ui.adapter.CreateGameAdapter
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback
 import com.dk.project.bowling.viewModel.CreateGameViewModel
 import com.dk.project.post.base.BindActivity
-import com.dk.project.post.base.Define
 import com.dk.project.post.retrofit.ErrorCallback
 import com.dk.project.post.retrofit.SuccessCallback
 import com.dk.project.post.utils.AlertDialogUtil
@@ -90,27 +88,11 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             gameName = "임시 게임 이름"
             userList = createGameAdapter.userList
             BowlingApi.getInstance().setGameAndScoreList(this, SuccessCallback {
+                setResult(Activity.RESULT_OK)
                 finish()
             }, ErrorCallback {
                 Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT).show()
             })
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-        when (requestCode) {
-
-            Define.CLUB_USER_LIST -> {
-                data?.getParcelableArrayListExtra<UserModel>(Define.CLUB_USER_LIST_MODEL)?.let {
-                    it.map { it.isCheck = false }
-                    createGameAdapter.setInviteUserList(it)
-                }
-            }
-        }
-    }
-
 }

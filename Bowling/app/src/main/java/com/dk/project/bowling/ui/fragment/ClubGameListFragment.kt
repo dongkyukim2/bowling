@@ -1,6 +1,8 @@
 package com.dk.project.bowling.ui.fragment
 
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -70,9 +72,19 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
 
 
         }
-
-
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            Define.REFRESH_GAME_LIST -> {
+                viewModel.setGameList(0)
+            }
+        }
     }
 
 

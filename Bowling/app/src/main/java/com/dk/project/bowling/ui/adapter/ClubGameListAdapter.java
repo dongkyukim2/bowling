@@ -2,6 +2,7 @@ package com.dk.project.bowling.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import androidx.core.util.Pair;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ReadGameModel;
 import com.dk.project.bowling.ui.viewHolder.ClubGameViewHolder;
@@ -35,8 +36,13 @@ public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHol
         return clubList.size();
     }
 
-    public void setClubList(ArrayList<ReadGameModel> clubList) {
-        this.clubList = clubList;
+    public void setClubList(Pair<ArrayList<ReadGameModel>, Boolean> clubList) {
+        if (clubList.second) {
+            this.clubList = clubList.first;
+        } else {
+
+        }
+
         notifyDataSetChanged();
     }
 
