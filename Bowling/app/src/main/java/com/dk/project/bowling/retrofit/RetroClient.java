@@ -40,7 +40,7 @@ public class RetroClient {
 
             if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
                 builder.addInterceptor(loggingInterceptor);
             }
             builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS) //연결 타임아웃 시간 설정

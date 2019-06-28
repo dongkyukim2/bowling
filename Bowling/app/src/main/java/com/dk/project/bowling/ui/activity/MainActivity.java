@@ -15,23 +15,22 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager2.widget.ViewPager2;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityMainBinding;
 import com.dk.project.bowling.model.ScoreModel;
+import com.dk.project.bowling.ui.adapter.MainViewPagerFragmentAdapter;
 import com.dk.project.bowling.ui.fragment.ClubFragment;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BindActivity;
-import com.dk.project.post.base.BindFragment;
 import com.dk.project.post.controller.LoginController;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
+import com.dk.project.post.utils.ImageUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -40,12 +39,6 @@ import java.util.Calendar;
 
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
 
-
-    private FragmentManager fragmentManager;
-    private MainInfoFragment mainInfoFragment;
-    private GraphFragment graphFragment;
-    private ClubFragment clubFragment;
-    private ContentsListFragment contentsListFragment;
 
     @Override
     protected int getLayoutId() {
@@ -68,18 +61,43 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         viewModel.checkShare();
 
+        binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_layout_root)
+                .setBackground(ImageUtil.getGradientDrawable(0));
+
+
         binding.navigation.setOnNavigationItemSelectedListener(this);
         toolbarRightButton.setVisibility(View.GONE);
         toolbarRightAniButton.setVisibility(View.VISIBLE);
         toolbarLeftButton.setVisibility(View.VISIBLE);
         toolbarLeftButton.setImageResource(R.drawable.ic_action_menu);
 
-        mainInfoFragment = MainInfoFragment.newInstance();
-        graphFragment = GraphFragment.newInstance();
-        clubFragment = ClubFragment.newInstance();
-        contentsListFragment = ContentsListFragment.newInstance();
+        MainViewPagerFragmentAdapter mainViewPagerFragmentAdapter = new MainViewPagerFragmentAdapter(this);
+        mainViewPagerFragmentAdapter.setFragment(MainInfoFragment.newInstance());
+        mainViewPagerFragmentAdapter.setFragment(GraphFragment.newInstance());
+        mainViewPagerFragmentAdapter.setFragment(ClubFragment.newInstance());
+        mainViewPagerFragmentAdapter.setFragment(ContentsListFragment.newInstance());
 
-        setFragment(mainInfoFragment, "info");
+
+        binding.mainViewPager.setUserInputEnabled(false);
+        binding.mainViewPager.setOffscreenPageLimit(3);
+        binding.mainViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        binding.mainViewPager.setAdapter(mainViewPagerFragmentAdapter);
+        binding.mainViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
 
         binding.navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -107,16 +125,16 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                setFragment(mainInfoFragment, "info");
+                binding.mainViewPager.setCurrentItem(0, true);
                 return true;
             case R.id.navigation_dashboard:
-                setFragment(graphFragment, "graph");
+                binding.mainViewPager.setCurrentItem(1, true);
                 return true;
             case R.id.navigation_club:
-                setFragment(clubFragment, "club");
+                binding.mainViewPager.setCurrentItem(2, true);
                 return true;
             case R.id.navigation_community:
-                setFragment(contentsListFragment, "content");
+                binding.mainViewPager.setCurrentItem(3, true);
                 return true;
         }
         return false;
@@ -213,29 +231,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         textView.setText((calendar.get(Calendar.AM_PM) == 0 ? "오전 " : "오후 ") +
                 String.format("%02d", calendar.get(Calendar.HOUR)) + ":" +
                 String.format("%02d", calendar.get(Calendar.MINUTE)));
-    }
-
-    private void setFragment(BindFragment fragment, String tag) {
-        if (fragmentManager == null) {
-            fragmentManager = getSupportFragmentManager();
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        Fragment alReadyFragment = fragmentManager.findFragmentByTag(tag);
-
-        if (alReadyFragment == null) {
-            fragmentTransaction.add(R.id.main_layout, fragment, tag);
-        } else {
-            fragmentTransaction.show(alReadyFragment);
-        }
-
-        for (Fragment tempFragment : fragmentManager.getFragments()) {
-            if (alReadyFragment != tempFragment) {
-                fragmentTransaction.hide(tempFragment);
-            }
-        }
-        fragmentTransaction.commit();
     }
 
     @Override
