@@ -27,6 +27,8 @@ public class PostModel implements Parcelable {
     private int likeCount;
     private int likeSelected;
 
+    private String clubId;
+
     @Ignore
     private ArrayList<MediaSelectListModel> imageList = new ArrayList<>();
     @Ignore
@@ -51,6 +53,7 @@ public class PostModel implements Parcelable {
         currentPosition = in.readInt();
         imageList = in.createTypedArrayList(MediaSelectListModel.CREATOR);
         replyList = in.createTypedArrayList(ReplyModel.CREATOR);
+        clubId = in.readString();
     }
 
     public static final Creator<PostModel> CREATOR = new Creator<PostModel>() {
@@ -152,6 +155,14 @@ public class PostModel implements Parcelable {
         System.out.println("==============  subLikeCount  "+likeCount);
     }
 
+    public String getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(String clubId) {
+        this.clubId = clubId;
+    }
+
     public int getLikeCount() {
         return likeCount;
     }
@@ -204,5 +215,6 @@ public class PostModel implements Parcelable {
         dest.writeInt(currentPosition);
         dest.writeTypedList(imageList);
         dest.writeTypedList(replyList);
+        dest.writeString(clubId);
     }
 }

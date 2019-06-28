@@ -22,6 +22,7 @@ import com.dk.project.post.base.Define
 class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScoreListViewModel>() {
 
     private lateinit var clubGameListAdapter: ClubGameListAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_club_game_list
@@ -45,16 +46,18 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
 
             clubGameListAdapter = ClubGameListAdapter()
 
-            layoutManager = LinearLayoutManager(mContext)
+            linearLayoutManager = LinearLayoutManager(mContext)
+            layoutManager = linearLayoutManager
             itemAnimator = DefaultItemAnimator()
             adapter = clubGameListAdapter
-
 
             GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onSingleTapUp(e: MotionEvent): Boolean {
                     return true
                 }
             }).let {
+
+
                 addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
                     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                         if (it.onTouchEvent(e)) {
@@ -62,14 +65,25 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                             val position = rv.getChildAdapterPosition(child!!)
                             Toast.makeText(mContext, position.toString(), Toast.LENGTH_SHORT).show()
 
-
                             return true
                         }
                         return super.onInterceptTouchEvent(rv, e)
                     }
                 })
-            }
 
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        linearLayoutManager?.let {
+                            if (dy > 0 && !viewModel.isLoading && linearLayoutManager.itemCount - 1 == linearLayoutManager.findLastVisibleItemPosition()) {
+                                viewModel.isLoading = true
+                                viewModel.requestGameList(linearLayoutManager.itemCount)
+                            }
+                        }
+
+                    }
+                })
+            }
 
         }
         return view
@@ -82,7 +96,7 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
         }
         when (requestCode) {
             Define.REFRESH_GAME_LIST -> {
-                viewModel.setGameList(0)
+                viewModel.requestGameList(0)
             }
         }
     }

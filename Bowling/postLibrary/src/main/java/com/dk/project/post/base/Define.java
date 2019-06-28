@@ -12,7 +12,7 @@ public interface Define {
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
     String CLUB_USER_LIST_MODEL = "CLUB_USER_LIST";
 
-    boolean ON_CREATE_LOG = true;
+    boolean ON_CREATE_LOG = false;
 
     boolean MAIN_PAGER_ACTIVITY = false;
 

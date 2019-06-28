@@ -96,8 +96,8 @@ public class PostApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
-    public Disposable getPostList(int page, String search, SuccessCallback<ResponseModel<ArrayList<PostModel>>> callback, ErrorCallback errorCallback) {
-        return apiService.postList(page, search)
+    public Disposable getPostList(int page, String clubId, String search, SuccessCallback<ResponseModel<ArrayList<PostModel>>> callback, ErrorCallback errorCallback) {
+        return apiService.postList(clubId, search, page)
                 .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

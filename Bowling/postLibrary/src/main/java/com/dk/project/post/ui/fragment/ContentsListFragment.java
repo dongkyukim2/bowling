@@ -16,49 +16,49 @@ import com.dk.project.post.viewModel.ContentListViewModel;
 
 public class ContentsListFragment extends BindFragment<FragmentContentsListBinding, ContentListViewModel> {
 
-  public static ContentsListFragment newInstance() {
-    return new ContentsListFragment();
-  }
+    public static ContentsListFragment newInstance() {
+        return new ContentsListFragment();
+    }
 
-  private ContentsListAdapter contentsListAdapter;
-  private OnFloatingActionButtonListener onFloatingActionButtonListener;
-  private LinearLayoutManager linearLayoutManager;
-  private boolean isLoading;
+    private ContentsListAdapter contentsListAdapter;
+    private OnFloatingActionButtonListener onFloatingActionButtonListener;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean isLoading;
 
-  @Override
-  protected int getLayoutId() {
-    return R.layout.fragment_contents_list;
-  }
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_contents_list;
+    }
 
-  @Override
-  protected ContentListViewModel createViewModel() {
-    return ViewModelProviders.of(this).get(ContentListViewModel.class);
-  }
+    @Override
+    protected ContentListViewModel createViewModel() {
+        return ViewModelProviders.of(this).get(ContentListViewModel.class);
+    }
 
-  @Override
-  protected void registerLiveData() {
-    viewModel.getPostItemList().observe(this, postModels -> {
-      contentsListAdapter.setClearPostList(postModels);
-    });
-  }
+    @Override
+    protected void registerLiveData() {
+        viewModel.getPostItemList().observe(this, postModels -> {
+            contentsListAdapter.setClearPostList(postModels);
+        });
+    }
 
-  @Override
-  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    linearLayoutManager = new LinearLayoutManager(getActivity());
-    binding.contentsListView.setLayoutManager(linearLayoutManager);
-    contentsListAdapter = new ContentsListAdapter(mContext, viewModel);
-    binding.contentsListView.setItemAnimator(new DefaultItemAnimator());
-    binding.contentsListView.setAdapter(contentsListAdapter);
-    viewModel.setRecyclerViewAdapterNmanager(contentsListAdapter, linearLayoutManager);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        binding.contentsListView.setLayoutManager(linearLayoutManager);
+        contentsListAdapter = new ContentsListAdapter(mContext, viewModel);
+        binding.contentsListView.setItemAnimator(new DefaultItemAnimator());
+        binding.contentsListView.setAdapter(contentsListAdapter);
+        viewModel.setRecyclerViewAdapterNmanager(contentsListAdapter, linearLayoutManager);
 
-    binding.contentsListViewRefresh.setOnRefreshListener(() -> {
+        binding.contentsListViewRefresh.setOnRefreshListener(() -> {
 
-      viewModel.getPostList(0, null, receivedData -> {
-        contentsListAdapter.setClearPostList(receivedData.getData());
-        binding.contentsListViewRefresh.setRefreshing(false);
-      }, errorData -> {
+            viewModel.getPostList(0, null,null, receivedData -> {
+                contentsListAdapter.setClearPostList(receivedData.getData());
+                binding.contentsListViewRefresh.setRefreshing(false);
+            }, errorData -> {
 
-      });
+            });
 
 //      Observable.just("").delay(1, TimeUnit.SECONDS).
 //          observeOn(AndroidSchedulers.mainThread())
@@ -67,14 +67,14 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
 //            contentsListAdapter.notifyDataSetChanged();
 //          });
 
-    });
-    binding.contentsListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      int moveY;
-      boolean showEvent = false;
-      boolean hideEvent = false;
+        });
+        binding.contentsListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int moveY;
+            boolean showEvent = false;
+            boolean hideEvent = false;
 
-      @Override
-      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 //                ContentsContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
 //        if (onFloatingActionButtonListener != null) {
 //          if (dy < 0) {
@@ -99,35 +99,35 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
 //          }
 //        }
 
-        if (dy > 0 && !isLoading && linearLayoutManager.getItemCount() - 1 == linearLayoutManager.findLastVisibleItemPosition()) {
-          isLoading = true;
+                if (dy > 0 && !isLoading && linearLayoutManager.getItemCount() - 1 == linearLayoutManager.findLastVisibleItemPosition()) {
+                    isLoading = true;
 
-          viewModel.getPostList(linearLayoutManager.getItemCount(), null, receivedData -> {
-            contentsListAdapter.setMorePostList(receivedData.getData());
-          }, errorData -> {
-          });
-        }
-      }
-    });
-    super.onViewCreated(view, savedInstanceState);
-  }
+                    viewModel.getPostList(linearLayoutManager.getItemCount(), null, null, receivedData -> {
+                        contentsListAdapter.setMorePostList(receivedData.getData());
+                    }, errorData -> {
+                    });
+                }
+            }
+        });
+        super.onViewCreated(view, savedInstanceState);
+    }
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    contentsListAdapter.refreshWriteDate();
-  }
+    @Override
+    public void onResume() {
+        super.onResume();
+        contentsListAdapter.refreshWriteDate();
+    }
 
-  public void changeListViewHolderType() {
-    viewModel.changeListViewHolderType();
-  }
+    public void changeListViewHolderType() {
+        viewModel.changeListViewHolderType();
+    }
 
-  public void setOnFloatingActionButtonListener(OnFloatingActionButtonListener onFloatingActionButtonListener) {
-    this.onFloatingActionButtonListener = onFloatingActionButtonListener;
-  }
+    public void setOnFloatingActionButtonListener(OnFloatingActionButtonListener onFloatingActionButtonListener) {
+        this.onFloatingActionButtonListener = onFloatingActionButtonListener;
+    }
 
-  public interface OnFloatingActionButtonListener {
+    public interface OnFloatingActionButtonListener {
 
-    void showFloatingActionButton(boolean visible);
-  }
+        void showFloatingActionButton(boolean visible);
+    }
 }

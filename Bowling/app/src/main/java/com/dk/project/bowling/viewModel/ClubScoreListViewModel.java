@@ -2,7 +2,6 @@ package com.dk.project.bowling.viewModel;
 
 import android.app.Application;
 import android.view.View;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
@@ -20,10 +19,9 @@ import java.util.ArrayList;
 
 public class ClubScoreListViewModel extends BaseViewModel {
 
-
     private ClubModel clubModel;
-
     private MutableLiveData<Pair<ArrayList<ReadGameModel>, Boolean>> gameMutableLiveData = new MutableLiveData<>();
+    private boolean isLoading;
 
     public ClubScoreListViewModel(@NonNull Application application) {
         super(application);
@@ -33,7 +31,7 @@ public class ClubScoreListViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         clubModel = getBindFragment().getArguments().getParcelable(Define.CLUB_MODEL);
-        setGameList(0);
+        requestGameList(0);
     }
 
     @Override
@@ -50,10 +48,21 @@ public class ClubScoreListViewModel extends BaseViewModel {
         return gameMutableLiveData;
     }
 
-    public void setGameList(int count) {
+    public void requestGameList(int count) {
 
-        BowlingApi.getInstance().getGameAndScoreList(clubModel.getClubId(), count, receivedData ->
-                gameMutableLiveData.setValue(new Pair<ArrayList<ReadGameModel>,Boolean>(receivedData.getData(),true)), errorData ->
-                Toast.makeText(mContext, "게임 목록 에러", Toast.LENGTH_SHORT).show());
+        BowlingApi.getInstance().getGameAndScoreList(clubModel.getClubId(), count, receivedData -> {
+            if (!receivedData.getData().isEmpty()) {
+                gameMutableLiveData.setValue(new Pair<>(receivedData.getData(), count == 0));
+            }
+            isLoading = false;
+        }, errorData -> isLoading = false);
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
     }
 }
