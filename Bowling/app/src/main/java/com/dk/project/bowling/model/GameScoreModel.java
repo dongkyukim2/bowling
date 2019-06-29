@@ -1,6 +1,9 @@
 package com.dk.project.bowling.model;
 
-public class GameScoreModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class GameScoreModel implements Parcelable {
 
     private String gameId;
     private int teamPosition;
@@ -10,6 +13,20 @@ public class GameScoreModel {
     private int score;
     private String clubId;
     private String userId;
+
+    public GameScoreModel() {
+    }
+
+    protected GameScoreModel(Parcel in) {
+        gameId = in.readString();
+        teamPosition = in.readInt();
+        userPosition = in.readInt();
+        scorePosition = in.readInt();
+        teamName = in.readString();
+        score = in.readInt();
+        clubId = in.readString();
+        userId = in.readString();
+    }
 
     public String getGameId() {
         return gameId;
@@ -74,4 +91,33 @@ public class GameScoreModel {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(gameId);
+        dest.writeInt(teamPosition);
+        dest.writeInt(userPosition);
+        dest.writeInt(scorePosition);
+        dest.writeString(teamName);
+        dest.writeInt(score);
+        dest.writeString(clubId);
+        dest.writeString(userId);
+    }
+
+    public static final Creator<GameScoreModel> CREATOR = new Creator<GameScoreModel>() {
+        @Override
+        public GameScoreModel createFromParcel(Parcel in) {
+            return new GameScoreModel(in);
+        }
+
+        @Override
+        public GameScoreModel[] newArray(int size) {
+            return new GameScoreModel[size];
+        }
+    };
 }

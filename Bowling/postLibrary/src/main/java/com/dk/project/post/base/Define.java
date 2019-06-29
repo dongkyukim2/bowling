@@ -12,6 +12,8 @@ public interface Define {
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
     String CLUB_USER_LIST_MODEL = "CLUB_USER_LIST";
 
+    String READ_GAME_MODEL = "READ_GAME_MODEL";
+
     boolean ON_CREATE_LOG = true;
 
     boolean MAIN_PAGER_ACTIVITY = false;

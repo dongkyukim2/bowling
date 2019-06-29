@@ -1,6 +1,7 @@
 package com.dk.project.bowling.retrofit;
 
 import com.dk.project.bowling.model.*;
+import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.ResponseModel;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -53,5 +54,8 @@ public interface RetroBaseApiService {
 
     @GET("community/bowling/game/")
     Observable<ResponseModel<ArrayList<ReadGameModel>>> getGameAndScoreList(@Query("clubId") String clubId, @Query("count") int count);
+
+    @GET("community/bowling/game/user/")
+    Observable<ResponseModel<ArrayList<LoginInfoModel>>> getGameUserList(@Query("gameId") String gameId);
 
 }
