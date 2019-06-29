@@ -8,18 +8,17 @@ import com.dk.project.post.base.BindActivity;
 
 public class IntroActivity extends BindActivity<ActivityIntroBinding, IntroViewModel> {
 
-  @Override
-  protected int getLayoutId() {
-    return R.layout.activity_intro;
-  }
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_intro;
+    }
 
-  @Override
-  protected IntroViewModel getViewModel() {
-    return ViewModelProviders.of(this).get(IntroViewModel.class);
-  }
+    @Override
+    protected IntroViewModel getViewModel() {
+        return ViewModelProviders.of(this).get(IntroViewModel.class);
+    }
 
-  @Override
-  protected void subscribeToModel() {
-
-  }
+    @Override
+    protected void subscribeToModel() {
+    }
 }

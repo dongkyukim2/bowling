@@ -1,6 +1,7 @@
 package com.dk.project.bowling.ui.activity
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProviders
@@ -54,6 +55,12 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             intent.putExtra(CLUB_MODEL, viewModel.clubModel)
             startActivityForResult(intent, REFRESH_GAME_LIST)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+//        binding.createGameBtn.backgroundTintList
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

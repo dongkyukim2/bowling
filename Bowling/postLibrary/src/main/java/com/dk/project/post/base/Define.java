@@ -14,7 +14,7 @@ public interface Define {
 
     String READ_GAME_MODEL = "READ_GAME_MODEL";
 
-    boolean ON_CREATE_LOG = true;
+    boolean ON_CREATE_LOG = false;
 
     boolean MAIN_PAGER_ACTIVITY = false;
 
