@@ -2,10 +2,7 @@ package com.dk.project.bowling.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
+import android.graphics.*;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextPaint;
@@ -14,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.utils;
+
 import java.text.DecimalFormat;
 
 /**
@@ -291,7 +289,11 @@ public class ArcProgress extends View {
     }
     paint.setColor(unfinishedStrokeColor);
     canvas.drawArc(rectF, startAngle, arcAngle, false, paint);
-    paint.setColor(finishedStrokeColor);
+//    paint.setColor(finishedStrokeColor);
+
+    paint.setShader(new RadialGradient(getWidth()/2.0f, getHeight()/2.0f, 360, Color.parseColor("#38068f"), Color.parseColor("#9b0493"), Shader.TileMode.CLAMP));
+//    paint.setShader(new LinearGradient(0, 0, 300, 0, Color.parseColor("#38068f"), Color.parseColor("#9b0493"), Shader.TileMode.CLAMP));
+
     canvas.drawArc(rectF, finishedStartAngle, finishedSweepAngle, false, paint);
 
 //    String text = getProgress() + "%";

@@ -52,7 +52,7 @@
                     android:id="@+id/graph_layout"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="#123456"
+                    android:background="@drawable/main_gradient"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

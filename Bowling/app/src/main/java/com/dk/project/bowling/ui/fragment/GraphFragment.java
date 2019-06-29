@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,9 +15,6 @@ import com.dk.project.bowling.ui.adapter.GraphScoreAdapter;
 import com.dk.project.bowling.viewModel.GraphViewModel;
 import com.dk.project.post.base.BindFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewModel> {
 
 
