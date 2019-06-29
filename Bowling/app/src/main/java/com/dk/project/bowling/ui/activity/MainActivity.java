@@ -77,7 +77,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         mainViewPagerFragmentAdapter.setFragment(ClubFragment.newInstance());
         mainViewPagerFragmentAdapter.setFragment(ContentsListFragment.newInstance());
 
-
         binding.mainViewPager.setUserInputEnabled(false);
         binding.mainViewPager.setOffscreenPageLimit(3);
         binding.mainViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);

@@ -24,8 +24,28 @@ public class GraphRecentScoreViewHolder extends BindViewHolder<ViewHolderGraphSc
     public void onBindView(ScoreModel item, int position) {
 
         binding.graphDate.setText(item.getPlayDateTime().split(" ")[0].split("-")[2] + "일");
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.graphLine.getLayoutParams();
+        binding.graphScore.setText(String.valueOf(getScore(item)));
 
+
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.graphLine.getLayoutParams();
+        layoutParams.verticalBias = Utils.getScorePercent(getScore(item));
+        binding.graphLine.setLayoutParams(layoutParams);
+
+
+//        ConstraintSet constraintSet = new ConstraintSet();
+//        constraintSet.clone(binding.graphSubParent);
+//        constraintSet.connect(binding.graphLayout.getId(), ConstraintSet.BOTTOM, binding.graphSubParent.getId(), ConstraintSet.BOTTOM, 0);
+//        constraintSet.applyTo(binding.graphSubParent);
+
+
+        binding.graphLayout.setBackground(gradientDrawable);
+    }
+
+    public void setGraphType(int graphType) {
+        this.graphType = graphType;
+    }
+
+    private int getScore(ScoreModel item) {
         int score = 0;
         switch (graphType) {
             case 0:
@@ -38,16 +58,6 @@ public class GraphRecentScoreViewHolder extends BindViewHolder<ViewHolderGraphSc
                 score = item.getMinScore();
                 break;
         }
-
-
-        binding.graphScore.setText(String.valueOf(score));
-        layoutParams.verticalBias = Utils.getScorePercent(score);
-        binding.graphLine.setLayoutParams(layoutParams);
-
-        binding.graphLayout.setBackground(gradientDrawable);
-    }
-
-    public void setGraphType(int graphType) {
-        this.graphType = graphType;
+        return score;
     }
 }
