@@ -14,6 +14,8 @@ public class GraphRecentScoreViewHolder extends BindViewHolder<ViewHolderGraphSc
 
     private int graphType;
 
+//    private final int graphMax = 316;
+
     private GradientDrawable gradientDrawable = ImageUtil.getGradientDrawable();
 
     public GraphRecentScoreViewHolder(View itemView) {
@@ -27,6 +29,11 @@ public class GraphRecentScoreViewHolder extends BindViewHolder<ViewHolderGraphSc
         binding.graphScore.setText(String.valueOf(getScore(item)));
 
 
+//        ((LinearLayoutCompat.LayoutParams)binding.graphLayoutSpace.getLayoutParams()).weight = graphMax - getScore(item);
+//        ((LinearLayoutCompat.LayoutParams)binding.graphLayout.getLayoutParams()).weight = getScore(item);
+
+//
+//
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.graphLine.getLayoutParams();
         layoutParams.verticalBias = Utils.getScorePercent(getScore(item));
         binding.graphLine.setLayoutParams(layoutParams);

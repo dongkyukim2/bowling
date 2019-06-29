@@ -1,180 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-  <data>
-    <variable
-      name="viewModel"
-      type="com.dk.project.post.base.BaseViewModel"/>
-  </data>
+    <data>
+        <variable
+                name="viewModel"
+                type="com.dk.project.post.base.BaseViewModel"/>
+    </data>
 
-  <!--그래프 최소 최대 평균 -->
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    tools:context=".ui.fragment.GraphFragment">
-
+    <!--그래프 최소 최대 평균 -->
     <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/graph_header"
-      android:layout_width="match_parent"
-      android:layout_height="30dp"
-      android:orientation="vertical"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
-      <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/graph_date"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2019-02"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-      <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/prev_month"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/ic_chevron_left_black_24dp"
-        android:onClick="@{viewModel::onClick}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/graph_date"
-        app:layout_constraintTop_toTopOf="parent"/>
-      <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/next_month"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/ic_chevron_right_black_24dp"
-        android:onClick="@{viewModel::onClick}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/graph_date"
-        app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            tools:context=".ui.fragment.GraphFragment">
 
-      <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/graph_view_type"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:onClick="@{viewModel::onClick}"
-        android:text="평균점수"
-        android:textColor="#000000"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/graph_header"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/graph_date"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2019-02"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/prev_month"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_chevron_left_black_24dp"
+                    android:onClick="@{viewModel::onClick}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/graph_date"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/next_month"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_chevron_right_black_24dp"
+                    android:onClick="@{viewModel::onClick}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/graph_date"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/graph_view_type"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:onClick="@{viewModel::onClick}"
+                    android:text="평균점수"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/graph_date_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/graph_date_empty"
+                app:layout_constraintTop_toBottomOf="@id/graph_header">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/score_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.05"/>
+
+            <View
+                    android:id="@+id/line_300"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="0"/>
+
+
+            <View
+                    android:id="@+id/line_250"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="0.1666666667"/>
+
+            <View
+                    android:id="@+id/line_200"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="0.3333333333"/>
+
+            <View
+                    android:id="@+id/line_150"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="0.5"/>
+
+
+            <View
+                    android:id="@+id/line_100"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="0.666666667"/>
+
+
+            <View
+                    android:id="@+id/line_50"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="0.833333333"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/graph_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/graph_header"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/graph_date_empty"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center_horizontal"
-      android:textColor="#000000"
-      android:textSize="15dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      app:layout_constraintBottom_toTopOf="@id/graph_date_empty"
-      app:layout_constraintTop_toBottomOf="@id/graph_header">
-
-
-      <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/score_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05"/>
-
-      <View
-        android:id="@+id/line_300"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_max"
-        app:layout_constraintVertical_bias="0"/>
-
-
-      <View
-        android:id="@+id/line_250"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_max"
-        app:layout_constraintVertical_bias="0.1666666667"/>
-
-      <View
-        android:id="@+id/line_200"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_max"
-        app:layout_constraintVertical_bias="0.3333333333"/>
-
-      <View
-        android:id="@+id/line_150"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_max"
-        app:layout_constraintVertical_bias="0.5"/>
-
-
-      <View
-        android:id="@+id/line_100"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_max"
-        app:layout_constraintVertical_bias="0.666666667"/>
-
-
-      <View
-        android:id="@+id/line_50"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/score_max"
-        app:layout_constraintVertical_bias="0.833333333"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/graph_recycler"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:overScrollMode="never"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/graph_header"/>
-
-  </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

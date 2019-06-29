@@ -22,60 +22,60 @@ import com.dk.project.post.base.BindFragment;
 public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewModel> {
 
 
-  private LinearLayoutManager linearLayoutManager;
-  private GraphScoreAdapter graphScoreAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private GraphScoreAdapter graphScoreAdapter;
 
 
-  public static GraphFragment newInstance() {
-    return new GraphFragment();
-  }
+    public static GraphFragment newInstance() {
+        return new GraphFragment();
+    }
 
-  @Override
-  protected int getLayoutId() {
-    return R.layout.fragment_graph;
-  }
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_graph;
+    }
 
-  @Override
-  protected GraphViewModel createViewModel() {
-    return ViewModelProviders.of(this).get(GraphViewModel.class);
-  }
+    @Override
+    protected GraphViewModel createViewModel() {
+        return ViewModelProviders.of(this).get(GraphViewModel.class);
+    }
 
-  @Override
-  protected void registerLiveData() {
-    viewModel.getViewTypeLiveData().observe(this, type -> {
-      graphScoreAdapter.setGraphType(type);
-      switch (type) {
-        case 0:
-          binding.graphViewType.setText("평균점수");
-          break;
-        case 1:
-          binding.graphViewType.setText("최대점수");
-          break;
-        case 2:
-          binding.graphViewType.setText("최소점수");
-          break;
-      }
-    });
+    @Override
+    protected void registerLiveData() {
+        viewModel.getViewTypeLiveData().observe(this, type -> {
+            graphScoreAdapter.setGraphType(type);
+            switch (type) {
+                case 0:
+                    binding.graphViewType.setText("평균점수");
+                    break;
+                case 1:
+                    binding.graphViewType.setText("최대점수");
+                    break;
+                case 2:
+                    binding.graphViewType.setText("최소점수");
+                    break;
+            }
+        });
 
-    viewModel.getGraphLiveData().observe(this, scoreModels -> {
-      binding.graphDate.setText(viewModel.getYearMonth());
-      graphScoreAdapter.setGraphScoreList(scoreModels);
-    });
-  }
+        viewModel.getGraphLiveData().observe(this, scoreModels -> {
+            binding.graphDate.setText(viewModel.getYearMonth());
+            graphScoreAdapter.setGraphScoreList(scoreModels);
+        });
+    }
 
-  @Override
-  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    binding.setViewModel(getViewModel());
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        binding.setViewModel(getViewModel());
 
-    graphScoreAdapter = new GraphScoreAdapter();
+        graphScoreAdapter = new GraphScoreAdapter();
 
-    linearLayoutManager = new LinearLayoutManager(getActivity());
-    linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-    binding.graphRecycler.setLayoutManager(linearLayoutManager);
-    binding.graphRecycler.setItemAnimator(new DefaultItemAnimator());
-    binding.graphRecycler.setAdapter(graphScoreAdapter);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        binding.graphRecycler.setLayoutManager(linearLayoutManager);
+        binding.graphRecycler.setItemAnimator(new DefaultItemAnimator());
+        binding.graphRecycler.setAdapter(graphScoreAdapter);
 
-    super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
 
-  }
+    }
 }

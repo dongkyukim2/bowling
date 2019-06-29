@@ -97,6 +97,18 @@ public class IntroViewModel extends BaseViewModel {
                             mContext.finish();
                         }
                     }));
+
+
+            // ------------------------------   TEST   -----------------------------------
+
+            //todo LoginInfoModel, setUserCode 중복 수정해야함
+//            LoginInfoModel loginInfoModel = new LoginInfoModel();
+//            loginInfoModel.setUserId("1087708735");
+//            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
+//            Intent intent = new Intent(mContext, MainActivity.class);
+//            intent.putExtra(USER_CODE, 1087708735l);
+//            mContext.startActivity(intent);
+//            mContext.finish();
         }
     }
 }
