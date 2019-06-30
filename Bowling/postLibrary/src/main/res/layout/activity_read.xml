@@ -56,8 +56,8 @@
 
               <com.dk.project.post.ui.widget.CircleImageView
                 android:id="@+id/user_profile"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
                 app:srcCompat="@drawable/ic_user_profile"/>
 
               <LinearLayout
@@ -74,8 +74,8 @@
                   android:layout_weight="1"
                   android:layout_marginBottom="1dp"
                   android:text="@{bindingReadViewModel.postModel.userName}"
-                  android:textColor="@color/text_like_counter"
-                  android:textSize="15dp"/>
+                  android:textColor="#000000"
+                  android:textSize="18dp"/>
 
                 <TextView
                   android:id="@+id/write_date"
@@ -83,7 +83,7 @@
                   android:layout_height="wrap_content"
                   android:layout_marginTop="1dp"
                   android:textColor="#969696"
-                  android:textSize="11dp"/>
+                  android:textSize="15dp"/>
 
               </LinearLayout>
 

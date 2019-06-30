@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -331,6 +332,10 @@ public class ImageUtil implements Define {
 //        getRgb(): Vibrant로 하셨다면 해당 이미지의 Vibrant에 해당하는 RGB색상값을 가져옵니다.
 //        getTitleTextColor(): 위의 RGB색상값에 잘 어울리는 제목의 색상값을 가져옵니다.
 //        getBodyTextColor(): 위의 RGB색상값에 잘 어울리는 본문의 색상값을 가져옵니다.
+    }
+
+    public static boolean isDark(int color) {
+        return ColorUtils.calculateLuminance(color) < 0.5;
     }
 }
 

@@ -47,8 +47,9 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             .into(binding.clubBackImg)
         ImageUtil.getClubColors(this, R.drawable.team_default) {
             //            paletteColorLiveData.value = it
+            //            binding.createGameBtn.backgroundTintList = ColorStateList.valueOf(it.rgb)
             window.statusBarColor = it.rgb
-//            binding.createGameBtn.backgroundTintList = ColorStateList.valueOf(it.rgb)
+
         }
         toolbar.setBackgroundResource(android.R.color.transparent)
 

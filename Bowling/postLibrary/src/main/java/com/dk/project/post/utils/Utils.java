@@ -32,6 +32,7 @@ public class Utils {
     public static SimpleDateFormat DateFormat_3 = new SimpleDateFormat("a hh:mm");
     public static SimpleDateFormat DateFormat_4 = new SimpleDateFormat("yy/MM/dd");
     public static FastDateFormat format = FastDateFormat.getInstance("yyyy-MM-dd", TimeZone.getDefault(), Locale.getDefault());
+    public static FastDateFormat format_2 = FastDateFormat.getInstance("yyyy-MM-dd HH:mm", TimeZone.getDefault(), Locale.getDefault());
 
     public static View getLayout(Context context) {
 
@@ -54,7 +55,11 @@ public class Utils {
             long minute = milliseconds / (60 * 1000);
             long hour = minute / 60;
             if (hour > 23) {
-                date = DateFormat_1.format(new Date(postDate));
+                date = format_2.format(new Date(postDate));
+
+                String[] aa = date.split(" ");
+                String week = getDAY_OF_WEEK(aa[0]);
+                date = aa[0] + " (" + week + ") " + aa[1];
             } else if (hour > 0) {
                 date = hour + "시간전";
             } else if (minute > 0) {
