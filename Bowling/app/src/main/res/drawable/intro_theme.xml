@@ -3,9 +3,9 @@
 
     <item android:drawable="@drawable/intro_drawable"/>
 
-    <item>
-        <bitmap android:src="@drawable/bowling_main"
-                android:gravity="fill_horizontal"/>
-    </item>
+    <!--<item>-->
+        <!--<bitmap android:src="@drawable/bowling_main"-->
+                <!--android:gravity="fill_horizontal"/>-->
+    <!--</item>-->
 
 </layer-list>
