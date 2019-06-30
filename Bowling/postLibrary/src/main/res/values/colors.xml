@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="startColor">#673AB7</color>
+    <color name="endColor">#BA68C8</color>
+
     <color name="colorPrimary">#b4b4b4</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#9b0493</color>
+    <color name="colorAccent">@color/startColor</color>
     <color name="toolbar_color">@color/colorPrimaryDark</color>
-    <color name="status_bar_color">#9b0493</color>
+    <color name="status_bar_color">@color/startColor</color>
 
 
 

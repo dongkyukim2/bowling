@@ -62,7 +62,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         viewModel.checkShare();
 
         binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_layout_root)
-                .setBackground(ImageUtil.getGradientDrawable(0));
+                .setBackground(ImageUtil.getGradientDrawable(this, 0));
 
 
         binding.navigation.setOnNavigationItemSelectedListener(this);

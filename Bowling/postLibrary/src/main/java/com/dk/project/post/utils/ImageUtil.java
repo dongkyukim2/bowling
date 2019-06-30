@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
@@ -21,6 +22,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.dk.project.post.R;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.impl.DefaultCallBack;
 import com.dk.project.post.model.MediaSelectListModel;
@@ -284,16 +286,17 @@ public class ImageUtil implements Define {
         return imagePath;
     }
 
-    public static GradientDrawable getGradientDrawable() {
+    public static GradientDrawable getGradientDrawable(Context context) {
         if (gradientDrawable == null) {
-            gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF9b0493, 0xFF38068f});
+            gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{ContextCompat.getColor(context, R.color.startColor), ContextCompat.getColor(context, R.color.endColor)});
             gradientDrawable.setCornerRadius(80f);
         }
         return gradientDrawable;
     }
 
-    public static GradientDrawable getGradientDrawable(float cornerRadius) {
-        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF9b0493, 0xFF38068f});
+    public static GradientDrawable getGradientDrawable(Context context, float cornerRadius) {
+
+        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{ContextCompat.getColor(context, R.color.startColor), ContextCompat.getColor(context, R.color.endColor)});
         gradientDrawable.setCornerRadius(cornerRadius);
         return gradientDrawable;
     }
