@@ -6,17 +6,18 @@
             android:layout_height="match_parent"
             tools:context=".ui.fragment.ClubDetailFragment">
 
-        <TextView
-                android:id="@+id/club_title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="22dp"
-                android:textStyle="bold"
+        <ImageView
+                android:id="@+id/club_title_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/team_default"
                 android:layout_marginTop="30dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_percent="0.85"
+                app:layout_constraintDimensionRatio="w,1:1"/>
 
 
         <TextView
@@ -25,21 +26,25 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:textSize="19dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/club_title_text_view"/>
+                app:layout_constraintBottom_toTopOf="@id/club_title_image"/>
 
-        <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#123456"
+
+        <TextView
+                android:id="@+id/club_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintWidth_percent="0.7"
-                app:layout_constraintDimensionRatio="w,1:1"
-                app:layout_constraintTop_toBottomOf="@id/club_sub_title_text_view"/>
+                app:layout_constraintBottom_toTopOf="@id/club_sub_title_text_view"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

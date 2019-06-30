@@ -2,9 +2,9 @@
 <resources>
     <color name="colorPrimary">#b4b4b4</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#01bcd5</color>
+    <color name="colorAccent">#9b0493</color>
     <color name="toolbar_color">@color/colorPrimaryDark</color>
-    <color name="status_bar_color">#ffffff</color>
+    <color name="status_bar_color">#9b0493</color>
 
 
 

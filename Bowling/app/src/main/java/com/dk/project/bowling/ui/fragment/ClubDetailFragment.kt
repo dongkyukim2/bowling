@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubDetailBinding
 import com.dk.project.bowling.model.ClubModel
+import com.dk.project.bowling.ui.activity.ClubDetailActivity
 import com.dk.project.bowling.viewModel.ClubDetailHomeViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
@@ -35,11 +37,17 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         view = super.onCreateView(inflater, container, savedInstanceState)
 
         arguments?.apply {
-           getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
+            getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
 
-               binding.clubTitleTextView.text = clubTitle
-               binding.clubSubTitleTextView.text = clubInfo
-           }
+                binding.clubTitleTextView.text = clubTitle
+                binding.clubSubTitleTextView.text = clubInfo
+                (activity as ClubDetailActivity).paletteColorLiveData.observe(this@ClubDetailFragment, Observer {
+                    binding.clubTitleTextView.setTextColor(it.titleTextColor)
+                    binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
+
+                })
+
+            }
         }
         return view
     }

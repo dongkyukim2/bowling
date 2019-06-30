@@ -11,10 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import androidx.annotation.Nullable;
+import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.dk.project.post.base.Define;
+import com.dk.project.post.impl.DefaultCallBack;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.facebook.common.util.UriUtil;
@@ -29,6 +36,7 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -37,6 +45,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by dkkim on 2017-10-05.
@@ -275,16 +285,52 @@ public class ImageUtil implements Define {
 
     public static GradientDrawable getGradientDrawable() {
         if (gradientDrawable == null) {
-            gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF38068f, 0xFF9b0493});
+            gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF9b0493, 0xFF38068f});
             gradientDrawable.setCornerRadius(80f);
         }
         return gradientDrawable;
     }
 
     public static GradientDrawable getGradientDrawable(float cornerRadius) {
-        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF38068f, 0xFF9b0493});
+        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF9b0493, 0xFF38068f});
         gradientDrawable.setCornerRadius(cornerRadius);
         return gradientDrawable;
+    }
+
+    public static void getClubColors(Context context, int resId, DefaultCallBack<Palette.Swatch> callback) {
+        Glide.with(context).asBitmap().load(resId).apply(bitmapTransform(new BlurTransformation(25, 30))).addListener(new RequestListener<Bitmap>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                Palette.from(resource).generate(palette -> {
+                    for (Palette.Swatch swatch : palette.getSwatches()) {
+                        if (swatch != null) {
+                            callback.callback(swatch);
+                            break;
+                        }
+                    }
+
+//                    Palette.Swatch a = palette.getVibrantSwatch();
+//                    Palette.Swatch b = palette.getDarkVibrantSwatch();
+//                    Palette.Swatch c = palette.getLightVibrantSwatch();
+//                    Palette.Swatch d = palette.getMutedSwatch();
+//                    Palette.Swatch e = palette.getDarkMutedSwatch();
+//                    Palette.Swatch f = palette.getLightMutedSwatch();
+
+
+                });
+                return false;
+            }
+        }).submit();
+
+
+//        getRgb(): Vibrant로 하셨다면 해당 이미지의 Vibrant에 해당하는 RGB색상값을 가져옵니다.
+//        getTitleTextColor(): 위의 RGB색상값에 잘 어울리는 제목의 색상값을 가져옵니다.
+//        getBodyTextColor(): 위의 RGB색상값에 잘 어울리는 본문의 색상값을 가져옵니다.
     }
 }
 
