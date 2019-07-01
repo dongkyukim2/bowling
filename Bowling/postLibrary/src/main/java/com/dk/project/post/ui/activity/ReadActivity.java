@@ -110,24 +110,6 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityCompat.setEnterSharedElementCallback(this, new SharedElementCallback() {
-            @Override
-            public void onSharedElementEnd(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
-                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots);
-            }
-        });
-
-        binding.userProfile.setTransitionName("profile");
-        binding.userName.setTransitionName("userName");
-        binding.writeDate.setTransitionName("writeDate");
-//            binding.likeImageView.setTransitionName("likeImage");
-//            binding.replyImageView.setTransitionName("replyImage");
-//            binding.moreImageView.setTransitionName("moreImage");
-//            binding.likesCountImage.setTransitionName("likeCountImage");
-//            binding.likesCount.setTransitionName("likeCount");
-        binding.readContentLayout.setTransitionName("contents");
-
-
         layoutMargin = ScreenUtil.dpToPixel(6);
         layoutMargin = 0;
 
@@ -154,7 +136,7 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         });
 
         binding.writeDate.setText(Utils.converterDate(postModel.getWriteDate()));
-        Glide.with(this).load(postModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
+        GlideApp.with(this).load(postModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
                 .into(binding.userProfile);
 
         binding.likeImageView.setImageResource(postModel.isLikeSelected() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);

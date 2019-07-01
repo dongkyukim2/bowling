@@ -137,12 +137,12 @@ public class YoutubeUtil implements Define {
   // todo 유튜브에서 바로 첨부 후 다시 첨부 하면 첨부 안됨
   // todo 썸네일 없는거 로컬 디비에 저정하면 좋을듯
   private static void setYoutubeThumbnail(Context context, ImageView imageView, String videoUri) {
-    Glide.with(context).load(getSecondYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption()).into(imageView);
-//    Glide.with(context).load(getYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).listener(new RequestListener<Drawable>() {
+    GlideApp.with(context).load(getSecondYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption()).into(imageView);
+//    GlideApp.with(context).load(getYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).listener(new RequestListener<Drawable>() {
 //      @Override
 //      public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //        imageView.post(()->{
-//          Glide.with(context).load(getSecondYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption()).into(imageView);
+//          GlideApp.with(context).load(getSecondYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption()).into(imageView);
 //        });
 //        return false;
 //      }

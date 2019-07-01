@@ -135,7 +135,7 @@ public class ContentsListViewHolder<T extends PostModel> extends BaseContentsVie
     binding.replyCountText.setText(String.valueOf(postModel.getReplyCount()));
     binding.likeCountText.setText(String.valueOf(postModel.getLikeCount()));
 
-//        Glide.with(mContext).load(postModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.ic_user_profile)).into(binding.userProfile);
+//        GlideApp.with(mContext).load(postModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.ic_user_profile)).into(binding.userProfile);
 
     if (binding.contentsText.getVisibility() == View.VISIBLE && postModel.getImageList().size() != 0) {
       binding.titleImage.setVisibility(View.VISIBLE);
@@ -188,7 +188,7 @@ public class ContentsListViewHolder<T extends PostModel> extends BaseContentsVie
 //        date.setText(Utils.converterDate(replyModel.getReplyDate()));
 //        name.setText(replyModel.getUserName());
 //        contents.setText(replyModel.getReplyContents());
-//        Glide.with(mContext).load(replyModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.ic_user_profile)).into(circleImageView);
+//        GlideApp.with(mContext).load(replyModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.ic_user_profile)).into(circleImageView);
 //    }
 
   public PostModel getPostModel() {
@@ -201,19 +201,8 @@ public class ContentsListViewHolder<T extends PostModel> extends BaseContentsVie
   }
 
   private void startReadActivity() {
-    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((BindActivity) mContext/*,
-                new Pair<>(binding.userProfile, "profile"),
-                new Pair<>(binding.userName, "userName"),
-                new Pair<>(binding.writeDate, "writeDate")
-                new Pair<>(binding.likeImageView, "likeImage"),
-                new Pair<>(binding.replyImageView, "replyImage"),
-                new Pair<>(binding.moreImageView, "moreImage"),
-                new Pair<>(binding.likesCountImage, "likeCountImage"),
-                new Pair<>(binding.likesCount, "likeCount"),
-                new Pair<>(binding.contentRoot, "contents")*/);
-
     Intent intent = new Intent(mContext, ReadActivity.class);
     intent.putExtra(POST_MODEL, postModel);
-    mContext.startActivity(intent, options.toBundle());
+    mContext.startActivity(intent);
   }
 }

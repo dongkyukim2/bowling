@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
@@ -136,9 +137,9 @@ public class ImageUtil implements Define {
         linearLayout.addView(imageView);
 
         if (new File(filePath).exists()) {
-            Glide.with(context).asBitmap().load(filePath).thumbnail(0.2f).apply(getGlideRequestOption()).into(imageView);
+            GlideApp.with(context).asBitmap().load(filePath).thumbnail(0.2f).apply(getGlideRequestOption()).into(imageView);
         } else {
-            Glide.with(context).asBitmap().load(IMAGE_URL + filePath).thumbnail(0.2f).apply(getGlideRequestOption()).into(imageView);
+            GlideApp.with(context).asBitmap().load(IMAGE_URL + filePath).thumbnail(0.2f).apply(getGlideRequestOption()).into(imageView);
         }
         return linearLayout;
     }
@@ -163,10 +164,16 @@ public class ImageUtil implements Define {
             topSpaceLayout.setOnClickListener(onClickListener);
         }
 
+        /*
         SimpleDraweeView simpleDraweeView = new SimpleDraweeView(context);
         simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-
-
+//        simpleDraweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable() {
+//            @Override
+//            protected boolean onLevelChange(int level) {
+//                return super.onLevelChange(level);
+//            }
+//        });
+        */
         Uri imageUri;
         if (isResource) {
             imageUri = new Uri.Builder()
@@ -182,7 +189,7 @@ public class ImageUtil implements Define {
                 imageUri = Uri.parse(IMAGE_URL + filePath);
             }
         }
-
+        /*
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
                 .setResizeOptions(new ResizeOptions(width, height))
                 .build();
@@ -192,9 +199,16 @@ public class ImageUtil implements Define {
                 .setImageRequest(request)
                 .build();
         simpleDraweeView.setController(animatedController);
+        */
+        AppCompatImageView gifImageView = new AppCompatImageView(context);
+        gifImageView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+        GlideApp.with(context).asGif().load(imageUri)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .centerCrop().into(gifImageView);
+
 
         linearLayout.addView(topSpaceLayout);
-        linearLayout.addView(simpleDraweeView);
+        linearLayout.addView(gifImageView);
 
         return linearLayout;
     }
@@ -215,7 +229,7 @@ public class ImageUtil implements Define {
                     if (TextUtils.isEmpty(selectFile.getYoutubeUrl()) && !selectFile.isGif() && file.exists()) {
                         selectFile.setOriginalFileName(FilenameUtils.getName(selectFile.getFilePath()));
 
-                        Bitmap bitmap = Glide.with(context).asBitmap().load(selectFilePath).submit(800, 800).get();
+                        Bitmap bitmap = GlideApp.with(context).asBitmap().load(selectFilePath).submit(800, 800).get();
                         File destFile = new File(imagePath, UUID.randomUUID().toString() + "." + ext);
                         destFile.createNewFile();
                         OutputStream out = new FileOutputStream(destFile);
@@ -302,7 +316,7 @@ public class ImageUtil implements Define {
     }
 
     public static void getClubColors(Context context, int resId, DefaultCallBack<Palette.Swatch> callback) {
-        Glide.with(context).asBitmap().load(resId).apply(bitmapTransform(new BlurTransformation(25, 30))).addListener(new RequestListener<Bitmap>() {
+        GlideApp.with(context).asBitmap().load(resId).apply(bitmapTransform(new BlurTransformation(25, 30))).addListener(new RequestListener<Bitmap>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                 return false;

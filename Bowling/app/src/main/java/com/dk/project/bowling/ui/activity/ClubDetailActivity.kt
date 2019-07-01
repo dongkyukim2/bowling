@@ -1,7 +1,6 @@
 package com.dk.project.bowling.ui.activity
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -13,7 +12,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
 import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
@@ -21,6 +19,7 @@ import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
+import com.dk.project.post.utils.GlideApp
 import com.dk.project.post.utils.ImageUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -43,7 +42,7 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Glide.with(this).load(R.drawable.team_default).apply(bitmapTransform(BlurTransformation(25, 25)))
+        GlideApp.with(this).load(R.drawable.team_default).apply(bitmapTransform(BlurTransformation(25, 25)))
             .into(binding.clubBackImg)
         ImageUtil.getClubColors(this, R.drawable.team_default) {
             //            paletteColorLiveData.value = it

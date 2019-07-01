@@ -100,7 +100,7 @@ public class MediaSelectAdapter extends BaseRecyclerViewAdapter {
             } else {
                 holder.folderThumbnailGif.setVisibility(View.GONE);
                 holder.folderThumbnail.setVisibility(View.VISIBLE);
-                Glide.with(context).load(item.getPath()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.folderThumbnail);
+                GlideApp.with(context).load(item.getPath()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.folderThumbnail);
             }
 //            Uri playableUri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, Long.toString(item.getCoverId()));
 
