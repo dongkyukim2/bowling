@@ -3,12 +3,14 @@ package com.dk.project.bowling.ui.adapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.ui.viewHolder.InfoRecentScoresViewHolder;
 import com.dk.project.bowling.ui.viewHolder.MainInfoGraphViewHolder;
 import com.dk.project.bowling.ui.viewHolder.RecentScoresViewHolder;
+import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindViewHolder;
 
@@ -23,6 +25,11 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
 
     private ScoreModel monthAvg;
     private ArrayList<ScoreModel> recentScoresList = new ArrayList<>();
+    private MainInfoViewModel mainInfoViewModel;
+
+    public RecentScoresAdapter(MainInfoViewModel mainInfoViewModel) {
+        this.mainInfoViewModel = mainInfoViewModel;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -39,7 +46,14 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
     public BindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == GRAPH_SCORE) {
-            return new MainInfoGraphViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_main_info_graph, parent, false));
+            MainInfoGraphViewHolder mainInfoGraphViewHolder = new MainInfoGraphViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_main_info_graph, parent, false));
+            mainInfoGraphViewHolder.getBinding().scoreGraphLeft.setOnClickListener(v -> {
+                Toast.makeText(mainInfoGraphViewHolder.getBinding().scoreGraphLeft.getContext(), "이전달", Toast.LENGTH_SHORT).show();
+            });
+            mainInfoGraphViewHolder.getBinding().scoreGraphRight.setOnClickListener(v -> {
+                Toast.makeText(mainInfoGraphViewHolder.getBinding().scoreGraphRight.getContext(), "다음달", Toast.LENGTH_SHORT).show();
+            });
+            return mainInfoGraphViewHolder;
         } else if (viewType == INFO_SCORE) {
             return new InfoRecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_info_recent_scores, parent, false));
         } else {

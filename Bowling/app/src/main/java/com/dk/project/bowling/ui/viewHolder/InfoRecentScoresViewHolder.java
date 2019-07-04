@@ -17,10 +17,10 @@ public class InfoRecentScoresViewHolder extends BindViewHolder<ViewHolderInfoRec
 
     if (position == 1) {
       binding.score.setText(String.valueOf(item.getMaxScore()));
-      binding.scoreTitle.setText("이번달 최고점");
+      binding.scoreTitle.setText("최고점");
     } else {
       binding.score.setText(String.valueOf(item.getMinScore()));
-      binding.scoreTitle.setText("이번달 최저점");
+      binding.scoreTitle.setText("최저점");
     }
   }
 }

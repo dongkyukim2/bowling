@@ -27,7 +27,6 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
 
 
     private RecentScoresAdapter recentScoresAdapter;
-    //  private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayoutManager;
 
     private PublishSubject<Boolean> nextDataSubject = PublishSubject.create();
@@ -99,17 +98,16 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                                 (recentScoresAdapter.getItemCount() - 3) % 20 == 0 &&
                                 gridLayoutManager.findLastVisibleItemPosition() == recentScoresAdapter.getItemCount() - 1));
 
-        recentScoresAdapter = new RecentScoresAdapter();
+        recentScoresAdapter = new RecentScoresAdapter(viewModel);
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setSpanSizeLookup(new SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (position == 0) {
-                    return 2;
-                } else if (position < 3) {
-                    return 1;
-                } else {
-                    return 2;
+                switch (position) {
+                    case 0:
+                        return 2;
+                    default:
+                        return 1;
                 }
             }
         });

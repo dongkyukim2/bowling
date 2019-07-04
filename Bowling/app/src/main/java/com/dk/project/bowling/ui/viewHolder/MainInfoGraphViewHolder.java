@@ -1,8 +1,6 @@
 package com.dk.project.bowling.ui.viewHolder;
 
 import android.view.View;
-import com.airbnb.lottie.LottieDrawable;
-import com.airbnb.lottie.TextDelegate;
 import com.dk.project.bowling.databinding.ViewHolderMainInfoGraphBinding;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.post.base.BindViewHolder;
@@ -15,7 +13,8 @@ public class MainInfoGraphViewHolder extends BindViewHolder<ViewHolderMainInfoGr
 
     @Override
     public void onBindView(ScoreModel item, int position) {
-        binding.scoreGraph.setBottomText("이번달 평균");
+        binding.scoreGraph.setBottomText("2019-07");
+        binding.scoreGraph.setBottomTextSize(70);
         binding.scoreGraph.setMax(300);
         if (item == null) {
             binding.scoreGraph.setProgress(0);
