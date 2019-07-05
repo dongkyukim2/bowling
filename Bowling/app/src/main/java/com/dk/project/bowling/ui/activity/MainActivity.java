@@ -32,12 +32,16 @@ import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.ImageUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.util.Calendar;
 
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
+
+
+    private BottomSheetBehavior bottomSheetBehavior;
 
 
     @Override
@@ -112,6 +116,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             }
             return false;
         });
+
+
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
     }
 
     @Override
@@ -234,10 +241,23 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void onBackPressed() {
+        boolean isExit = false;
         if (binding.mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.mainDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            isExit = true;
         }
+        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_HIDDEN) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            isExit = true;
+        }
+        if (isExit) {
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+    public BottomSheetBehavior getBottomSheetBehavior() {
+        return bottomSheetBehavior;
     }
 }

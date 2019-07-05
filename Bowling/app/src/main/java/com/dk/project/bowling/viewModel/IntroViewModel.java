@@ -15,9 +15,6 @@ import com.dk.project.post.utils.KakaoLoginUtils;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
-import io.reactivex.Observable;
-
-import java.util.concurrent.TimeUnit;
 
 import static com.dk.project.post.base.Define.USER_CODE;
 
@@ -57,46 +54,44 @@ public class IntroViewModel extends BaseViewModel {
             mContext.startActivity(intent);
             mContext.finish();
         } else {
-            executeRx(Observable.timer(200, TimeUnit.MILLISECONDS)
-                    .subscribe(i -> {
-                        // 세션이 열려있는지
-                        // todo 로그인되어있으면 열려있는듯
-                        if (KakaoLoginUtils.checkLogin()) {
-                            KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
-                                @Override
-                                public void onSuccess(MeV2Response result) {
-                                    long userKakaoCode = result.getId();
-                                    executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
-                                            receivedData -> {
-                                                if (receivedData.getData() == null) {
-                                                    Intent intent = new Intent(mContext, LoginActivity.class);
-                                                    mContext.startActivity(intent);
-                                                    mContext.finish();
-                                                } else { // 세션 열려있고 디비에 가입도 되어있음
-                                                    LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-                                                    Intent intent = new Intent(mContext, MainActivity.class);
-                                                    intent.putExtra(USER_CODE, userKakaoCode);
-                                                    mContext.startActivity(intent);
-                                                    mContext.finish();
 
-                                                }
-                                            }, errorData -> {
+            // 세션이 열려있는지
+            // todo 로그인되어있으면 열려있는듯
+            if (KakaoLoginUtils.checkLogin()) {
+                KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
+                    @Override
+                    public void onSuccess(MeV2Response result) {
+                        long userKakaoCode = result.getId();
+                        executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
+                                receivedData -> {
+                                    if (receivedData.getData() == null) {
+                                        Intent intent = new Intent(mContext, LoginActivity.class);
+                                        mContext.startActivity(intent);
+                                        mContext.finish();
+                                    } else { // 세션 열려있고 디비에 가입도 되어있음
+                                        LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
+                                        Intent intent = new Intent(mContext, MainActivity.class);
+                                        intent.putExtra(USER_CODE, userKakaoCode);
+                                        mContext.startActivity(intent);
+                                        mContext.finish();
 
-                                            }));
-                                }
+                                    }
+                                }, errorData -> {
 
-                                @Override
-                                public void onSessionClosed(ErrorResult errorResult) {
+                                }));
+                    }
 
-                                }
-                            });
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
 
-                        } else {
-                            Intent intent = new Intent(mContext, LoginActivity.class);
-                            mContext.startActivity(intent);
-                            mContext.finish();
-                        }
-                    }));
+                    }
+                });
+
+            } else {
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                mContext.startActivity(intent);
+                mContext.finish();
+            }
 
 
             // ------------------------------   TEST   -----------------------------------

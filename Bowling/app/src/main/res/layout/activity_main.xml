@@ -42,6 +42,20 @@
                         app:layout_constraintBottom_toTopOf="@id/navigation"
                         app:layout_constraintTop_toBottomOf="@+id/include_toolbar"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <RelativeLayout
+                    android:id="@+id/rl_bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    app:behavior_hideable="true"
+                    app:behavior_peekHeight="0dp"
+                    android:background="#ffffff"
+                    app:layout_behavior="@string/bottom_sheet_behavior">
+            </RelativeLayout>
+
+
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.navigation.NavigationView

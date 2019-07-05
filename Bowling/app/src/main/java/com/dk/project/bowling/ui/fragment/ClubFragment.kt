@@ -2,7 +2,10 @@ package com.dk.project.bowling.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -11,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubBinding
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
+import com.dk.project.bowling.ui.activity.MainActivity
 import com.dk.project.bowling.ui.adapter.ClubAdapter
 import com.dk.project.bowling.viewModel.ClubViewModel
 import com.dk.project.post.base.BindFragment
+import com.dk.project.post.utils.TextViewUtil
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
@@ -29,7 +35,6 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     }
 
     override fun registerLiveData() {
-
         viewModel.clubListLiveData.observe(this, Observer {
             if (it.isEmpty()) {
                 binding.emptyClub.visibility = View.VISIBLE
@@ -39,7 +44,6 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             }
 
         })
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -75,7 +79,29 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             })
         }
 
+
+        binding.searchClubEditText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (TextUtils.isEmpty(v.text.toString().trim())) {
+                    Toast.makeText(activity, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
+                } else {
+                    TextViewUtil.hideKeyBoard(activity, binding.searchClubEditText)
+                    (activity as MainActivity).bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+            true
+        }
+
+        setBottomSheetHeight()
         return view
+    }
+
+    private fun setBottomSheetHeight() {
+        binding.searchLayout.postDelayed({
+            var param = (activity as MainActivity).binding.rlBottomSheet.layoutParams
+            param.height = (activity as MainActivity).binding.navigation.height + binding.clubRecycler.height
+            (activity as MainActivity).binding.rlBottomSheet.layoutParams = param
+        }, 1000)
     }
 
     companion object {
