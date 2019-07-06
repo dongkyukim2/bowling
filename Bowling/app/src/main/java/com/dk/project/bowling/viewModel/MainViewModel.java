@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
+import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.ui.activity.WriteActivity;
@@ -26,13 +27,7 @@ public class MainViewModel extends BaseViewModel {
     // 만약, 작업스레드에서 LiveData를 갱신하려면 postValue(T) 메서드를 호출해야 한다.
 
 
-
-    private final MutableLiveData<ScoreModel> scoreListLiveData = new MutableLiveData<>();
-
-    // 점수 등록 했을 때
-    public MutableLiveData<ScoreModel> getScoreListLiveData() {
-        return scoreListLiveData;
-    }
+    private MutableLiveData<ScoreModel> scoreListLiveData;
 
 
     public MainViewModel(@NonNull Application application) {
@@ -43,6 +38,8 @@ public class MainViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         LoginManager.getInstance().setUserCode(mContext.getIntent().getLongExtra(USER_CODE, 0));
+
+        scoreListLiveData = MutableLiveDataManager.getInstance().getWriteScoreLiveData();
     }
 
     @Override

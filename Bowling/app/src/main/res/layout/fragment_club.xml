@@ -28,7 +28,7 @@
                     android:background="#ffffff"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:hint="검색어를 입력해주세요"
+                    android:hint="클럽 이름을 입력해주세요"
                     app:iconifiedByDefault="false"
                     android:maxLength="10"/>
             <ImageView

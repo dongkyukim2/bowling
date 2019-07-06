@@ -1,5 +1,6 @@
 package com.dk.project.bowling.retrofit;
 
+import androidx.core.util.Pair;
 import com.dk.project.bowling.model.*;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.ErrorCallback;
@@ -72,6 +73,26 @@ public class BowlingApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+    // 추천하는 클럽 목록
+    public Disposable getRecommendClubList(SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
+                                           ErrorCallback errorCallback) {
+        return apiService.getRecommendClubList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+    // 내가 가입하고 추천하는 클럽 목록
+    public void getSignUpAndRecommendClubList(SuccessCallback<Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>>> callback, ErrorCallback errorCallback) {
+        Observable.zip(apiService.getSignUpClub().subscribeOn(Schedulers.io()),
+                apiService.getRecommendClubList().subscribeOn(Schedulers.io()),
+                (signUpClubList, recommendClubList) -> Pair.create(signUpClubList, recommendClubList))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess, throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
     // 점수 등록

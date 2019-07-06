@@ -90,8 +90,8 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
 
         for (i in 0 until binding.layoutTab.tabCount) {
-            var textview = ((binding.layoutTab.getTabAt(i)?.view as ViewGroup).getChildAt(1) as AppCompatTextView)
-            textview.setTypeface(textview.typeface, Typeface.BOLD)
+            var textView = ((binding.layoutTab.getTabAt(i)?.view as ViewGroup).getChildAt(1) as AppCompatTextView)
+            textView.setTypeface(textView.typeface, Typeface.BOLD)
         }
 
 

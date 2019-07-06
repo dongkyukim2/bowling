@@ -13,6 +13,10 @@ public class ClubModel implements Parcelable {
     private String clubImage;
     private int count;
 
+    public ClubModel(String clubId) {
+        this.clubId = clubId;
+    }
+
     public ClubModel() {
     }
 

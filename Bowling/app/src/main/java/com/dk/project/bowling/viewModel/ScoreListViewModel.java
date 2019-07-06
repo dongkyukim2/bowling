@@ -31,7 +31,7 @@ public class ScoreListViewModel extends BaseViewModel {
         scoreDate = mContext.getIntent().getStringExtra(SCORE_DATE);
         BowlingApi.getInstance().getScoreDayList(scoreDate,
                 receivedData -> {
-                    if (receivedData.getCode().equals("0000")) {
+                    if (receivedData.isSuccess()) {
                         scoreDayListLiveData.setValue(receivedData.getData());
                     } else {
 

@@ -10,14 +10,6 @@ public class ResponseModel<T> {
         return code.equals("0000");
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public T getData() {
         return data;
     }

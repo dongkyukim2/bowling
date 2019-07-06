@@ -14,16 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.FragmentMainInfoBinding;
 import com.dk.project.bowling.retrofit.MutableLiveDataManager;
-import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.adapter.RecentScoresAdapter;
 import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BindFragment;
 
 public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, MainInfoViewModel> {
-    
+
     private RecentScoresAdapter recentScoresAdapter;
     private GridLayoutManager gridLayoutManager;
-
 
     public static MainInfoFragment newInstance() {
         MainInfoFragment youtubeFragment = new MainInfoFragment();
@@ -45,7 +43,7 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
     protected void registerLiveData() {
 
         //점수 등록했을 때 갱신
-        ((MainActivity) viewModel.getContext()).getViewModel().getScoreListLiveData().observe(this, scoreModel -> {
+        MutableLiveDataManager.getInstance().getWriteScoreLiveData().observe(this, scoreModel -> {
 
         });
 

@@ -3,10 +3,12 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;
 
@@ -16,8 +18,7 @@ import java.util.ArrayList;
 
 public class ClubViewModel extends BaseViewModel {
 
-
-    private MutableLiveData<ArrayList<ClubModel>> clubListLiveData = new MutableLiveData<>();
+    private MutableLiveData<Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>>> clubListLiveData = new MutableLiveData<>();
 
     public ClubViewModel(@NonNull Application application) {
         super(application);
@@ -26,11 +27,8 @@ public class ClubViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-
-        BowlingApi.getInstance().getSignUpClubList(receivedData -> clubListLiveData.setValue(receivedData.getData()),
-                errorData -> {
-
-                });
+        BowlingApi.getInstance().getSignUpAndRecommendClubList(clubListLiveData::setValue, errorData -> {
+        });
     }
 
     @Override
@@ -43,7 +41,7 @@ public class ClubViewModel extends BaseViewModel {
 
     }
 
-    public MutableLiveData<ArrayList<ClubModel>> getClubListLiveData() {
+    public MutableLiveData<Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>>> getClubListLiveData() {
         return clubListLiveData;
     }
 }

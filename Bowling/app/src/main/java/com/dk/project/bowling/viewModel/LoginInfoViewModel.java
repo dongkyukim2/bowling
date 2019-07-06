@@ -54,7 +54,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                 loginInfoModel.setUserName(nickName);
                 executeRx(PostApi.getInstance().signUp(loginInfoModel,
                         receivedData -> {
-                            if (receivedData.getCode().equals("0000")) { // 회원가입성공
+                            if (receivedData.isSuccess()) { // 회원가입성공
                                 Intent intent = new Intent(mContext, MainActivity.class);
                                 intent.putExtra(USER_CODE, userKakaoCode);
                                 mContext.startActivity(intent);

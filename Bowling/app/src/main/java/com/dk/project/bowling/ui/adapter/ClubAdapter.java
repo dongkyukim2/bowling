@@ -3,17 +3,36 @@ package com.dk.project.bowling.ui.adapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.ui.viewHolder.ClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;
 
 public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
 
+    private final int TYPE_SIGN = 0;
+    private final int TYPE_LINE = 1;
+    private final int TYPE_RECOMMEND = 2;
+
+    private int singCLubCount = 0;
+
     private ArrayList<ClubModel> clubList = new ArrayList<>();
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position < singCLubCount) {
+            return TYPE_SIGN;
+        } else if (position == singCLubCount) {
+            return TYPE_LINE;
+        } else {
+            return TYPE_RECOMMEND;
+        }
+    }
 
     @Override
     public ClubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,15 +53,38 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
     }
 
 
-    public void setClubList(ArrayList<ClubModel> clubList) {
-        if (clubList.isEmpty()) {
-            clubList.addAll(clubList);
-            notifyDataSetChanged();
-        } else {
-            DiffUtil.DiffResult result = getDiffUtil(this.clubList, clubList);
-            this.clubList = clubList;
-            result.dispatchUpdatesTo(this);
+    public void setClubList(Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>> clubListModel) {
+        ArrayList<ClubModel> receiveClubList = new ArrayList<>();
+
+
+        if (clubListModel.first.isSuccess() && clubListModel.second.isSuccess()) {
+            ArrayList<ClubModel> filterList = new ArrayList<>();
+            for (ClubModel signClub : clubListModel.first.getData()) {
+                for (ClubModel recommendClub : clubListModel.second.getData()) {
+                    if (signClub.getClubId().equals(recommendClub.getClubId())) {
+                        filterList.add(recommendClub);
+                    }
+                }
+            }
+            clubListModel.second.getData().removeAll(filterList);
         }
+
+
+        // 내가 가입한 클럽 목록
+        if (clubListModel.first.isSuccess()) {
+            receiveClubList.addAll(clubListModel.first.getData());
+            singCLubCount = receiveClubList.size();
+        }
+
+        // 추천 클럽 목록
+        if (clubListModel.second.isSuccess()) {
+            receiveClubList.add(new ClubModel("0"));
+            receiveClubList.addAll(clubListModel.second.getData());
+        }
+
+        DiffUtil.DiffResult result = getDiffUtil(this.clubList, receiveClubList);
+        this.clubList = receiveClubList;
+        result.dispatchUpdatesTo(this);
 
     }
 

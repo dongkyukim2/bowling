@@ -36,13 +36,12 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     override fun registerLiveData() {
         viewModel.clubListLiveData.observe(this, Observer {
-            if (it.isEmpty()) {
-                binding.emptyClub.visibility = View.VISIBLE
-            } else {
-                binding.emptyClub.visibility = View.GONE
+//            if (it.isEmpty()) {
+//                binding.emptyClub.visibility = View.VISIBLE
+//            } else {
+//                binding.emptyClub.visibility = View.GONE
                 clubAdapter.setClubList(it)
-            }
-
+//            }
         })
     }
 
