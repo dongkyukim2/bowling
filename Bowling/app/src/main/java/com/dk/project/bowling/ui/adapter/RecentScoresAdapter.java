@@ -51,9 +51,9 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
         if (viewType == GRAPH_SCORE) {
             MainInfoGraphViewHolder mainInfoGraphViewHolder = new MainInfoGraphViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_main_info_graph, parent, false));
             mainInfoGraphViewHolder.getBinding().scoreGraphLeft.setOnClickListener(v ->
-                    ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().getItem(1)).getBinding().prevMonth.callOnClick());
+                    ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getBinding().prevMonth.callOnClick());
             mainInfoGraphViewHolder.getBinding().scoreGraphRight.setOnClickListener(v ->
-                    ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().getItem(1)).getBinding().nextMonth.callOnClick());
+                    ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getBinding().nextMonth.callOnClick());
             return mainInfoGraphViewHolder;
         } else if (viewType == INFO_SCORE) {
             return new InfoRecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_info_recent_scores, parent, false));
@@ -147,7 +147,7 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
             monthAvg.setMaxScore(scoreAvgModel.getMonthAvg().getMaxScore());
         }
 
-        monthAvg.setPlayDateTime(((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().getItem(1)).getViewModel().getYearMonth());
+        monthAvg.setPlayDateTime(((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel().getYearMonth());
         setRecentScoreList(new ArrayList<>(scoreAvgModel.getMonthAvgList()), true);
 
     }

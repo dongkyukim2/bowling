@@ -11,20 +11,28 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.request.RequestOptions
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubBinding
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
 import com.dk.project.bowling.ui.activity.MainActivity
 import com.dk.project.bowling.ui.adapter.ClubAdapter
+import com.dk.project.bowling.ui.adapter.SignClubViewPagerAdapter
+import com.dk.project.bowling.ui.widget.CustomMarginPageTransformer
 import com.dk.project.bowling.viewModel.ClubViewModel
 import com.dk.project.post.base.BindFragment
+import com.dk.project.post.utils.GlideApp
+import com.dk.project.post.utils.ScreenUtil
 import com.dk.project.post.utils.TextViewUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     private lateinit var clubAdapter: ClubAdapter
+    private lateinit var signClubViewPagerAdapter: SignClubViewPagerAdapter
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_club
@@ -36,11 +44,12 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     override fun registerLiveData() {
         viewModel.clubListLiveData.observe(this, Observer {
-//            if (it.isEmpty()) {
+            //            if (it.isEmpty()) {
 //                binding.emptyClub.visibility = View.VISIBLE
 //            } else {
 //                binding.emptyClub.visibility = View.GONE
-                clubAdapter.setClubList(it)
+            clubAdapter.setClubList(it)
+            signClubViewPagerAdapter.setClubList(it)
 //            }
         })
     }
@@ -79,6 +88,24 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         }
 
 
+
+
+
+        binding.signClubViewPager.apply {
+            setPageTransformer(CustomMarginPageTransformer(ScreenUtil.dpToPixel(60) * -1))
+            signClubViewPagerAdapter = SignClubViewPagerAdapter()
+            offscreenPageLimit = 3
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            adapter = signClubViewPagerAdapter
+//            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//
+//            })
+        }
+
+
+
+
+
         binding.searchClubEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (TextUtils.isEmpty(v.text.toString().trim())) {
@@ -92,6 +119,9 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         }
 
         setBottomSheetHeight()
+        GlideApp.with(this).load(R.drawable.team_default).centerCrop()
+            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 25)))
+            .into(binding.signClubViewPagerBg)
         return view
     }
 

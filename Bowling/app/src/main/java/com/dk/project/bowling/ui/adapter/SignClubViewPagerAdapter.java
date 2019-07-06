@@ -7,26 +7,25 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ClubModel;
-import com.dk.project.bowling.ui.viewHolder.ClubViewHolder;
+import com.dk.project.bowling.ui.viewHolder.SignClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;
 
-public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
+public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubViewHolder> {
 
     private ArrayList<ClubModel> clubList = new ArrayList<>();
 
     @Override
-    public ClubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ClubViewHolder(
+    public SignClubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new SignClubViewHolder(
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.view_holder_club, parent, false));
+                        .inflate(R.layout.view_holder_sign_club, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ClubViewHolder holder, int position) {
-
+    public void onBindViewHolder(SignClubViewHolder holder, int position) {
         holder.onBindView(clubList.get(position), position);
     }
 
@@ -37,26 +36,8 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
 
 
     public void setClubList(Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>> clubListModel) {
-        ArrayList<ClubModel> receiveClubList = new ArrayList<>();
-
-
-        if (clubListModel.first.isSuccess() && clubListModel.second.isSuccess()) {
-            ArrayList<ClubModel> filterList = new ArrayList<>();
-            for (ClubModel signClub : clubListModel.first.getData()) {
-                for (ClubModel recommendClub : clubListModel.second.getData()) {
-                    if (signClub.getClubId().equals(recommendClub.getClubId())) {
-                        filterList.add(recommendClub);
-                    }
-                }
-            }
-            clubListModel.second.getData().removeAll(filterList);
-        }
-
-        receiveClubList.addAll(clubListModel.second.getData());
-
-
-        DiffUtil.DiffResult result = getDiffUtil(this.clubList, receiveClubList);
-        this.clubList = receiveClubList;
+        DiffUtil.DiffResult result = getDiffUtil(this.clubList, clubListModel.first.getData());
+        this.clubList = clubListModel.first.getData();
         result.dispatchUpdatesTo(this);
 
     }
