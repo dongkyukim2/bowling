@@ -49,6 +49,10 @@ public class ScoreModel {
     this.playDateTime = dateFormat.format(date);
   }
 
+  public void setPlayDateTime(String playDateTime) {
+    this.playDateTime = playDateTime;
+  }
+
   public String getComment() {
     return comment;
   }

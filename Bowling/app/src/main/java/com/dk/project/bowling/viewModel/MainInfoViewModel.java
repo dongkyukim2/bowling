@@ -49,22 +49,6 @@ public class MainInfoViewModel extends BaseViewModel {
 
     }
 
-    //처음만 실행
-    public void getMainInfoData() {
-        BowlingApi.getInstance().getTest(recentAvgLiveData::setValue,
-                monthAvgLiveData::setValue,
-                receivedData -> avgListLiveData.setValue(new Pair<>(receivedData, true)),
-                errorData -> Toast.makeText(mContext, "메인정보 가져오기 실패", Toast.LENGTH_SHORT).show());
-    }
-
-    // 하루평균 페이징 처리
-    public void getRecentAvgLive(int count) {
-        BowlingApi.getInstance().getScoreAvgList(count, receivedData ->
-                avgListLiveData.setValue(new Pair<>(receivedData, false)), errorData -> {
-            Toast.makeText(mContext, "하루평균 가져오기 실패", Toast.LENGTH_SHORT).show();
-        });
-    }
-
     public void getScoreDayList(ScoreModel scoreModel) {
         Intent intent = new Intent(mContext, ScoreListActivity.class);
         intent.putExtra(SCORE_DATE, scoreModel.getPlayDate());

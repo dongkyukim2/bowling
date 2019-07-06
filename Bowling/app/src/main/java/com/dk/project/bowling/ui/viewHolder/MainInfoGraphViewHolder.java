@@ -13,7 +13,7 @@ public class MainInfoGraphViewHolder extends BindViewHolder<ViewHolderMainInfoGr
 
     @Override
     public void onBindView(ScoreModel item, int position) {
-        binding.scoreGraph.setBottomText("2019-07");
+        binding.scoreGraph.setBottomText(item.getPlayDateTime());
         binding.scoreGraph.setBottomTextSize(70);
         binding.scoreGraph.setMax(300);
         if (item == null) {

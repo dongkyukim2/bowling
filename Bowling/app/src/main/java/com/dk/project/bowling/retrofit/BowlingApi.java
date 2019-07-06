@@ -121,7 +121,7 @@ public class BowlingApi {
 
     // 월별 평균, 최대, 최소 목록 (일단위)
     public Disposable getScoreMonthAgvDayList(String date,
-                                              SuccessCallback<ResponseModel<ArrayList<ScoreModel>>> callback,
+                                              SuccessCallback<ResponseModel<ScoreAvgModel>> callback,
                                               ErrorCallback errorCallback) {
         return apiService.getScoreMonthAgvDayList(date)
                 .subscribeOn(Schedulers.io())

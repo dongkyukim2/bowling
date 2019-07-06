@@ -1,16 +1,18 @@
 package com.dk.project.bowling.ui.adapter;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
+import com.dk.project.bowling.model.ScoreAvgModel;
 import com.dk.project.bowling.model.ScoreModel;
+import com.dk.project.bowling.ui.activity.MainActivity;
+import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.viewHolder.InfoRecentScoresViewHolder;
 import com.dk.project.bowling.ui.viewHolder.MainInfoGraphViewHolder;
 import com.dk.project.bowling.ui.viewHolder.RecentScoresViewHolder;
-import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindViewHolder;
 
@@ -23,12 +25,13 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
     private final int DAY_SCORE = 2;
 
 
+    private Context context;
     private ScoreModel monthAvg;
     private ArrayList<ScoreModel> recentScoresList = new ArrayList<>();
-    private MainInfoViewModel mainInfoViewModel;
 
-    public RecentScoresAdapter(MainInfoViewModel mainInfoViewModel) {
-        this.mainInfoViewModel = mainInfoViewModel;
+
+    public RecentScoresAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -47,19 +50,16 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
 
         if (viewType == GRAPH_SCORE) {
             MainInfoGraphViewHolder mainInfoGraphViewHolder = new MainInfoGraphViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_main_info_graph, parent, false));
-            mainInfoGraphViewHolder.getBinding().scoreGraphLeft.setOnClickListener(v -> {
-                Toast.makeText(mainInfoGraphViewHolder.getBinding().scoreGraphLeft.getContext(), "이전달", Toast.LENGTH_SHORT).show();
-            });
-            mainInfoGraphViewHolder.getBinding().scoreGraphRight.setOnClickListener(v -> {
-                Toast.makeText(mainInfoGraphViewHolder.getBinding().scoreGraphRight.getContext(), "다음달", Toast.LENGTH_SHORT).show();
-            });
+            mainInfoGraphViewHolder.getBinding().scoreGraphLeft.setOnClickListener(v ->
+                    ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().getItem(1)).getBinding().prevMonth.callOnClick());
+            mainInfoGraphViewHolder.getBinding().scoreGraphRight.setOnClickListener(v ->
+                    ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().getItem(1)).getBinding().nextMonth.callOnClick());
             return mainInfoGraphViewHolder;
         } else if (viewType == INFO_SCORE) {
             return new InfoRecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_info_recent_scores, parent, false));
         } else {
             return new RecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_recent_scores, parent, false));
         }
-
     }
 
     @Override
@@ -135,7 +135,20 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
         return diffResult;
     }
 
-    public void setMonthAvg(ScoreModel monthAvg) {
-        this.monthAvg = monthAvg;
+    public void setScoreAvgModel(ScoreAvgModel scoreAvgModel) {
+        monthAvg = new ScoreModel();
+        if (scoreAvgModel.getMonthAvg() == null) {
+            monthAvg.setAvgScore(0);
+            monthAvg.setMinScore(0);
+            monthAvg.setMaxScore(0);
+        } else {
+            monthAvg.setAvgScore(scoreAvgModel.getMonthAvg().getAvgScore());
+            monthAvg.setMinScore(scoreAvgModel.getMonthAvg().getMinScore());
+            monthAvg.setMaxScore(scoreAvgModel.getMonthAvg().getMaxScore());
+        }
+
+        monthAvg.setPlayDateTime(((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().getItem(1)).getViewModel().getYearMonth());
+        setRecentScoreList(new ArrayList<>(scoreAvgModel.getMonthAvgList()), true);
+
     }
 }

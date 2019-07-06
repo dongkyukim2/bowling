@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.FragmentGraphBinding;
+import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.bowling.ui.adapter.GraphScoreAdapter;
 import com.dk.project.bowling.viewModel.GraphViewModel;
 import com.dk.project.post.base.BindFragment;
@@ -53,9 +54,9 @@ public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewM
             }
         });
 
-        viewModel.getGraphLiveData().observe(this, scoreModels -> {
+        MutableLiveDataManager.getInstance().getScoreMonthAvgList().observe(this, scoreModels -> {
             binding.graphDate.setText(viewModel.getYearMonth());
-            graphScoreAdapter.setGraphScoreList(scoreModels);
+            graphScoreAdapter.setGraphScoreList(scoreModels.getMonthAvgList());
         });
     }
 
@@ -72,6 +73,11 @@ public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewM
         binding.graphRecycler.setAdapter(graphScoreAdapter);
 
         super.onViewCreated(view, savedInstanceState);
-
     }
+
+    public FragmentGraphBinding getBinding() {
+        return binding;
+    }
+
+
 }

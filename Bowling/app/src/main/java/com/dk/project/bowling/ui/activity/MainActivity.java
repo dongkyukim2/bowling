@@ -42,6 +42,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
 
     private BottomSheetBehavior bottomSheetBehavior;
+    private MainViewPagerFragmentAdapter mainViewPagerFragmentAdapter;
 
 
     @Override
@@ -75,7 +76,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         toolbarLeftButton.setVisibility(View.VISIBLE);
         toolbarLeftButton.setImageResource(R.drawable.ic_action_menu);
 
-        MainViewPagerFragmentAdapter mainViewPagerFragmentAdapter = new MainViewPagerFragmentAdapter(this);
+        mainViewPagerFragmentAdapter = new MainViewPagerFragmentAdapter(this);
         mainViewPagerFragmentAdapter.setFragment(MainInfoFragment.newInstance());
         mainViewPagerFragmentAdapter.setFragment(GraphFragment.newInstance());
         mainViewPagerFragmentAdapter.setFragment(ClubFragment.newInstance());
@@ -259,5 +260,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
     public BottomSheetBehavior getBottomSheetBehavior() {
         return bottomSheetBehavior;
+    }
+
+    public MainViewPagerFragmentAdapter getMainViewPagerFragmentAdapter() {
+        return mainViewPagerFragmentAdapter;
     }
 }
