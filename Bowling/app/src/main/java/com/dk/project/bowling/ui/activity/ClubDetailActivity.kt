@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +18,7 @@ import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
+import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.utils.GlideApp
@@ -41,19 +43,19 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        GlideApp.with(this).load(R.drawable.team_default).apply(bitmapTransform(BlurTransformation(25, 25)))
+        /*
+        GlideApp.with(this).load(utils.getDefualtImage()).apply(bitmapTransform(BlurTransformation(25, 25)))
             .into(binding.clubBackImg)
-        ImageUtil.getClubColors(this, R.drawable.team_default) {
+        ImageUtil.getClubColors(this, utils.getDefualtImage()) {
             //            paletteColorLiveData.value = it
             //            binding.createGameBtn.backgroundTintList = ColorStateList.valueOf(it.rgb)
             window.statusBarColor = it.rgb
-
         }
+        */
         toolbar.setBackgroundResource(android.R.color.transparent)
 
-        binding.layoutTab.setSelectedTabIndicatorColor(Color.parseColor("#000000"))
-        binding.layoutTab.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"))
+        binding.layoutTab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.startColor))
+        binding.layoutTab.setTabTextColors(Color.parseColor("#b4b4b4"), ContextCompat.getColor(this, R.color.startColor))
 
         binding.clubViewpager.apply {
             offscreenPageLimit = 2

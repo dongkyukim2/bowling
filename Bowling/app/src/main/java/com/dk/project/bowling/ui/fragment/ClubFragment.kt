@@ -93,7 +93,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
         binding.signClubViewPager.apply {
             setPageTransformer(CustomMarginPageTransformer(ScreenUtil.dpToPixel(60) * -1))
-            signClubViewPagerAdapter = SignClubViewPagerAdapter()
+            signClubViewPagerAdapter = SignClubViewPagerAdapter(activity)
             offscreenPageLimit = 3
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             adapter = signClubViewPagerAdapter
@@ -103,25 +103,22 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         }
 
 
-
-
-
-        binding.searchClubEditText.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (TextUtils.isEmpty(v.text.toString().trim())) {
-                    Toast.makeText(activity, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
-                } else {
-                    TextViewUtil.hideKeyBoard(activity, binding.searchClubEditText)
-                    (activity as MainActivity).bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
-            true
-        }
+//        binding.searchClubEditText.setOnEditorActionListener { v, actionId, event ->
+//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                if (TextUtils.isEmpty(v.text.toString().trim())) {
+//                    Toast.makeText(activity, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    TextViewUtil.hideKeyBoard(activity, binding.searchClubEditText)
+//                    (activity as MainActivity).bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                }
+//            }
+//            true
+//        }
 
         setBottomSheetHeight()
-        GlideApp.with(this).load(R.drawable.team_default).centerCrop()
-            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 25)))
-            .into(binding.signClubViewPagerBg)
+//        GlideApp.with(this).load(R.drawable.team_default_1).centerCrop()
+//            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 25)))
+//            .into(binding.signClubViewPagerBg)
         return view
     }
 

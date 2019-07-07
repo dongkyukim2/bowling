@@ -1,5 +1,7 @@
 package com.dk.project.bowling.ui.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.ClubModel;
+import com.dk.project.bowling.ui.activity.ClubDetailActivity;
 import com.dk.project.bowling.ui.viewHolder.SignClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.retrofit.ResponseModel;
@@ -15,7 +18,12 @@ import java.util.ArrayList;
 
 public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubViewHolder> {
 
+    private Context context;
     private ArrayList<ClubModel> clubList = new ArrayList<>();
+
+    public SignClubViewPagerAdapter(Context context) {
+        this.context = context;
+    }
 
     @Override
     public SignClubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -27,6 +35,11 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
     @Override
     public void onBindViewHolder(SignClubViewHolder holder, int position) {
         holder.onBindView(clubList.get(position), position);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ClubDetailActivity.class);
+            intent.putExtra(CLUB_MODEL, clubList.get(position));
+            context.startActivity(intent);
+        });
     }
 
     @Override

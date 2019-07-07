@@ -10,26 +10,13 @@
                 android:id="@+id/club_title_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/team_default"
-                android:layout_marginTop="30dp"
+                android:background="@drawable/team_default_1"
+                android:layout_marginTop="4dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintWidth_percent="0.85"
+                app:layout_constraintWidth_percent="1"
                 app:layout_constraintDimensionRatio="w,1:1"/>
-
-
-        <TextView
-                android:id="@+id/club_sub_title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="19dp"
-                android:layout_marginBottom="40dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/club_title_image"/>
 
 
         <TextView
@@ -39,11 +26,36 @@
                 android:textColor="#000000"
                 android:textSize="22dp"
                 android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="30dp"
+                android:paddingLeft="20dp"
+                android:layout_marginTop="14dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/club_sub_title_text_view"/>
+                app:layout_constraintTop_toBottomOf="@id/club_title_image"/>
+
+
+        <TextView
+                android:id="@+id/club_sub_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:paddingLeft="20dp"
+                android:textSize="19dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/club_title_text_view"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sign_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/club_title_image"
+                app:layout_constraintRight_toRightOf="@id/club_title_image"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="가입하기"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

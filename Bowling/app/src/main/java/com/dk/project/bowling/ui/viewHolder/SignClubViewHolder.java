@@ -8,9 +8,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ViewHolderSignClubBinding;
 import com.dk.project.bowling.model.ClubModel;
+import com.dk.project.bowling.utils;
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.utils.GlideApp;
 
@@ -22,7 +22,7 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
 
     @Override
     public void onBindView(ClubModel item, int position) {
-        GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(R.drawable.team_default).centerCrop().addListener(new RequestListener<Bitmap>() {
+        GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefualtImage()).centerCrop().addListener(new RequestListener<Bitmap>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                 return false;
@@ -34,7 +34,7 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
                     for (Palette.Swatch swatch : palette.getSwatches()) {
                         if (swatch != null) {
                             binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
-                            binding.clubTitleTextView.setTextColor(swatch.getBodyTextColor());
+//                            binding.clubTitleTextView.setTextColor(swatch.getBodyTextColor());
                             break;
                         }
                     }
