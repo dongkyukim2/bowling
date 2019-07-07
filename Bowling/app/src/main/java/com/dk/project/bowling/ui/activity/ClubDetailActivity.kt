@@ -8,21 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
+import com.google.android.material.tabs.TabLayoutMediator
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
     var paletteColorLiveData = MutableLiveData<Palette.Swatch>()
+    private lateinit var clubDetailPagerAdapter: ClubDetailPagerAdapter
 
     override fun getLayoutId(): Int {
         return R.layout.activity_club_detail
@@ -49,6 +50,9 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         */
         toolbar.setBackgroundResource(android.R.color.transparent)
 
+        toolbarRightButton.visibility = View.VISIBLE;
+        toolbarRightButton.setImageResource(R.drawable.ic_action_plus)
+
         binding.layoutTab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.startColor))
         binding.layoutTab.setTabTextColors(
             Color.parseColor("#b4b4b4"),
@@ -57,44 +61,36 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
-            adapter = ClubDetailPagerAdapter(
-                supportFragmentManager,
-                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
-                viewModel
-            )
-            binding.layoutTab.setupWithViewPager(this)
+            clubDetailPagerAdapter = ClubDetailPagerAdapter(this@ClubDetailActivity, viewModel)
+            adapter = clubDetailPagerAdapter
 
-            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-                }
-
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
                     when (position) {
-                        1 -> binding.createGameBtn.visibility = View.VISIBLE
-                        else -> binding.createGameBtn.visibility = View.GONE
+                        0 -> toolbarRightButton.visibility = View.GONE
+                        else -> toolbarRightButton.visibility = View.VISIBLE
                     }
-                }
-
-                override fun onPageScrollStateChanged(state: Int) {
-
                 }
             })
         }
 
-        binding.createGameBtn.setOnClickListener {
-            var intent = Intent(this, CreateGameActivity::class.java)
-            intent.putExtra(CLUB_MODEL, viewModel.clubModel)
-            startActivityForResult(intent, REFRESH_GAME_LIST)
-        }
 
+        TabLayoutMediator(binding.layoutTab, binding.clubViewpager, true) { tab, position ->
+            tab.text = clubDetailPagerAdapter.getPageTitle(position)
+        }.attach()
 
         for (i in 0 until binding.layoutTab.tabCount) {
             var textView = ((binding.layoutTab.getTabAt(i)?.view as ViewGroup).getChildAt(1) as AppCompatTextView)
             textView.setTypeface(textView.typeface, Typeface.BOLD)
         }
+    }
 
-
+    override fun onToolbarRightClick() {
+        super.onToolbarRightClick()
+        var intent = Intent(this, CreateGameActivity::class.java)
+        intent.putExtra(CLUB_MODEL, viewModel.clubModel)
+        startActivityForResult(intent, REFRESH_GAME_LIST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
