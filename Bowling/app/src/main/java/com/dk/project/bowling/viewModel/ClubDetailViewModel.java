@@ -7,6 +7,7 @@ import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.post.base.BaseViewModel;
 
 import static com.dk.project.post.base.Define.CLUB_MODEL;
+import static com.dk.project.post.base.Define.CLUB_SIGN;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -15,6 +16,7 @@ import static com.dk.project.post.base.Define.CLUB_MODEL;
 public class ClubDetailViewModel extends BaseViewModel {
 
     private ClubModel clubModel;
+    private boolean isSign;
 
     public ClubDetailViewModel(@NonNull Application application) {
         super(application);
@@ -25,6 +27,7 @@ public class ClubDetailViewModel extends BaseViewModel {
     protected void onCreate() {
         super.onCreate();
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
+        isSign = mContext.getIntent().getBooleanExtra(CLUB_SIGN,false);
     }
 
     @Override
@@ -44,5 +47,9 @@ public class ClubDetailViewModel extends BaseViewModel {
 
     public ClubModel getClubModel() {
         return clubModel;
+    }
+
+    public boolean isSign() {
+        return isSign;
     }
 }

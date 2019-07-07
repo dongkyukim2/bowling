@@ -81,8 +81,16 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
 //        binding.sign
 
         arguments?.apply {
-            getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
 
+            getBoolean(CLUB_SIGN).let {
+                if (it) {
+                    binding.signUpBtn.visibility = View.GONE
+                } else {
+                    binding.signUpBtn.visibility = View.VISIBLE
+                }
+            }
+
+            getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
                 (activity as ClubDetailActivity).paletteColorLiveData.observe(this@ClubDetailFragment, Observer {
@@ -98,11 +106,12 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
 
     companion object {
         @JvmStatic
-        fun newInstance(position: Int, clubModel: ClubModel?) =
+        fun newInstance(position: Int, clubModel: ClubModel?, isSign: Boolean) =
             ClubDetailFragment().apply {
                 arguments = Bundle().apply {
                     putInt("position", position)
                     putParcelable(Define.CLUB_MODEL, clubModel)
+                    putBoolean(Define.CLUB_SIGN, isSign)
                 }
             }
     }

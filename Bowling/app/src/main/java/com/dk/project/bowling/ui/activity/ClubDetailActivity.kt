@@ -13,17 +13,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
 import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
-import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
-import com.dk.project.post.utils.GlideApp
-import com.dk.project.post.utils.ImageUtil
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
@@ -55,14 +50,17 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         toolbar.setBackgroundResource(android.R.color.transparent)
 
         binding.layoutTab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.startColor))
-        binding.layoutTab.setTabTextColors(Color.parseColor("#b4b4b4"), ContextCompat.getColor(this, R.color.startColor))
+        binding.layoutTab.setTabTextColors(
+            Color.parseColor("#b4b4b4"),
+            ContextCompat.getColor(this, R.color.startColor)
+        )
 
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
             adapter = ClubDetailPagerAdapter(
                 supportFragmentManager,
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
-                viewModel.clubModel
+                viewModel
             )
             binding.layoutTab.setupWithViewPager(this)
 

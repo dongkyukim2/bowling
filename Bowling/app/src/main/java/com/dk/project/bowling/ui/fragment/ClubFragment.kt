@@ -78,6 +78,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
                             var intent = Intent(mContext, ClubDetailActivity::class.java)
                             var item = clubAdapter.getClubModel(position)
                             intent.putExtra(CLUB_MODEL, item)
+                            intent.putExtra(CLUB_SIGN, false)
                             startActivity(intent)
                             return true
                         }

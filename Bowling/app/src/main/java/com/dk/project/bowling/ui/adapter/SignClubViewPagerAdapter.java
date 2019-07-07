@@ -38,6 +38,7 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ClubDetailActivity.class);
             intent.putExtra(CLUB_MODEL, clubList.get(position));
+            intent.putExtra(CLUB_SIGN, true);
             context.startActivity(intent);
         });
     }
