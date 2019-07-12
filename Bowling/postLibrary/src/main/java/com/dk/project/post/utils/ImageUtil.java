@@ -31,7 +31,6 @@ import com.dk.project.post.model.PostModel;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
@@ -41,6 +40,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import nl.bravobit.ffmpeg.ExecuteBinaryResponseHandler;
+import nl.bravobit.ffmpeg.FFmpeg;
+import nl.bravobit.ffmpeg.FFtask;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -353,6 +355,45 @@ public class ImageUtil implements Define {
 
     public static boolean isDark(int color) {
         return ColorUtils.calculateLuminance(color) < 0.5;
+    }
+
+    public static void ffmpegTestTaskQuit(Context context) {
+
+        if (FFmpeg.getInstance(context).isSupported()) {
+            System.out.println("+++++++++   0000");
+        } else {
+            System.out.println("+++++++++   1111");
+        }
+
+        String[] command = {"-i", "/storage/emulated/0/a.gif", "/storage/emulated/0/a.webp"};
+
+
+        final FFtask task = FFmpeg.getInstance(context).execute(command, new ExecuteBinaryResponseHandler() {
+            @Override
+            public void onStart() {
+                System.out.println("+++++++++   onStart");
+            }
+
+            @Override
+            public void onFinish() {
+                System.out.println("+++++++++   onFinish");
+            }
+
+            @Override
+            public void onSuccess(String message) {
+                System.out.println("+++++++++   onSuccess    " + message);
+            }
+
+            @Override
+            public void onProgress(String message) {
+                System.out.println("+++++++++   onProgress    " + message);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                System.out.println("+++++++++   onFailure    " + message);
+            }
+        });
     }
 }
 

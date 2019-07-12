@@ -30,9 +30,9 @@ public class ClubDetailPagerAdapter extends FragmentStateAdapter {
 
         fragmentList.add(ClubDetailFragment.newInstance(0, viewModel.getClubModel(), viewModel.isSign()));
         fragmentList.add(ClubGameListFragment.newInstance(1, viewModel.getClubModel()));
-        fragmentList.add(ContentsListFragment.newInstance());
+        fragmentList.add(ContentsListFragment.newInstance(viewModel.getClubModel().getClubId()));
     }
-    
+
     public CharSequence getPageTitle(int position) {
         return tabList.get(position);
 

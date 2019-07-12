@@ -1,6 +1,7 @@
 package com.dk.project.bowling.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.viewHolder.InfoRecentScoresViewHolder;
 import com.dk.project.bowling.ui.viewHolder.MainInfoGraphViewHolder;
 import com.dk.project.bowling.ui.viewHolder.RecentScoresViewHolder;
+import com.dk.project.bowling.viewModel.GraphViewModel;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindViewHolder;
 
@@ -147,8 +149,16 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
             monthAvg.setMaxScore(scoreAvgModel.getMonthAvg().getMaxScore());
         }
 
-        monthAvg.setPlayDateTime(((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel().getYearMonth());
-        setRecentScoreList(new ArrayList<>(scoreAvgModel.getMonthAvgList()), true);
+        GraphViewModel graphViewModel = ((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel();
+        if (graphViewModel == null) {
+            new Handler().postDelayed(() -> {
+                monthAvg.setPlayDateTime(((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel().getYearMonth());
+                setRecentScoreList(new ArrayList<>(scoreAvgModel.getMonthAvgList()), true);
+            }, 500);
 
+        } else {
+            monthAvg.setPlayDateTime(((GraphFragment) ((MainActivity) context).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel().getYearMonth());
+            setRecentScoreList(new ArrayList<>(scoreAvgModel.getMonthAvgList()), true);
+        }
     }
 }

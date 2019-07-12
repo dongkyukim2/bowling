@@ -18,12 +18,15 @@ import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
+import com.dk.project.post.ui.activity.WriteActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
     var paletteColorLiveData = MutableLiveData<Palette.Swatch>()
     private lateinit var clubDetailPagerAdapter: ClubDetailPagerAdapter
+
+    var currentPosition = 0
 
     override fun getLayoutId(): Int {
         return R.layout.activity_club_detail
@@ -64,9 +67,13 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             clubDetailPagerAdapter = ClubDetailPagerAdapter(this@ClubDetailActivity, viewModel)
             adapter = clubDetailPagerAdapter
 
+
+            isUserInputEnabled = viewModel.isSign
+
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    currentPosition = position
                     when (position) {
                         0 -> toolbarRightButton.visibility = View.GONE
                         else -> toolbarRightButton.visibility = View.VISIBLE
@@ -88,9 +95,21 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
-        var intent = Intent(this, CreateGameActivity::class.java)
-        intent.putExtra(CLUB_MODEL, viewModel.clubModel)
-        startActivityForResult(intent, REFRESH_GAME_LIST)
+        when (currentPosition) {
+            2 -> {
+                Intent(this, WriteActivity::class.java).let {
+                    it.putExtra("POST_CLUB_ID", viewModel.clubModel.clubId)
+                    startActivity(it)
+                }
+            }
+            else -> {
+                Intent(this, CreateGameActivity::class.java).let {
+                    it.putExtra(CLUB_MODEL, viewModel.clubModel)
+                    startActivityForResult(it, REFRESH_GAME_LIST)
+                }
+
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

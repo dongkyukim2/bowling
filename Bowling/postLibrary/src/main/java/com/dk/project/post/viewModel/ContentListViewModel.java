@@ -44,6 +44,8 @@ public class ContentListViewModel extends BaseViewModel {
     private ContentsListAdapter recyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
+    private String clubId;
+
     public ContentListViewModel(@NonNull Application application) {
         super(application);
         executeRx(RxBus.getInstance().registerRxObserver(pair -> {
@@ -121,9 +123,14 @@ public class ContentListViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
+
+        if (bindFragment.getArguments() != null) {
+            clubId = bindFragment.getArguments().getString("POST_CLUB_ID");
+        }
+
         searchMode = mContext instanceof SearchContentsActivity;
         if (!searchMode) {
-            getPostList(0, null,null, receivedData -> postItemList.setValue(receivedData.getData()),
+            getPostList(0, clubId, null, receivedData -> postItemList.setValue(receivedData.getData()),
                     errorData -> {
                     });
         }
@@ -236,5 +243,9 @@ public class ContentListViewModel extends BaseViewModel {
         } else {
             likeImageView.setImageResource(R.drawable.ic_heart_outline_grey);
         }
+    }
+
+    public String getClubId() {
+        return clubId;
     }
 }

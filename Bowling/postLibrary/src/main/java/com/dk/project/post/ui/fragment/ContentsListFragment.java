@@ -16,6 +16,14 @@ import com.dk.project.post.viewModel.ContentListViewModel;
 
 public class ContentsListFragment extends BindFragment<FragmentContentsListBinding, ContentListViewModel> {
 
+    public static ContentsListFragment newInstance(String cLubId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("POST_CLUB_ID", cLubId);
+        ContentsListFragment contentsListFragment = new ContentsListFragment();
+        contentsListFragment.setArguments(bundle);
+        return contentsListFragment;
+    }
+
     public static ContentsListFragment newInstance() {
         return new ContentsListFragment();
     }
@@ -53,7 +61,7 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
 
         binding.contentsListViewRefresh.setOnRefreshListener(() -> {
 
-            viewModel.getPostList(0, null,null, receivedData -> {
+            viewModel.getPostList(0, null, null, receivedData -> {
                 contentsListAdapter.setClearPostList(receivedData.getData());
                 binding.contentsListViewRefresh.setRefreshing(false);
             }, errorData -> {
@@ -102,7 +110,7 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
                 if (dy > 0 && !isLoading && linearLayoutManager.getItemCount() - 1 == linearLayoutManager.findLastVisibleItemPosition()) {
                     isLoading = true;
 
-                    viewModel.getPostList(linearLayoutManager.getItemCount(), null, null, receivedData -> {
+                    viewModel.getPostList(linearLayoutManager.getItemCount(), viewModel.getClubId(), null, receivedData -> {
                         contentsListAdapter.setMorePostList(receivedData.getData());
                     }, errorData -> {
                     });
