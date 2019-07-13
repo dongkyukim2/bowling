@@ -80,10 +80,6 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             })
         }
 
-
-
-
-
         binding.signClubViewPager.apply {
             setPageTransformer(CustomMarginPageTransformer(ScreenUtil.dpToPixel(46) * -1))
             signClubViewPagerAdapter = SignClubViewPagerAdapter(activity)

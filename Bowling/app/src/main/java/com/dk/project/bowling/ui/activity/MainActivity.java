@@ -118,7 +118,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             return false;
         });
 
-
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
     }
 

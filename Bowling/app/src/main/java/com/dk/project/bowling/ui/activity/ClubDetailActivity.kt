@@ -53,7 +53,6 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         }
         */
 
-
         binding.viewModel = viewModel
 
         toolbar.setBackgroundResource(android.R.color.transparent)
