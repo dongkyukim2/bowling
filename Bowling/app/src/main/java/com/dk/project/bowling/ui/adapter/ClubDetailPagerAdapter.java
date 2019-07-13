@@ -27,7 +27,6 @@ public class ClubDetailPagerAdapter extends FragmentStateAdapter {
         tabList.add("기록");
         tabList.add("게시판");
 
-
         fragmentList.add(ClubDetailFragment.newInstance(0, viewModel.getClubModel(), viewModel.isSign()));
         fragmentList.add(ClubGameListFragment.newInstance(1, viewModel.getClubModel()));
         fragmentList.add(ContentsListFragment.newInstance(viewModel.getClubModel().getClubId()));
@@ -47,6 +46,6 @@ public class ClubDetailPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return tabList.size();
+        return fragmentList.size();
     }
 }

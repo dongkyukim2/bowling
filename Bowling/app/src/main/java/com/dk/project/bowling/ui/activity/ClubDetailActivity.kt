@@ -21,6 +21,7 @@ import com.dk.project.post.base.BindActivity
 import com.dk.project.post.ui.activity.WriteActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
+
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
     var paletteColorLiveData = MutableLiveData<Palette.Swatch>()
@@ -51,9 +52,13 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             window.statusBarColor = it.rgb
         }
         */
+
+
+        binding.viewModel = viewModel
+
         toolbar.setBackgroundResource(android.R.color.transparent)
 
-        toolbarRightButton.visibility = View.VISIBLE;
+        toolbarRightButton.visibility = View.VISIBLE
         toolbarRightButton.setImageResource(R.drawable.ic_action_plus)
 
         binding.layoutTab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.startColor))
@@ -62,14 +67,14 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             ContextCompat.getColor(this, R.color.startColor)
         )
 
+
+        if (viewModel.isSign) binding.layoutTabDisable.visibility = View.GONE
+
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
             clubDetailPagerAdapter = ClubDetailPagerAdapter(this@ClubDetailActivity, viewModel)
             adapter = clubDetailPagerAdapter
-
-
             isUserInputEnabled = viewModel.isSign
-
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)

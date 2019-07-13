@@ -2,17 +2,13 @@ package com.dk.project.bowling.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.*
-import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.request.RequestOptions
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubBinding
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
@@ -22,11 +18,7 @@ import com.dk.project.bowling.ui.adapter.SignClubViewPagerAdapter
 import com.dk.project.bowling.ui.widget.CustomMarginPageTransformer
 import com.dk.project.bowling.viewModel.ClubViewModel
 import com.dk.project.post.base.BindFragment
-import com.dk.project.post.utils.GlideApp
 import com.dk.project.post.utils.ScreenUtil
-import com.dk.project.post.utils.TextViewUtil
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
@@ -93,7 +85,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
 
         binding.signClubViewPager.apply {
-            setPageTransformer(CustomMarginPageTransformer(ScreenUtil.dpToPixel(60) * -1))
+            setPageTransformer(CustomMarginPageTransformer(ScreenUtil.dpToPixel(46) * -1))
             signClubViewPagerAdapter = SignClubViewPagerAdapter(activity)
             offscreenPageLimit = 3
             orientation = ViewPager2.ORIENTATION_HORIZONTAL

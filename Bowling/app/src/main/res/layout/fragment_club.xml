@@ -51,6 +51,7 @@
                     app:layout_constraintTop_toBottomOf="@id/search_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:visibility="gone"
                     app:layout_constraintDimensionRatio="w,1:1"/>
 
             <androidx.viewpager2.widget.ViewPager2
