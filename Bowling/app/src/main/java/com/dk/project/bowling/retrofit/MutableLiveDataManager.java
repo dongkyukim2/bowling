@@ -9,14 +9,10 @@ public class MutableLiveDataManager {
     // 월별 일평균 최대 최소 목록
     private MutableLiveData<ScoreAvgModel> scoreMonthAvgList;
 
-    // 점수등록했을떄 갱신용
-    private MutableLiveData<ScoreModel> writeScoreLiveData;
-
     private static MutableLiveDataManager instance;
 
     private MutableLiveDataManager() {
         scoreMonthAvgList = new MutableLiveData<>();
-        writeScoreLiveData = new MutableLiveData<>();
     }
 
     public static MutableLiveDataManager getInstance() {
@@ -28,9 +24,5 @@ public class MutableLiveDataManager {
 
     public MutableLiveData<ScoreAvgModel> getScoreMonthAvgList() {
         return scoreMonthAvgList;
-    }
-
-    public MutableLiveData<ScoreModel> getWriteScoreLiveData() {
-        return writeScoreLiveData;
     }
 }

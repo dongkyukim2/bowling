@@ -43,7 +43,7 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
     protected void registerLiveData() {
 
         //점수 등록했을 때 갱신
-        MutableLiveDataManager.getInstance().getWriteScoreLiveData().observe(this, scoreModel -> {
+        viewModel.getWriteScoreLiveData().observe(this,scoreModel -> {
 
         });
 

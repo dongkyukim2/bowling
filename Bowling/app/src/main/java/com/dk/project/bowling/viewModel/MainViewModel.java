@@ -39,7 +39,7 @@ public class MainViewModel extends BaseViewModel {
         super.onCreated();
         LoginManager.getInstance().setUserCode(mContext.getIntent().getLongExtra(USER_CODE, 0));
 
-        scoreListLiveData = MutableLiveDataManager.getInstance().getWriteScoreLiveData();
+        scoreListLiveData = new MutableLiveData<>();
     }
 
     @Override
@@ -68,5 +68,9 @@ public class MainViewModel extends BaseViewModel {
             }
             mContext.startActivity(intent);
         }
+    }
+
+    public MutableLiveData<ScoreModel> getScoreListLiveData() {
+        return scoreListLiveData;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.ui.activity.ScoreListActivity;
 import com.dk.project.post.base.BaseViewModel;
@@ -16,14 +17,11 @@ import static com.dk.project.post.base.Define.SCORE_DATE;
 
 public class MainInfoViewModel extends BaseViewModel {
 
+    // 점수등록했을떄 갱신용
+    private MutableLiveData<ScoreModel> writeScoreLiveData = new MutableLiveData<>();
+
     public MainInfoViewModel(@NonNull Application application) {
         super(application);
-    }
-
-    @Override
-    protected void onCreated() {
-        super.onCreated();
-
     }
 
     @Override
@@ -42,4 +40,7 @@ public class MainInfoViewModel extends BaseViewModel {
         mContext.startActivity(intent);
     }
 
+    public MutableLiveData<ScoreModel> getWriteScoreLiveData() {
+        return writeScoreLiveData;
+    }
 }

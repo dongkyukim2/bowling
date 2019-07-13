@@ -52,9 +52,17 @@ public class ContentListViewModel extends BaseViewModel {
             ArrayList<PostModel> newPostList;
             switch (pair.first) {
                 case EVENT_POST_REFRESH:
-                    getPostList(0, null, null, receivedData -> postItemList.setValue(receivedData.getData()),
-                            errorData -> {
-                            });
+                    if (TextUtils.isEmpty(clubId) && pair.second == null) {
+                        getPostList(0, null, null, receivedData -> postItemList.setValue(receivedData.getData()),
+                                errorData -> {
+                                });
+                    }
+                    if (!TextUtils.isEmpty(clubId) && pair.second != null && clubId.equalsIgnoreCase(pair.second.toString())) {
+                        getPostList(0, clubId, null, receivedData -> postItemList.setValue(receivedData.getData()),
+                                errorData -> {
+                                });
+                    }
+
                     break;
                 case EVENT_POST_REFRESH_MODIFY:
                     PostModel modifyPostModel = (PostModel) pair.second;
