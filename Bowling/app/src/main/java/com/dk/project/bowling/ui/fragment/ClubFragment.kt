@@ -64,7 +64,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             })
             addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    if (gestureDetector.onTouchEvent(e)) {
+                    if (gestureDetector.onTouchEvent(e) && rv.findChildViewUnder(e.x, e.y) != null) {
                         rv.findChildViewUnder(e.x, e.y)?.let {
                             val position = rv.getChildAdapterPosition(it)
                             var intent = Intent(mContext, ClubDetailActivity::class.java)
@@ -72,10 +72,12 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
                             intent.putExtra(CLUB_MODEL, item)
                             intent.putExtra(CLUB_SIGN, false)
                             startActivity(intent)
-                            return true
                         }
+//                        return true
                     }
-                    return super.onInterceptTouchEvent(rv, e)
+//                    return super.onInterceptTouchEvent(rv, e)
+
+                    return false
                 }
             })
         }
