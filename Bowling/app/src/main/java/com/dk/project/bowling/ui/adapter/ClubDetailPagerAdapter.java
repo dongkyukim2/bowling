@@ -37,7 +37,6 @@ public class ClubDetailPagerAdapter extends FragmentStateAdapter {
 
     }
 
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -48,4 +47,6 @@ public class ClubDetailPagerAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragmentList.size();
     }
+
+
 }

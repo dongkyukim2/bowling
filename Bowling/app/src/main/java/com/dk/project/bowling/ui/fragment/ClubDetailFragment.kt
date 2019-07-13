@@ -77,17 +77,14 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
 
             }).into(binding.clubTitleImage)
 
-
-//        binding.sign
-
         arguments?.apply {
 
             getBoolean(CLUB_SIGN).let {
-                if (it) {
-                    binding.signUpBtn.visibility = View.GONE
-                } else {
-                    binding.signUpBtn.visibility = View.VISIBLE
-                }
+                //                if (it) {
+//                    binding.signUpBtn.visibility = View.GONE
+//                } else {
+//                    binding.signUpBtn.visibility = View.VISIBLE
+//                }
             }
 
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
@@ -98,7 +95,6 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                     binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
 
                 })
-
             }
         }
         return view

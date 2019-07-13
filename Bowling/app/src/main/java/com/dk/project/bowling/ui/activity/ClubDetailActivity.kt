@@ -43,15 +43,6 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*
-        GlideApp.with(this).load(utils.getDefualtImage()).apply(bitmapTransform(BlurTransformation(25, 25)))
-            .into(binding.clubBackImg)
-        ImageUtil.getClubColors(this, utils.getDefualtImage()) {
-            //            paletteColorLiveData.value = it
-            //            binding.createGameBtn.backgroundTintList = ColorStateList.valueOf(it.rgb)
-            window.statusBarColor = it.rgb
-        }
-        */
 
         binding.viewModel = viewModel
 

@@ -51,10 +51,17 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
 
         // 월평균 목록(일별)
         MutableLiveDataManager.getInstance().getScoreMonthAvgList().observe(this, scoreAvgModel -> {
-            binding.scoreLeft.setText(String.valueOf(scoreAvgModel.getMonthAvg().getMaxScore()));
-            binding.scoreRight.setText(String.valueOf(scoreAvgModel.getMonthAvg().getMinScore()));
-            binding.scoreGraph.setMax(300);
-            binding.scoreGraph.setProgress(scoreAvgModel.getMonthAvg().getAvgScore());
+            if (scoreAvgModel.getMonthAvg() == null) {
+                binding.scoreLeft.setText("0");
+                binding.scoreRight.setText("0");
+                binding.scoreGraph.setMax(300);
+                binding.scoreGraph.setProgress(0);
+            } else {
+                binding.scoreLeft.setText(String.valueOf(scoreAvgModel.getMonthAvg().getMaxScore()));
+                binding.scoreRight.setText(String.valueOf(scoreAvgModel.getMonthAvg().getMinScore()));
+                binding.scoreGraph.setMax(300);
+                binding.scoreGraph.setProgress(scoreAvgModel.getMonthAvg().getAvgScore());
+            }
             recentScoresAdapter.setRecentScoreList(scoreAvgModel.getMonthAvgList(), true);
 
             graphViewModel = ((GraphFragment) ((MainActivity) mContext).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel();
@@ -91,9 +98,8 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                 if (gestureDetector.onTouchEvent(e)) {
                     View child = rv.findChildViewUnder(e.getX(), e.getY());
                     int position = rv.getChildAdapterPosition(child);
-                    if (position > 2) {
-                        viewModel.getScoreDayList(recentScoresAdapter.getItem(position));
-                    }
+                    viewModel.getScoreDayList(recentScoresAdapter.getItem(position));
+                    return true;
                 }
                 return super.onInterceptTouchEvent(rv, e);
             }

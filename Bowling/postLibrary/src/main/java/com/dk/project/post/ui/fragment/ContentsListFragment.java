@@ -61,7 +61,7 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
 
         binding.contentsListViewRefresh.setOnRefreshListener(() -> {
 
-            viewModel.getPostList(0, null, null, receivedData -> {
+            viewModel.getPostList(0, viewModel.getClubId(), null, receivedData -> {
                 contentsListAdapter.setClearPostList(receivedData.getData());
                 binding.contentsListViewRefresh.setRefreshing(false);
             }, errorData -> {
