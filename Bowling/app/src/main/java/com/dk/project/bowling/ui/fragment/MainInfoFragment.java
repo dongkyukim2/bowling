@@ -9,12 +9,13 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.FragmentMainInfoBinding;
 import com.dk.project.bowling.retrofit.MutableLiveDataManager;
+import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.adapter.RecentScoresAdapter;
+import com.dk.project.bowling.viewModel.GraphViewModel;
 import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BindFragment;
 
@@ -22,6 +23,7 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
 
     private RecentScoresAdapter recentScoresAdapter;
     private GridLayoutManager gridLayoutManager;
+    private GraphViewModel graphViewModel;
 
     public static MainInfoFragment newInstance() {
         MainInfoFragment youtubeFragment = new MainInfoFragment();
@@ -43,30 +45,34 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
     protected void registerLiveData() {
 
         //점수 등록했을 때 갱신
-        viewModel.getWriteScoreLiveData().observe(this,scoreModel -> {
+        viewModel.getWriteScoreLiveData().observe(this, scoreModel -> {
 
         });
 
-        MutableLiveDataManager.getInstance().getScoreMonthAvgList().observe(this, recentScoresAdapter::setScoreAvgModel);
+        // 월평균 목록(일별)
+        MutableLiveDataManager.getInstance().getScoreMonthAvgList().observe(this, scoreAvgModel -> {
+            binding.scoreLeft.setText(String.valueOf(scoreAvgModel.getMonthAvg().getMaxScore()));
+            binding.scoreRight.setText(String.valueOf(scoreAvgModel.getMonthAvg().getMinScore()));
+            binding.scoreGraph.setMax(300);
+            binding.scoreGraph.setProgress(scoreAvgModel.getMonthAvg().getAvgScore());
+            recentScoresAdapter.setRecentScoreList(scoreAvgModel.getMonthAvgList(), true);
 
-
+            graphViewModel = ((GraphFragment) ((MainActivity) mContext).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel();
+            if (graphViewModel == null) {
+                binding.scoreGraphDate.postDelayed(() -> {
+                    graphViewModel = ((GraphFragment) ((MainActivity) mContext).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel();
+                    binding.scoreGraphDate.setText(graphViewModel.getYearMonth());
+                }, 300);
+            } else {
+                binding.scoreGraphDate.setText(graphViewModel.getYearMonth());
+            }
+        });
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recentScoresAdapter = new RecentScoresAdapter(mContext);
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        gridLayoutManager.setSpanSizeLookup(new SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (position) {
-                    case 0:
-                        return 2;
-                    default:
-                        return 1;
-                }
-            }
-        });
         binding.recentScoresRecycler.setLayoutManager(gridLayoutManager);
         binding.recentScoresRecycler.setItemAnimator(new DefaultItemAnimator());
         binding.recentScoresRecycler.setAdapter(recentScoresAdapter);
@@ -92,8 +98,7 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                 return super.onInterceptTouchEvent(rv, e);
             }
         });
-
-
+        binding.setViewModel(viewModel);
         super.onViewCreated(view, savedInstanceState);
 
     }

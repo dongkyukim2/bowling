@@ -1,21 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable name="viewModel" type="com.dk.project.bowling.viewModel.MainInfoViewModel"/>
+    </data>
+
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff">
+            android:overScrollMode="never">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recent_scores_recycler"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:overScrollMode="never"/>
+                android:background="#ffffff"
+                android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp">
+
+                    <com.dk.project.bowling.ui.widget.ArcProgress
+                            android:id="@+id/score_graph"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:background="#00ffffff"
+                            app:arc_stroke_width="16dp"
+                            app:arc_unfinished_color="#e6e6e6"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/score_graph_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bamin"
+                            android:textSize="18dp"
+                            android:textColor="@color/startColor"
+                            app:layout_constraintLeft_toLeftOf="@id/score_graph"
+                            app:layout_constraintRight_toRightOf="@id/score_graph"
+                            app:layout_constraintBottom_toBottomOf="@id/score_graph"
+                            android:layout_marginBottom="10dp"
+                            android:text="2019-07"/>
+
+
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/score_graph_right"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:lottie_fileName="right.json"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/score_graph"
+                            app:layout_constraintTop_toTopOf="@id/score_graph"
+                            app:layout_constraintBottom_toBottomOf="@id/score_graph"
+                            android:onClick="@{viewModel::onClick}"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"/>
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/score_graph_left"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:lottie_fileName="left.json"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/score_graph"
+                            app:layout_constraintTop_toTopOf="@id/score_graph"
+                            app:layout_constraintBottom_toBottomOf="@id/score_graph"
+                            app:lottie_autoPlay="true"
+                            android:onClick="@{viewModel::onClick}"
+                            app:lottie_loop="true"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/score_graph_info_left"
+                            app:layout_constraintTop_toBottomOf="@id/score_graph"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintWidth_percent="0.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/score_title_left"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/bamin"
+                                android:text="최고점"
+                                android:textColor="#000000"
+                                android:textSize="18dp"/>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/score_left"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center"
+                                android:fontFamily="@font/bamin"
+                                android:text="0"
+                                android:textColor="#000000"
+                                android:textSize="40dp"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/score_graph_info_right"
+                            app:layout_constraintTop_toBottomOf="@id/score_graph"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintWidth_percent="0.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/score_title_right"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="최저점"
+                                android:fontFamily="@font/bamin"
+                                android:textColor="#000000"
+                                android:textSize="18dp"/>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/score_right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center"
+                                android:text="0"
+                                android:fontFamily="@font/bamin"
+                                android:textColor="#000000"
+                                android:textSize="40dp"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recent_scores_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:overScrollMode="never"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </layout>
