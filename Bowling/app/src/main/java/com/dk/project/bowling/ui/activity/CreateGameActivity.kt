@@ -64,8 +64,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         if (viewModel.isReadMode) {
             toolbarTitle.text = viewModel.readGameModel.gameName
             toolbarRightButton.visibility = View.GONE
-
-
+            binding.addTeam.visibility = View.GONE
         } else {
             toolbarTitle.text = "경기 만들기"
             toolbarRightButton.visibility = View.VISIBLE

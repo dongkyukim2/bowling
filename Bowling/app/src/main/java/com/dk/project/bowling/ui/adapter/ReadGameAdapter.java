@@ -2,6 +2,7 @@ package com.dk.project.bowling.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.model.GameScoreModel;
@@ -17,24 +18,16 @@ import java.util.HashMap;
 public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private ArrayList<LoginInfoModel> userList;
-//    private ReadGameModel readGameModel;
 
     private ArrayList<UserModel> scoreUserList;
 
     private int prevTeamPos = -1;
     private int prevUserPos = -1;
-    private int prevScorePos = -1;
 
 
     public ReadGameAdapter(Context context, ArrayList<LoginInfoModel> userList, ReadGameModel readGameModel) {
 
-
         layoutInflater = LayoutInflater.from(context);
-        this.userList = userList;
-//        this.readGameModel = readGameModel;
-
-
         scoreUserList = new ArrayList<>();
 
         HashMap<String, String> userMap = new HashMap<>();
@@ -52,8 +45,6 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
             String userId = gameScoreModel.getUserId();
             int scorePosition = gameScoreModel.getScorePosition();
             int score = gameScoreModel.getScore();
-            System.out.println("+++++++++++     " + teamPosition + "    " + userPosition + "    " + scorePosition + "    ");
-
 
             if (teamPosition == prevTeamPos) {
 
@@ -65,14 +56,21 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
                     readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()));
                     readUserModel.setScore(scorePosition, score);
                     scoreUserList.add(readUserModel);
-                    prevUserPos = userPosition;
 
                 }
             } else {
                 readUserModel = new UserModel(teamName);
                 scoreUserList.add(readUserModel);
-                prevTeamPos = teamPosition;
+
+                readUserModel = new UserModel(teamName);
+                readUserModel.setViewType(1);
+                readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()));
+                readUserModel.setScore(scorePosition, score);
+                scoreUserList.add(readUserModel);
             }
+
+            prevUserPos = userPosition;
+            prevTeamPos = teamPosition;
         }
     }
 
@@ -84,6 +82,11 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
     @Override
     public void onBindViewHolder(CreateGameViewHolder holder, int position) {
         holder.onBindView(scoreUserList.get(position), position);
+
+        holder.getBinding().userCheckBox.setVisibility(View.GONE);
+        holder.getBinding().userCheckBoxSpace.setVisibility(View.GONE);
+        holder.getBinding().userInviteIcon.setVisibility(View.GONE);
+        holder.getBinding().dragIcon.setVisibility(View.GONE);
 
     }
 

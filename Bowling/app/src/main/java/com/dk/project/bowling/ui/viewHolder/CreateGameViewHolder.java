@@ -22,6 +22,7 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.userNameText.setVisibility(View.INVISIBLE);
             binding.scoreLayout.setVisibility(View.GONE);
             binding.createGameTeamName.setVisibility(View.VISIBLE);
+            binding.userProfileImageView.setVisibility(View.GONE);
 
         } else { // 유저
             binding.userNameText.setText(item.getUserName());
@@ -39,6 +40,7 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.userNameText.setVisibility(View.VISIBLE);
             binding.scoreLayout.setVisibility(View.VISIBLE);
             binding.createGameTeamName.setVisibility(View.INVISIBLE);
+            binding.userProfileImageView.setVisibility(View.VISIBLE);
         }
         if(item.isCheck()){
             binding.userCheckBox.setImageResource(R.drawable.ic_action_check);

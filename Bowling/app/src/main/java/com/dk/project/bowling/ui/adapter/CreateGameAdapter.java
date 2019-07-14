@@ -79,6 +79,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 //        System.out.println("==============   onBindViewHolder   " + position);
 
         holder.getBinding().userInviteIcon.setTag(position);
+        holder.getBinding().dragIcon.setTag(position);
         holder.itemView.setTag(position);
 
         holder.getBinding().gameNum1.setTag(position);

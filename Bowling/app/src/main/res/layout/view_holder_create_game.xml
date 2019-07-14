@@ -6,7 +6,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/create_game_user_layout"
@@ -19,12 +22,28 @@
 
             <ImageView
                     android:id="@+id/user_check_box"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:clickable="false"
                     android:background="@drawable/input_border"
                     android:src="@drawable/ic_action_check"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <View
+                    android:id="@+id/user_check_box_space"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintLeft_toRightOf="@id/user_check_box"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.dk.project.post.ui.widget.CircleImageView
+                    android:id="@+id/user_profile_image_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/user_profile"
+                    app:layout_constraintLeft_toRightOf="@id/user_check_box_space"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -33,7 +52,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/user_check_box"
+                    app:layout_constraintLeft_toRightOf="@id/user_check_box_space"
                     app:layout_constraintRight_toLeftOf="@id/drag_icon"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +60,6 @@
                     android:textStyle="bold"
                     android:textColor="#000000"
                     android:text="A팀"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:visibility="gone"/>
 
@@ -52,7 +70,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/user_check_box"
+                    app:layout_constraintLeft_toRightOf="@id/user_profile_image_view"
                     app:layout_constraintRight_toLeftOf="@id/drag_icon"
                     android:layout_marginLeft="20dp"
                     android:textColor="#000000"
@@ -86,6 +104,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/score_layout"
                 android:layout_width="match_parent"
+                android:layout_marginTop="14dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/create_game_user_layout"
                 app:layout_constraintLeft_toLeftOf="parent">
@@ -97,6 +116,7 @@
                     android:text="1"
                     android:gravity="center"
                     android:textColor="#000000"
+                    android:background="@drawable/input_border"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -108,6 +128,7 @@
                     android:text="100"
                     android:gravity="center"
                     android:textColor="#000000"
+                    android:background="@drawable/input_border"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -121,6 +142,7 @@
                     android:text="2"
                     android:gravity="center"
                     android:textColor="#000000"
+                    android:background="@drawable/input_border"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
                     app:layout_constraintLeft_toRightOf="@id/game_num_1"
@@ -132,6 +154,7 @@
                     android:text="100"
                     android:gravity="center"
                     android:textColor="#000000"
+                    android:background="@drawable/input_border"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
                     app:layout_constraintLeft_toRightOf="@id/game_num_score_1"
@@ -145,6 +168,7 @@
                     android:text="3"
                     android:gravity="center"
                     android:textColor="#000000"
+                    android:background="@drawable/input_border"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
                     app:layout_constraintLeft_toRightOf="@id/game_num_2"
@@ -156,6 +180,7 @@
                     android:layout_height="0dp"
                     android:text="100"
                     android:gravity="center"
+                    android:background="@drawable/input_border"
                     android:textColor="#000000"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
@@ -168,6 +193,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:text="4"
+                    android:background="@drawable/input_border"
                     android:gravity="center"
                     android:textColor="#000000"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
@@ -180,6 +206,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:text="100"
+                    android:background="@drawable/input_border"
                     android:gravity="center"
                     android:textColor="#000000"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
@@ -192,6 +219,7 @@
                     android:id="@+id/game_num_5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:background="@drawable/input_border"
                     android:text="5"
                     android:gravity="center"
                     android:textColor="#000000"
@@ -206,6 +234,7 @@
                     android:layout_height="0dp"
                     android:text="100"
                     android:gravity="center"
+                    android:background="@drawable/input_border"
                     android:textColor="#000000"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
@@ -220,6 +249,7 @@
                     android:text="6"
                     android:gravity="center"
                     android:textColor="#000000"
+                    android:background="@drawable/input_border"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
                     app:layout_constraintDimensionRatio="2:1"
                     app:layout_constraintLeft_toRightOf="@id/game_num_5"
@@ -230,6 +260,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:text="100"
+                    android:background="@drawable/input_border"
                     android:gravity="center"
                     android:textColor="#000000"
                     app:layout_constraintWidth_percent="@dimen/score_percent"
