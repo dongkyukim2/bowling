@@ -1,13 +1,8 @@
 package com.dk.project.bowling.ui.activity
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.palette.graphics.Palette
@@ -19,7 +14,7 @@ import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.ui.activity.WriteActivity
-import com.google.android.material.tabs.TabLayoutMediator
+import com.dk.project.post.utils.ToastUtil
 
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
@@ -51,20 +46,11 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         toolbarRightButton.visibility = View.VISIBLE
         toolbarRightButton.setImageResource(R.drawable.ic_action_plus)
 
-        binding.layoutTab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.startColor))
-        binding.layoutTab.setTabTextColors(
-            Color.parseColor("#b4b4b4"),
-            ContextCompat.getColor(this, R.color.startColor)
-        )
-
-
-        if (viewModel.isSign) binding.layoutTabDisable.visibility = View.GONE
-
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
             clubDetailPagerAdapter = ClubDetailPagerAdapter(this@ClubDetailActivity, viewModel)
             adapter = clubDetailPagerAdapter
-            isUserInputEnabled = viewModel.isSign
+            isUserInputEnabled = false
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
@@ -77,14 +63,31 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             })
         }
 
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+            when (it.getItemId()) {
+                R.id.navigation_home -> {
+                    binding.clubViewpager.setCurrentItem(0, true)
+                    true
+                }
+                R.id.navigation_score_board -> {
+                    if (viewModel.isSign) {
+                        binding.clubViewpager.setCurrentItem(1, true)
+                    } else {
+                        ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
+                    }
+                    true
+                }
+                R.id.navigation_post_board -> {
+                    if (viewModel.isSign) {
+                        binding.clubViewpager.setCurrentItem(2, true)
+                    } else {
+                        ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
+                    }
+                    true
 
-        TabLayoutMediator(binding.layoutTab, binding.clubViewpager, true) { tab, position ->
-            tab.text = clubDetailPagerAdapter.getPageTitle(position)
-        }.attach()
-
-        for (i in 0 until binding.layoutTab.tabCount) {
-            var textView = ((binding.layoutTab.getTabAt(i)?.view as ViewGroup).getChildAt(1) as AppCompatTextView)
-            textView.setTypeface(textView.typeface, Typeface.BOLD)
+                }
+            }
+            false
         }
     }
 

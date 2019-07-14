@@ -64,7 +64,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                     isFirstResource: Boolean
                 ): Boolean {
                     Palette.from(resource!!).generate { palette ->
-                        for (swatch in palette!!.getSwatches()) {
+                        for (swatch in palette!!.swatches) {
                             if (swatch != null) {
                                 binding.signUpBtn.setBackgroundColor(swatch.rgb)
                                 break
@@ -97,6 +97,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                 })
             }
         }
+
         return view
     }
 

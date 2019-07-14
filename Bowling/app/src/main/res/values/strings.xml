@@ -4,4 +4,6 @@
     <string name="title_dashboard">그래프</string>
     <string name="title_club">클럽</string>
     <string name="title_notifications">커뮤니티</string>
+    <string name="title_score_board">기록</string>
+    <string name="title_post_board">게시판</string>
 </resources>
