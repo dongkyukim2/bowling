@@ -1,6 +1,7 @@
 package com.dk.project.bowling.ui.activity
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -12,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateGameBinding
 import com.dk.project.bowling.model.GameModel
-import com.dk.project.bowling.model.ReadGameModel
 import com.dk.project.bowling.model.UserModel
 import com.dk.project.bowling.retrofit.BowlingApi
 import com.dk.project.bowling.ui.adapter.CreateGameAdapter
+import com.dk.project.bowling.ui.adapter.ReadGameAdapter
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback
 import com.dk.project.bowling.viewModel.CreateGameViewModel
 import com.dk.project.post.base.BindActivity
@@ -27,7 +28,7 @@ import com.dk.project.post.utils.AlertDialogUtil
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>() {
 
     private lateinit var createGameAdapter: CreateGameAdapter
-
+    private lateinit var readGameAdapter: ReadGameAdapter
 
     private var deleteMode = false
 
@@ -42,18 +43,18 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
     override fun subscribeToModel() {
 
-        if (viewModel.isReadMode) {
+        viewModel.gameUserLiveData.observe(this, Observer {
 
-        } else {
-            createGameAdapter.checkCountLiveData.observe(this, Observer {
-                deleteMode = it != 0
-                if (deleteMode) {
-                    toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
-                } else {
-                    toolbarRightButton.setImageResource(R.drawable.ic_done)
+            binding.createGameRecyclerView.apply {
+                layoutManager = LinearLayoutManager(this@CreateGameActivity)
+                ReadGameAdapter(this@CreateGameActivity, it, viewModel.readGameModel).let {
+                    adapter = it
+                    readGameAdapter = it
                 }
-            })
-        }
+            }
+
+        })
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +64,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         if (viewModel.isReadMode) {
             toolbarTitle.text = viewModel.readGameModel.gameName
             toolbarRightButton.visibility = View.GONE
+
 
         } else {
             toolbarTitle.text = "경기 만들기"
@@ -89,8 +91,23 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             }
             AlertDialogUtil.showEditTextAlertDialog(this, "팀명을 입력해주세요.", teamTitleClickListener)
         }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        if (viewModel.isReadMode) {
 
 
+        } else {
+            createGameAdapter.checkCountLiveData.observe(this, Observer {
+                deleteMode = it != 0
+                if (deleteMode) {
+                    toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
+                } else {
+                    toolbarRightButton.setImageResource(R.drawable.ic_done)
+                }
+            })
+        }
     }
 
     override fun onToolbarRightClick() {
@@ -107,4 +124,22 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             })
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+
+            Define.CLUB_USER_LIST -> {
+                data?.getParcelableArrayListExtra<UserModel>(Define.CLUB_USER_LIST_MODEL)?.let {
+                    it.map { it.isCheck = false }
+                    createGameAdapter.setInviteUserList(it)
+                }
+            }
+        }
+    }
+
+
 }

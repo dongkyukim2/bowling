@@ -74,4 +74,6 @@ public interface Define {
     int EVENT_DELETE_POST = 1004; // ViewHolder 에서 글삭제
     int EVENT_POST_REFRESH_REPLY_LIKE = 1005; //  ReadActivity에서 댓글이나 좋아요 수 변경 갱신
 
+    int EVENT_REFRESH_SCORE = 1006; //  메인 액티비티에서 점수 등록했을때 갱신하기 위
+
 }

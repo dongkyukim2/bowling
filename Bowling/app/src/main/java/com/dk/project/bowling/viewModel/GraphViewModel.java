@@ -10,20 +10,30 @@ import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.RxBus;
 
 import java.util.Calendar;
+
+import static com.dk.project.post.base.Define.EVENT_REFRESH_SCORE;
 
 public class GraphViewModel extends BaseViewModel {
 
     private Calendar calendar = Calendar.getInstance();
 
-    public GraphViewModel(@NonNull Application application) {
-        super(application);
-    }
-
     private MutableLiveData<Integer> viewTypeLiveData = new MutableLiveData<>();
     private MutableLiveData<ScoreAvgModel> scoreAvgModelMutableLiveData;
     private boolean graphLoading;
+
+    public GraphViewModel(@NonNull Application application) {
+        super(application);
+        executeRx(RxBus.getInstance().registerRxObserver(integerObjectPair -> {
+            switch (integerObjectPair.first) {
+                case EVENT_REFRESH_SCORE:
+                    getMonthAvgList();
+                    break;
+            }
+        }));
+    }
 
     @Override
     protected void onCreated() {
@@ -32,11 +42,7 @@ public class GraphViewModel extends BaseViewModel {
 
         scoreAvgModelMutableLiveData = MutableLiveDataManager.getInstance().getScoreMonthAvgList();
 
-        BowlingApi.getInstance().getScoreMonthAgvDayList(getYearMonth(),
-                receivedData -> {
-                    scoreAvgModelMutableLiveData.setValue(receivedData.getData());
-                    graphLoading = false;
-                }, errorData -> graphLoading = false);
+        getMonthAvgList();
     }
 
     @Override
@@ -62,6 +68,14 @@ public class GraphViewModel extends BaseViewModel {
                                 (dialog, which) -> viewTypeLiveData.setValue(which));
                 break;
         }
+    }
+
+    private void getMonthAvgList() {
+        executeRx(BowlingApi.getInstance().getScoreMonthAgvDayList(getYearMonth(),
+                receivedData -> {
+                    scoreAvgModelMutableLiveData.setValue(receivedData.getData());
+                    graphLoading = false;
+                }, errorData -> graphLoading = false));
     }
 
     public String getYearMonth() {

@@ -3,11 +3,15 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.model.ReadGameModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
+import com.dk.project.post.model.LoginInfoModel;
+
+import java.util.ArrayList;
 
 import static com.dk.project.post.base.Define.CLUB_MODEL;
 
@@ -21,9 +25,11 @@ public class CreateGameViewModel extends BaseViewModel {
     private ClubModel clubModel;
     private boolean readMode;
     private ReadGameModel readGameModel;
+    private MutableLiveData<ArrayList<LoginInfoModel>> gameUserLiveData;
 
     public CreateGameViewModel(@NonNull Application application) {
         super(application);
+        gameUserLiveData = new MutableLiveData<>();
     }
 
 
@@ -34,14 +40,11 @@ public class CreateGameViewModel extends BaseViewModel {
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
         readGameModel = mContext.getIntent().getParcelableExtra(Define.READ_GAME_MODEL);
         readMode = readGameModel != null;
-
-
         if (readMode) {
-            BowlingApi.getInstance().getGameAndScoreList(readGameModel.getGameId(), receivedData -> {
-                System.out.println();
-            }, errorData -> {
-                System.out.println();
-            });
+            BowlingApi.getInstance().getGameUserList(readGameModel.getGameId(),
+                    receivedData -> gameUserLiveData.setValue(receivedData.getData()),
+                    errorData -> {
+                    });
         }
     }
 
@@ -71,5 +74,9 @@ public class CreateGameViewModel extends BaseViewModel {
 
     public ReadGameModel getReadGameModel() {
         return readGameModel;
+    }
+
+    public MutableLiveData<ArrayList<LoginInfoModel>> getGameUserLiveData() {
+        return gameUserLiveData;
     }
 }

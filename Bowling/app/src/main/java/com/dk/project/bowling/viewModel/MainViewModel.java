@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.ui.activity.WriteActivity;
+import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.Utils;
 
 import static com.dk.project.post.base.Define.USER_CODE;
@@ -26,10 +29,6 @@ public class MainViewModel extends BaseViewModel {
     //  Note : 메인스레드에서 LiveData를 갱신하려면 반드시 setValue(T) 메서드를 호출해야 한다.
     // 만약, 작업스레드에서 LiveData를 갱신하려면 postValue(T) 메서드를 호출해야 한다.
 
-
-    private MutableLiveData<ScoreModel> scoreListLiveData;
-
-
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
@@ -38,8 +37,6 @@ public class MainViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         LoginManager.getInstance().setUserCode(mContext.getIntent().getLongExtra(USER_CODE, 0));
-
-        scoreListLiveData = new MutableLiveData<>();
     }
 
     @Override
@@ -53,7 +50,9 @@ public class MainViewModel extends BaseViewModel {
 
     public void writeScore(ScoreModel scoreModel) {
         executeRx(BowlingApi.getInstance().writeScore(scoreModel,
-                receivedData -> scoreListLiveData.setValue(receivedData.getData()),
+                receivedData -> {
+                    RxBus.getInstance().eventPost(Pair.create(Define.EVENT_REFRESH_SCORE,receivedData.getData()));
+                },
                 errorData -> Toast.makeText(mContext, "점수등록 실패", Toast.LENGTH_SHORT).show()));
     }
 
@@ -68,9 +67,5 @@ public class MainViewModel extends BaseViewModel {
             }
             mContext.startActivity(intent);
         }
-    }
-
-    public MutableLiveData<ScoreModel> getScoreListLiveData() {
-        return scoreListLiveData;
     }
 }
