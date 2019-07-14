@@ -36,13 +36,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     override fun registerLiveData() {
         viewModel.clubListLiveData.observe(this, Observer {
-            //            if (it.isEmpty()) {
-//                binding.emptyClub.visibility = View.VISIBLE
-//            } else {
-//                binding.emptyClub.visibility = View.GONE
             clubAdapter.setClubList(it)
             signClubViewPagerAdapter.setClubList(it)
-//            }
         })
     }
 
@@ -73,11 +68,9 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
                             intent.putExtra(CLUB_SIGN, false)
                             startActivity(intent)
                         }
-//                        return true
+                        return true
                     }
-//                    return super.onInterceptTouchEvent(rv, e)
-
-                    return false
+                    return super.onInterceptTouchEvent(rv, e)
                 }
             })
         }
