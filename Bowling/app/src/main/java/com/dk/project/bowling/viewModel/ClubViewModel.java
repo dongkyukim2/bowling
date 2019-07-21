@@ -5,9 +5,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
-import com.dk.project.bowling.model.ClubModel;
-import com.dk.project.bowling.retrofit.BowlingApi;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.bowling.model.ClubModel;
+import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;

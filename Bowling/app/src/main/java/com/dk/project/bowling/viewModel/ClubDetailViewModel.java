@@ -3,8 +3,8 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.view.View;
 import androidx.annotation.NonNull;
-import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.bowling.model.ClubModel;
 
 import static com.dk.project.post.base.Define.CLUB_MODEL;
 import static com.dk.project.post.base.Define.CLUB_SIGN;
@@ -27,7 +27,7 @@ public class ClubDetailViewModel extends BaseViewModel {
     protected void onCreate() {
         super.onCreate();
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
-        isSign = mContext.getIntent().getBooleanExtra(CLUB_SIGN,false);
+        isSign = mContext.getIntent().getBooleanExtra(CLUB_SIGN, false);
     }
 
     @Override

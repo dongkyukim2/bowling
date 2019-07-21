@@ -3,9 +3,9 @@ package com.dk.project.bowling.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.UserModel;
 import com.dk.project.bowling.ui.viewHolder.ClubUserViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.bowling.model.UserModel;
 import io.reactivex.Observable;
 
 import java.util.ArrayList;

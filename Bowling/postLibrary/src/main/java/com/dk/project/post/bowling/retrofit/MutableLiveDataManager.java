@@ -1,8 +1,7 @@
-package com.dk.project.bowling.retrofit;
+package com.dk.project.post.bowling.retrofit;
 
 import androidx.lifecycle.MutableLiveData;
-import com.dk.project.bowling.model.ScoreAvgModel;
-import com.dk.project.bowling.model.ScoreModel;
+import com.dk.project.post.bowling.model.ScoreAvgModel;
 
 public class MutableLiveDataManager {
 

@@ -1,6 +1,6 @@
-package com.dk.project.bowling.retrofit;
+package com.dk.project.post.bowling.retrofit;
 
-import com.dk.project.bowling.BuildConfig;
+import com.dk.project.post.BuildConfig;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ErrorResponse;

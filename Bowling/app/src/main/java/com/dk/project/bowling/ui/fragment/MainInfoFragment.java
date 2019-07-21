@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.FragmentMainInfoBinding;
-import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.adapter.RecentScoresAdapter;
 import com.dk.project.bowling.viewModel.GraphViewModel;
 import com.dk.project.bowling.viewModel.MainInfoViewModel;
 import com.dk.project.post.base.BindFragment;
+import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
 
 public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, MainInfoViewModel> {
 

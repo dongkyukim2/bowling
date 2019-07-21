@@ -1,4 +1,4 @@
-package com.dk.project.bowling.model;
+package com.dk.project.post.bowling.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

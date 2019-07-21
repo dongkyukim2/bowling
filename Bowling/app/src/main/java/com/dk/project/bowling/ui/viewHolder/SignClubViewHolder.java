@@ -9,9 +9,9 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dk.project.bowling.databinding.ViewHolderSignClubBinding;
-import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.utils;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.utils.GlideApp;
 
 public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding, ClubModel> {

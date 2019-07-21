@@ -2,8 +2,8 @@ package com.dk.project.bowling.ui.viewHolder;
 
 import android.view.View;
 import com.dk.project.bowling.databinding.ViewHolderClubGameBinding;
-import com.dk.project.bowling.model.ReadGameModel;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.bowling.model.ReadGameModel;
 
 public class ClubGameViewHolder extends BindViewHolder<ViewHolderClubGameBinding, ReadGameModel> {
 

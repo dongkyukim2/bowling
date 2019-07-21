@@ -6,9 +6,9 @@ import android.view.ViewGroup;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.ReadGameModel;
 import com.dk.project.bowling.ui.viewHolder.ClubGameViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.bowling.model.ReadGameModel;
 
 import java.util.ArrayList;
 

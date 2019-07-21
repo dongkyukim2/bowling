@@ -16,12 +16,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubDetailBinding
-import com.dk.project.bowling.model.ClubModel
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
 import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailHomeViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
+import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.utils.GlideApp
 
 /**

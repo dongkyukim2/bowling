@@ -3,8 +3,8 @@ package com.dk.project.bowling.ui.viewHolder;
 import android.view.View;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ViewHolderCreateGameBinding;
-import com.dk.project.bowling.model.UserModel;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.bowling.model.UserModel;
 
 public class ClubUserViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, UserModel> {
 
@@ -18,7 +18,7 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderCreateGameBindi
         binding.dragIcon.setVisibility(View.INVISIBLE);
         binding.userCheckBox.setClickable(false);
 
-        if(item.isCheck()){
+        if (item.isCheck()) {
             binding.userCheckBox.setImageResource(R.drawable.ic_action_check);
         } else {
             binding.userCheckBox.setImageResource(R.drawable.ic_action_uncheck);

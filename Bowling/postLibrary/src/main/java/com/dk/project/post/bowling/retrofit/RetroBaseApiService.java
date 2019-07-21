@@ -1,6 +1,6 @@
-package com.dk.project.bowling.retrofit;
+package com.dk.project.post.bowling.retrofit;
 
-import com.dk.project.bowling.model.*;
+import com.dk.project.post.bowling.model.*;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.ResponseModel;
 import io.reactivex.Observable;

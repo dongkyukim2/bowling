@@ -5,11 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.GameScoreModel;
-import com.dk.project.bowling.model.ReadGameModel;
-import com.dk.project.bowling.model.UserModel;
 import com.dk.project.bowling.ui.viewHolder.CreateGameViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.bowling.model.GameScoreModel;
+import com.dk.project.post.bowling.model.ReadGameModel;
+import com.dk.project.post.bowling.model.UserModel;
 import com.dk.project.post.model.LoginInfoModel;
 
 import java.util.ArrayList;

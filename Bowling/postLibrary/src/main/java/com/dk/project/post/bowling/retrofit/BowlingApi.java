@@ -1,7 +1,7 @@
-package com.dk.project.bowling.retrofit;
+package com.dk.project.post.bowling.retrofit;
 
 import androidx.core.util.Pair;
-import com.dk.project.bowling.model.*;
+import com.dk.project.post.bowling.model.*;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ResponseModel;

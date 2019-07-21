@@ -3,8 +3,8 @@ package com.dk.project.bowling.ui.viewHolder;
 import android.text.TextUtils;
 import android.view.View;
 import com.dk.project.bowling.databinding.ViewHolderDayScoresBinding;
-import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.bowling.model.ScoreModel;
 
 public class DayScoreViewHolder extends BindViewHolder<ViewHolderDayScoresBinding, ScoreModel> {
 

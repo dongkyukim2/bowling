@@ -1,4 +1,4 @@
-package com.dk.project.bowling.model;
+package com.dk.project.post.bowling.model;
 
 import android.os.Parcel;
 import com.dk.project.post.model.LoginInfoModel;

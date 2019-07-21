@@ -1,6 +1,5 @@
 package com.dk.project.bowling.ui.fragment;
 
-
 import android.os.Bundle;
 import android.view.View;
 import androidx.annotation.NonNull;
@@ -11,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.FragmentGraphBinding;
-import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.bowling.ui.adapter.GraphScoreAdapter;
 import com.dk.project.bowling.viewModel.GraphViewModel;
 import com.dk.project.post.base.BindFragment;
+import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
 
 public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewModel> {
 

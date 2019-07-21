@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubGameListBinding
-import com.dk.project.bowling.model.ClubModel
 import com.dk.project.bowling.ui.activity.CreateGameActivity
 import com.dk.project.bowling.ui.adapter.ClubGameListAdapter
 import com.dk.project.bowling.viewModel.ClubScoreListViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
+import com.dk.project.post.bowling.model.ClubModel
 
 class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScoreListViewModel>() {
 

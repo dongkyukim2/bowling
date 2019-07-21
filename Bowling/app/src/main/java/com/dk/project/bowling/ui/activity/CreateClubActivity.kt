@@ -6,10 +6,10 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateClubBinding
-import com.dk.project.bowling.model.ClubModel
-import com.dk.project.bowling.retrofit.BowlingApi
 import com.dk.project.bowling.viewModel.CreateClubViewModel
 import com.dk.project.post.base.BindActivity
+import com.dk.project.post.bowling.model.ClubModel
+import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.retrofit.ErrorCallback
 import com.dk.project.post.retrofit.SuccessCallback
 

@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.ClubModel;
 import com.dk.project.bowling.ui.activity.ClubDetailActivity;
 import com.dk.project.bowling.ui.viewHolder.SignClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;

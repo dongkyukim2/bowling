@@ -6,11 +6,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.activity.ScoreListActivity;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.bowling.model.ScoreModel;
 
 import static com.dk.project.post.base.Define.SCORE_DATE;
 

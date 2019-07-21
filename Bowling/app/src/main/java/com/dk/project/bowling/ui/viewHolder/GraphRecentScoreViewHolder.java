@@ -3,8 +3,8 @@ package com.dk.project.bowling.ui.viewHolder;
 import android.view.View;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.dk.project.bowling.databinding.ViewHolderGraphScoresBinding;
-import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.utils.Utils;
 
 public class GraphRecentScoreViewHolder extends BindViewHolder<ViewHolderGraphScoresBinding, ScoreModel> {

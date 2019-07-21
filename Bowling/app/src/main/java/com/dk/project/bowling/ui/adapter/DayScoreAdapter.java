@@ -3,9 +3,9 @@ package com.dk.project.bowling.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.ui.viewHolder.DayScoreViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.bowling.model.ScoreModel;
 
 import java.util.ArrayList;
 

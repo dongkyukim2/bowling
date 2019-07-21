@@ -715,6 +715,5 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
                 }
             });
         }
-
     }
 }
