@@ -115,4 +115,12 @@ public class WriteViewModel extends BaseViewModel {
             mContext.startService(new Intent(mContext, CommunityService.class));
         }
     }
+
+    public String getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(String clubId) {
+        this.clubId = clubId;
+    }
 }

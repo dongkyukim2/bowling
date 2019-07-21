@@ -23,6 +23,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
+import com.dk.project.post.bowling.model.ClubModel;
+import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.databinding.ActivityWriteBinding;
 import com.dk.project.post.manager.LoginManager;
@@ -60,6 +62,8 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
     private Camera2BasicFragment camera2BasicFragment;
     private File picFile;
     private int cameraPaddind;
+
+    private ArrayList<ClubModel> signClubList = new ArrayList<>();
 
 
     private View.OnClickListener editTextClick = view -> {
@@ -422,43 +426,23 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
             Toast.makeText(this, "로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < binding.inputParentView.getChildCount(); i++) {
-            View view = binding.inputParentView.getChildAt(i);
-            if (view instanceof LinearLayout) {
-                MediaSelectListModel mediaTag = (MediaSelectListModel) view.getTag();
-//                if (tag instanceof String) {
-//                    writePostModel.getImageList().add(new MediaSelectListModel(youtubeUrl.replace(YOUTUBE_SHARE_URL, "")));
-//                    stringBuffer.append(IMAGE_DIVIDER);
-//                } else {
-                writePostModel.getImageList().add(mediaTag);
-                stringBuffer.append(IMAGE_DIVIDER);
-//                }
+        System.out.println("+++++++++++      " + viewModel.getClubId());
+        if (TextUtils.isEmpty(viewModel.getClubId())) {
+            System.out.println("+++++++++++      " + signClubList.size());
+            if (signClubList.isEmpty()) {
+
             } else {
-                String inputText = ((AppCompatEditText) view).getText().toString().trim();
-                if ((i == 0 || i == binding.inputParentView.getChildCount() - 1) && TextUtils.isEmpty(inputText)) {
-                    continue;
+                CharSequence[] items = new CharSequence[signClubList.size()];
+                for (int i = 0; i < signClubList.size(); i++) {
+                    ClubModel clubModel = signClubList.get(i);
+                    items[i] = clubModel.getClubTitle();
                 }
-                stringBuffer.append(inputText);
+                AlertDialogUtil.showListAlertDialog(this, null, items, (dialog, which) -> {
+                    viewModel.setClubId(signClubList.get(which).getClubId());
+                    finishPost();
+                });
             }
         }
-        if (stringBuffer.toString().isEmpty()) {
-            Toast.makeText(this, "내용을 입력해주세요", Toast.LENGTH_SHORT).show();
-            writePostModel.getImageList().clear();
-            return;
-        }
-        writePostModel.setInputText(stringBuffer.toString());
-
-        if (modifyPostModel != null) {
-            writePostModel.setPostId(modifyPostModel.getPostId());
-            writePostModel.setIdx(modifyPostModel.getIdx());
-            writePostModel.setWriteDate(modifyPostModel.getWriteDate());
-            viewModel.modifyPost(writePostModel);
-            setResult(RESULT_OK);
-        } else {
-            viewModel.writePost(writePostModel);
-        }
-        finish();
     }
 
     @Override
@@ -520,6 +504,46 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
             return;
         }
         super.onBackPressed();
+    }
+
+    private void finishPost() {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < binding.inputParentView.getChildCount(); i++) {
+            View view = binding.inputParentView.getChildAt(i);
+            if (view instanceof LinearLayout) {
+                MediaSelectListModel mediaTag = (MediaSelectListModel) view.getTag();
+//                if (tag instanceof String) {
+//                    writePostModel.getImageList().add(new MediaSelectListModel(youtubeUrl.replace(YOUTUBE_SHARE_URL, "")));
+//                    stringBuffer.append(IMAGE_DIVIDER);
+//                } else {
+                writePostModel.getImageList().add(mediaTag);
+                stringBuffer.append(IMAGE_DIVIDER);
+//                }
+            } else {
+                String inputText = ((AppCompatEditText) view).getText().toString().trim();
+                if ((i == 0 || i == binding.inputParentView.getChildCount() - 1) && TextUtils.isEmpty(inputText)) {
+                    continue;
+                }
+                stringBuffer.append(inputText);
+            }
+        }
+        if (stringBuffer.toString().isEmpty()) {
+            Toast.makeText(this, "내용을 입력해주세요", Toast.LENGTH_SHORT).show();
+            writePostModel.getImageList().clear();
+            return;
+        }
+        writePostModel.setInputText(stringBuffer.toString());
+
+        if (modifyPostModel != null) {
+            writePostModel.setPostId(modifyPostModel.getPostId());
+            writePostModel.setIdx(modifyPostModel.getIdx());
+            writePostModel.setWriteDate(modifyPostModel.getWriteDate());
+            viewModel.modifyPost(writePostModel);
+            setResult(RESULT_OK);
+        } else {
+            viewModel.writePost(writePostModel);
+        }
+        finish();
     }
 
     private void addLastEditText() {
@@ -702,10 +726,13 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
                                 if (receivedData.getData() == null) {
                                 } else { // 세션 열려있고 디비에 가입도 되어있음
                                     LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-                                    Toast.makeText(WriteActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                                    BowlingApi.getInstance().getSignUpClubList(receiveCignClubList -> {
+                                        signClubList.clear();
+                                        signClubList.addAll(receiveCignClubList.getData());
+                                    }, errorData -> {
+                                    });
                                 }
                             }, errorData -> {
-
                             }));
                 }
 
