@@ -25,7 +25,7 @@ public interface RetroBaseApiService {
     @GET("community/bowling/avg/")
     Observable<ResponseModel<ArrayList<ScoreModel>>> getScoreAvgList(@Query("count") int count);
 
-    // 특정월의 평균, 최소 최대 점수와 그에 따른 목
+    // 특정월의 평균, 최소 최대 점수와 그에 따른 목록
     @GET("community/bowling/monthAvgDays/")
     Observable<ResponseModel<ScoreAvgModel>> getScoreMonthAgvDayList(@Query("date") String date);
 

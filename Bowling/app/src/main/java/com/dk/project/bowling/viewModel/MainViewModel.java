@@ -7,18 +7,13 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
-import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.model.ScoreModel;
 import com.dk.project.bowling.retrofit.BowlingApi;
-import com.dk.project.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
-import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.Utils;
-
-import static com.dk.project.post.base.Define.USER_CODE;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -36,7 +31,6 @@ public class MainViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        LoginManager.getInstance().setUserCode(mContext.getIntent().getLongExtra(USER_CODE, 0));
     }
 
     @Override
@@ -51,7 +45,7 @@ public class MainViewModel extends BaseViewModel {
     public void writeScore(ScoreModel scoreModel) {
         executeRx(BowlingApi.getInstance().writeScore(scoreModel,
                 receivedData -> {
-                    RxBus.getInstance().eventPost(Pair.create(Define.EVENT_REFRESH_SCORE,receivedData.getData()));
+                    RxBus.getInstance().eventPost(Pair.create(Define.EVENT_REFRESH_SCORE, receivedData.getData()));
                 },
                 errorData -> Toast.makeText(mContext, "점수등록 실패", Toast.LENGTH_SHORT).show()));
     }

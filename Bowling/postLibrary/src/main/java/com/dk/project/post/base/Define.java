@@ -6,7 +6,6 @@ package com.dk.project.post.base;
 
 public interface Define {
 
-    String USER_CODE = "USER_CODE";
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
     String CLUB_SIGN = "CLUB_SIGN";

@@ -9,10 +9,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.PostApi;
-
-import static com.dk.project.post.base.Define.USER_CODE;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -55,8 +54,8 @@ public class LoginInfoViewModel extends BaseViewModel {
                 executeRx(PostApi.getInstance().signUp(loginInfoModel,
                         receivedData -> {
                             if (receivedData.isSuccess()) { // 회원가입성공
+                                LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
                                 Intent intent = new Intent(mContext, MainActivity.class);
-                                intent.putExtra(USER_CODE, userKakaoCode);
                                 mContext.startActivity(intent);
                                 mContext.finish();
                             } else {

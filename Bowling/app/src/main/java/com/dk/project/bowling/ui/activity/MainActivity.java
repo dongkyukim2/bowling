@@ -109,7 +109,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
                     UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
                         @Override
                         public void onCompleteLogout() {
-                            LoginManager.getInstance().setUserCode(0);
+                            LoginManager.getInstance().setLoginInfoModel(null);
                             finish();
                         }
                     });
@@ -125,6 +125,12 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         viewModel.checkShare();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoginManager.getInstance().setLoginInfoModel(null);
     }
 
     @Override

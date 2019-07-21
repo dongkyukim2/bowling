@@ -15,9 +15,6 @@ import com.dk.project.post.utils.KakaoLoginUtils;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
-
-import static com.dk.project.post.base.Define.USER_CODE;
-
 /**
  * Created by dkkim on 2017-10-04.
  */
@@ -71,7 +68,6 @@ public class IntroViewModel extends BaseViewModel {
                                     } else { // 세션 열려있고 디비에 가입도 되어있음
                                         LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
                                         Intent intent = new Intent(mContext, MainActivity.class);
-                                        intent.putExtra(USER_CODE, userKakaoCode);
                                         mContext.startActivity(intent);
                                         mContext.finish();
 

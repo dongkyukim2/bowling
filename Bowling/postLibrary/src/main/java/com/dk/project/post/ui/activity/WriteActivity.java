@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.ViewModelProviders;
 import com.dk.project.post.R;
@@ -24,12 +25,17 @@ import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.databinding.ActivityWriteBinding;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
+import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.fragment.Camera2BasicFragment;
 import com.dk.project.post.utils.*;
 import com.dk.project.post.viewModel.WriteViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
@@ -287,6 +293,12 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
     }
 
     @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        isLogin();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK) {
@@ -406,6 +418,10 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
 
     @Override
     public void onToolbarRightClick() {
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            Toast.makeText(this, "로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < binding.inputParentView.getChildCount(); i++) {
             View view = binding.inputParentView.getChildAt(i);
@@ -672,5 +688,33 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
             }
         }
         return count;
+    }
+
+    private void isLogin() {
+        // todo 로그인되어있으면 열려있는듯
+        if (KakaoLoginUtils.checkLogin()) {
+            KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    long userKakaoCode = result.getId();
+                    viewModel.executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
+                            receivedData -> {
+                                if (receivedData.getData() == null) {
+                                } else { // 세션 열려있고 디비에 가입도 되어있음
+                                    LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
+                                    Toast.makeText(WriteActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                                }
+                            }, errorData -> {
+
+                            }));
+                }
+
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+
+                }
+            });
+        }
+
     }
 }

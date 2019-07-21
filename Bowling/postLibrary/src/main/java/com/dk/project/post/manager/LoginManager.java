@@ -20,26 +20,16 @@ public class LoginManager {
         return String.valueOf(userCode);
     }
 
-    public void setUserCode(long userCode) {
-        this.userCode = userCode;
-        if (userCode == 0) {
-            loginInfoModel = null;
-        }
-    }
-
-    public static LoginManager getLoginManager() {
-        return loginManager;
-    }
-
-    public static void setLoginManager(LoginManager loginManager) {
-        LoginManager.loginManager = loginManager;
-    }
-
     public LoginInfoModel getLoginInfoModel() {
         return loginInfoModel;
     }
 
     public void setLoginInfoModel(LoginInfoModel loginInfoModel) {
         this.loginInfoModel = loginInfoModel;
+        if (loginInfoModel == null) {
+            userCode = 0;
+        } else {
+            userCode = Long.parseLong(loginInfoModel.getUserId());
+        }
     }
 }
