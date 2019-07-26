@@ -15,6 +15,7 @@ import com.dk.project.post.utils.KakaoLoginUtils;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
+
 /**
  * Created by dkkim on 2017-10-04.
  */
@@ -97,7 +98,6 @@ public class IntroViewModel extends BaseViewModel {
 //            loginInfoModel.setUserId("1087708735");
 //            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
 //            Intent intent = new Intent(mContext, MainActivity.class);
-//            intent.putExtra(USER_CODE, 1087708735l);
 //            mContext.startActivity(intent);
 //            mContext.finish();
         }

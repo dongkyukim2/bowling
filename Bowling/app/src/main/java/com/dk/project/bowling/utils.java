@@ -27,7 +27,16 @@ public class utils {
         return sp * scale;
     }
 
-    public static int getDefualtImage() {
-        return imageArray[new Random().nextInt(6)];
+    public static int getDefaultImageIndex() {
+        return new Random().nextInt(6);
     }
+
+    public static int getDefaultImage() {
+        return imageArray[getDefaultImageIndex()];
+    }
+
+    public static int getDefaultImage(int index) {
+        return imageArray[index];
+    }
+
 }

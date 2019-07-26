@@ -22,7 +22,7 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
 
     @Override
     public void onBindView(ClubModel item, int position) {
-        GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefualtImage()).centerCrop().addListener(new RequestListener<Bitmap>() {
+        GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefaultImage()).centerCrop().addListener(new RequestListener<Bitmap>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                 return false;

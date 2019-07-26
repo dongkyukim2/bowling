@@ -45,7 +45,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         view = super.onCreateView(inflater, container, savedInstanceState)
 
 
-        GlideApp.with(activity!!).asBitmap().load(utils.getDefualtImage()).centerCrop()
+        GlideApp.with(activity!!).asBitmap().load(utils.getDefaultImage()).centerCrop()
             .addListener(object : RequestListener<Bitmap> {
                 override fun onLoadFailed(
                     e: GlideException?,
