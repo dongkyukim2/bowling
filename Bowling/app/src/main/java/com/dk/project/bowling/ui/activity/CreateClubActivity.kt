@@ -37,7 +37,6 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
 
         toolbarRightButton.visibility = View.VISIBLE
 
-
         defaultImageIndex = utils.getDefaultImageIndex()
 
         GlideApp.with(this).load(utils.getDefaultImage(defaultImageIndex)).into(binding.clubTitleImageView)
@@ -49,6 +48,7 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
         BowlingApi.getInstance().createClub(ClubModel().apply {
             clubTitle = binding.clubTitleTextView.text.toString()
             clubInfo = binding.clubSubTitleTextView.text.toString()
+            clubImage = defaultImageIndex.toString()
         }, SuccessCallback {
             finish()
         }, ErrorCallback {

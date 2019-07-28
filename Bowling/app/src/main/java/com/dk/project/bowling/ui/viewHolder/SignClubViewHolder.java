@@ -22,26 +22,50 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
 
     @Override
     public void onBindView(ClubModel item, int position) {
-        GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefaultImage()).centerCrop().addListener(new RequestListener<Bitmap>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                return false;
-            }
 
-            @Override
-            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                Palette.from(resource).generate(palette -> {
-                    for (Palette.Swatch swatch : palette.getSwatches()) {
-                        if (swatch != null) {
-                            binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
-//                            binding.clubTitleTextView.setTextColor(swatch.getBodyTextColor());
-                            break;
+
+        if (item.getClubImage().length() == 1) {
+            GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefaultImage(Integer.valueOf(item.getClubImage()))).centerCrop().addListener(new RequestListener<Bitmap>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                    Palette.from(resource).generate(palette -> {
+                        for (Palette.Swatch swatch : palette.getSwatches()) {
+                            if (swatch != null) {
+                                binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
+                                break;
+                            }
                         }
-                    }
-                });
-                return false;
-            }
-        }).into(binding.clubImageView);
+                    });
+                    return false;
+                }
+            }).into(binding.clubImageView);
+        } else {
+            GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefaultImage(Integer.valueOf(item.getClubImage()))).centerCrop().addListener(new RequestListener<Bitmap>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                    Palette.from(resource).generate(palette -> {
+                        for (Palette.Swatch swatch : palette.getSwatches()) {
+                            if (swatch != null) {
+                                binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
+                                break;
+                            }
+                        }
+                    });
+                    return false;
+                }
+            }).into(binding.clubImageView);
+        }
+
         binding.clubTitleTextView.setText(item.getClubTitle());
     }
 }

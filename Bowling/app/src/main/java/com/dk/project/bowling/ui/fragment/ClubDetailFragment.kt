@@ -29,6 +29,7 @@ import com.dk.project.post.utils.GlideApp
  *
  */
 class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHomeViewModel>() {
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_club_detail
     }
@@ -44,6 +45,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
 
+        binding.viewModel = viewModel
 
         GlideApp.with(activity!!).asBitmap().load(utils.getDefaultImage()).centerCrop()
             .addListener(object : RequestListener<Bitmap> {
@@ -80,11 +82,12 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         arguments?.apply {
 
             getBoolean(CLUB_SIGN).let {
-                //                if (it) {
-//                    binding.signUpBtn.visibility = View.GONE
-//                } else {
-//                    binding.signUpBtn.visibility = View.VISIBLE
-//                }
+                viewModel.setClubSign(it)
+                if (it) {
+                    binding.signUpBtn.text = "탈퇴하기"
+                } else {
+                    binding.signUpBtn.text = "가입하기"
+                }
             }
 
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
