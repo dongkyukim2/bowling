@@ -1,6 +1,7 @@
 package com.dk.project.bowling.ui.activity;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityIntroBinding;
 import com.dk.project.bowling.viewModel.IntroViewModel;
@@ -15,7 +16,7 @@ public class IntroActivity extends BindActivity<ActivityIntroBinding, IntroViewM
 
     @Override
     protected IntroViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(IntroViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(IntroViewModel.class);
     }
 
     @Override
