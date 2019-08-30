@@ -215,4 +215,16 @@ public class BowlingApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
+
+    // 클럽 게임에 참여한 유저 목록
+    public Disposable setModifyClubUserType(ClubUserModel clubUserModel,
+                                      SuccessCallback<ResponseModel<ClubUserModel>> callback,
+                                      ErrorCallback errorCallback) {
+        return apiService.setModifyClubUserType(clubUserModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
 }

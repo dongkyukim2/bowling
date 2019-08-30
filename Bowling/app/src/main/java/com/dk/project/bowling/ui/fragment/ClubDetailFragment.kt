@@ -99,6 +99,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
+                viewModel.setClubModel(this)
                 (activity as ClubDetailActivity).paletteColorLiveData.observe(
                     this@ClubDetailFragment,
                     Observer {

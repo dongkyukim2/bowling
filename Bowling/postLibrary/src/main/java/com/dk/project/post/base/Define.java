@@ -14,6 +14,8 @@ public interface Define {
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
     String CLUB_USER_LIST_MODEL = "CLUB_USER_LIST";
 
+    String CLUB_ID = "CLUB_ID";
+
     String READ_GAME_MODEL = "READ_GAME_MODEL";
 
     boolean ON_CREATE_LOG = false;
@@ -54,6 +56,8 @@ public interface Define {
     int MODIFY_POST = 5000;
     int CLUB_USER_LIST = 1597;
 
+    int CLUB_DETAIL = 5275;
+
     int REFRESH_GAME_LIST = 2597;
 
 
@@ -75,6 +79,30 @@ public interface Define {
     int EVENT_DELETE_POST = 1004; // ViewHolder 에서 글삭제
     int EVENT_POST_REFRESH_REPLY_LIKE = 1005; //  ReadActivity에서 댓글이나 좋아요 수 변경 갱신
 
-    int EVENT_REFRESH_SCORE = 1006; //  메인 액티비티에서 점수 등록했을때 갱신하기 위
+    int EVENT_REFRESH_SCORE = 1006; //  메인 액티비티에서 점수 등록했을때 갱신하기 위해
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    0 : 가입 완료
+    1 : 클럽 주인 (당연 가립된 상태)
+    2 : 가입 승인대기
+    3 : 탈퇴
+    4 : 강퇴
+    */
+
+    int USER_TYPE_JOIN = 0;
+    int USER_TYPE_OWNER = 1;
+    int USER_TYPE_JOIN_WAIT = 2;
+    int USER_TYPE_SECESSION = 3;
+    int USER_TYPE_FORCE_SECESSION = 4;
 
 }

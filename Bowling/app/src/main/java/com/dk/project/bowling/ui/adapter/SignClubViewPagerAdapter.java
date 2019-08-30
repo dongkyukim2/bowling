@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.ClubDetailActivity;
 import com.dk.project.bowling.ui.viewHolder.SignClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.retrofit.ResponseModel;
 
@@ -39,7 +42,7 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
             Intent intent = new Intent(context, ClubDetailActivity.class);
             intent.putExtra(CLUB_MODEL, clubList.get(position));
             intent.putExtra(CLUB_SIGN, true);
-            context.startActivity(intent);
+            ((BindActivity) context).startActivityForResult(intent, CLUB_DETAIL);
         });
     }
 
@@ -88,5 +91,16 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
 
     public ClubModel getClubModel(int position) {
         return clubList.get(position);
+    }
+
+    public void removeClub(String clubId) {
+
+        for (ClubModel clubModel : clubList) {
+            if (clubId.equals(clubModel.getClubId())) {
+                clubList.remove(clubModel);
+                break;
+            }
+        }
+        notifyDataSetChanged();
     }
 }

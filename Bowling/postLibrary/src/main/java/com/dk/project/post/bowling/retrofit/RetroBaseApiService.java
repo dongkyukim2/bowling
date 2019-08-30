@@ -1,16 +1,23 @@
 package com.dk.project.post.bowling.retrofit;
 
-import com.dk.project.post.bowling.model.*;
+import com.dk.project.post.bowling.model.ClubModel;
+import com.dk.project.post.bowling.model.ClubUserModel;
+import com.dk.project.post.bowling.model.GameModel;
+import com.dk.project.post.bowling.model.ReadGameModel;
+import com.dk.project.post.bowling.model.ScoreAvgModel;
+import com.dk.project.post.bowling.model.ScoreModel;
+import com.dk.project.post.bowling.model.UserModel;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.ResponseModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public interface RetroBaseApiService {
 
@@ -61,5 +68,9 @@ public interface RetroBaseApiService {
 
     @GET("community/bowling/game/user/")
     Observable<ResponseModel<ArrayList<LoginInfoModel>>> getGameUserList(@Query("gameId") String gameId);
+
+
+    @POST("community/bowling/club/modifyType/")
+    Observable<ResponseModel<ClubUserModel>> setModifyClubUserType(@Body ClubUserModel clubUserModel);
 
 }
