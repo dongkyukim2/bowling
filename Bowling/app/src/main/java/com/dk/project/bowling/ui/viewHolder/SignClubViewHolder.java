@@ -2,8 +2,10 @@ package com.dk.project.bowling.ui.viewHolder;
 
 import android.graphics.Bitmap;
 import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -11,6 +13,7 @@ import com.bumptech.glide.request.target.Target;
 import com.dk.project.bowling.databinding.ViewHolderSignClubBinding;
 import com.dk.project.bowling.utils;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.utils.GlideApp;
 
@@ -65,7 +68,10 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
                 }
             }).into(binding.clubImageView);
         }
-
+        if (item.getType() < Define.USER_TYPE_JOIN_WAIT) {
+            binding.joinWaitBg.setVisibility(View.GONE);
+            binding.joinWaitText.setVisibility(View.GONE);
+        }
         binding.clubTitleTextView.setText(item.getClubTitle());
     }
 }

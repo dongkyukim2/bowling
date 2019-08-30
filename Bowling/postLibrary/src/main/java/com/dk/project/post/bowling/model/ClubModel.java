@@ -12,6 +12,14 @@ public class ClubModel implements Parcelable {
     private String clubInfo;
     private String clubImage;
     private int count;
+    /*
+     0 : 가입 완료
+     1 : 클럽 주인 (당연 가립된 상태)
+     2 : 가입 승인대기
+     3 : 탈퇴
+     4 : 강퇴
+    */
+    private int type;
 
     public ClubModel(String clubId) {
         this.clubId = clubId;
@@ -28,6 +36,7 @@ public class ClubModel implements Parcelable {
         clubInfo = in.readString();
         clubImage = in.readString();
         count = in.readInt();
+        type = in.readInt();
     }
 
     public static final Creator<ClubModel> CREATOR = new Creator<ClubModel>() {
@@ -98,6 +107,14 @@ public class ClubModel implements Parcelable {
         this.count = count;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -112,5 +129,6 @@ public class ClubModel implements Parcelable {
         dest.writeString(clubInfo);
         dest.writeString(clubImage);
         dest.writeInt(count);
+        dest.writeInt(type);
     }
 }

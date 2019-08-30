@@ -31,8 +31,7 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
     @Override
     public SignClubViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SignClubViewHolder(
-                LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.view_holder_sign_club, parent, false));
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_sign_club, parent, false));
     }
 
     @Override
