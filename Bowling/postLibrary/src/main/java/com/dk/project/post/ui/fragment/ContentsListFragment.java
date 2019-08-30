@@ -2,12 +2,14 @@ package com.dk.project.post.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindFragment;
 import com.dk.project.post.databinding.FragmentContentsListBinding;
@@ -40,7 +42,7 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
 
     @Override
     protected ContentListViewModel createViewModel() {
-        return ViewModelProviders.of(this).get(ContentListViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(ContentListViewModel.class);
     }
 
     @Override

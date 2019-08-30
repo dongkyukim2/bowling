@@ -2,12 +2,14 @@ package com.dk.project.bowling.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.FragmentGraphBinding;
 import com.dk.project.bowling.ui.adapter.GraphScoreAdapter;
@@ -33,7 +35,7 @@ public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewM
 
     @Override
     protected GraphViewModel createViewModel() {
-        return ViewModelProviders.of(this).get(GraphViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(GraphViewModel.class);
     }
 
     @Override

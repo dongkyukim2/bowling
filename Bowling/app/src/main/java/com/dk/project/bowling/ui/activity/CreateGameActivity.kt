@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dk.project.bowling.R
@@ -38,7 +38,9 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     }
 
     override fun getViewModel(): CreateGameViewModel {
-        return ViewModelProviders.of(this).get(CreateGameViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            CreateGameViewModel::class.java
+        )
     }
 
     override fun subscribeToModel() {

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.palette.graphics.Palette
 import androidx.viewpager2.widget.ViewPager2
 import com.dk.project.bowling.R
@@ -29,7 +29,9 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
     }
 
     override fun getViewModel(): ClubDetailViewModel {
-        return ViewModelProviders.of(this).get(ClubDetailViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            ClubDetailViewModel::class.java
+        )
     }
 
     override fun subscribeToModel() {

@@ -3,7 +3,7 @@ package com.dk.project.bowling.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateClubBinding
 import com.dk.project.bowling.utils
@@ -25,7 +25,9 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
     }
 
     override fun getViewModel(): CreateClubViewModel {
-        return ViewModelProviders.of(this).get(CreateClubViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            CreateClubViewModel::class.java
+        )
     }
 
     override fun subscribeToModel() {
@@ -39,7 +41,8 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
 
         defaultImageIndex = utils.getDefaultImageIndex()
 
-        GlideApp.with(this).load(utils.getDefaultImage(defaultImageIndex)).into(binding.clubTitleImageView)
+        GlideApp.with(this).load(utils.getDefaultImage(defaultImageIndex))
+            .into(binding.clubTitleImageView)
 
     }
 

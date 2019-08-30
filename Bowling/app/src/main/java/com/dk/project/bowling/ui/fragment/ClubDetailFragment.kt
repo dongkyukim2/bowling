@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -35,14 +35,20 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
     }
 
     override fun createViewModel(): ClubDetailHomeViewModel {
-        return ViewModelProviders.of(this).get(ClubDetailHomeViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            ClubDetailHomeViewModel::class.java
+        )
     }
 
     override fun registerLiveData() {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
 
         binding.viewModel = viewModel
@@ -93,11 +99,13 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
-                (activity as ClubDetailActivity).paletteColorLiveData.observe(this@ClubDetailFragment, Observer {
-                    binding.clubTitleTextView.setTextColor(it.titleTextColor)
-                    binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
+                (activity as ClubDetailActivity).paletteColorLiveData.observe(
+                    this@ClubDetailFragment,
+                    Observer {
+                        binding.clubTitleTextView.setTextColor(it.titleTextColor)
+                        binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
 
-                })
+                    })
             }
         }
 

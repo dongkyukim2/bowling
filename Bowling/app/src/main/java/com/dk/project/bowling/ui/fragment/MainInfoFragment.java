@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -38,7 +39,7 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
 
     @Override
     protected MainInfoViewModel createViewModel() {
-        return ViewModelProviders.of(this).get(MainInfoViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(MainInfoViewModel.class);
     }
 
     @Override

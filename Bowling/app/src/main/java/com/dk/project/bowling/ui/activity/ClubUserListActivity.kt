@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dk.project.bowling.R
@@ -25,7 +25,9 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
     }
 
     override fun getViewModel(): ClubUserListViewModel {
-        return ViewModelProviders.of(this).get(ClubUserListViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            ClubUserListViewModel::class.java
+        )
     }
 
     override fun subscribeToModel() {

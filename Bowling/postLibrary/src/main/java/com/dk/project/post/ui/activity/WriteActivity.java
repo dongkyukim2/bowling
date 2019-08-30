@@ -434,22 +434,25 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
             Toast.makeText(this, "로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        System.out.println("+++++++++++      " + viewModel.getClubId());
         if (TextUtils.isEmpty(viewModel.getClubId())) {
-            System.out.println("+++++++++++      " + signClubList.size());
             if (signClubList.isEmpty()) {
-
+                finishPost();
             } else {
+                ClubModel open = new ClubModel();
+                open.setClubTitle("공개");
+                signClubList.add(0, open);
                 CharSequence[] items = new CharSequence[signClubList.size()];
                 for (int i = 0; i < signClubList.size(); i++) {
                     ClubModel clubModel = signClubList.get(i);
                     items[i] = clubModel.getClubTitle();
                 }
-                AlertDialogUtil.showListAlertDialog(this, null, items, (dialog, which) -> {
+                AlertDialogUtil.showListAlertDialog(this, "클럽 선택", items, (dialog, which) -> {
                     viewModel.setClubId(signClubList.get(which).getClubId());
                     finishPost();
                 });
             }
+        } else {
+            finishPost();
         }
     }
 

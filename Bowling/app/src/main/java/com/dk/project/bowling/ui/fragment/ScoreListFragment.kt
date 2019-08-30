@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +31,9 @@ class ScoreListFragment : BindFragment<FragmentScoreListBinding, ScoreListViewMo
     }
 
     override fun createViewModel(): ScoreListViewModel {
-        return ViewModelProviders.of(this).get(ScoreListViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            ScoreListViewModel::class.java
+        )
     }
 
     override fun registerLiveData() {
@@ -41,7 +43,11 @@ class ScoreListFragment : BindFragment<FragmentScoreListBinding, ScoreListViewMo
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
 
 

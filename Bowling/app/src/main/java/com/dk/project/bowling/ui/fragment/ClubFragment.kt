@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +31,9 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     }
 
     override fun createViewModel(): ClubViewModel {
-        return ViewModelProviders.of(this).get(ClubViewModel::class.java)
+        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            ClubViewModel::class.java
+        )
     }
 
     override fun registerLiveData() {
@@ -41,7 +43,11 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
 
         binding.clubRecycler.apply {
@@ -52,14 +58,19 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             }
             itemAnimator = DefaultItemAnimator()
 
-            val gestureDetector = GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
-                override fun onSingleTapUp(e: MotionEvent): Boolean {
-                    return true
-                }
-            })
+            val gestureDetector =
+                GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onSingleTapUp(e: MotionEvent): Boolean {
+                        return true
+                    }
+                })
             addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    if (gestureDetector.onTouchEvent(e) && rv.findChildViewUnder(e.x, e.y) != null) {
+                    if (gestureDetector.onTouchEvent(e) && rv.findChildViewUnder(
+                            e.x,
+                            e.y
+                        ) != null
+                    ) {
                         rv.findChildViewUnder(e.x, e.y)?.let {
                             val position = rv.getChildAdapterPosition(it)
                             var intent = Intent(mContext, ClubDetailActivity::class.java)
@@ -109,7 +120,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     private fun setBottomSheetHeight() {
         binding.searchLayout.postDelayed({
             var param = (activity as MainActivity).binding.rlBottomSheet.layoutParams
-            param.height = (activity as MainActivity).binding.navigation.height + binding.clubRecycler.height
+            param.height =
+                (activity as MainActivity).binding.navigation.height + binding.clubRecycler.height
             (activity as MainActivity).binding.rlBottomSheet.layoutParams = param
         }, 1000)
     }
