@@ -1,12 +1,13 @@
 package com.dk.project.bowling.ui.activity;
 
 import android.content.Intent;
+
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityLoginBinding;
 import com.dk.project.bowling.viewModel.LoginViewModel;
-
 import com.dk.project.post.base.BindActivity;
 import com.kakao.auth.Session;
 
@@ -20,7 +21,7 @@ public class LoginActivity extends BindActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     protected LoginViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(LoginViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(LoginViewModel.class);
     }
 
     @Override

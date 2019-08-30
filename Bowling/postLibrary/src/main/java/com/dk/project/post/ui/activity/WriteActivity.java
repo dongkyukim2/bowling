@@ -16,10 +16,12 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
@@ -32,19 +34,25 @@ import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.fragment.Camera2BasicFragment;
-import com.dk.project.post.utils.*;
+import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.KakaoLoginUtils;
+import com.dk.project.post.utils.ScreenUtil;
+import com.dk.project.post.utils.TextViewUtil;
+import com.dk.project.post.utils.YoutubeUtil;
 import com.dk.project.post.viewModel.WriteViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.subjects.PublishSubject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subjects.PublishSubject;
 
 public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewModel> implements View.OnClickListener,
         View.OnFocusChangeListener, TextViewUtil.OnKeyBoardBackKey {
@@ -81,7 +89,7 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
 
     @Override
     protected WriteViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(WriteViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(WriteViewModel.class);
     }
 
     @Override

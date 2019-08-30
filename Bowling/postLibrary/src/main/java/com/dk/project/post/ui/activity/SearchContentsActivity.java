@@ -5,8 +5,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.databinding.ActivitySearchContentsBinding;
@@ -28,7 +30,7 @@ public class SearchContentsActivity extends BindActivity<ActivitySearchContentsB
 
     @Override
     protected SearchViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(SearchViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(SearchViewModel.class);
     }
 
     @Override

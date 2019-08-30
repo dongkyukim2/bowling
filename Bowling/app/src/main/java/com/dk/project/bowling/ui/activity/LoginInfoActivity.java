@@ -1,8 +1,10 @@
 package com.dk.project.bowling.ui.activity;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityLoginInfoBinding;
 import com.dk.project.bowling.viewModel.LoginInfoViewModel;
@@ -20,7 +22,7 @@ public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, Lo
 
     @Override
     protected LoginInfoViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(LoginInfoViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(LoginInfoViewModel.class);
     }
 
     @Override

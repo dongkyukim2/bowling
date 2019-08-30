@@ -5,16 +5,14 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.SharedElementCallback;
+
 import androidx.core.util.Pair;
 import androidx.core.widget.NestedScrollView;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.bumptech.glide.Glide;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.databinding.ActivityReadBinding;
@@ -22,10 +20,14 @@ import com.dk.project.post.model.PostModel;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.adapter.ReplyAdapter;
 import com.dk.project.post.ui.fragment.YoutubeFragment;
-import com.dk.project.post.utils.*;
+import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.AnimationUtil;
+import com.dk.project.post.utils.GlideApp;
+import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.RxBus;
+import com.dk.project.post.utils.ScreenUtil;
+import com.dk.project.post.utils.Utils;
 import com.dk.project.post.viewModel.ReadViewModel;
-
-import java.util.List;
 
 public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewModel> implements NestedScrollView.OnScrollChangeListener {
 
@@ -60,7 +62,7 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
 
     @Override
     protected ReadViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(ReadViewModel.class);
+        return new ViewModelProvider(getViewModelStore(), getDefaultViewModelProviderFactory()).get(ReadViewModel.class);
     }
 
     @Override
