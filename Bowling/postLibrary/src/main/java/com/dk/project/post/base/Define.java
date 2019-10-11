@@ -6,7 +6,7 @@ package com.dk.project.post.base;
 
 public interface Define {
 
-    boolean TEST_USER = true;
+    boolean TEST_USER = false;
 
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
