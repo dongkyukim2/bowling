@@ -7,7 +7,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.dk.project.bowling"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 1

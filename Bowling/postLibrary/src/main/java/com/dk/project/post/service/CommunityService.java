@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.util.Pair;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseService;
 import com.dk.project.post.model.MediaSelectListModel;
@@ -44,12 +46,12 @@ public class CommunityService extends BaseService {
                     break;
             }
         }));
-//    setForeground();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        notifyManager.cancelAll();
     }
 
     @Override
@@ -157,7 +159,9 @@ public class CommunityService extends BaseService {
 
         builder.setSmallIcon(R.drawable.ic_cloud_upload_black_24dp)
                 .setCustomContentView(contentView)
-                .setContentIntent(PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                .setContentIntent(PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT))
+                .setAutoCancel(false)
+                .setOngoing(true);
 
         mNotification = builder.build();
 
