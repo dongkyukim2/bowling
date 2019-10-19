@@ -66,7 +66,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                     Toast.makeText(mContext, "가입하기", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.temp_btn:
+            case R.id.club_user_list:
                 Toast.makeText(mContext,"회원 목록 보기, 가입 신청 대기 화면", Toast.LENGTH_LONG).show();
                 break;
         }
