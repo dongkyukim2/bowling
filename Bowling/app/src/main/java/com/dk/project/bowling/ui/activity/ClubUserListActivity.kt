@@ -39,13 +39,20 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        toolbarTitle.text = "초대하기"
-        toolbarRightButton.visibility = View.VISIBLE
+        if (viewModel.isSelectMode) {
+            toolbarTitle.text = "초대하기"
+            toolbarRightButton.visibility = View.VISIBLE
+        } else {
+            toolbarTitle.text = "클럽인원 목록"
+        }
 
 
         binding.clubUserRecycler.apply {
             clubUserListAdapter = ClubUserListAdapter()
-            clubUserListAdapter.setSelectedUserMap(viewModel.selectedUserMap)
+            if (viewModel.isSelectMode) {
+                clubUserListAdapter.setSelectedUserMap(viewModel.selectedUserMap)
+            }
+            clubUserListAdapter.setClubUserListViewModel(viewModel)
             layoutManager = LinearLayoutManager(this@ClubUserListActivity)
             itemAnimator = DefaultItemAnimator()
             adapter = clubUserListAdapter

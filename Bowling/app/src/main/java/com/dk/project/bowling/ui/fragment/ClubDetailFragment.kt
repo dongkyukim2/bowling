@@ -16,12 +16,16 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubDetailBinding
+import com.dk.project.bowling.shareData.ShareData
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
 import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailHomeViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
+import com.dk.project.post.bowling.retrofit.BowlingApi
+import com.dk.project.post.retrofit.ErrorCallback
+import com.dk.project.post.retrofit.SuccessCallback
 import com.dk.project.post.utils.GlideApp
 
 /**
@@ -52,6 +56,8 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         view = super.onCreateView(inflater, container, savedInstanceState)
 
         binding.viewModel = viewModel
+
+        ShareData.getInstance().clubUserList.clear()
 
         GlideApp.with(activity!!).asBitmap().load(utils.getDefaultImage()).centerCrop()
             .addListener(object : RequestListener<Bitmap> {
@@ -105,8 +111,13 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                     Observer {
                         binding.clubTitleTextView.setTextColor(it.titleTextColor)
                         binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
-
                     })
+                BowlingApi.getInstance().getClubUserList(
+                    clubId,
+                    SuccessCallback { binding.clubUserCount.text = it.data.size.toString()
+                        ShareData.getInstance().clubUserList.addAll(it.data)
+                    },
+                    ErrorCallback { })
             }
         }
 

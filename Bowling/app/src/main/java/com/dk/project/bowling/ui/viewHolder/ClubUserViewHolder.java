@@ -1,12 +1,13 @@
 package com.dk.project.bowling.ui.viewHolder;
 
 import android.view.View;
+
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.databinding.ViewHolderCreateGameBinding;
+import com.dk.project.bowling.databinding.ViewHolderClubUserBinding;
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.bowling.model.UserModel;
 
-public class ClubUserViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, UserModel> {
+public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding, UserModel> {
 
     public ClubUserViewHolder(View itemView) {
         super(itemView);
@@ -15,7 +16,6 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderCreateGameBindi
     @Override
     public void onBindView(UserModel item, int position) {
         binding.userNameText.setText(item.getUserName());
-        binding.dragIcon.setVisibility(View.INVISIBLE);
         binding.userCheckBox.setClickable(false);
 
         if (item.isCheck()) {

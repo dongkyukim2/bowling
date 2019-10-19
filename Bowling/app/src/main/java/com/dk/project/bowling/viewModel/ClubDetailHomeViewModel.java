@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.dk.project.bowling.R;
+import com.dk.project.bowling.shareData.ShareData;
+import com.dk.project.bowling.ui.activity.ClubUserListActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
@@ -67,7 +69,11 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
                 break;
             case R.id.club_user_list:
-                Toast.makeText(mContext,"회원 목록 보기, 가입 신청 대기 화면", Toast.LENGTH_LONG).show();
+                if(!ShareData.getInstance().getClubUserList().isEmpty()){
+                    Intent intent = new Intent(mContext, ClubUserListActivity.class);
+                    intent.putExtra(Define.CLUB_MODEL, clubModel);
+                    mContext.startActivity(intent);
+                }
                 break;
         }
     }
