@@ -3,13 +3,10 @@ package com.dk.project.post.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -64,7 +61,6 @@ import nl.bravobit.ffmpeg.FFmpeg;
 import nl.bravobit.ffmpeg.FFtask;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-import static com.dk.project.post.utils.TextViewUtil.INPUT_TEXT_SIZE;
 
 /**
  * Created by dkkim on 2017-10-05.
@@ -196,14 +192,6 @@ public class ImageUtil implements Define {
             };
             progressBarDrawable.setBarWidth(0);
             simpleDraweeView.getHierarchy().setProgressBarImage(progressBarDrawable);
-
-            RelativeLayout.LayoutParams percentTextViewParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            percentTextViewParam.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-
-            percentTextView.setLayoutParams(percentTextViewParam);
-            percentTextView.setTextColor(Color.BLACK);
-            percentTextView.setTypeface(null, Typeface.BOLD);
-            percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, INPUT_TEXT_SIZE * 3);
         }
 
         Uri imageUri;
