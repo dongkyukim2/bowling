@@ -3,17 +3,22 @@ package com.dk.project.post.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
@@ -59,6 +64,7 @@ import nl.bravobit.ffmpeg.FFmpeg;
 import nl.bravobit.ffmpeg.FFtask;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+import static com.dk.project.post.utils.TextViewUtil.INPUT_TEXT_SIZE;
 
 /**
  * Created by dkkim on 2017-10-05.
@@ -176,7 +182,7 @@ public class ImageUtil implements Define {
         SimpleDraweeView simpleDraweeView = null;
         if (!USE_GLIDE) {
             simpleDraweeView = new SimpleDraweeView(context);
-            simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+            simpleDraweeView.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
 
             ProgressBarDrawable progressBarDrawable = new ProgressBarDrawable() {
                 @Override
@@ -184,7 +190,7 @@ public class ImageUtil implements Define {
                     return super.onLevelChange(level);
                 }
             };
-
+            progressBarDrawable.setBarWidth(0);
             simpleDraweeView.getHierarchy().setProgressBarImage(progressBarDrawable);
         }
         Uri imageUri;
@@ -213,6 +219,22 @@ public class ImageUtil implements Define {
                     .centerCrop().into(gifImageView);
             linearLayout.addView(gifImageView);
         } else {
+
+            RelativeLayout gifRootLayout = new RelativeLayout(context);
+            gifRootLayout.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+
+            AppCompatTextView percentTextView = new AppCompatTextView(context) {
+            };
+
+            RelativeLayout.LayoutParams percentTextViewParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            percentTextViewParam.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+
+            percentTextView.setLayoutParams(percentTextViewParam);
+            percentTextView.setText("50%");
+            percentTextView.setTextColor(Color.BLACK);
+            percentTextView.setTypeface(null, Typeface.BOLD);
+            percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, INPUT_TEXT_SIZE * 3);
+
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
                     .setResizeOptions(new ResizeOptions(width, height))
                     .build();
@@ -222,7 +244,11 @@ public class ImageUtil implements Define {
                     .setImageRequest(request)
                     .build();
             simpleDraweeView.setController(animatedController);
-            linearLayout.addView(simpleDraweeView);
+
+            gifRootLayout.addView(simpleDraweeView);
+            gifRootLayout.addView(percentTextView);
+
+            linearLayout.addView(gifRootLayout);
         }
 
 
