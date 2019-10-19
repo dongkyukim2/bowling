@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
@@ -35,6 +34,7 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.impl.DefaultCallBack;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
+import com.dk.project.post.ui.widget.FrescoPercentTextView;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
@@ -180,19 +180,32 @@ public class ImageUtil implements Define {
 
 
         SimpleDraweeView simpleDraweeView = null;
+        FrescoPercentTextView percentTextView = new FrescoPercentTextView(context);
+
         if (!USE_GLIDE) {
+
             simpleDraweeView = new SimpleDraweeView(context);
             simpleDraweeView.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
 
             ProgressBarDrawable progressBarDrawable = new ProgressBarDrawable() {
                 @Override
                 protected boolean onLevelChange(int level) {
+                    percentTextView.setProgress(level);
                     return super.onLevelChange(level);
                 }
             };
             progressBarDrawable.setBarWidth(0);
             simpleDraweeView.getHierarchy().setProgressBarImage(progressBarDrawable);
+
+            RelativeLayout.LayoutParams percentTextViewParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            percentTextViewParam.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+
+            percentTextView.setLayoutParams(percentTextViewParam);
+            percentTextView.setTextColor(Color.BLACK);
+            percentTextView.setTypeface(null, Typeface.BOLD);
+            percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, INPUT_TEXT_SIZE * 3);
         }
+
         Uri imageUri;
         if (isResource) {
             imageUri = new Uri.Builder()
@@ -223,17 +236,6 @@ public class ImageUtil implements Define {
             RelativeLayout gifRootLayout = new RelativeLayout(context);
             gifRootLayout.setLayoutParams(new LinearLayout.LayoutParams(width, height));
 
-            AppCompatTextView percentTextView = new AppCompatTextView(context) {
-            };
-
-            RelativeLayout.LayoutParams percentTextViewParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            percentTextViewParam.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-
-            percentTextView.setLayoutParams(percentTextViewParam);
-            percentTextView.setText("50%");
-            percentTextView.setTextColor(Color.BLACK);
-            percentTextView.setTypeface(null, Typeface.BOLD);
-            percentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, INPUT_TEXT_SIZE * 3);
 
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
                     .setResizeOptions(new ResizeOptions(width, height))
