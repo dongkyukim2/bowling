@@ -65,9 +65,9 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0-beta01'
 
 
-    implementation 'androidx.room:room-rxjava2:2.2.0-rc01'
-    implementation 'androidx.room:room-runtime:2.2.0-rc01'
-    annotationProcessor 'androidx.room:room-compiler:2.2.0-rc01'
+    implementation 'androidx.room:room-rxjava2:2.2.0'
+    implementation 'androidx.room:room-runtime:2.2.0'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0'
 
 
     implementation 'com.facebook.fresco:fresco:2.0.0'
@@ -78,7 +78,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.0'
 
-    implementation 'com.airbnb.android:lottie:3.0.7'
+    implementation 'com.airbnb.android:lottie:3.1.0'
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
