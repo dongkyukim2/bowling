@@ -1,10 +1,12 @@
 package com.dk.project.post.base;
 
 import android.app.Application;
+
 import com.dk.project.post.utils.AppExecutors;
 import com.dk.project.post.utils.ImagePipelineConfigFactory;
 import com.dk.project.post.utils.KakaoSDKAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.stetho.Stetho;
 import com.kakao.auth.KakaoSDK;
 
 /**
@@ -19,7 +21,10 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fresco.initialize(this, ImagePipelineConfigFactory.getImagePipelineConfig(this));
+
+        Stetho.initializeWithDefaults(this);
+//        Fresco.initialize(this, ImagePipelineConfigFactory.getImagePipelineConfig(this));
+        Fresco.initialize(this, ImagePipelineConfigFactory.getOkHttpImagePipelineConfig(this));
         mAppExecutors = new AppExecutors();
         obj = this;
         KakaoSDK.init(new KakaoSDKAdapter());
@@ -29,12 +34,6 @@ public class BaseApplication extends Application {
     public static BaseApplication getGlobalApplicationContext() {
         return obj;
     }
-
-
-
-
-
-
 
 
    /*

@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,17 +28,24 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
         return R.layout.fragment_club_game_list
     }
 
-    override fun createViewModel() = ViewModelProviders.of(this).get(ClubScoreListViewModel::class.java)
+    override fun createViewModel() =
+        ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+            ClubScoreListViewModel::class.java
+        )
+
 
     override fun registerLiveData() {
-
         viewModel.gameMutableLiveData.observe(this, Observer {
             clubGameListAdapter.setClubList(it)
         })
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
 
 
@@ -63,7 +70,10 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                             val position = rv.getChildAdapterPosition(child!!)
 
                             var intent = Intent(activity, CreateGameActivity::class.java)
-                            intent.putExtra(Define.READ_GAME_MODEL, clubGameListAdapter.getClubGame(position))
+                            intent.putExtra(
+                                Define.READ_GAME_MODEL,
+                                clubGameListAdapter.getClubGame(position)
+                            )
                             activity?.startActivity(intent)
                             return true
                         }
@@ -74,7 +84,7 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
-                        linearLayoutManager?.let {
+                        linearLayoutManager.let {
                             if (dy > 0 && !viewModel.isLoading && linearLayoutManager.itemCount - 1 == linearLayoutManager.findLastVisibleItemPosition()) {
                                 viewModel.isLoading = true
                                 viewModel.requestGameList(linearLayoutManager.itemCount)

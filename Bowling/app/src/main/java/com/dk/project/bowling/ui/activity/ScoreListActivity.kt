@@ -1,10 +1,8 @@
 package com.dk.project.bowling.ui.activity
 
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityScoreListBinding
-import com.dk.project.bowling.viewModel.CreateGameViewModel
 import com.dk.project.bowling.viewModel.ScoreListActivityViewModel
 import com.dk.project.post.base.BindActivity
 

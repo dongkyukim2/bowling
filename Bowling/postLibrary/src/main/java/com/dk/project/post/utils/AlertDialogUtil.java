@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
+
 import com.dk.project.post.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -206,7 +208,7 @@ public class AlertDialogUtil {
             }
         });
 
-        editText.post(() -> TextViewUtil.showKeyBoard(context, editText));
+        editText.postDelayed(() -> TextViewUtil.showKeyBoard(context, editText), 300);
         return alertDialog;
     }
 }

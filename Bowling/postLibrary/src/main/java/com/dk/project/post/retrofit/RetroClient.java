@@ -2,6 +2,8 @@ package com.dk.project.post.retrofit;
 
 import com.dk.project.post.BuildConfig;
 import com.dk.project.post.manager.LoginManager;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -49,7 +51,7 @@ public class RetroClient {
                                 .addHeader("userId", LoginManager.getInstance().getUserCode())
                                 .build();
                         return chain.proceed(request);
-                    });
+                    }).addNetworkInterceptor(new StethoInterceptor());
 
             OkHttpClient okHttpClient = builder.build();
 

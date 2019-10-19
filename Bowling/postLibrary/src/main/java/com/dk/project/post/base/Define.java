@@ -8,6 +8,8 @@ public interface Define {
 
     boolean TEST_USER = false;
 
+    boolean USE_GLIDE = false;
+
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
     String CLUB_SIGN = "CLUB_SIGN";

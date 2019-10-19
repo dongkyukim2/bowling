@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -30,10 +32,22 @@ import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
+import org.apache.commons.io.FilenameUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,14 +57,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 import nl.bravobit.ffmpeg.ExecuteBinaryResponseHandler;
 import nl.bravobit.ffmpeg.FFmpeg;
 import nl.bravobit.ffmpeg.FFtask;
-import org.apache.commons.io.FilenameUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -166,16 +172,21 @@ public class ImageUtil implements Define {
             topSpaceLayout.setOnClickListener(onClickListener);
         }
 
-        /*
-        SimpleDraweeView simpleDraweeView = new SimpleDraweeView(context);
-        simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-//        simpleDraweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable() {
-//            @Override
-//            protected boolean onLevelChange(int level) {
-//                return super.onLevelChange(level);
-//            }
-//        });
-        */
+
+        SimpleDraweeView simpleDraweeView = null;
+        if (!USE_GLIDE) {
+            simpleDraweeView = new SimpleDraweeView(context);
+            simpleDraweeView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+
+            ProgressBarDrawable progressBarDrawable = new ProgressBarDrawable() {
+                @Override
+                protected boolean onLevelChange(int level) {
+                    return super.onLevelChange(level);
+                }
+            };
+
+            simpleDraweeView.getHierarchy().setProgressBarImage(progressBarDrawable);
+        }
         Uri imageUri;
         if (isResource) {
             imageUri = new Uri.Builder()
@@ -191,26 +202,29 @@ public class ImageUtil implements Define {
                 imageUri = Uri.parse(IMAGE_URL + filePath);
             }
         }
-        /*
-        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
-                .setResizeOptions(new ResizeOptions(width, height))
-                .build();
-
-        DraweeController animatedController = Fresco.newDraweeControllerBuilder()
-                .setAutoPlayAnimations(true)
-                .setImageRequest(request)
-                .build();
-        simpleDraweeView.setController(animatedController);
-        */
-        AppCompatImageView gifImageView = new AppCompatImageView(context);
-        gifImageView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-        GlideApp.with(context).asGif().load(imageUri)
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .centerCrop().into(gifImageView);
-
 
         linearLayout.addView(topSpaceLayout);
-        linearLayout.addView(gifImageView);
+
+        if (USE_GLIDE) {
+            AppCompatImageView gifImageView = new AppCompatImageView(context);
+            gifImageView.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+            GlideApp.with(context).asGif().load(imageUri)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .centerCrop().into(gifImageView);
+            linearLayout.addView(gifImageView);
+        } else {
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
+                    .setResizeOptions(new ResizeOptions(width, height))
+                    .build();
+
+            DraweeController animatedController = Fresco.newDraweeControllerBuilder()
+                    .setAutoPlayAnimations(true)
+                    .setImageRequest(request)
+                    .build();
+            simpleDraweeView.setController(animatedController);
+            linearLayout.addView(simpleDraweeView);
+        }
+
 
         return linearLayout;
     }

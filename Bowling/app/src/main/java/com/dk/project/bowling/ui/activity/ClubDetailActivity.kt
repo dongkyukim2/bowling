@@ -66,10 +66,9 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         }
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.getItemId()) {
+            when (it.itemId) {
                 R.id.navigation_home -> {
                     binding.clubViewpager.setCurrentItem(0, true)
-                    true
                 }
                 R.id.navigation_score_board -> {
                     if (viewModel.isSign) {
@@ -77,7 +76,6 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
                     } else {
                         ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
                     }
-                    true
                 }
                 R.id.navigation_post_board -> {
                     if (viewModel.isSign) {
@@ -85,11 +83,10 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
                     } else {
                         ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
                     }
-                    true
 
                 }
             }
-            false
+            true
         }
     }
 
