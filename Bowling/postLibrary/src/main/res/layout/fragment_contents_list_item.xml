@@ -46,7 +46,7 @@
                             android:ellipsize="end"
                             android:maxLines="3"
                             android:textColor="#000000"
-                            android:fontFamily="@font/content"
+                            android:fontFamily="@font/binggrae"
                             android:textSize="16dp"/>
 
 

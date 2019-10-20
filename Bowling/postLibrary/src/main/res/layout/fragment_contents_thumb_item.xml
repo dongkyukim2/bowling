@@ -75,8 +75,8 @@
                     android:paddingRight="8dp"
                     android:ellipsize="end"
                     android:maxLines="3"
-                    android:textColor="#4a5158"
-                    android:fontFamily="@font/content"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/binggrae"
                     android:textSize="22dp"/>
 
             <LinearLayout

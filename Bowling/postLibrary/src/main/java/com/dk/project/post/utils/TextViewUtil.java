@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.TextViewCompat;
 import com.dk.project.post.R;
 
@@ -76,9 +77,9 @@ public class TextViewUtil {
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         textView.setBackgroundResource(R.color.main_background_color);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, INPUT_TEXT_SIZE);
-        textView.setTextColor(Color.parseColor("#4a5158"));
+        textView.setTextColor(Color.parseColor("#000000"));
         textView.setPadding(padding + padding / 2, padding, padding + padding / 2, padding);
-        textView.setTypeface(Typeface.createFromAsset(context.getAssets(), "content.ttf"));
+        textView.setTypeface(ResourcesCompat.getFont(context,R.font.binggrae));
         return textView;
     }
 
