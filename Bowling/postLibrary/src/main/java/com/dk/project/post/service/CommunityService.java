@@ -51,7 +51,9 @@ public class CommunityService extends BaseService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        notifyManager.cancelAll();
+        if (notifyManager != null) {
+            notifyManager.cancelAll();
+        }
     }
 
     @Override

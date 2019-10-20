@@ -8,7 +8,7 @@
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">@color/startColor</color>
     <color name="toolbar_color">@color/colorPrimaryDark</color>
-    <color name="status_bar_color">@color/startColor</color>
+    <color name="status_bar_color">#686868</color>
 
 
 
