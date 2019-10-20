@@ -41,16 +41,11 @@ class FrescoPercentTextView : AppCompatTextView {
 
         setTypeface(null, Typeface.BOLD)
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, (INPUT_TEXT_SIZE * 2).toFloat())
-        disposable = progress.throttleLast(200, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { integer ->
-                text = if (integer >= 9900) {
-                    ""
-                } else {
-                    (integer / 100).toString() + "%"
-                }
-            }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setListener()
     }
 
     override fun onDetachedFromWindow() {
@@ -62,8 +57,23 @@ class FrescoPercentTextView : AppCompatTextView {
 
     fun setProgress(process: Int) {
         progress.onNext(process)
+        if (process >= 9900) {
+            text = ""
+        }
+    }
+
+    private fun setListener() {
+        if (disposable == null || disposable!!.isDisposed) {
+            disposable = progress.throttleLast(200, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { integer ->
+                    text = if (integer in 100..9899) {
+                        (integer / 100).toString() + "%"
+                    } else {
+                        ""
+                    }
+                }
+        }
     }
 }
-
-
-

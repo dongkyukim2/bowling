@@ -31,7 +31,6 @@
                 app:layout_constraintTop_toTopOf="@id/club_image_view"
                 android:layout_marginLeft="14dp"
                 android:textSize="22dp"
-                android:text="aaaaaaaaaaaaa"
                 android:fontFamily="@font/bamin"
                 android:textColor="#000000"
                 android:lines="1"/>
@@ -45,7 +44,6 @@
                 app:layout_constraintTop_toBottomOf="@id/club_title_text_view"
                 android:textSize="18dp"
                 android:layout_marginTop="2dp"
-                android:text="aaaaaaaaaaaaa"
                 android:fontFamily="@font/content"
                 android:textColor="#000000"
                 android:maxLines="2"/>

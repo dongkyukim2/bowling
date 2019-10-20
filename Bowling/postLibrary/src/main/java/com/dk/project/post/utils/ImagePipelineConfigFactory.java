@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 
 /**
@@ -48,7 +49,12 @@ public class ImagePipelineConfigFactory {
      */
     public static ImagePipelineConfig getOkHttpImagePipelineConfig(Context context) {
         if (sOkHttpImagePipelineConfig == null) {
-            OkHttpClient okHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor()).build();
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(new StethoInterceptor())
+                    .connectionPool(new ConnectionPool(10, 20, TimeUnit.SECONDS))
+                    .build();
+
             ImagePipelineConfig.Builder configBuilder = OkHttpImagePipelineConfigFactory.newBuilder(context, okHttpClient);
             configureCaches(configBuilder, context);
             configureLoggingListeners(configBuilder);
