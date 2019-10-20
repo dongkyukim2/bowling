@@ -8,6 +8,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import com.dk.project.post.R
+import com.dk.project.post.utils.ScreenUtil
 import com.dk.project.post.utils.TextViewUtil.INPUT_TEXT_SIZE
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -30,12 +31,11 @@ class FrescoPercentTextView : AppCompatTextView {
 
     init {
 
-        val percentTextViewParam = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        percentTextViewParam.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
-        layoutParams = percentTextViewParam
+        ScreenUtil.dpToPixel(100).let {
+            val param = RelativeLayout.LayoutParams(it, it)
+            param.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+            layoutParams = param
+        }
 
         setTextColor(AppCompatResources.getColorStateList(context, R.color.colorAccent))
 
@@ -67,12 +67,8 @@ class FrescoPercentTextView : AppCompatTextView {
             disposable = progress.throttleLast(200, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { integer ->
-                    text = if (integer in 100..9899) {
-                        (integer / 100).toString() + "%"
-                    } else {
-                        ""
-                    }
+                .subscribe { process ->
+                    text = if (process in 100..9899) (process / 100).toString() + "%" else ""
                 }
         }
     }

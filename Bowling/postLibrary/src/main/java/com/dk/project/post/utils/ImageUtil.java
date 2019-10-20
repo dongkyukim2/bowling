@@ -174,7 +174,6 @@ public class ImageUtil implements Define {
             topSpaceLayout.setOnClickListener(onClickListener);
         }
 
-
         SimpleDraweeView simpleDraweeView = null;
         FrescoPercentTextView percentTextView = new FrescoPercentTextView(context);
 
@@ -426,28 +425,3 @@ public class ImageUtil implements Define {
         });
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
