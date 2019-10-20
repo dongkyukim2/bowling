@@ -9,7 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.activity.ClubDetailActivity">
+            tools:context=".ui.activity.ClubDetailActivity"
+            android:background="#ffffff">
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/club_back_img"

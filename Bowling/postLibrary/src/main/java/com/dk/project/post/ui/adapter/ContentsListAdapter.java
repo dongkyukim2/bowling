@@ -4,7 +4,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.DiffUtil;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindViewHolder;
