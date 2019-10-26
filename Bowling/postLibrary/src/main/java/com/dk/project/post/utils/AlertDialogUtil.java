@@ -41,20 +41,22 @@ public class AlertDialogUtil {
         return dialog;
     }
 
-    public static AlertDialog showAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onPositiveClickListener) {
+    public static AlertDialog showAlertDialog(Context context, String title, String message, String positiveTitle, DialogInterface.OnClickListener onPositiveClickListener) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         if (!TextUtils.isEmpty(title)) {
             dialogBuilder.setTitle(title);
         }
-        dialogBuilder.setMessage(message)
-                .setPositiveButton("예", onPositiveClickListener)
-                .setNegativeButton("아니요", (dialog, whichButton) -> dialog.cancel());
+        dialogBuilder.setMessage(message).setPositiveButton(positiveTitle, onPositiveClickListener);
         AlertDialog dialog = dialogBuilder.create();
-
+        dialog.setCancelable(false);
         setTextColor(dialog);
 
         dialog.show();
         return dialog;
+    }
+
+    public static AlertDialog showAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onPositiveClickListener) {
+        return showAlertDialog(context, title, message, "예", onPositiveClickListener);
     }
 
     public static void showLoginAlert(final Context context) {

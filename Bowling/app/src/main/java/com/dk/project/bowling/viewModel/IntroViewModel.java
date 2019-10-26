@@ -2,10 +2,12 @@ package com.dk.project.bowling.viewModel;
 
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.dk.project.bowling.BuildConfig;
 import com.dk.project.bowling.ui.activity.LoginActivity;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.post.base.BaseViewModel;
@@ -13,8 +15,14 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.PostApi;
+import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
@@ -25,6 +33,10 @@ import com.kakao.usermgmt.response.MeV2Response;
 
 public class IntroViewModel extends BaseViewModel {
 
+    private FirebaseDatabase database;
+    private DatabaseReference dbRef;
+    private ValueEventListener valueEventListener;
+
     public IntroViewModel(@NonNull Application application) {
         super(application);
     }
@@ -32,8 +44,13 @@ public class IntroViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        startMainActivity();
+
         ImageUtil.getImagePath(mContext);
+
+        database = FirebaseDatabase.getInstance();
+        dbRef = database.getReference("version");
+
+        checkVersion();
     }
 
     @Override
@@ -100,6 +117,57 @@ public class IntroViewModel extends BaseViewModel {
                     mContext.finish();
                 }
             }
+        }
+    }
+
+    private void checkVersion() {
+
+//        database.setPersistenceEnabled(false);
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    String serverVersion = dataSnapshot.getValue(String.class);
+                    String appVersion = BuildConfig.VERSION_NAME;
+
+                    String[] serverArray = serverVersion.split("\\.");
+                    String[] appArray = appVersion.split("\\.");
+
+                    if (Integer.parseInt(serverArray[0]) > Integer.parseInt(appArray[0])) {// 첫번째 자리가 크면 강업
+                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.", "업데이트", (dialog, which) -> goMarket());
+                    } else if (Integer.parseInt(serverArray[1]) > Integer.parseInt(appArray[1])) {  // 두번째 자리가 크면 강업
+                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.", "업데이트", (dialog, which) -> goMarket());
+                    } else {
+                        startMainActivity();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    startMainActivity();
+                } finally {
+                    dbRef.removeEventListener(valueEventListener);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                startMainActivity();
+                dbRef.removeEventListener(valueEventListener);
+            }
+        };
+
+        dbRef.addValueEventListener(valueEventListener);
+    }
+
+    private void goMarket() {
+        String appPackageName = mContext.getPackageName();
+        appPackageName = "com.kakao.talk";
+        try {
+            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        } finally {
+            mContext.finish();
         }
     }
 }
