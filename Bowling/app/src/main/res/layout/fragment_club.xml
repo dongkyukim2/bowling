@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
 
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.fragment.ClubFragment">
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -16,77 +18,95 @@
                     android:id="@+id/search_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="#EFEBE9"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="10dp"
-                    android:background="#EFEBE9"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/search_club_edit_text"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:paddingLeft="10dp"
                         android:background="#ffffff"
+                        android:hint="클럽 이름을 입력해주세요"
                         android:imeOptions="actionSearch"
                         android:inputType="text"
-                        android:hint="클럽 이름을 입력해주세요"
-                        app:iconifiedByDefault="false"
-                        android:maxLength="10"/>
+                        android:maxLength="10"
+                        android:paddingLeft="10dp"
+                        app:iconifiedByDefault="false" />
+
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_action_search"
-                        android:background="#ffffff"/>
+                        android:background="#ffffff"
+                        android:src="@drawable/ic_action_search" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/sign_club_view_pager_bg"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:visibility="gone"
-                    app:layout_constraintDimensionRatio="w,1:1"/>
+                    app:layout_constraintDimensionRatio="w,1:1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/search_layout" />
 
             <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/sign_club_view_pager"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:overScrollMode="never"
                     app:layout_constraintDimensionRatio="w,1:1"
-                    android:overScrollMode="never"/>
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/search_layout" />
+
+
+            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                    android:id="@+id/dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    app:dotsColor="@color/startColor"
+                    app:dotsStrokeColor="@color/startColor"
+                    app:dotsCornerRadius="8dp"
+                    app:dotsSize="16dp"
+                    app:dotsSpacing="4dp"
+                    app:dotsStrokeWidth="2dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sign_club_view_pager" />
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/recommend_club_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sign_club_view_pager"
-                    android:textColor="@color/startColor"
-                    android:text="추천 클럽"
-                    android:textSize="25dp"
-                    android:fontFamily="@font/bamin"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="20dp"/>
+                    android:fontFamily="@font/bamin"
+                    android:text="추천 클럽"
+                    android:textColor="@color/startColor"
+                    android:textSize="25dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dots_indicator" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/club_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overScrollMode="never"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recommend_club_text_view"
-                    android:overScrollMode="never"/>
+                    app:layout_constraintTop_toBottomOf="@id/recommend_club_text_view" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         viewModel.clubListLiveData.observe(this, Observer {
             clubAdapter.setClubList(it)
             signClubViewPagerAdapter.setClubList(it)
+            binding.dotsIndicator.setViewPager2(binding.signClubViewPager)
         })
 
         viewModel.executeRx(RxBus.getInstance().registerRxObserver { pair ->
@@ -102,6 +103,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             offscreenPageLimit = 3
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             adapter = signClubViewPagerAdapter
+
 //            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 //
 //            })
@@ -135,20 +137,6 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             (activity as MainActivity).binding.rlBottomSheet.layoutParams = param
         }, 1000)
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode != Activity.RESULT_OK) {
-//            return
-//        }
-//        when (requestCode) {
-//            Define.CLUB_DETAIL -> {
-//                data?.getStringExtra(Define.CLUB_ID).apply {
-//                    signClubViewPagerAdapter.removeClub(this)
-//                }
-//            }
-//        }
-//    }
 
     companion object {
         @JvmStatic

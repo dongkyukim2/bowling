@@ -9,6 +9,7 @@ import androidx.palette.graphics.Palette
 import androidx.viewpager2.widget.ViewPager2
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
+import com.dk.project.bowling.shareData.ShareData
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
@@ -71,22 +72,22 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
                     binding.clubViewpager.setCurrentItem(0, true)
                 }
                 R.id.navigation_score_board -> {
-                    if (viewModel.clubModel.type <= Define.USER_TYPE_OWNER) {
-                        binding.clubViewpager.setCurrentItem(1, true)
-                    } else {
-                        ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
-                    }
+                    movePage(1)
                 }
                 R.id.navigation_post_board -> {
-                    if (viewModel.clubModel.type <= Define.USER_TYPE_OWNER) {
-                        binding.clubViewpager.setCurrentItem(2, true)
-                    } else {
-                        ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
-                    }
-
+                    movePage(2)
                 }
             }
             true
+        }
+    }
+
+    private fun movePage(index: Int) {
+        when (viewModel.clubModel.type) {
+            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> if (ShareData.getInstance().clubUserList.isNotEmpty())
+                binding.clubViewpager.setCurrentItem(index, true)
+            Define.USER_TYPE_JOIN_WAIT -> ToastUtil.showToastCenter(this, "가입신청 대기중입니다.")
+            else -> ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
         }
     }
 

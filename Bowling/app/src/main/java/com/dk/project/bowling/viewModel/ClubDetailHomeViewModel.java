@@ -19,6 +19,7 @@ import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.RxBus;
+import com.dk.project.post.utils.ToastUtil;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -67,10 +68,20 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
                 break;
             case R.id.club_user_list:
-                if (!ShareData.getInstance().getClubUserList().isEmpty()) {
-                    Intent intent = new Intent(mContext, ClubUserListActivity.class);
-                    intent.putExtra(Define.CLUB_MODEL, clubModel);
-                    mContext.startActivity(intent);
+                switch (clubModel.getType()) {
+                    case Define.USER_TYPE_JOIN:
+                    case Define.USER_TYPE_OWNER:
+                        if (!ShareData.getInstance().getClubUserList().isEmpty()) {
+                            Intent intent = new Intent(mContext, ClubUserListActivity.class);
+                            intent.putExtra(Define.CLUB_MODEL, clubModel);
+                            mContext.startActivity(intent);
+                        }
+                        break;
+                    case Define.USER_TYPE_JOIN_WAIT:
+                        ToastUtil.showToastCenter(mContext, "가입신청 대기중입니다.");
+                        break;
+                    default:
+                        ToastUtil.showToastCenter(mContext, "가입신청을 해주세요.");
                 }
                 break;
         }

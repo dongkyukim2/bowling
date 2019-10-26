@@ -116,9 +116,8 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                         binding.signUpBtn.text = "탈퇴하기"
                     }
                     Define.USER_TYPE_JOIN_WAIT -> {
-                        binding.signUpBtn.text = "가입신청 취소하"
+                        binding.signUpBtn.text = "가입신청 취소하기"
                     }
-
                     Define.USER_TYPE_SECESSION,
                     Define.USER_TYPE_FORCE_SECESSION,
                     Define.USER_TYPE_NOT_JOIN -> {
