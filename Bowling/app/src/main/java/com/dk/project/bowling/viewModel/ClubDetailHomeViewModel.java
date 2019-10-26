@@ -26,7 +26,6 @@ import com.dk.project.post.utils.RxBus;
 
 public class ClubDetailHomeViewModel extends BaseViewModel {
 
-    private boolean clubSign;
     private ClubModel clubModel;
 
     public ClubDetailHomeViewModel(@NonNull Application application) {
@@ -47,7 +46,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
     public void onThrottleClick(View view) {
         switch (view.getId()) {
             case R.id.sign_up_btn:
-                if (clubSign) {
+                if (clubModel.getType() <= Define.USER_TYPE_OWNER) {
                     AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 탈퇴 하시겠습니까?", (dialog, which) -> {
                         ClubUserModel clubUserModel = new ClubUserModel();
                         clubUserModel.setClubId(clubModel.getClubId());
@@ -75,10 +74,6 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
                 break;
         }
-    }
-
-    public void setClubSign(boolean clubSign) {
-        this.clubSign = clubSign;
     }
 
     public void setClubModel(ClubModel clubModel) {

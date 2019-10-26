@@ -92,32 +92,39 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
             }).into(binding.clubTitleImage)
 
         arguments?.apply {
-
-            getBoolean(CLUB_SIGN).let {
-                viewModel.setClubSign(it)
-                if (it) {
-                    binding.signUpBtn.text = "탈퇴하기"
-                } else {
-                    binding.signUpBtn.text = "가입하기"
-                }
-            }
-
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
                 viewModel.setClubModel(this)
                 (activity as ClubDetailActivity).paletteColorLiveData.observe(
-                    this@ClubDetailFragment,
+                    viewLifecycleOwner,
                     Observer {
                         binding.clubTitleTextView.setTextColor(it.titleTextColor)
                         binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
                     })
                 BowlingApi.getInstance().getClubUserList(
                     clubId,
-                    SuccessCallback { binding.clubUserCount.text = it.data.size.toString()
+                    SuccessCallback {
+                        binding.clubUserCount.text = it.data.size.toString()
                         ShareData.getInstance().clubUserList.addAll(it.data)
-                    },
-                    ErrorCallback { })
+                    }, ErrorCallback { })
+
+
+                when (type) {
+                    Define.USER_TYPE_JOIN,
+                    Define.USER_TYPE_OWNER -> {
+                        binding.signUpBtn.text = "탈퇴하기"
+                    }
+                    Define.USER_TYPE_JOIN_WAIT -> {
+                        binding.signUpBtn.text = "가입신청 취소하"
+                    }
+
+                    Define.USER_TYPE_SECESSION,
+                    Define.USER_TYPE_FORCE_SECESSION,
+                    Define.USER_TYPE_NOT_JOIN -> {
+                        binding.signUpBtn.text = "가입하기"
+                    }
+                }
             }
         }
 
@@ -126,13 +133,11 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
 
     companion object {
         @JvmStatic
-        fun newInstance(position: Int, clubModel: ClubModel?, isSign: Boolean) =
-            ClubDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putInt("position", position)
-                    putParcelable(Define.CLUB_MODEL, clubModel)
-                    putBoolean(Define.CLUB_SIGN, isSign)
-                }
+        fun newInstance(position: Int, clubModel: ClubModel?) = ClubDetailFragment().apply {
+            arguments = Bundle().apply {
+                putInt("position", position)
+                putParcelable(Define.CLUB_MODEL, clubModel)
             }
+        }
     }
 }

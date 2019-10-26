@@ -13,9 +13,9 @@ import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
+import com.dk.project.post.base.Define
 import com.dk.project.post.ui.activity.WriteActivity
 import com.dk.project.post.utils.ToastUtil
-
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
@@ -71,14 +71,14 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
                     binding.clubViewpager.setCurrentItem(0, true)
                 }
                 R.id.navigation_score_board -> {
-                    if (viewModel.isSign) {
+                    if (viewModel.clubModel.type <= Define.USER_TYPE_OWNER) {
                         binding.clubViewpager.setCurrentItem(1, true)
                     } else {
                         ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
                     }
                 }
                 R.id.navigation_post_board -> {
-                    if (viewModel.isSign) {
+                    if (viewModel.clubModel.type <= Define.USER_TYPE_OWNER) {
                         binding.clubViewpager.setCurrentItem(2, true)
                     } else {
                         ToastUtil.showToastCenter(this, "가입신청을 해주세요.")

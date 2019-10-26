@@ -12,7 +12,6 @@ public interface Define {
 
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
-    String CLUB_SIGN = "CLUB_SIGN";
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
     String CLUB_USER_LIST_MODEL = "CLUB_USER_LIST";
 
@@ -101,6 +100,7 @@ public interface Define {
     2 : 가입 승인대기
     3 : 탈퇴
     4 : 강퇴
+    5 : 가입안된 상태, 아직 아무것도 안
     */
 
     int USER_TYPE_JOIN = 0;
@@ -108,5 +108,6 @@ public interface Define {
     int USER_TYPE_JOIN_WAIT = 2;
     int USER_TYPE_SECESSION = 3;
     int USER_TYPE_FORCE_SECESSION = 4;
+    int USER_TYPE_NOT_JOIN = 5;
 
 }

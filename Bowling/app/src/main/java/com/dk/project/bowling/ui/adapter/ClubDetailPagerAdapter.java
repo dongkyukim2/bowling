@@ -24,7 +24,7 @@ public class ClubDetailPagerAdapter extends FragmentStateAdapter {
 
         this.viewModel = viewModel;
 
-        fragmentList.add(ClubDetailFragment.newInstance(0, viewModel.getClubModel(), viewModel.isSign()));
+        fragmentList.add(ClubDetailFragment.newInstance(0, viewModel.getClubModel()));
         fragmentList.add(ClubGameListFragment.newInstance(1, viewModel.getClubModel()));
         fragmentList.add(ContentsListFragment.newInstance(viewModel.getClubModel().getClubId()));
     }
