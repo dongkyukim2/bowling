@@ -9,7 +9,7 @@ import com.dk.project.bowling.ui.viewHolder.CreateGameViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.bowling.model.GameScoreModel;
 import com.dk.project.post.bowling.model.ReadGameModel;
-import com.dk.project.post.bowling.model.UserModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.model.LoginInfoModel;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
 
     private LayoutInflater layoutInflater;
 
-    private ArrayList<UserModel> scoreUserList;
+    private ArrayList<ScoreClubUserModel> scoreUserList;
 
     private int prevTeamPos = -1;
     private int prevUserPos = -1;
@@ -36,7 +36,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
             userMap.put(model.getUserId(), model.getUserName());
         }
 
-        UserModel readUserModel = null;
+        ScoreClubUserModel readUserModel = null;
         for (GameScoreModel gameScoreModel : readGameModel.getScoreList()) {
 
             int teamPosition = gameScoreModel.getTeamPosition();
@@ -51,7 +51,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
                 if (userPosition == prevUserPos) {
                     readUserModel.setScore(scorePosition, score);
                 } else {
-                    readUserModel = new UserModel(teamName);
+                    readUserModel = new ScoreClubUserModel(teamName);
                     readUserModel.setViewType(1);
                     readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()));
                     readUserModel.setScore(scorePosition, score);
@@ -59,10 +59,10 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
 
                 }
             } else {
-                readUserModel = new UserModel(teamName);
+                readUserModel = new ScoreClubUserModel(teamName);
                 scoreUserList.add(readUserModel);
 
-                readUserModel = new UserModel(teamName);
+                readUserModel = new ScoreClubUserModel(teamName);
                 readUserModel.setViewType(1);
                 readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()));
                 readUserModel.setScore(scorePosition, score);

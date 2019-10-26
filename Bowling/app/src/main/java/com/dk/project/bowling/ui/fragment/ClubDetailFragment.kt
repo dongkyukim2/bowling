@@ -24,8 +24,6 @@ import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
-import com.dk.project.post.retrofit.ErrorCallback
-import com.dk.project.post.retrofit.SuccessCallback
 import com.dk.project.post.utils.GlideApp
 
 /**
@@ -103,11 +101,12 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                         binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
                     })
                 BowlingApi.getInstance().getClubUserList(
-                    clubId,
-                    SuccessCallback {
-                        binding.clubUserCount.text = it.data.size.toString()
+                    clubId, {
+                        binding.clubUserCount.text =
+                            it.data.filter { user -> user.type <= Define.USER_TYPE_OWNER }
+                                .size.toString()
                         ShareData.getInstance().clubUserList.addAll(it.data)
-                    }, ErrorCallback { })
+                    }, { })
 
 
                 when (type) {

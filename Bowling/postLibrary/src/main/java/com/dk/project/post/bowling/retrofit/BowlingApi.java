@@ -44,7 +44,7 @@ public class BowlingApi {
 
     // 클럽에 가입한 유저 목록
     public Disposable getClubUserList(String clubId,
-                                      SuccessCallback<ResponseModel<ArrayList<UserModel>>> callback,
+                                      SuccessCallback<ResponseModel<ArrayList<ScoreClubUserModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getClubUserList(clubId)
                 .subscribeOn(Schedulers.io())

@@ -1,9 +1,10 @@
 package com.dk.project.post.bowling.model;
 
 import android.os.Parcel;
+
 import com.dk.project.post.model.LoginInfoModel;
 
-public class UserModel extends LoginInfoModel {
+public class ScoreClubUserModel extends ClubUserModel {
 
     // 0이면 팀 , 1이면 유저 정보
     private int viewType = 1;
@@ -11,38 +12,38 @@ public class UserModel extends LoginInfoModel {
     private boolean check;
     private Integer[] scoreList = {0, 0, 0, 0, 0, 0};
 
-    public UserModel() {
+    public ScoreClubUserModel() {
 
     }
 
-    public UserModel(String teamName) {
+    public ScoreClubUserModel(String teamName) {
         this.viewType = 0;
         this.teamName = teamName;
     }
 
-    public UserModel(LoginInfoModel loginInfoModel) {
+    public ScoreClubUserModel(LoginInfoModel loginInfoModel) {
         viewType = 1;
         setUserId(loginInfoModel.getUserId());
         setUserName(loginInfoModel.getUserName());
         setUserPhoto(loginInfoModel.getUserPhoto());
     }
 
-    protected UserModel(Parcel in) {
+    protected ScoreClubUserModel(Parcel in) {
         super(in);
         viewType = in.readInt();
         check = in.readByte() != 0;
         teamName = in.readString();
     }
 
-    public static final Creator<UserModel> CREATOR = new Creator<UserModel>() {
+    public static final Creator<ScoreClubUserModel> CREATOR = new Creator<ScoreClubUserModel>() {
         @Override
-        public UserModel createFromParcel(Parcel in) {
-            return new UserModel(in);
+        public ScoreClubUserModel createFromParcel(Parcel in) {
+            return new ScoreClubUserModel(in);
         }
 
         @Override
-        public UserModel[] newArray(int size) {
-            return new UserModel[size];
+        public ScoreClubUserModel[] newArray(int size) {
+            return new ScoreClubUserModel[size];
         }
     };
 

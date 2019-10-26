@@ -4,9 +4,9 @@ import android.view.View;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ViewHolderCreateGameBinding;
 import com.dk.project.post.base.BindViewHolder;
-import com.dk.project.post.bowling.model.UserModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
-public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, UserModel> {
+public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, ScoreClubUserModel> {
 
 
     public CreateGameViewHolder(View itemView) {
@@ -14,7 +14,7 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
     }
 
     @Override
-    public void onBindView(UserModel item, int position) {
+    public void onBindView(ScoreClubUserModel item, int position) {
         if (!item.isUserType()) { // 헤더
             binding.createGameTeamName.setText(item.getTeamName());
             binding.dragIcon.setVisibility(View.INVISIBLE);

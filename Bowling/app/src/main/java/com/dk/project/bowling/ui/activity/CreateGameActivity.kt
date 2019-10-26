@@ -19,7 +19,7 @@ import com.dk.project.bowling.viewModel.CreateGameViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.GameModel
-import com.dk.project.post.bowling.model.UserModel
+import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.retrofit.ErrorCallback
 import com.dk.project.post.retrofit.SuccessCallback
@@ -84,7 +84,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
                 it as EditText
                 var title = it.text.toString().trim()
-                createGameAdapter.addTeam(UserModel(title))
+                createGameAdapter.addTeam(ScoreClubUserModel(title))
             }
 
             binding.addTeam.setOnClickListener {
@@ -134,7 +134,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         when (requestCode) {
 
             Define.CLUB_USER_LIST -> {
-                data?.getParcelableArrayListExtra<UserModel>(Define.CLUB_USER_LIST_MODEL)?.let {
+                data?.getParcelableArrayListExtra<ScoreClubUserModel>(Define.CLUB_USER_LIST_MODEL)?.let {
                     it.map { it.isCheck = false }
                     createGameAdapter.setInviteUserList(it)
                 }

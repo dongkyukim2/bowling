@@ -9,7 +9,7 @@ public class GameModel {
     private String gameName;
 
 
-    private ArrayList<UserModel> userList;
+    private ArrayList<ScoreClubUserModel> userList;
 
     public String getClubId() {
         return clubId;
@@ -35,11 +35,11 @@ public class GameModel {
         this.gameName = gameName;
     }
 
-    public ArrayList<UserModel> getUserList() {
+    public ArrayList<ScoreClubUserModel> getUserList() {
         return userList;
     }
 
-    public void setUserList(ArrayList<UserModel> userList) {
+    public void setUserList(ArrayList<ScoreClubUserModel> userList) {
         this.userList = userList;
     }
 }

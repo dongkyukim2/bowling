@@ -13,7 +13,10 @@ import com.dk.project.bowling.databinding.ActivityClubUserListBinding
 import com.dk.project.bowling.ui.adapter.ClubUserListAdapter
 import com.dk.project.bowling.viewModel.ClubUserListViewModel
 import com.dk.project.post.base.BindActivity
+import com.dk.project.post.base.Define
+import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.utils.RecyclerViewClickListener
+import java.util.ArrayList
 
 
 class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserListViewModel>() {
@@ -32,7 +35,14 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
 
     override fun subscribeToModel() {
         viewModel.userListLiveData.observe(this, Observer {
-            clubUserListAdapter.setClubUserList(it)
+            val joinWaitList = ArrayList<ScoreClubUserModel>()
+            for (userModel in it) {
+                if (userModel.type == Define.USER_TYPE_JOIN_WAIT) {
+                    joinWaitList.add(userModel)
+                }
+            }
+            it.removeAll(joinWaitList)
+            clubUserListAdapter.setClubUserList(Pair(joinWaitList,it))
         })
     }
 

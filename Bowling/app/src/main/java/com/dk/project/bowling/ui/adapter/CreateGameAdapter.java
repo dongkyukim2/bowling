@@ -19,7 +19,7 @@ import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
-import com.dk.project.post.bowling.model.UserModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
 import io.reactivex.Observable;
@@ -35,9 +35,9 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private LayoutInflater layoutInflater;
 
     private HashMap<String, Boolean> userMap = new HashMap<>();
-    private ArrayList<UserModel> userList = new ArrayList<UserModel>() {
+    private ArrayList<ScoreClubUserModel> userList = new ArrayList<ScoreClubUserModel>() {
         @Override
-        public boolean add(UserModel userModel) {
+        public boolean add(ScoreClubUserModel userModel) {
             if (userModel.isUserType()) {
                 userMap.put(userModel.getUserId(), true);
             }
@@ -45,7 +45,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         }
 
         @Override
-        public boolean addAll(int index, @NonNull Collection<? extends UserModel> c) {
+        public boolean addAll(int index, @NonNull Collection<? extends ScoreClubUserModel> c) {
             Observable.fromIterable(c).filter(o -> o.isUserType()).subscribe(userModel -> userMap.put(userModel.getUserId(), true)).dispose();
             return super.addAll(index, c);
         }
@@ -72,7 +72,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     @Override
     public void onBindViewHolder(CreateGameViewHolder holder, int position) {
-        UserModel userModel = userList.get(position);
+        ScoreClubUserModel userModel = userList.get(position);
         holder.onBindView(userModel, position);
 
 
@@ -263,7 +263,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
 
-    public void setInviteUserList(ArrayList<UserModel> clubList) {
+    public void setInviteUserList(ArrayList<ScoreClubUserModel> clubList) {
 //        if (userList.isEmpty()) {
         userList.addAll(selectInviteIndex + 1, clubList);
         notifyDataSetChanged();
@@ -280,7 +280,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
     private Pair<Integer, Boolean> checkTeamSelectAll(int position) {
-        UserModel userModel;
+        ScoreClubUserModel userModel;
         int headerIndex = 0;
         boolean checkAll = true;
         for (int i = position - 1; i >= 0; i--) { // 선택한 아이템 위쪽 검사
@@ -314,11 +314,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         return new Pair(headerIndex, checkAll);
     }
 
-    public void addTeam(UserModel userModel) {
+    public void addTeam(ScoreClubUserModel userModel) {
         teamCount++;
         userList.add(userModel);
         if (teamCount == 1) {
-            userList.add(new UserModel(LoginManager.getInstance().getLoginInfoModel()));
+            userList.add(new ScoreClubUserModel(LoginManager.getInstance().getLoginInfoModel()));
             notifyDataSetChanged();
         } else {
 //            notifyItemInserted(userList.size() - 1);
@@ -328,7 +328,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
     public void setCheckBox(int position) {
-        UserModel userModel = userList.get(position);
+        ScoreClubUserModel userModel = userList.get(position);
         boolean check = !userModel.isCheck();
         if (!userModel.isUserType()) {
             userModel.setCheck(check);
@@ -359,7 +359,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
 
         int checkUserCount = 0;
-        for (UserModel tempUserModel : userList) {
+        for (ScoreClubUserModel tempUserModel : userList) {
             if (tempUserModel.isCheck()) {
                 checkUserCount++;
             }
@@ -371,11 +371,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         return selectInviteIndex;
     }
 
-    public ArrayList<UserModel> getUserList() {
+    public ArrayList<ScoreClubUserModel> getUserList() {
         return userList;
     }
 
-    private void setScore(UserModel userModel, int index, int score) {
+    private void setScore(ScoreClubUserModel userModel, int index, int score) {
         userModel.setScore(index, score);
     }
 }

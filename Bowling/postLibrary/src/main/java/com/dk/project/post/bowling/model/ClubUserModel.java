@@ -1,14 +1,13 @@
 package com.dk.project.post.bowling.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class ClubUserModel implements Parcelable {
+import com.dk.project.post.model.LoginInfoModel;
+
+public class ClubUserModel extends LoginInfoModel {
 
     private String clubId;
-    private String userId;
-    private String userName;
-    private String userPhoto;
+
     /*
      0 : 가입 완료
      1 : 클럽 주인 (당연 가립된 상태)
@@ -24,9 +23,6 @@ public class ClubUserModel implements Parcelable {
 
     protected ClubUserModel(Parcel in) {
         clubId = in.readString();
-        userId = in.readString();
-        userName = in.readString();
-        userPhoto = in.readString();
         type = in.readInt();
         signUpDate = in.readString();
     }
@@ -51,9 +47,6 @@ public class ClubUserModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(clubId);
-        dest.writeString(userId);
-        dest.writeString(userName);
-        dest.writeString(userPhoto);
         dest.writeInt(type);
         dest.writeString(signUpDate);
     }
@@ -64,30 +57,6 @@ public class ClubUserModel implements Parcelable {
 
     public void setClubId(String clubId) {
         this.clubId = clubId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPhoto() {
-        return userPhoto;
-    }
-
-    public void setUserPhoto(String userPhoto) {
-        this.userPhoto = userPhoto;
     }
 
     public int getType() {

@@ -1,5 +1,6 @@
 package com.dk.project.bowling.ui.adapter;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +9,19 @@ import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.viewHolder.ClubUserViewHolder;
 import com.dk.project.bowling.viewModel.ClubUserListViewModel;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
-import com.dk.project.post.bowling.model.UserModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import kotlin.Pair;
 
 public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHolder> {
 
     private ClubUserListViewModel clubUserListViewModel;
-    private ArrayList<UserModel> clubUserList = new ArrayList<>();
+    private ArrayList<ScoreClubUserModel> clubUserList = new ArrayList<>();
     private HashMap<String, Boolean> selectedUserMap = new HashMap<>();
 
     private boolean selectMode;
@@ -45,28 +47,20 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
     }
 
 
-    public void setClubUserList(List<UserModel> clubUserList) {
+    public void setClubUserList(Pair<List<ScoreClubUserModel>, List<ScoreClubUserModel>> clubUserList) {
 
-        List<UserModel> tempList = new ArrayList<>();
+        if (selectMode) {
+            this.clubUserList.addAll(clubUserList.getSecond());
+        } else {
+            this.clubUserList.addAll(clubUserList.getFirst());
+            this.clubUserList.addAll(clubUserList.getSecond());
+        }
 
-//        for (UserModel userModel : clubUserList) {
-//            if(userModel.){
-//
-//            }
-//            tempList.add(userModel);
-//        }
-//
-//        if (selectMode){
-//
-//        } else {
-//
-//        }
-        this.clubUserList.addAll(clubUserList);
         notifyDataSetChanged();
     }
 
     public void setCheck(int position) {
-        UserModel userModel = clubUserList.get(position);
+        ScoreClubUserModel userModel = clubUserList.get(position);
         if (selectedUserMap.containsKey(userModel.getUserId())) {
             return;
         }
@@ -74,8 +68,8 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
         notifyItemChanged(position);
     }
 
-    public ArrayList<UserModel> getSelectList() {
-        return Observable.fromIterable(clubUserList).filter(UserModel::isCheck).toList().map(userModels -> new ArrayList(userModels)).blockingGet();
+    public ArrayList<ScoreClubUserModel> getSelectList() {
+        return Observable.fromIterable(clubUserList).filter(ScoreClubUserModel::isCheck).toList().map(userModels -> new ArrayList(userModels)).blockingGet();
     }
 
     public void setSelectedUserMap(HashMap<String, Boolean> userMap) {

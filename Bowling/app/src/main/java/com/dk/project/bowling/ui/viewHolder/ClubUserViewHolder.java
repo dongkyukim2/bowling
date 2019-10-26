@@ -5,16 +5,16 @@ import android.view.View;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ViewHolderClubUserBinding;
 import com.dk.project.post.base.BindViewHolder;
-import com.dk.project.post.bowling.model.UserModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
-public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding, UserModel> {
+public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding, ScoreClubUserModel> {
 
     public ClubUserViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    public void onBindView(UserModel item, int position) {
+    public void onBindView(ScoreClubUserModel item, int position) {
         binding.userNameText.setText(item.getUserName());
         binding.userCheckBox.setClickable(false);
 

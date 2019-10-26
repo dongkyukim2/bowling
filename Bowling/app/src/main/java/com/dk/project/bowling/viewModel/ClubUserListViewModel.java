@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.bowling.model.ClubModel;
-import com.dk.project.post.bowling.model.UserModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class ClubUserListViewModel extends BaseViewModel {
     private boolean selectMode;
     private HashMap<String, Boolean> userMap;
 
-    private MutableLiveData<List<UserModel>> userListLiveData = new MutableLiveData();
+    private MutableLiveData<List<ScoreClubUserModel>> userListLiveData = new MutableLiveData();
 
     public ClubUserListViewModel(@NonNull Application application) {
         super(application);
@@ -77,7 +77,7 @@ public class ClubUserListViewModel extends BaseViewModel {
         return clubModel;
     }
 
-    public MutableLiveData<List<UserModel>> getUserListLiveData() {
+    public MutableLiveData<List<ScoreClubUserModel>> getUserListLiveData() {
         return userListLiveData;
     }
 
