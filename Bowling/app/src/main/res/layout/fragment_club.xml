@@ -76,7 +76,7 @@
                     android:layout_marginRight="40dp"
                     app:dotsColor="@color/startColor"
                     app:dotsCornerRadius="8dp"
-                    app:dotsSize="16dp"
+                    app:dotsSize="12dp"
                     app:dotsSpacing="4dp"
                     app:dotsStrokeColor="@color/startColor"
                     app:dotsStrokeWidth="2dp"

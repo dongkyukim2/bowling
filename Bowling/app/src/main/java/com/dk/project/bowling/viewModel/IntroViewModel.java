@@ -145,6 +145,7 @@ public class IntroViewModel extends BaseViewModel {
                     startMainActivity();
                 } finally {
                     dbRef.removeEventListener(valueEventListener);
+                    database.goOffline();
                 }
             }
 
@@ -152,6 +153,7 @@ public class IntroViewModel extends BaseViewModel {
             public void onCancelled(DatabaseError error) {
                 startMainActivity();
                 dbRef.removeEventListener(valueEventListener);
+                database.goOffline();
             }
         };
 
