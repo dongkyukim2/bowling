@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 
 import com.dk.project.post.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -35,6 +36,7 @@ public class AlertDialogUtil {
         }
         dialogBuilder.setItems(info, onClickListener);
         AlertDialog dialog = dialogBuilder.create();
+        setTextColor(dialog);
         dialog.show();
         return dialog;
     }
@@ -48,6 +50,9 @@ public class AlertDialogUtil {
                 .setPositiveButton("예", onPositiveClickListener)
                 .setNegativeButton("아니요", (dialog, whichButton) -> dialog.cancel());
         AlertDialog dialog = dialogBuilder.create();
+
+        setTextColor(dialog);
+
         dialog.show();
         return dialog;
     }
@@ -69,6 +74,7 @@ public class AlertDialogUtil {
                 .setPositiveButton("예", onPositiveClickListener)
                 .setNegativeButton("아니요", onNegativeClickListener);
         AlertDialog dialog = dialogBuilder.create();
+        setTextColor(dialog);
         dialog.show();
         return dialog;
     }
@@ -85,6 +91,7 @@ public class AlertDialogUtil {
                 });
         AlertDialog dialog = dialogBuilder.create();
         dialog.setCancelable(false);
+        setTextColor(dialog);
         dialog.show();
         return dialog;
     }
@@ -97,6 +104,7 @@ public class AlertDialogUtil {
         AlertDialog dialog = dialogBuilder.create();
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        setTextColor(dialog);
         dialog.show();
 //        ApngImageLoader.getInstance()
 //                .displayApng("assets://loading.png", imageView,
@@ -141,6 +149,7 @@ public class AlertDialogUtil {
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setView(view);
         alertDialog.setCancelable(false);
+        setTextColor(alertDialog);
         alertDialog.show();
 
 
@@ -210,6 +219,14 @@ public class AlertDialogUtil {
 
         editText.postDelayed(() -> TextViewUtil.showKeyBoard(context, editText), 300);
         return alertDialog;
+    }
+
+    private static void setTextColor(AlertDialog dialog) {
+        dialog.setOnShowListener(arg0 -> {
+            Context context = dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getContext();
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.startColor));
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.startColor));
+        });
     }
 }
 
