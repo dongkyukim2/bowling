@@ -1,6 +1,5 @@
 package com.dk.project.bowling.ui.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -19,7 +18,6 @@ import com.dk.project.bowling.ui.adapter.SignClubViewPagerAdapter
 import com.dk.project.bowling.ui.widget.CustomMarginPageTransformer
 import com.dk.project.bowling.viewModel.ClubViewModel
 import com.dk.project.post.base.BindFragment
-import com.dk.project.post.base.Define
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
 
