@@ -83,6 +83,8 @@ public interface Define {
 
     int EVENT_REFRESH_SCORE = 1006; //  메인 액티비티에서 점수 등록했을때 갱신하기 위해
 
+    int EVENT_REFRESH_MY_CLUB_LIST = 1007; // 내가 만들고 클럽 목록 갱신
+
 
 
 

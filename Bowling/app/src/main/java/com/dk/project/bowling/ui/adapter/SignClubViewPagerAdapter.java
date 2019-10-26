@@ -13,7 +13,6 @@ import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.ClubDetailActivity;
 import com.dk.project.bowling.ui.viewHolder.SignClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
-import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.retrofit.ResponseModel;
 
@@ -41,7 +40,8 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
             Intent intent = new Intent(context, ClubDetailActivity.class);
             intent.putExtra(CLUB_MODEL, clubList.get(position));
             intent.putExtra(CLUB_SIGN, true);
-            ((BindActivity) context).startActivityForResult(intent, CLUB_DETAIL);
+//            ((BindActivity) context).startActivityForResult(intent, CLUB_DETAIL);
+            context.startActivity(intent);
         });
     }
 

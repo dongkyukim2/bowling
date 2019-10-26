@@ -3,17 +3,20 @@ package com.dk.project.bowling.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.util.Pair
 import androidx.lifecycle.ViewModelProvider
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateClubBinding
 import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.CreateClubViewModel
 import com.dk.project.post.base.BindActivity
+import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.retrofit.ErrorCallback
 import com.dk.project.post.retrofit.SuccessCallback
 import com.dk.project.post.utils.GlideApp
+import com.dk.project.post.utils.RxBus
 
 class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubViewModel>() {
 
@@ -47,12 +50,12 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
     }
 
     override fun onToolbarRightClick() {
-
         BowlingApi.getInstance().createClub(ClubModel().apply {
             clubTitle = binding.clubTitleTextView.text.toString()
             clubInfo = binding.clubSubTitleTextView.text.toString()
             clubImage = defaultImageIndex.toString()
         }, SuccessCallback {
+            RxBus.getInstance().eventPost(Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true))
             finish()
         }, ErrorCallback {
             Toast.makeText(this, "클럽 만들기 실패", Toast.LENGTH_LONG).show()

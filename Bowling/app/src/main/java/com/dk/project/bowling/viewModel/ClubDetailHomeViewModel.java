@@ -1,12 +1,12 @@
 package com.dk.project.bowling.viewModel;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.shareData.ShareData;
@@ -18,6 +18,7 @@ import com.dk.project.post.bowling.model.ClubUserModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.RxBus;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -54,9 +55,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                         clubUserModel.setType(Define.USER_TYPE_SECESSION);
                         executeRx(BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {
                             if (receivedData.isSuccess()) {
-                                Intent intent = new Intent();
-                                intent.putExtra(Define.CLUB_ID, clubUserModel.getClubId());
-                                mContext.setResult(Activity.RESULT_OK, intent);
+                                RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
                                 mContext.finish();
                             } else {
                                 Toast.makeText(mContext, "탈퇴하기 실패", Toast.LENGTH_SHORT).show();
@@ -69,7 +68,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
                 break;
             case R.id.club_user_list:
-                if(!ShareData.getInstance().getClubUserList().isEmpty()){
+                if (!ShareData.getInstance().getClubUserList().isEmpty()) {
                     Intent intent = new Intent(mContext, ClubUserListActivity.class);
                     intent.putExtra(Define.CLUB_MODEL, clubModel);
                     mContext.startActivity(intent);
