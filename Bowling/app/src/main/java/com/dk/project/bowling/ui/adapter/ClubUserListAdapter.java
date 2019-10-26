@@ -9,6 +9,7 @@ import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.viewHolder.ClubUserViewHolder;
 import com.dk.project.bowling.viewModel.ClubUserListViewModel;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
 import java.util.ArrayList;
@@ -35,9 +36,19 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
 
     @Override
     public void onBindViewHolder(ClubUserViewHolder holder, int position) {
-        holder.onBindView(clubUserList.get(position), position);
-        if (!clubUserListViewModel.isSelectMode()) {
+        ScoreClubUserModel userModel = clubUserList.get(position);
+        holder.onBindView(userModel, position);
+
+        if (clubUserListViewModel.isSelectMode()) {
+            holder.getBinding().userCheckBox.setVisibility(View.VISIBLE);
+            holder.getBinding().joinYesNoParent.setVisibility(View.GONE);
+        } else {
             holder.getBinding().userCheckBox.setVisibility(View.GONE);
+            if (userModel.getType() == Define.USER_TYPE_JOIN_WAIT) {
+                holder.getBinding().joinYesNoParent.setVisibility(View.VISIBLE);
+            } else {
+                holder.getBinding().joinYesNoParent.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -48,7 +59,7 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
 
 
     public void setClubUserList(Pair<List<ScoreClubUserModel>, List<ScoreClubUserModel>> clubUserList) {
-
+        this.clubUserList.clear();
         if (selectMode) {
             this.clubUserList.addAll(clubUserList.getSecond());
         } else {

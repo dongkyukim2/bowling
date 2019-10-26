@@ -7,6 +7,7 @@ package com.dk.project.post.base;
 public interface Define {
 
     boolean TEST_USER = false;
+//    boolean TEST_USER = true;
 
     boolean USE_GLIDE = false;
 
@@ -84,10 +85,7 @@ public interface Define {
 
     int EVENT_REFRESH_MY_CLUB_LIST = 1007; // 내가 만들고 클럽 목록 갱신
 
-
-
-
-
+    int EVENT_REFRESH_CLUB_USER_LIST = 1008; // 클럽 가입 승인이나 거부했을때 갱신
 
 
 
@@ -100,7 +98,8 @@ public interface Define {
     2 : 가입 승인대기
     3 : 탈퇴
     4 : 강퇴
-    5 : 가입안된 상태, 아직 아무것도 안
+    5 : 가입 거부
+    6 : 가입안된 상태, 아직 아무것도 안함
     */
 
     int USER_TYPE_JOIN = 0;
@@ -108,6 +107,7 @@ public interface Define {
     int USER_TYPE_JOIN_WAIT = 2;
     int USER_TYPE_SECESSION = 3;
     int USER_TYPE_FORCE_SECESSION = 4;
-    int USER_TYPE_NOT_JOIN = 5;
+    int USER_TYPE_JOIN_NEGATIVE = 5;
+    int USER_TYPE_NOT_JOIN = 6;
 
 }

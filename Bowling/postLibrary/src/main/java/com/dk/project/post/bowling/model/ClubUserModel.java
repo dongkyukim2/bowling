@@ -14,7 +14,9 @@ public class ClubUserModel extends LoginInfoModel {
      2 : 가입 승인대기
      3 : 탈퇴
      4 : 강퇴
-    */
+     5 : 가입 거부
+     6 : 가입안된 상태, 아직 아무것도 안함
+     */
     private int type;
     private String signUpDate;
 

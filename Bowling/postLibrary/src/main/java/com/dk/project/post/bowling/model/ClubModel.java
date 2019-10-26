@@ -13,12 +13,13 @@ public class ClubModel implements Parcelable {
     private String clubImage;
     private int count;
     /*
-     0 : 가입 완료
-     1 : 클럽 주인 (당연 가립된 상태)태
-     2 : 가입 승인대기
-     3 : 탈퇴
-     4 : 강퇴
-     5 : 아직 아무것도 안함 . 신청 안한 상
+    0 : 가입 완료
+    1 : 클럽 주인 (당연 가립된 상태)
+    2 : 가입 승인대기
+    3 : 탈퇴
+    4 : 강퇴
+    5 : 가입 거부
+    6 : 가입안된 상태, 아직 아무것도 안함
     */
     private int type;
 

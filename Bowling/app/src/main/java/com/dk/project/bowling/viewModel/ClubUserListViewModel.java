@@ -10,9 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
+import com.dk.project.post.utils.RxBus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,15 @@ public class ClubUserListViewModel extends BaseViewModel {
 
     public ClubUserListViewModel(@NonNull Application application) {
         super(application);
+
+        RxBus.getInstance().registerRxObserver(integerObjectPair -> {
+            switch (integerObjectPair.first) {
+                case Define.EVENT_REFRESH_CLUB_USER_LIST:
+                    getUserList();
+                    break;
+            }
+        });
+
     }
 
     @Override
@@ -55,9 +66,7 @@ public class ClubUserListViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         if (selectMode) {
-            BowlingApi.getInstance().getClubUserList(clubModel.getClubId(),
-                    receivedData -> userListLiveData.setValue(receivedData.getData()),
-                    errorData -> Toast.makeText(mContext, "유저 목록 가져오기 실패", Toast.LENGTH_SHORT).show());
+            getUserList();
         } else {
             userListLiveData.setValue(ShareData.getInstance().getClubUserList());
         }
@@ -87,5 +96,11 @@ public class ClubUserListViewModel extends BaseViewModel {
 
     public boolean isSelectMode() {
         return selectMode;
+    }
+
+    private void getUserList() {
+        BowlingApi.getInstance().getClubUserList(clubModel.getClubId(),
+                receivedData -> userListLiveData.setValue(receivedData.getData()),
+                errorData -> Toast.makeText(mContext, "유저 목록 가져오기 실패", Toast.LENGTH_SHORT).show());
     }
 }

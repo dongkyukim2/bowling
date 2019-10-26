@@ -120,7 +120,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                     Define.USER_TYPE_SECESSION,
                     Define.USER_TYPE_FORCE_SECESSION,
                     Define.USER_TYPE_NOT_JOIN -> {
-                        binding.signUpBtn.text = "가입하기"
+                        binding.signUpBtn.text = "가입신청 하기"
                     }
                 }
             }

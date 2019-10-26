@@ -16,7 +16,7 @@ import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.utils.RecyclerViewClickListener
-import java.util.ArrayList
+import java.util.*
 
 
 class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserListViewModel>() {
@@ -42,7 +42,7 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
                 }
             }
             it.removeAll(joinWaitList)
-            clubUserListAdapter.setClubUserList(Pair(joinWaitList,it))
+            clubUserListAdapter.setClubUserList(Pair(joinWaitList, it))
         })
     }
 
@@ -67,8 +67,12 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
             itemAnimator = DefaultItemAnimator()
             adapter = clubUserListAdapter
             RecyclerViewClickListener.setItemClickListener(this) { view, position ->
-                view.visibility
-                clubUserListAdapter.setCheck(position)
+                if (viewModel.isSelectMode) {
+                    clubUserListAdapter.setCheck(position)
+                } else {
+
+                }
+
             }
         }
     }
