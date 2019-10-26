@@ -6,8 +6,8 @@ package com.dk.project.post.base;
 
 public interface Define {
 
-    boolean TEST_USER = false;
-//    boolean TEST_USER = true;
+//    boolean TEST_USER = false;
+    boolean TEST_USER = true;
 
     boolean USE_GLIDE = false;
 

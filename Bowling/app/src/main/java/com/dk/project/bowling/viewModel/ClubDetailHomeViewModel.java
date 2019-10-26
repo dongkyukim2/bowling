@@ -48,9 +48,9 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
         switch (view.getId()) {
             case R.id.sign_up_btn:
                 if (clubModel.getType() <= Define.USER_TYPE_OWNER) {
-
+                    setUserType(Define.USER_TYPE_SECESSION);
                 } else {
-
+                    setUserType(Define.USER_TYPE_JOIN_WAIT);
                 }
                 break;
             case R.id.club_user_list:
@@ -79,14 +79,13 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
 
     private void setUserType(int userType) {
         String msg;
-        if (userType <= Define.USER_TYPE_OWNER) {
+        if (userType == Define.USER_TYPE_JOIN_WAIT) {
             msg = "가입 신청";
         } else {
             msg = "탈퇴";
         }
 
         AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 " + msg + " 하시겠습니까?", (dialog, which) -> {
-
             ClubUserModel clubUserModel = new ClubUserModel();
             clubUserModel.setClubId(clubModel.getClubId());
             clubUserModel.setUserId(LoginManager.getInstance().getUserCode());

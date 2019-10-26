@@ -69,7 +69,6 @@ public interface RetroBaseApiService {
     @GET("community/bowling/game/user/")
     Observable<ResponseModel<ArrayList<LoginInfoModel>>> getGameUserList(@Query("gameId") String gameId);
 
-
     @POST("community/bowling/club/modifyType/")
     Observable<ResponseModel<ClubUserModel>> setModifyClubUserType(@Body ClubUserModel clubUserModel);
 
