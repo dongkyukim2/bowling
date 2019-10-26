@@ -68,10 +68,14 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
                 }
             }).into(binding.clubImageView);
         }
-        if (item.getType() < Define.USER_TYPE_JOIN_WAIT) {
+        if (item.getType() == Define.USER_TYPE_JOIN_WAIT) {
+            binding.joinWaitBg.setVisibility(View.VISIBLE);
+            binding.joinWaitText.setVisibility(View.VISIBLE);
+        } else {
             binding.joinWaitBg.setVisibility(View.GONE);
             binding.joinWaitText.setVisibility(View.GONE);
         }
+
         binding.clubTitleTextView.setText(item.getClubTitle());
     }
 }

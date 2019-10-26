@@ -12,7 +12,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#ffffff">
+                android:background="@color/gray_background_color">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/search_layout"
@@ -94,7 +94,7 @@
                     android:fontFamily="@font/bamin"
                     android:text="추천 클럽"
                     android:textColor="@color/startColor"
-                    android:textSize="25dp"
+                    android:textSize="23dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dots_indicator" />
 

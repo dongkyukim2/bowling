@@ -26,7 +26,6 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
 
     @Override
     public void onBindViewHolder(ClubViewHolder holder, int position) {
-
         holder.onBindView(clubList.get(position), position);
     }
 
@@ -52,14 +51,6 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
             clubListModel.second.getData().removeAll(filterList);
         }
 
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
-        receiveClubList.addAll(clubListModel.second.getData());
         receiveClubList.addAll(clubListModel.second.getData());
         receiveClubList.addAll(clubListModel.second.getData());
 

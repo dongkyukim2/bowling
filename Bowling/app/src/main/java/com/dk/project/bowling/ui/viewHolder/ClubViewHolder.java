@@ -16,5 +16,8 @@ public class ClubViewHolder extends BindViewHolder<ViewHolderClubBinding, ClubMo
         binding.clubTitleTextView.setText(item.getClubTitle());
         binding.clubSubTitleTextView.setText(item.getClubInfo());
         binding.clubCountText.setText(String.valueOf(item.getCount()));
+        
+        binding.clubCountText.setVisibility(View.GONE);
+        binding.clubCountImage.setVisibility(View.GONE);
     }
 }

@@ -31,11 +31,10 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         return R.layout.fragment_club
     }
 
-    override fun createViewModel(): ClubViewModel {
-        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
-            ClubViewModel::class.java
-        )
-    }
+    override fun createViewModel() = ViewModelProvider(
+        viewModelStore,
+        defaultViewModelProviderFactory
+    ).get(ClubViewModel::class.java)
 
     override fun registerLiveData() {
         viewModel.clubListLiveData.observe(this, Observer {
