@@ -65,11 +65,7 @@ public class ClubUserListViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        if (selectMode) {
             getUserList();
-        } else {
-            userListLiveData.setValue(ShareData.getInstance().getClubUserList());
-        }
     }
 
     @Override

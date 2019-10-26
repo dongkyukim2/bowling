@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.bowling.ui.activity.ClubUserListActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
@@ -57,11 +56,9 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 switch (clubModel.getType()) {
                     case Define.USER_TYPE_JOIN:
                     case Define.USER_TYPE_OWNER:
-                        if (!ShareData.getInstance().getClubUserList().isEmpty()) {
-                            Intent intent = new Intent(mContext, ClubUserListActivity.class);
-                            intent.putExtra(Define.CLUB_MODEL, clubModel);
-                            mContext.startActivity(intent);
-                        }
+                        Intent intent = new Intent(mContext, ClubUserListActivity.class);
+                        intent.putExtra(Define.CLUB_MODEL, clubModel);
+                        mContext.startActivity(intent);
                         break;
                     case Define.USER_TYPE_JOIN_WAIT:
                         ToastUtil.showToastCenter(mContext, "가입신청 대기중입니다.");
@@ -75,6 +72,10 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
 
     public void setClubModel(ClubModel clubModel) {
         this.clubModel = clubModel;
+    }
+
+    public ClubModel getClubModel() {
+        return clubModel;
     }
 
     private void setUserType(int userType) {
@@ -100,7 +101,5 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
             }, errorData -> Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show()));
 
         });
-
-
     }
 }

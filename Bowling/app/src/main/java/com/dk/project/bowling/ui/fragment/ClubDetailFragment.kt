@@ -16,7 +16,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubDetailBinding
-import com.dk.project.bowling.shareData.ShareData
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
 import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailHomeViewModel
@@ -25,6 +24,7 @@ import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.GlideApp
+import com.dk.project.post.utils.RxBus
 
 /**
  * A simple [Fragment] subclass.
@@ -43,7 +43,11 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
     }
 
     override fun registerLiveData() {
-
+        RxBus.getInstance().registerRxObserver { integerObjectPair ->
+            when (integerObjectPair.first) {
+                Define.EVENT_REFRESH_CLUB_USER_LIST -> getUserList()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -54,8 +58,6 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         view = super.onCreateView(inflater, container, savedInstanceState)
 
         binding.viewModel = viewModel
-
-        ShareData.getInstance().clubUserList.clear()
 
         GlideApp.with(activity!!).asBitmap().load(utils.getDefaultImage()).centerCrop()
             .addListener(object : RequestListener<Bitmap> {
@@ -93,21 +95,15 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
-                viewModel.setClubModel(this)
+                viewModel.clubModel = this
                 (activity as ClubDetailActivity).paletteColorLiveData.observe(
                     viewLifecycleOwner,
                     Observer {
                         binding.clubTitleTextView.setTextColor(it.titleTextColor)
                         binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
                     })
-                BowlingApi.getInstance().getClubUserList(
-                    clubId, {
-                        binding.clubUserCount.text =
-                            it.data.filter { user -> user.type <= Define.USER_TYPE_OWNER }
-                                .size.toString()
-                        ShareData.getInstance().clubUserList.addAll(it.data)
-                    }, { })
 
+                getUserList()
 
                 when (type) {
                     Define.USER_TYPE_JOIN,
@@ -127,6 +123,14 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         }
 
         return view
+    }
+
+    private fun getUserList() {
+        BowlingApi.getInstance().getClubUserList(
+            viewModel.clubModel.clubId, {
+                binding.clubUserCount.text =
+                    it.data.filter { user -> user.type <= Define.USER_TYPE_OWNER }.size.toString()
+            }, { })
     }
 
     companion object {

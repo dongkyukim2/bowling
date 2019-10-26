@@ -11,7 +11,6 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubUserModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
-import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ToastUtil;
@@ -61,7 +60,7 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding
     private void setJoinType(int type) {
         ClubUserModel clubUserModel = new ClubUserModel();
         clubUserModel.setClubId(userModel.getClubId());
-        clubUserModel.setUserId(LoginManager.getInstance().getUserCode());
+        clubUserModel.setUserId(userModel.getUserId());
         clubUserModel.setType(type);
 
         BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {

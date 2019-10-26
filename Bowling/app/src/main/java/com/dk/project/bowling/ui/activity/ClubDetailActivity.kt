@@ -84,8 +84,7 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     private fun movePage(index: Int) {
         when (viewModel.clubModel.type) {
-            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> if (ShareData.getInstance().clubUserList.isNotEmpty())
-                binding.clubViewpager.setCurrentItem(index, true)
+            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> binding.clubViewpager.setCurrentItem(index, true)
             Define.USER_TYPE_JOIN_WAIT -> ToastUtil.showToastCenter(this, "가입신청 대기중입니다.")
             else -> ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
         }
