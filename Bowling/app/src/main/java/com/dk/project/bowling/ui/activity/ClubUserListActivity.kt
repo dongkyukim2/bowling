@@ -46,12 +46,12 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
             toolbarTitle.text = "클럽인원 목록"
         }
 
-
         binding.clubUserRecycler.apply {
             clubUserListAdapter = ClubUserListAdapter()
             if (viewModel.isSelectMode) {
                 clubUserListAdapter.setSelectedUserMap(viewModel.selectedUserMap)
             }
+            clubUserListAdapter.setSelectMode(viewModel.isSelectMode)
             clubUserListAdapter.setClubUserListViewModel(viewModel)
             layoutManager = LinearLayoutManager(this@ClubUserListActivity)
             itemAnimator = DefaultItemAnimator()

@@ -22,6 +22,8 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
     private ArrayList<UserModel> clubUserList = new ArrayList<>();
     private HashMap<String, Boolean> selectedUserMap = new HashMap<>();
 
+    private boolean selectMode;
+
     @Override
     public ClubUserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ClubUserViewHolder(
@@ -44,6 +46,21 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
 
 
     public void setClubUserList(List<UserModel> clubUserList) {
+
+        List<UserModel> tempList = new ArrayList<>();
+
+//        for (UserModel userModel : clubUserList) {
+//            if(userModel.){
+//
+//            }
+//            tempList.add(userModel);
+//        }
+//
+//        if (selectMode){
+//
+//        } else {
+//
+//        }
         this.clubUserList.addAll(clubUserList);
         notifyDataSetChanged();
     }
@@ -67,5 +84,9 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
 
     public void setClubUserListViewModel(ClubUserListViewModel clubUserListViewModel) {
         this.clubUserListViewModel = clubUserListViewModel;
+    }
+
+    public void setSelectMode(boolean selectMode) {
+        this.selectMode = selectMode;
     }
 }
