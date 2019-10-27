@@ -255,10 +255,10 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             binding.mainDrawerLayout.closeDrawer(GravityCompat.START);
             isExit = true;
         }
-        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_HIDDEN) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            isExit = true;
-        }
+//        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_HIDDEN) {
+//            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//            isExit = true;
+//        }
         if (isExit) {
             return;
         }

@@ -136,7 +136,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                 case R.id.game_num_1:
                 case R.id.game_num_score_1:
 //                    System.out.println("++++++++++++        position   " + index + "    6");
-                    AlertDialogUtil.showScoreEditTextAlertDialog(mContext, "점수를 입랙해주세요", editText -> {
+                    AlertDialogUtil.showScoreEditTextAlertDialog(mContext, "점수를 입력해주세요", editText -> {
                         setScore(userList.get(index), scoreIndex.get(), Integer.valueOf(((EditText) editText).getText().toString().trim()));
                         notifyItemChanged(index);
                     });

@@ -192,6 +192,9 @@ public class AlertDialogUtil {
         });
 
         AlertDialog alertDialog = dialogBuilder.create();
+
+        setTextColor(alertDialog);
+
         alertDialog.setView(view);
         alertDialog.setCancelable(false);
         alertDialog.show();
