@@ -7,8 +7,8 @@ package com.dk.project.post.base;
 public interface Define {
 
 
-//    boolean TEST_USER = false;
-    boolean TEST_USER = true;
+    boolean TEST_USER = false;
+//    boolean TEST_USER = true;
     String TEST_ID = "1087708737";
 //    String TEST_ID = "1087708739";
 
