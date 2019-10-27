@@ -256,6 +256,7 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
                             editTextSum(view);
                             binding.inputParentView.removeView(view);
                             setImageMargin();
+                        }, (dialog, which) -> {
                         });
                     });
                 } else {
@@ -362,6 +363,7 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
                     editTextSum(view);
                     binding.inputParentView.removeView(view);
                     setImageMargin();
+                }, (dialog, which) -> {
                 });
             });
 
@@ -578,6 +580,7 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
                 .setOnClickListener(view -> AlertDialogUtil.showAlertDialog(WriteActivity.this, "알림", "선택한 동영상를 삭제 하시겠습니까?", (dialog, which) -> {
                     editTextSum(view);
                     binding.inputParentView.removeView((View) view.getParent());
+                }, (dialog, which) -> {
                 }));
 
         return youtubeLayout;

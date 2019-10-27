@@ -1,27 +1,16 @@
 package com.dk.project.bowling.ui.activity
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.core.util.Pair
+import android.text.method.ScrollingMovementMethod
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateClubBinding
-import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.CreateClubViewModel
 import com.dk.project.post.base.BindActivity
-import com.dk.project.post.base.Define
-import com.dk.project.post.bowling.model.ClubModel
-import com.dk.project.post.bowling.retrofit.BowlingApi
-import com.dk.project.post.retrofit.ErrorCallback
-import com.dk.project.post.retrofit.SuccessCallback
-import com.dk.project.post.utils.GlideApp
-import com.dk.project.post.utils.RxBus
+import com.dk.project.post.utils.ScreenUtil
 
 class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubViewModel>() {
-
-    private var defaultImageIndex: Int = 0
-
 
     override fun getLayoutId(): Int {
         return R.layout.activity_create_club
@@ -40,26 +29,18 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        toolbarRightButton.visibility = View.VISIBLE
+        binding.viewModel = viewModel
 
-        defaultImageIndex = utils.getDefaultImageIndex()
+        (binding.space.layoutParams as ConstraintLayout.LayoutParams).apply {
+            matchConstraintPercentHeight =
+                if (ScreenUtil.screenRatio(this@CreateClubActivity) < 56) { // 세로가 짧은 디바이스
+                    0.1.toFloat()
+                } else { // 세로가 긴 디바이스
+                    0.2.toFloat()
+                }
+            binding.space.layoutParams = this
+        }
 
-        GlideApp.with(this).load(utils.getDefaultImage(defaultImageIndex))
-            .into(binding.clubTitleImageView)
-
+        binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
     }
-
-    override fun onToolbarRightClick() {
-        BowlingApi.getInstance().createClub(ClubModel().apply {
-            clubTitle = binding.clubTitleTextView.text.toString()
-            clubInfo = binding.clubSubTitleTextView.text.toString()
-            clubImage = defaultImageIndex.toString()
-        }, SuccessCallback {
-            RxBus.getInstance().eventPost(Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true))
-            finish()
-        }, ErrorCallback {
-            Toast.makeText(this, "클럽 만들기 실패", Toast.LENGTH_LONG).show()
-        })
-    }
-
 }

@@ -167,7 +167,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
                             } else {
                                 Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show();
                             }
-                        }, errorData -> Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show()));
+                        }, errorData -> Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show()), (dialog, which) -> {
+                });
             }
         }));
 

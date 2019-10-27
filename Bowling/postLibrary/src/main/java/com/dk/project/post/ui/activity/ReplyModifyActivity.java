@@ -79,7 +79,8 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
 
     @Override
     public void onBackPressed() {
-        AlertDialogUtil.showAlertDialog(this, null, "댓글 수정을 취소하시겠습니까?", (dialog, which) -> super.onBackPressed());
+        AlertDialogUtil.showAlertDialog(this, null, "댓글 수정을 취소하시겠습니까?", (dialog, which) -> super.onBackPressed(), (dialog, which) -> {
+        });
     }
 
     @Override

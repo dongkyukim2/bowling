@@ -41,23 +41,23 @@ public class AlertDialogUtil {
         return dialog;
     }
 
-    public static AlertDialog showAlertDialog(Context context, String title, String message, String positiveTitle, DialogInterface.OnClickListener onPositiveClickListener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        if (!TextUtils.isEmpty(title)) {
-            dialogBuilder.setTitle(title);
-        }
-        dialogBuilder.setMessage(message).setPositiveButton(positiveTitle, onPositiveClickListener);
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.setCancelable(false);
-        setTextColor(dialog);
+//    public static AlertDialog showAlertDialog(Context context, String title, String message, String positiveTitle, DialogInterface.OnClickListener onPositiveClickListener) {
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+//        if (!TextUtils.isEmpty(title)) {
+//            dialogBuilder.setTitle(title);
+//        }
+//        dialogBuilder.setMessage(message).setPositiveButton(positiveTitle, onPositiveClickListener);
+//        AlertDialog dialog = dialogBuilder.create();
+//        dialog.setCancelable(false);
+//        setTextColor(dialog);
+//
+//        dialog.show();
+//        return dialog;
+//    }
 
-        dialog.show();
-        return dialog;
-    }
-
-    public static AlertDialog showAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onPositiveClickListener) {
-        return showAlertDialog(context, title, message, "예", onPositiveClickListener);
-    }
+//    public static AlertDialog showAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onPositiveClickListener) {
+//        return showAlertDialog(context, title, message, "확인", onPositiveClickListener);
+//    }
 
     public static void showLoginAlert(final Context context) {
 //        showAlertDialog(context, "알림", "로그인 후 이용해주세요", new DialogInterface.OnClickListener() {
@@ -73,8 +73,8 @@ public class AlertDialogUtil {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         dialogBuilder.setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("예", onPositiveClickListener)
-                .setNegativeButton("아니요", onNegativeClickListener);
+                .setPositiveButton("확인", onPositiveClickListener)
+                .setNegativeButton("취소", onNegativeClickListener);
         AlertDialog dialog = dialogBuilder.create();
         setTextColor(dialog);
         dialog.show();

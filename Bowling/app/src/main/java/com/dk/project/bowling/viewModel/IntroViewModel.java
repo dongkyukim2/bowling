@@ -134,9 +134,11 @@ public class IntroViewModel extends BaseViewModel {
                     String[] appArray = appVersion.split("\\.");
 
                     if (Integer.parseInt(serverArray[0]) > Integer.parseInt(appArray[0])) {// 첫번째 자리가 크면 강업
-                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.", "업데이트", (dialog, which) -> goMarket());
+                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.",
+                                (dialog, which) -> goMarket(), (dialog, which) -> mContext.finish());
                     } else if (Integer.parseInt(serverArray[1]) > Integer.parseInt(appArray[1])) {  // 두번째 자리가 크면 강업
-                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.", "업데이트", (dialog, which) -> goMarket());
+                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.",
+                                (dialog, which) -> goMarket(), (dialog, which) -> mContext.finish());
                     } else {
                         startMainActivity();
                     }

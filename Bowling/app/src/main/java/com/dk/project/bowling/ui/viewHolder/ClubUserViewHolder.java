@@ -47,12 +47,12 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding
             case R.id.join_no:
                 AlertDialogUtil.showAlertDialog(binding.userNameText.getContext(), null, "가입을 거부 하시겠습니까?", (dialog, which) -> {
                     setJoinType(Define.USER_TYPE_JOIN_NEGATIVE);
-                });
+                },(dialog, which) -> {});
                 break;
             case R.id.join_yes:
                 AlertDialogUtil.showAlertDialog(binding.userNameText.getContext(), null, "가입을 수락 하시겠습니까?", (dialog, which) -> {
                     setJoinType(Define.USER_TYPE_JOIN);
-                });
+                },(dialog, which) -> {});
                 break;
         }
     }

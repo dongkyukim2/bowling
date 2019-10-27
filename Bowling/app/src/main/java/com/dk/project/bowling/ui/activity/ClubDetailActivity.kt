@@ -20,7 +20,6 @@ import com.dk.project.post.utils.ToastUtil
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
-    var paletteColorLiveData = MutableLiveData<Palette.Swatch>()
     private lateinit var clubDetailPagerAdapter: ClubDetailPagerAdapter
 
     var currentPosition = 0

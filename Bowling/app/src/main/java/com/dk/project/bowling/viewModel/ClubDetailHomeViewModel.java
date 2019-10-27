@@ -46,11 +46,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
     public void onThrottleClick(View view) {
         switch (view.getId()) {
             case R.id.sign_up_btn:
-                if (clubModel.getType() <= Define.USER_TYPE_OWNER) {
-                    setUserType(Define.USER_TYPE_SECESSION);
-                } else {
-                    setUserType(Define.USER_TYPE_JOIN_WAIT);
-                }
+                setUserType(clubModel.getType());
                 break;
             case R.id.club_user_list:
                 switch (clubModel.getType()) {
@@ -79,18 +75,25 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
     }
 
     private void setUserType(int userType) {
+        //todo 상태값 전체적으로 정리해야 함
         String msg;
-        if (userType == Define.USER_TYPE_JOIN_WAIT) {
-            msg = "가입 신청";
-        } else {
+        int newType;
+        if (userType <= Define.USER_TYPE_OWNER) {
             msg = "탈퇴";
+            newType = Define.USER_TYPE_SECESSION;
+        } else if (userType == Define.USER_TYPE_JOIN_WAIT) {
+            msg = "가입신청 취소";
+            newType = Define.USER_TYPE_NOT_JOIN;
+        } else {
+            msg = "가입신청";
+            newType = Define.USER_TYPE_JOIN_WAIT;
         }
 
         AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 " + msg + " 하시겠습니까?", (dialog, which) -> {
             ClubUserModel clubUserModel = new ClubUserModel();
             clubUserModel.setClubId(clubModel.getClubId());
             clubUserModel.setUserId(LoginManager.getInstance().getUserCode());
-            clubUserModel.setType(userType);
+            clubUserModel.setType(newType);
             executeRx(BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {
                 if (receivedData.isSuccess()) {
                     RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
@@ -100,6 +103,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
             }, errorData -> Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show()));
 
+        }, (dialog, which) -> {
         });
     }
 }

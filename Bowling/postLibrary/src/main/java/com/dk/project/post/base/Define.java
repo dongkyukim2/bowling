@@ -7,8 +7,8 @@ package com.dk.project.post.base;
 public interface Define {
 
 
-    boolean TEST_USER = false;
-//    boolean TEST_USER = true;
+//    boolean TEST_USER = false;
+    boolean TEST_USER = true;
     String TEST_ID = "1087708737";
 //    String TEST_ID = "1087708739";
 
@@ -51,6 +51,21 @@ public interface Define {
 
     String POST_MODEL = "POST_MODEL";
     String REPLY_MODEL = "REPLY_MODEL";
+
+
+
+
+
+
+    int mdpi = 0;
+    int hdpi = 1;
+    int xhdpi = 2;
+    int xxhdpi = 3;
+    int xxxhdpi = 4;
+
+
+
+
 
 
     /*

@@ -1,22 +1,16 @@
 package com.dk.project.bowling.ui.fragment
 
 
-import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.palette.graphics.Palette
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubDetailBinding
-import com.dk.project.bowling.ui.activity.ClubDetailActivity
 import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailHomeViewModel
 import com.dk.project.post.base.BindFragment
@@ -25,6 +19,8 @@ import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.GlideApp
 import com.dk.project.post.utils.RxBus
+import com.dk.project.post.utils.ScreenUtil
+
 
 /**
  * A simple [Fragment] subclass.
@@ -60,48 +56,14 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         binding.viewModel = viewModel
 
         GlideApp.with(activity!!).asBitmap().load(utils.getDefaultImage()).centerCrop()
-            .addListener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Bitmap>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Bitmap?,
-                    model: Any?,
-                    target: Target<Bitmap>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    Palette.from(resource!!).generate { palette ->
-                        for (swatch in palette!!.swatches) {
-                            if (swatch != null) {
-                                binding.signUpBtn.setBackgroundColor(swatch.rgb)
-                                break
-                            }
-                        }
-                    }
-
-                    return false
-                }
-
-            }).into(binding.clubTitleImage)
+            .into(binding.clubTitleImage)
 
         arguments?.apply {
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
+                binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
                 viewModel.clubModel = this
-                (activity as ClubDetailActivity).paletteColorLiveData.observe(
-                    viewLifecycleOwner,
-                    Observer {
-                        binding.clubTitleTextView.setTextColor(it.titleTextColor)
-                        binding.clubSubTitleTextView.setTextColor(it.bodyTextColor)
-                    })
 
                 getUserList()
 
@@ -120,6 +82,15 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                     }
                 }
             }
+        }
+
+        (binding.space.layoutParams as ConstraintLayout.LayoutParams).apply {
+            matchConstraintPercentHeight = if(ScreenUtil.screenRatio(activity) < 56) { // 세로가 짧은 디바이스
+                0.1.toFloat()
+            } else { // 세로가 긴 디바이스
+                0.2.toFloat()
+            }
+            binding.space.layoutParams = this
         }
 
         return view

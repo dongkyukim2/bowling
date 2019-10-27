@@ -203,9 +203,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setView(view);
-            builder.setPositiveButton("예", (dialog, which) -> {
+            builder.setPositiveButton("확인", (dialog, which) -> {
             });
-            builder.setNegativeButton("아니오", null);
+            builder.setNegativeButton("취소", null);
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 

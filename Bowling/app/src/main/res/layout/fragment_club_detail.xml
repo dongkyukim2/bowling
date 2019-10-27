@@ -27,27 +27,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="1" />
 
-        <View
+        <Space
                 android:id="@+id/space"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/club_title_image"
-                app:layout_constraintHeight_percent="0.1"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-        <View
-                android:id="@+id/bottom_space"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_percent="0.03"
-                app:layout_constraintRight_toRightOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/club_info_root"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/bottom_space"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/space">
@@ -57,28 +50,27 @@
                     android:id="@+id/club_info_card"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="10dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    app:layout_constraintHeight_percent="0.88"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.85">
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingLeft="30dp"
+                        android:paddingTop="30dp"
+                        android:paddingRight="30dp"
+                        android:paddingBottom="14dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/club_title_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="18dp"
-                            android:layout_marginRight="10dp"
                             android:fontFamily="@font/bamin"
                             android:singleLine="true"
                             android:textColor="@color/startColor"
@@ -90,26 +82,50 @@
                             android:id="@+id/club_sub_title_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="6dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="2dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/binggrae"
+                            android:gravity="top"
+                            android:paddingTop="10dp"
                             android:textColor="#000000"
                             android:textSize="18dp" />
 
 
-                    <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/sign_up_btn"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/club_user_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/bamin"
-                            android:onClick="@{viewModel::onClick}"
-                            android:text="가입 신청"
-                            android:textColor="#ffffff"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
+                            android:gravity="center_vertical"
+                            android:onClick="@{viewModel::onClick}">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/club_count" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/club_user_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:layout_weight="1"
+                                android:text="0"
+                                android:textColor="#000000"
+                                android:textSize="17dp"
+                                android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/sign_up_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bamin"
+                                android:onClick="@{viewModel::onClick}"
+                                android:paddingLeft="30dp"
+                                android:text="가입 신청"
+                                android:textColor="#000000"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </LinearLayout>
 
@@ -117,49 +133,6 @@
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="15dp"
-                app:layout_constraintBottom_toTopOf="@id/club_info_root"
-                app:layout_constraintRight_toRightOf="@id/club_info_root"
-                app:layout_constraintTop_toTopOf="@id/club_info_root">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/club_user_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:gravity="center_vertical"
-                    android:onClick="@{viewModel::onClick}"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingRight="12dp"
-                    android:paddingBottom="6dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/club_count" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/club_user_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:text="0"
-                        android:textColor="#ffffff"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

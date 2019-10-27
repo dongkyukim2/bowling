@@ -119,11 +119,10 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
                     break;
                 case 1:
                     AlertDialogUtil.showAlertDialog(mContext, null, "댓글을 삭제하시겠습니까?", (dialog1, which1) ->
-                            executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(), receivedData -> {
-                                        setDeleteReply(receivedData.getData());
-                                    },
+                            executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(), receivedData -> setDeleteReply(receivedData.getData()),
                                     errorData -> {
-                                    })));
+                                    })), (dialog1, which1) -> {
+                    });
                     break;
             }
         });
