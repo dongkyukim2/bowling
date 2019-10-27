@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.crashlytics.android.Crashlytics;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityMainBinding;
 import com.dk.project.bowling.ui.adapter.MainViewPagerFragmentAdapter;
@@ -122,6 +123,8 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         });
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
+
+//        Crashlytics.getInstance().crash();
     }
 
     @Override

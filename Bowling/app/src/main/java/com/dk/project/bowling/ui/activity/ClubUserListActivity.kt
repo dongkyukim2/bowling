@@ -66,7 +66,7 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
             layoutManager = LinearLayoutManager(this@ClubUserListActivity)
             itemAnimator = DefaultItemAnimator()
             adapter = clubUserListAdapter
-            RecyclerViewClickListener.setItemClickListener(this) { view, position ->
+            RecyclerViewClickListener.setItemClickListener(this) { _, position ->
                 if (viewModel.isSelectMode) {
                     clubUserListAdapter.setCheck(position)
                 } else {
