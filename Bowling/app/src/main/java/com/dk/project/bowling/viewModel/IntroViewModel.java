@@ -49,7 +49,7 @@ public class IntroViewModel extends BaseViewModel {
 
         database = FirebaseDatabase.getInstance();
         dbRef = database.getReference("version");
-
+        database.goOnline();
         checkVersion();
     }
 
