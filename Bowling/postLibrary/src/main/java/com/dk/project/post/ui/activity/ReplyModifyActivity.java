@@ -63,11 +63,10 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
     public void onToolbarRightClick() {
         replyModel.setReplyContents(binding.replyEditText.getText().toString().trim());
 
-        viewModel.executeRx(Observable.timer(1, TimeUnit.SECONDS).
-                observeOn(AndroidSchedulers.mainThread()).
-                subscribe(aLong -> alertDialog = AlertDialogUtil.showLoadingAlertDialog(this)));
+//        viewModel.executeRx(Observable.timer(1, TimeUnit.SECONDS).
+//                observeOn(AndroidSchedulers.mainThread()).
+//                subscribe(aLong -> alertDialog = AlertDialogUtil.showLoadingAlertDialog(this)));
 
-        //todo 댓글 수정 만들어야함
         viewModel.executeRx(PostApi.getInstance().writeReply(replyModel, receivedData -> {
             dismissAlertDialog();
             Intent intent = new Intent();
@@ -79,7 +78,7 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
 
     @Override
     public void onBackPressed() {
-        AlertDialogUtil.showAlertDialog(this, null, "댓글 수정을 취소하시겠습니까?", (dialog, which) -> super.onBackPressed(), (dialog, which) -> {
+        AlertDialogUtil.showAlertDialog(this, null, "댓글 수정을 취소하시겠습니까?", (dialog, which) -> {}, (dialog, which) -> {
         });
     }
 

@@ -3,13 +3,11 @@ package com.dk.project.bowling.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.MutableLiveData
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.palette.graphics.Palette
 import androidx.viewpager2.widget.ViewPager2
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
-import com.dk.project.bowling.shareData.ShareData
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
@@ -43,10 +41,7 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
         binding.viewModel = viewModel
 
-        toolbar.setBackgroundResource(android.R.color.transparent)
-
         toolbarRightButton.visibility = View.VISIBLE
-        toolbarRightButton.setImageResource(R.drawable.ic_action_plus)
 
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
@@ -58,8 +53,8 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
                     super.onPageSelected(position)
                     currentPosition = position
                     when (position) {
-                        0 -> toolbarRightButton.visibility = View.GONE
-                        else -> toolbarRightButton.visibility = View.VISIBLE
+                        0 -> toolbarRightButton.setImageResource(R.drawable.ic_action_add_user)
+                        else -> toolbarRightButton.setImageResource(R.drawable.ic_action_plus)
                     }
                 }
             })
@@ -83,7 +78,10 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     private fun movePage(index: Int) {
         when (viewModel.clubModel.type) {
-            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> binding.clubViewpager.setCurrentItem(index, true)
+            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> binding.clubViewpager.setCurrentItem(
+                index,
+                true
+            )
             Define.USER_TYPE_JOIN_WAIT -> ToastUtil.showToastCenter(this, "가입신청 대기중입니다.")
             else -> ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
         }
@@ -92,19 +90,19 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
         when (currentPosition) {
-            2 -> {
-                Intent(this, WriteActivity::class.java).let {
-                    it.putExtra("POST_CLUB_ID", viewModel.clubModel.clubId)
-                    startActivity(it)
-                }
+            0 -> {
+                Toast.makeText(this, "일반 회원 초대", Toast.LENGTH_SHORT).show()
             }
-            else -> {
-                Intent(this, CreateGameActivity::class.java).let {
-                    it.putExtra(CLUB_MODEL, viewModel.clubModel)
-                    startActivityForResult(it, REFRESH_GAME_LIST)
-                }
+            1 -> Intent(this, CreateGameActivity::class.java).let {
+                it.putExtra(CLUB_MODEL, viewModel.clubModel)
+                startActivityForResult(it, REFRESH_GAME_LIST)
+            }
 
+            2 -> Intent(this, WriteActivity::class.java).let {
+                it.putExtra("POST_CLUB_ID", viewModel.clubModel.clubId)
+                startActivity(it)
             }
+
         }
     }
 
