@@ -91,8 +91,7 @@ dependencies {
     implementation 'com.github.PierfrancescoSoffritti:AndroidYouTubePlayer:10.0.5'
 
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-
-    implementation group: 'com.f2prateek.rx.preferences2', name: 'rx-preferences', version: '2.0.0'
+    implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0'
 
     implementation 'nl.bravobit:android-ffmpeg:1.1.7'
 
