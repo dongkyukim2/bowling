@@ -48,6 +48,13 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
     @Override
     protected void registerLiveData() {
         viewModel.getPostItemList().observe(this, postModels -> {
+            if(postModels.isEmpty()){
+                binding.emptyView.setVisibility(View.VISIBLE);
+                binding.contentsListViewRefresh.setVisibility(View.GONE);
+            } else {
+                binding.emptyView.setVisibility(View.GONE);
+                binding.contentsListViewRefresh.setVisibility(View.VISIBLE);
+            }
             contentsListAdapter.setClearPostList(postModels);
         });
     }
