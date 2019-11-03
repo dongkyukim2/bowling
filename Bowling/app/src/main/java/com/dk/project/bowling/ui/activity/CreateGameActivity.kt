@@ -33,20 +33,15 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     private var deleteMode = false
 
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_create_game
-    }
+    override fun getLayoutId() = R.layout.activity_create_game
 
-    override fun getViewModel(): CreateGameViewModel {
-        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
-            CreateGameViewModel::class.java
-        )
-    }
+    override fun getViewModel() = ViewModelProvider(
+        viewModelStore,
+        defaultViewModelProviderFactory
+    ).get(CreateGameViewModel::class.java)
 
     override fun subscribeToModel() {
-
         viewModel.gameUserLiveData.observe(this, Observer {
-
             binding.createGameRecyclerView.apply {
                 layoutManager = LinearLayoutManager(this@CreateGameActivity)
                 ReadGameAdapter(this@CreateGameActivity, it, viewModel.readGameModel).let {
@@ -54,7 +49,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                     readGameAdapter = it
                 }
             }
-
         })
 
     }
@@ -134,10 +128,11 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         when (requestCode) {
 
             Define.CLUB_USER_LIST -> {
-                data?.getParcelableArrayListExtra<ScoreClubUserModel>(Define.CLUB_USER_LIST_MODEL)?.let {
-                    it.map { it.isCheck = false }
-                    createGameAdapter.setInviteUserList(it)
-                }
+                data?.getParcelableArrayListExtra<ScoreClubUserModel>(Define.CLUB_USER_LIST_MODEL)
+                    ?.let {
+                        it.map { it.isCheck = false }
+                        createGameAdapter.setInviteUserList(it)
+                    }
             }
         }
     }
