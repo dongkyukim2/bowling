@@ -6,12 +6,13 @@
             android:id="@+id/recent_score_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
             android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="4dp">
+
         <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -20,49 +21,49 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:paddingLeft="14dp"
                     android:paddingRight="14dp"
-                    android:paddingBottom="6dp"
-                    android:orientation="vertical">
+                    android:paddingBottom="6dp">
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/recent_avg_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/bamin"
                         android:gravity="center"
                         android:text="100"
-                        android:fontFamily="@font/bamin"
                         android:textColor="#000000"
                         android:textSize="34dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/recent_max_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200"
                         android:fontFamily="@font/bamin"
+                        android:text="200"
                         android:textColor="#F44336"
                         android:textSize="18dp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/recent_avg_text"/>
+                        app:layout_constraintTop_toBottomOf="@id/recent_avg_text" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/recent_min_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/bamin"
                         android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/bamin"
                         android:text="100"
                         android:textColor="#3F51B5"
                         android:textSize="18dp"
-                        app:layout_constraintTop_toBottomOf="@id/recent_avg_text"
-                        app:layout_constraintRight_toRightOf="parent"/>
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recent_avg_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,13 +73,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:background="@color/gray_text_color"
+                    android:fontFamily="@font/bamin"
+                    android:gravity="center"
+                    android:padding="8dp"
                     android:text="2019-01-19"
                     android:textColor="#ffffff"
-                    android:fontFamily="@font/bamin"
-                    android:textSize="16dp"
-                    android:padding="8dp"
-                    android:gravity="center"
-                    android:background="#D69327"/>
+                    android:textSize="16dp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 

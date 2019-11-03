@@ -4,7 +4,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.DiffUtil;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.viewHolder.RecentScoresViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
@@ -25,7 +27,7 @@ public class RecentScoresAdapter extends BaseRecyclerViewAdapter<BindViewHolder>
 
     @Override
     public BindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecentScoresViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_recent_scores, parent, false));
+        return new RecentScoresViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_recent_scores, parent, false));
     }
 
     @Override

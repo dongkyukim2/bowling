@@ -4,9 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
                 name="viewModel"
-                type="com.dk.project.post.base.BaseViewModel"/>
+                type="com.dk.project.post.base.BaseViewModel" />
     </data>
 
     <!--그래프 최소 최대 평균 -->
@@ -24,18 +25,20 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/graph_date"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2019-02"
                     android:textColor="#000000"
                     android:textSize="16dp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/prev_month"
                     android:layout_width="30dp"
@@ -45,7 +48,8 @@
                     android:onClick="@{viewModel::onClick}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/graph_date"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/next_month"
                     android:layout_width="30dp"
@@ -55,11 +59,10 @@
                     android:onClick="@{viewModel::onClick}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/graph_date"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/graph_view_type"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
@@ -67,9 +70,10 @@
                     android:text="평균점수"
                     android:textColor="#000000"
                     android:textSize="16dp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -81,7 +85,7 @@
                 android:textColor="#000000"
                 android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                app:layout_constraintLeft_toLeftOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -95,86 +99,99 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.05"/>
+                    app:layout_constraintGuide_percent="0.05" />
 
             <View
                     android:id="@+id/line_300"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#000000"
+                    android:background="@color/gray_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/score_max"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintVertical_bias="0" />
 
 
             <View
                     android:id="@+id/line_250"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#000000"
+                    android:background="@color/gray_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/score_max"
-                    app:layout_constraintVertical_bias="0.1666666667"/>
+                    app:layout_constraintVertical_bias="0.1666666667" />
 
             <View
                     android:id="@+id/line_200"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#000000"
+                    android:background="@color/gray_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/score_max"
-                    app:layout_constraintVertical_bias="0.3333333333"/>
+                    app:layout_constraintVertical_bias="0.3333333333" />
 
             <View
                     android:id="@+id/line_150"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#000000"
+                    android:background="@color/gray_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/score_max"
-                    app:layout_constraintVertical_bias="0.5"/>
+                    app:layout_constraintVertical_bias="0.5" />
 
 
             <View
                     android:id="@+id/line_100"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#000000"
+                    android:background="@color/gray_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/score_max"
-                    app:layout_constraintVertical_bias="0.666666667"/>
+                    app:layout_constraintVertical_bias="0.666666667" />
 
 
             <View
                     android:id="@+id/line_50"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#000000"
+                    android:background="@color/gray_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/score_max"
-                    app:layout_constraintVertical_bias="0.833333333"/>
+                    app:layout_constraintVertical_bias="0.833333333" />
+
+
+            <View
+                    android:id="@+id/line_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray_text_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/score_max"
+                    app:layout_constraintVertical_bias="1.0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/graph_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:overScrollMode="never"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/graph_header"/>
+                app:layout_constraintTop_toBottomOf="@id/graph_header" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
