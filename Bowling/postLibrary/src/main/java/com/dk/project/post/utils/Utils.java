@@ -7,19 +7,27 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
+import android.graphics.Color;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
+
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
+
 import com.dk.project.post.service.CommunityService;
+
 import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.dk.project.post.base.Define.YOUTUBE_PACKAGE_NAME;
 
@@ -164,5 +172,13 @@ public class Utils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static int getColorWithAlpha(int color, float ratio) {
+        int alpha = Math.round(Color.alpha(color) * ratio);
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        return Color.argb(alpha, r, g, b);
     }
 }

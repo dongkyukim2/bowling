@@ -76,7 +76,7 @@ public class ImageUtil implements Define {
 
     public static RequestOptions getGlideRequestOption() {
         RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .dontAnimate();
         return options;
     }

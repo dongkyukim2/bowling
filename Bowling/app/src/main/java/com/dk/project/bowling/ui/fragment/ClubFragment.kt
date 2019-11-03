@@ -3,6 +3,7 @@ package com.dk.project.bowling.ui.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -20,12 +21,14 @@ import com.dk.project.post.base.BindFragment
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlin.math.abs
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     private lateinit var clubAdapter: ClubAdapter
     private lateinit var signClubViewPagerAdapter: SignClubViewPagerAdapter
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayoutCompat>
 
     override fun getLayoutId() = R.layout.fragment_club
 
@@ -99,20 +102,30 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             adapter = signClubViewPagerAdapter
         }
 
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.recommendClubParent)
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.signClubViewPager.alpha = abs(1.0f - slideOffset)
+//                binding.recommendClubTextView
+//                    .setBackgroundColor(Utils.getColorWithAlpha(Color.WHITE, slideOffset))
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+            }
+        })
         setRecommendClubHeight()
 
         return view
     }
 
     private fun setRecommendClubHeight() {
-
         binding.clubRecycler.postDelayed({
-            BottomSheetBehavior.from(binding.recommendClubParent).peekHeight =
-                binding.recommendClubParentSpace.height
+            bottomSheetBehavior.peekHeight = binding.recommendClubParentSpace.height
             binding.recommendClubParent.requestLayout()
         }, 1000)
-
-
     }
 
     companion object {
