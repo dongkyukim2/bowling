@@ -2,9 +2,12 @@ package com.dk.project.bowling.ui.adapter;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.viewHolder.ClubGameViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
@@ -16,10 +19,6 @@ public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHol
 
     private ArrayList<ReadGameModel> clubGameList = new ArrayList<>();
 
-    public ClubGameListAdapter() {
-
-    }
-
     @Override
     public ClubGameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ClubGameViewHolder(
@@ -29,8 +28,12 @@ public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHol
 
     @Override
     public void onBindViewHolder(ClubGameViewHolder holder, int position) {
-
         holder.onBindView(clubGameList.get(position), position);
+        if (clubGameList.size() - 1 == position) {
+            holder.getBinding().divider.setVisibility(View.GONE);
+        } else {
+            holder.getBinding().divider.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

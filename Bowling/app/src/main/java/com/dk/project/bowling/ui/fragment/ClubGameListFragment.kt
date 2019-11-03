@@ -24,15 +24,12 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
     private lateinit var clubGameListAdapter: ClubGameListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_club_game_list
-    }
+    override fun getLayoutId() = R.layout.fragment_club_game_list
 
     override fun createViewModel() =
         ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
             ClubScoreListViewModel::class.java
         )
-
 
     override fun registerLiveData() {
         viewModel.gameMutableLiveData.observe(this, Observer {
@@ -66,16 +63,16 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                 addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
                     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                         if (it.onTouchEvent(e)) {
-                            val child = rv.findChildViewUnder(e.x, e.y)
-                            val position = rv.getChildAdapterPosition(child!!)
-
-                            var intent = Intent(activity, CreateGameActivity::class.java)
-                            intent.putExtra(
-                                Define.READ_GAME_MODEL,
-                                clubGameListAdapter.getClubGame(position)
-                            )
-                            activity?.startActivity(intent)
-                            return true
+                            rv.findChildViewUnder(e.x, e.y)?.let { view ->
+                                val position = rv.getChildAdapterPosition(view)
+                                var intent = Intent(activity, CreateGameActivity::class.java)
+                                intent.putExtra(
+                                    Define.READ_GAME_MODEL,
+                                    clubGameListAdapter.getClubGame(position)
+                                )
+                                activity?.startActivity(intent)
+                                return true
+                            }
                         }
                         return super.onInterceptTouchEvent(rv, e)
                     }

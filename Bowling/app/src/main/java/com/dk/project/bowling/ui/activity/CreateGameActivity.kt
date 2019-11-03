@@ -136,6 +136,4 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             }
         }
     }
-
-
 }

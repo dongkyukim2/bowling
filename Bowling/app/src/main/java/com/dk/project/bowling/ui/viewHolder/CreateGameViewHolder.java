@@ -8,7 +8,6 @@ import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
 public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, ScoreClubUserModel> {
 
-
     public CreateGameViewHolder(View itemView) {
         super(itemView);
     }

@@ -8,20 +8,23 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
+
 import androidx.core.view.GestureDetectorCompat;
 import androidx.viewpager.widget.ViewPager;
-import com.bumptech.glide.Glide;
+
 import com.dk.project.post.R;
-import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.databinding.FragmentContentsThumbItemBinding;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.ui.activity.ReadActivity;
 import com.dk.project.post.ui.adapter.ContentsViewPagerAdapter;
 import com.dk.project.post.ui.widget.CircleImageView;
-import com.dk.project.post.utils.*;
+import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.AnimationUtil;
+import com.dk.project.post.utils.GlideApp;
+import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.ScreenUtil;
+import com.dk.project.post.utils.Utils;
 import com.dk.project.post.viewModel.ContentListViewModel;
 
 /**
@@ -92,6 +95,7 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
             gestureDetectorCompat.onTouchEvent(event);
             return false;
         });
+
         itemView.setOnClickListener(v -> startReadActivity());
 
         binding.likeImageParent.setOnClickListener(v -> contentListViewModel.onLikeClick(binding.likeImageView, binding.likeCountText, postModel));
