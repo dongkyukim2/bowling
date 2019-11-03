@@ -65,7 +65,6 @@
                     android:id="@+id/recommend_club_parent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#ffffff"
                     android:orientation="vertical"
                     app:behavior_hideable="false"
                     app:behavior_peekHeight="140dp"
@@ -91,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffffff"
-                        android:overScrollMode="never"/>
+                        android:overScrollMode="never" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
