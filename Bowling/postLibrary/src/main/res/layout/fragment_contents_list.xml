@@ -30,7 +30,7 @@
                     android:fontFamily="@font/binggrae"
                     android:text="등록된 글이 없습니다."
                     android:textColor="@color/gray_text_color"
-                    android:textSize="20dp" />
+                    android:textSize="16dp" />
 
         </LinearLayout>
 

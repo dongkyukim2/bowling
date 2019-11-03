@@ -58,6 +58,13 @@ public class GraphFragment extends BindFragment<FragmentGraphBinding, GraphViewM
         MutableLiveDataManager.getInstance().getScoreMonthAvgList().observe(this, scoreModels -> {
             binding.graphDate.setText(viewModel.getYearMonth());
             graphScoreAdapter.setGraphScoreList(scoreModels.getMonthAvgList());
+            if (scoreModels.getMonthAvgList().isEmpty()) {
+                binding.emptyView.setVisibility(View.VISIBLE);
+                binding.graphParent.setVisibility(View.GONE);
+            } else {
+                binding.emptyView.setVisibility(View.GONE);
+                binding.graphParent.setVisibility(View.VISIBLE);
+            }
         });
     }
 

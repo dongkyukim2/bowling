@@ -161,7 +161,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="4dp"
-                    android:overScrollMode="never" />
+                    android:overScrollMode="never"
+                    android:visibility="gone" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_fileName="lottie/empty_box.json"
+                        app:lottie_loop="true" />
+
+                <AutoCompleteTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:fontFamily="@font/binggrae"
+                        android:gravity="center_horizontal"
+                        android:text="등록된 점수가 없습니다.\n점수를 등록하세요."
+                        android:textColor="@color/gray_text_color"
+                        android:textSize="16dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -64,6 +64,14 @@ public class MainInfoFragment extends BindFragment<FragmentMainInfoBinding, Main
                 binding.scoreGraph.setMax(300);
                 binding.scoreGraph.setProgress(scoreAvgModel.getMonthAvg().getAvgScore());
             }
+
+            if (scoreAvgModel.getMonthAvgList().isEmpty()) {
+                binding.emptyView.setVisibility(View.VISIBLE);
+                binding.recentScoresRecycler.setVisibility(View.GONE);
+            } else {
+                binding.emptyView.setVisibility(View.GONE);
+                binding.recentScoresRecycler.setVisibility(View.VISIBLE);
+            }
             recentScoresAdapter.setRecentScoreList(scoreAvgModel.getMonthAvgList(), true);
 
             graphViewModel = ((GraphFragment) ((MainActivity) mContext).getMainViewPagerFragmentAdapter().createFragment(1)).getViewModel();
