@@ -7,6 +7,9 @@ package com.dk.project.post.base;
 public interface Define {
 
 
+    boolean ON_CREATE_LOG = false;
+
+
 //    boolean TEST_USER = false;
     boolean TEST_USER = true;
     String TEST_ID = "1087708737";
@@ -23,8 +26,6 @@ public interface Define {
     String CLUB_ID = "CLUB_ID";
 
     String READ_GAME_MODEL = "READ_GAME_MODEL";
-
-    boolean ON_CREATE_LOG = false;
 
     boolean MAIN_PAGER_ACTIVITY = false;
 

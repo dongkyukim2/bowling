@@ -12,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubBinding
 import com.dk.project.bowling.ui.activity.ClubDetailActivity
-import com.dk.project.bowling.ui.activity.MainActivity
 import com.dk.project.bowling.ui.adapter.ClubAdapter
 import com.dk.project.bowling.ui.adapter.SignClubViewPagerAdapter
 import com.dk.project.bowling.ui.widget.CustomMarginPageTransformer
@@ -20,6 +19,7 @@ import com.dk.project.bowling.viewModel.ClubViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
@@ -27,9 +27,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     private lateinit var clubAdapter: ClubAdapter
     private lateinit var signClubViewPagerAdapter: SignClubViewPagerAdapter
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_club
-    }
+    override fun getLayoutId() = R.layout.fragment_club
 
     override fun createViewModel() = ViewModelProvider(
         viewModelStore,
@@ -68,6 +66,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
                 orientation = RecyclerView.VERTICAL
             }
             itemAnimator = DefaultItemAnimator()
+            setHasFixedSize(true)
 
             val gestureDetector =
                 GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
@@ -77,19 +76,15 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
                 })
             addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    if (gestureDetector.onTouchEvent(e) && rv.findChildViewUnder(
-                            e.x,
-                            e.y
-                        ) != null
-                    ) {
+                    if (gestureDetector.onTouchEvent(e)) {
                         rv.findChildViewUnder(e.x, e.y)?.let {
                             val position = rv.getChildAdapterPosition(it)
                             var intent = Intent(mContext, ClubDetailActivity::class.java)
                             var item = clubAdapter.getClubModel(position)
                             intent.putExtra(CLUB_MODEL, item)
                             startActivity(intent)
+                            return true
                         }
-                        return true
                     }
                     return super.onInterceptTouchEvent(rv, e)
                 }
@@ -102,39 +97,22 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
             offscreenPageLimit = 3
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             adapter = signClubViewPagerAdapter
-
-//            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//
-//            })
         }
 
+        setRecommendClubHeight()
 
-//        binding.searchClubEditText.setOnEditorActionListener { v, actionId, event ->
-//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                if (TextUtils.isEmpty(v.text.toString().trim())) {
-//                    Toast.makeText(activity, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    TextViewUtil.hideKeyBoard(activity, binding.searchClubEditText)
-//                    (activity as MainActivity).bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                }
-//            }
-//            true
-//        }
-
-        setBottomSheetHeight()
-//        GlideApp.with(this).load(R.drawable.team_default_1).centerCrop()
-//            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 25)))
-//            .into(binding.signClubViewPagerBg)
         return view
     }
 
-    private fun setBottomSheetHeight() {
-        binding.searchLayout.postDelayed({
-            var param = (activity as MainActivity).binding.rlBottomSheet.layoutParams
-            param.height =
-                (activity as MainActivity).binding.navigation.height + binding.clubRecycler.height
-            (activity as MainActivity).binding.rlBottomSheet.layoutParams = param
+    private fun setRecommendClubHeight() {
+
+        binding.clubRecycler.postDelayed({
+            BottomSheetBehavior.from(binding.recommendClubParent).peekHeight =
+                binding.recommendClubParentSpace.height
+            binding.recommendClubParent.requestLayout()
         }, 1000)
+
+
     }
 
     companion object {
@@ -142,7 +120,6 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         fun newInstance() =
             ClubFragment().apply {
                 arguments = Bundle().apply {
-
                 }
             }
     }

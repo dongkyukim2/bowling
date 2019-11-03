@@ -4,113 +4,100 @@
         xmlns:tools="http://schemas.android.com/tools">
 
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#ffffff"
             tools:context=".ui.fragment.ClubFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/sign_club_view_pager_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray_background_color">
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/sign_club_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:overScrollMode="never"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                android:id="@+id/dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                app:dotsColor="@color/startColor"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="12dp"
+                app:dotsSpacing="4dp"
+                app:dotsStrokeColor="@color/startColor"
+                app:dotsStrokeWidth="2dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sign_club_view_pager" />
+
+
+        <Space
+                android:id="@+id/recommend_club_parent_space"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dots_indicator" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/search_layout"
+                    android:id="@+id/recommend_club_parent"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#EFEBE9"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    app:behavior_hideable="false"
+                    app:behavior_peekHeight="140dp"
+                    app:layout_behavior="@string/bottom_sheet_behavior">
 
-                <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/search_club_edit_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_weight="1"
-                        android:background="#ffffff"
-                        android:hint="클럽 이름을 입력해주세요"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text"
-                        android:maxLength="10"
-                        android:paddingLeft="10dp"
-                        app:iconifiedByDefault="false" />
 
-                <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/recommend_club_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="#ffffff"
-                        android:src="@drawable/ic_action_search" />
+                        android:fontFamily="@font/bamin"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="추천 클럽"
+                        android:textColor="@color/startColor"
+                        android:textSize="22dp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/club_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:overScrollMode="never"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recommend_club_text_view" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/sign_club_view_pager_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:visibility="gone"
-                    app:layout_constraintDimensionRatio="w,1:1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_layout" />
-
-            <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/sign_club_view_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:overScrollMode="never"
-                    app:layout_constraintDimensionRatio="w,1:1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_layout" />
-
-
-            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                    android:id="@+id/dots_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    app:dotsColor="@color/startColor"
-                    app:dotsCornerRadius="8dp"
-                    app:dotsSize="12dp"
-                    app:dotsSpacing="4dp"
-                    app:dotsStrokeColor="@color/startColor"
-                    app:dotsStrokeWidth="2dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sign_club_view_pager" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/recommend_club_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/recommend_bg"
-                    android:fontFamily="@font/bamin"
-                    android:paddingLeft="20dp"
-                    android:text="추천 클럽"
-                    android:textColor="@color/startColor"
-                    android:textSize="23dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dots_indicator" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/club_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:background="#ffffff"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recommend_club_text_view" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

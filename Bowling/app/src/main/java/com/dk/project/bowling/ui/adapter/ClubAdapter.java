@@ -3,8 +3,10 @@ package com.dk.project.bowling.ui.adapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.viewHolder.ClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
@@ -36,6 +38,7 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
 
 
     public void setClubList(Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>> clubListModel) {
+
         ArrayList<ClubModel> receiveClubList = new ArrayList<>();
 
 
@@ -51,7 +54,11 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
             clubListModel.second.getData().removeAll(filterList);
         }
 
-        receiveClubList.addAll(clubListModel.second.getData());
+
+        for (int i = 0; i < 10; i++) {
+            receiveClubList.addAll(clubListModel.second.getData());
+        }
+
 
         DiffUtil.DiffResult result = getDiffUtil(this.clubList, receiveClubList);
         this.clubList = receiveClubList;

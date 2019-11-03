@@ -1,5 +1,6 @@
 package com.dk.project.post.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by dkkim on 2017-05-15.
@@ -29,6 +31,15 @@ public abstract class BindFragment<B extends ViewDataBinding, T extends BaseView
 
     public T getViewModel() {
         return viewModel;
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (ON_CREATE_LOG) {
+            System.out.println("aaaaaaaaaaa      " + getClass().getSimpleName() + "       onAttach");
+        }
     }
 
     @Nullable
@@ -53,6 +64,22 @@ public abstract class BindFragment<B extends ViewDataBinding, T extends BaseView
         viewModel.onCreated();
         if (ON_CREATE_LOG) {
             System.out.println("aaaaaaaaaaa      " + getClass().getSimpleName() + "       onViewCreated");
+        }
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        if (ON_CREATE_LOG) {
+            System.out.println("aaaaaaaaaaa      " + getClass().getSimpleName() + "       onAttachFragment");
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (ON_CREATE_LOG) {
+            System.out.println("aaaaaaaaaaa      " + getClass().getSimpleName() + "       onActivityCreated");
         }
     }
 

@@ -15,9 +15,4 @@ public abstract class BaseFragment extends Fragment implements Define {
         mContext = (BindActivity) getActivity();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }
