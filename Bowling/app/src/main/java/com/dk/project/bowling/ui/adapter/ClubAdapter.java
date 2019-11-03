@@ -2,6 +2,7 @@ package com.dk.project.bowling.ui.adapter;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.core.util.Pair;
@@ -29,6 +30,13 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
     @Override
     public void onBindViewHolder(ClubViewHolder holder, int position) {
         holder.onBindView(clubList.get(position), position);
+
+        View divider = holder.getBinding().divider;
+        if (clubList.size() - 1 == position) {
+            divider.setVisibility(View.GONE);
+        } else {
+            divider.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -54,8 +62,7 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
             clubListModel.second.getData().removeAll(filterList);
         }
 
-
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             receiveClubList.addAll(clubListModel.second.getData());
         }
 
