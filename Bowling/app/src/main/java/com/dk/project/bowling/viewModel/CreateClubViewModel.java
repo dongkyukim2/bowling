@@ -15,13 +15,13 @@ import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
+import com.dk.project.post.controller.ListController;
+import com.dk.project.post.retrofit.PostApi;
+import com.dk.project.post.retrofit.ProgressRequestBody;
 import com.dk.project.post.ui.activity.MediaSelectActivity;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.PermissionsUtil;
 import com.dk.project.post.utils.RxBus;
-
-import static com.dk.project.post.base.Define.IMAGE_MULTI_SELECT;
-import static com.dk.project.post.base.Define.MEDIA_ATTACH_LIST;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -40,7 +40,6 @@ public class CreateClubViewModel extends BaseViewModel {
         super.onCreated();
 
         defaultImageIndex = utils.getDefaultImageIndex();
-
         GlideApp.with(mContext).load(utils.getDefaultImage(defaultImageIndex))
                 .into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
 
@@ -65,13 +64,39 @@ public class CreateClubViewModel extends BaseViewModel {
                     RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
                     mContext.finish();
                 }, errorData -> Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show());
+
+
+                if (ListController.getInstance().getMediaSelectList().isEmpty()) {
+
+                } else {
+                    PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
+
+                    }, errorData -> {
+
+                    }, new ProgressRequestBody.ProgressListener() {
+                        @Override
+                        public void onUploadStart(String fileName) {
+
+                        }
+
+                        @Override
+                        public void onRequestProgress(long bytesWritten, long contentLength) {
+
+                        }
+
+                        @Override
+                        public void onUploadEnd(String fileName) {
+
+                        }
+                    });
+                }
                 break;
             case R.id.image_attach:
                 PermissionsUtil.isPermission(mContext, granted -> {
                     if (granted) {
                         Intent intent = new Intent(mContext, MediaSelectActivity.class);
-                        intent.putExtra(IMAGE_MULTI_SELECT, false);
-                        mContext.startActivityForResult(intent, MEDIA_ATTACH_LIST);
+                        intent.putExtra(Define.IMAGE_MULTI_SELECT, false);
+                        mContext.startActivityForResult(intent, Define.MEDIA_ATTACH_LIST);
                     }
                 });
                 break;

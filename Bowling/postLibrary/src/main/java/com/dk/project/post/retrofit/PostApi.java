@@ -3,11 +3,17 @@ package com.dk.project.post.retrofit;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import com.dk.project.post.model.LoginInfoModel;
+import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.retrofit.ProgressRequestBody.ProgressListener;
 import com.dk.project.post.utils.ImageUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -16,9 +22,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.MultipartBody.Part;
 import okhttp3.RequestBody;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by dkkim on 2017-12-12.
@@ -165,6 +168,38 @@ public class PostApi {
                 observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onSuccess,
                 throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
+
+
+    public Disposable test(Context context, ArrayList<MediaSelectListModel> fileList,SuccessCallback<Object> callback, ErrorCallback errorCallback,ProgressListener progressListener) {
+        return ImageUtil.compressImage(context, fileList).flatMap(mediaSelectListModels -> {
+            return Observable.fromIterable(mediaSelectListModels).map(selectModel -> {
+
+                Part body;
+                if (TextUtils.isEmpty(selectModel.getYoutubeUrl()) && !selectModel.getFilePath().startsWith("http")) {
+                    File file = new File(selectModel.getFilePath());
+
+                    ProgressRequestBody fileBody = new ProgressRequestBody(file, MediaType.parse("image"), progressListener);
+                    body = Part.createFormData("file", file.getName(), fileBody);
+                    selectModel.setFilePath(file.getName());
+                    progressListener.onUploadStart(selectModel.getOriginalFileName());
+                } else {
+                    body = Part.createFormData("file", "file", RequestBody.create(MediaType.parse("image"), new File("")));
+                }
+                return body;
+            }).filter(part -> part.body().contentLength() != 0).
+                    flatMap(part -> apiService.uploadFile(part).retry(10, throwable -> {
+                        Thread.sleep(500);
+                        System.out.println("======================    retry");
+                        return true;
+                    }), 1).map(objectResponseModel -> {
+                progressListener.onUploadEnd("uploadEnd");
+                return objectResponseModel.getData();
+            }).toList();
+        }).subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onSuccess,
+                throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
 
     public Disposable deletePost(String postId, SuccessCallback<ResponseModel<PostModel>> callback,
                                  ErrorCallback errorCallback) {

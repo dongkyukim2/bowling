@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
@@ -52,9 +51,6 @@ import java.util.UUID;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
-import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import nl.bravobit.ffmpeg.ExecuteBinaryResponseHandler;
 import nl.bravobit.ffmpeg.FFmpeg;
@@ -275,31 +271,34 @@ public class ImageUtil implements Define {
                 }).toList();
     }
 
-    public static void compressImage(Context context, ArrayList<MediaSelectListModel> fileList, Action onComplete) {
-        Observable.fromArray(fileList).map(filepath -> {
-            for (MediaSelectListModel file : fileList) {
-                String ext = FilenameUtils.getExtension(file.getFilePath());
-                if (TextUtils.isEmpty(file.getYoutubeUrl()) && !file.isGif() && !file.getFilePath().startsWith("http")) {
-                    file.setOriginalFileName(FilenameUtils.getName(file.getFilePath()));
-                    Bitmap bitmap = Glide
-                            .with(context).asBitmap().load(file.getFilePath()).submit(800, 800).get();
-                    File destFile = new File(imagePath, UUID.randomUUID().toString() + "." + ext);
-                    destFile.createNewFile();
-                    OutputStream out = new FileOutputStream(destFile);
-                    if (ext.equals("png")) {
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    } else {
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    }
-                    file.setFilePath(destFile.getAbsolutePath());
-                }
+    public static Single<List<MediaSelectListModel>> compressImage(Context context, ArrayList<MediaSelectListModel> fileList) {
+        return Observable.fromIterable(fileList).filter(file -> {
+            if (TextUtils.isEmpty(file.getFilePath()) ||
+                    file.getFilePath().startsWith("http") ||
+                    !new File(file.getFilePath()).exists()) {
+                return false;
             }
             return true;
-        }).observeOn(AndroidSchedulers.mainThread()).
-                subscribeOn(Schedulers.computation()).subscribe(s -> {
-        }, throwable -> {
-            System.out.println("cccccccccccc       " + throwable.getMessage());
-        }, onComplete);
+        }).map(selectFile -> {
+            String selectFilePath = selectFile.getFilePath();
+            String ext = FilenameUtils.getExtension(selectFilePath);
+            File file = new File(selectFilePath);
+            if (TextUtils.isEmpty(selectFile.getYoutubeUrl()) && !selectFile.isGif()) {
+                selectFile.setOriginalFileName(FilenameUtils.getName(selectFile.getFilePath()));
+
+                Bitmap bitmap = GlideApp.with(context).asBitmap().load(selectFilePath).submit(800, 800).get();
+                File destFile = new File(imagePath, UUID.randomUUID().toString() + "." + ext);
+                destFile.createNewFile();
+                OutputStream out = new FileOutputStream(destFile);
+                if (ext.equalsIgnoreCase("png")) {
+                    bitmap.compress(CompressFormat.PNG, 100, out);
+                } else {
+                    bitmap.compress(CompressFormat.JPEG, 100, out);
+                }
+                selectFile.setFilePath(destFile.getAbsolutePath());
+            }
+            return selectFile;
+        }).toList();
     }
 
     public static int exifOrientationToDegrees(int exifOrientation) {
