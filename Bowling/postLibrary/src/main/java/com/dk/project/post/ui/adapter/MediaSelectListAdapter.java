@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.GridLayoutManager;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.ui.viewHolder.MediaSelectListGridViewHolder;
+
 import java.util.ArrayList;
 
 /**
@@ -37,8 +40,8 @@ public class MediaSelectListAdapter extends BaseRecyclerViewAdapter {
 
     @Override
     public BindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MediaSelectListGridViewHolder holder = new MediaSelectListGridViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.media_select_list_grid_item, parent, false), this);
-        return holder;
+        return new MediaSelectListGridViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.media_select_list_grid_item, parent, false), this, multiSelect);
     }
 
     @Override
@@ -62,6 +65,17 @@ public class MediaSelectListAdapter extends BaseRecyclerViewAdapter {
                     TextView textView = view.findViewById(R.id.item_check);
                     textView.setText(String.valueOf(index));
                 }
+            }
+        }
+    }
+
+    public void allUnCheckRefresh() {
+        for (MediaSelectListModel model : ListController.getInstance().getMediaSelectList()) {
+            int position = itemList.indexOf(model);
+            if (position >= 0) {
+                View view = layoutManager.findViewByPosition(position);
+                TextView textView = view.findViewById(R.id.item_check);
+                textView.setVisibility(View.GONE);
             }
         }
     }

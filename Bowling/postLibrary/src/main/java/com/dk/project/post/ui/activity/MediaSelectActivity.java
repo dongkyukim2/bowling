@@ -40,7 +40,7 @@ public class MediaSelectActivity extends BindActivity<ActivityMediaSelectBinding
 
         binding.mediaSelectRecycler.setLayoutManager(new LinearLayoutManager(this));
         binding.mediaSelectRecycler.setItemAnimator(new DefaultItemAnimator());
-        mediaSelectAdapter = new MediaSelectAdapter(this, "image", true);
+        mediaSelectAdapter = new MediaSelectAdapter(this, "image", getIntent().getBooleanExtra(IMAGE_MULTI_SELECT, true));
         binding.mediaSelectRecycler.setAdapter(mediaSelectAdapter);
 
         viewModel.getMediaSelectlistLiveData().observe(this, mediaSelectModels -> {
@@ -49,7 +49,6 @@ public class MediaSelectActivity extends BindActivity<ActivityMediaSelectBinding
         });
 
         viewModel.getMediaList();
-
     }
 
     @Override

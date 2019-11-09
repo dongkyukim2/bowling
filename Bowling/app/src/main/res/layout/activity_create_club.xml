@@ -29,7 +29,19 @@
                 app:layout_constraintDimensionRatio="w,1:1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/include_toolbar"/>
+                app:layout_constraintTop_toBottomOf="@id/include_toolbar" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_attach"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="26dp"
+                android:layout_marginBottom="26dp"
+                android:background="@drawable/ic_image"
+                android:onClick="@{viewModel::onClick}"
+                app:layout_constraintBottom_toTopOf="@id/club_info_root"
+                app:layout_constraintRight_toRightOf="@id/club_title_image_view" />
 
         <Space
                 android:id="@+id/space"
@@ -108,8 +120,7 @@
                             android:paddingRight="30dp"
                             android:text="클럽 만들기"
                             android:textColor="#000000"
-                            android:textSize="15dp"
-                            />
+                            android:textSize="15dp" />
 
                 </LinearLayout>
 

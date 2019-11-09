@@ -3,6 +3,7 @@ package com.dk.project.post.ui.viewHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.databinding.MediaSelectListGridItemBinding;
@@ -17,13 +18,15 @@ public class MediaSelectListGridViewHolder<T extends MediaSelectListModel> exten
 
     private MediaSelectListAdapter adapter;
     private static int width;
+    private boolean multiSelect;
 
-    public MediaSelectListGridViewHolder(View itemView, MediaSelectListAdapter adapter) {
+    public MediaSelectListGridViewHolder(View itemView, MediaSelectListAdapter adapter, boolean multiSelect) {
         super(itemView);
         this.adapter = adapter;
         if (width == 0) {
             width = ScreenUtil.getDeviceScreenSize(itemView.getContext())[0];
         }
+        this.multiSelect = multiSelect;
     }
 
     @Override
@@ -38,35 +41,45 @@ public class MediaSelectListGridViewHolder<T extends MediaSelectListModel> exten
             binding.itemCheck.setVisibility(View.VISIBLE);
             item.setSort(ListController.getInstance().getIndex(item.getFilePath()));
             binding.itemCheck.setText(String.valueOf(item.getSort()));
-//            adapter.getSelectedTextViewMap().put(item.getFilePath(),binding.itemCheck);
         } else {
             binding.itemCheck.setVisibility(View.GONE);
         }
-
         binding.getRoot().setOnClickListener(view -> {
-
-            boolean checked = !ListController.getInstance().isExistModel(item.getFilePath());
-
-            if (checked && ListController.getInstance().getSelectListCount() >= IMAGE_LIMIT_COUNT) {
-                Toast.makeText(binding.itemCheck.getContext(), (IMAGE_LIMIT_COUNT + "개 이상 첨부 불가"),
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            binding.itemCheck.setVisibility(checked ? View.VISIBLE : View.GONE);
-            if (checked) {
-                item.setSort(ListController.getInstance().getSelectListCount() + 1);
-                binding.itemCheck.setText(String.valueOf(item.getSort()));
-                ListController.getInstance().addMediaSelectModel(item);
-            } else {
-                ListController.getInstance().removeMediaSelectModel(item);
-                int removeIndex = item.getSort();
-                for (MediaSelectListModel model : ListController.getInstance().getMediaSelectList()) {
-                    if (model.getSort() > removeIndex) {
-                        model.setMinusOrder();
-                    }
+            if (multiSelect) {
+                boolean checked = !ListController.getInstance().isExistModel(item.getFilePath());
+                if (checked && ListController.getInstance().getSelectListCount() >= IMAGE_LIMIT_COUNT) {
+                    Toast.makeText(binding.itemCheck.getContext(), (IMAGE_LIMIT_COUNT + "개 이상 첨부 불가"),
+                            Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                adapter.unCheckRefresh();
+
+                binding.itemCheck.setVisibility(checked ? View.VISIBLE : View.GONE);
+                if (checked) {
+                    item.setSort(ListController.getInstance().getSelectListCount() + 1);
+                    binding.itemCheck.setText(String.valueOf(item.getSort()));
+                    ListController.getInstance().addMediaSelectModel(item);
+                } else {
+                    ListController.getInstance().removeMediaSelectModel(item);
+                    int removeIndex = item.getSort();
+                    for (MediaSelectListModel model : ListController.getInstance().getMediaSelectList()) {
+                        if (model.getSort() > removeIndex) {
+                            model.setMinusOrder();
+                        }
+                    }
+                    adapter.unCheckRefresh();
+                }
+            } else {
+
+
+                boolean checked = !ListController.getInstance().isExistModel(item.getFilePath());
+                adapter.allUnCheckRefresh();
+                ListController.getInstance().mediaSelectListClear();
+
+                if (checked) {
+                    ListController.getInstance().addMediaSelectModel(item);
+                    binding.itemCheck.setText("1");
+                }
+                binding.itemCheck.setVisibility(checked ? View.VISIBLE : View.GONE);
             }
         });
     }

@@ -138,7 +138,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         });
 
         binding.writeDate.setText(Utils.converterDate(postModel.getWriteDate()));
-        GlideApp.with(this).load(postModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
+        GlideApp.with(this).load(postModel.getUserProfile())
+                .apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
                 .into(binding.userProfile);
 
         binding.likeImageView.setImageResource(postModel.isLikeSelected() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);

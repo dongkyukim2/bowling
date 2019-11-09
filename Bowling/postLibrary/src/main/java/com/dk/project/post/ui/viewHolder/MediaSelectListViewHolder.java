@@ -3,6 +3,7 @@ package com.dk.project.post.ui.viewHolder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.databinding.MediaSelectItemBinding;
@@ -17,10 +18,12 @@ import com.dk.project.post.utils.ImageUtil;
 
 public class MediaSelectListViewHolder<T extends MediaSelectModel> extends BindViewHolder<MediaSelectItemBinding, T> {
 
-    public MediaSelectListViewHolder(View itemView) {
-        super(itemView);
-    }
+    private boolean multiSelect;
 
+    public MediaSelectListViewHolder(View itemView, boolean multiSelect) {
+        super(itemView);
+        this.multiSelect = multiSelect;
+    }
 
     @Override
     public void onBindView(MediaSelectModel item, int position) {
@@ -32,7 +35,7 @@ public class MediaSelectListViewHolder<T extends MediaSelectModel> extends BindV
                     bundle.putString("BucketId", item.getBucketId());
                     bundle.putInt("type", item.getType());
                     bundle.putString("viewerType", "image");
-                    bundle.putBoolean("multiSelect", true);
+                    bundle.putBoolean(IMAGE_MULTI_SELECT, multiSelect);
                     Intent intent = new Intent(binding.folderName.getContext(), MediaSelectListActivity.class);
                     intent.putExtras(bundle);
                     ((BaseActivity) binding.folderName.getContext()).startActivityForResult(intent, MEDIA_ATTACH_LIST);
@@ -51,5 +54,4 @@ public class MediaSelectListViewHolder<T extends MediaSelectModel> extends BindV
             GlideApp.with(binding.folderName.getContext()).load(item.getPath()).apply(ImageUtil.getGlideRequestOption()).into(binding.folderThumbnail);
         }
     }
-
 }

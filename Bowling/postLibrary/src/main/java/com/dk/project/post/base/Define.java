@@ -46,6 +46,7 @@ public interface Define {
     String YOUTUBE_PACKAGE_NAME = "com.google.android.youtube";
     String YOUTUBE_SHARE_URL = "https://youtu.be/";
     String INTRO_DELAY = "intro delay";
+    String IMAGE_MULTI_SELECT = "IMAGE_MULTI_SELECT";
 
 //    String FIX_POSITION = "FIX_POSITION";
 

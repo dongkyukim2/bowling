@@ -1,6 +1,7 @@
 package com.dk.project.bowling.viewModel;
 
 import android.app.Application;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,8 +15,13 @@ import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
+import com.dk.project.post.ui.activity.MediaSelectActivity;
 import com.dk.project.post.utils.GlideApp;
+import com.dk.project.post.utils.PermissionsUtil;
 import com.dk.project.post.utils.RxBus;
+
+import static com.dk.project.post.base.Define.IMAGE_MULTI_SELECT;
+import static com.dk.project.post.base.Define.MEDIA_ATTACH_LIST;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -50,7 +56,6 @@ public class CreateClubViewModel extends BaseViewModel {
 
         switch (view.getId()) {
             case R.id.create_club_btn:
-
                 ClubModel clubModel = new ClubModel();
                 clubModel.setClubTitle(((CreateClubActivity) mContext).getBinding().clubTitleTextView.getText().toString());
                 clubModel.setClubInfo(((CreateClubActivity) mContext).getBinding().clubSubTitleTextView.getText().toString());
@@ -61,7 +66,15 @@ public class CreateClubViewModel extends BaseViewModel {
                     mContext.finish();
                 }, errorData -> Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show());
                 break;
+            case R.id.image_attach:
+                PermissionsUtil.isPermission(mContext, granted -> {
+                    if (granted) {
+                        Intent intent = new Intent(mContext, MediaSelectActivity.class);
+                        intent.putExtra(IMAGE_MULTI_SELECT, false);
+                        mContext.startActivityForResult(intent, MEDIA_ATTACH_LIST);
+                    }
+                });
+                break;
         }
-
     }
 }

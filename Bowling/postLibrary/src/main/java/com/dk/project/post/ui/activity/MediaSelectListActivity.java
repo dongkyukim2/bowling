@@ -48,7 +48,7 @@ public class MediaSelectListActivity extends BindActivity<ActivityMediaSelectLis
 
         binding.mediaSelectListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         binding.mediaSelectListRecycler.setItemAnimator(new DefaultItemAnimator());
-        mediaSelectListAdapter = new MediaSelectListAdapter(this, null, "image", true,
+        mediaSelectListAdapter = new MediaSelectListAdapter(this, null, "image", getIntent().getBooleanExtra(IMAGE_MULTI_SELECT, true),
                 (GridLayoutManager) binding.mediaSelectListRecycler.getLayoutManager());
         binding.mediaSelectListRecycler.setAdapter(mediaSelectListAdapter);
 
