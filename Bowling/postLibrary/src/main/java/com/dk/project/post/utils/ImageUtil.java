@@ -66,9 +66,15 @@ public class ImageUtil implements Define {
 
     public static boolean IGNORE_WEBP = true;
     public static String imagePath;
-    private static final String IMAGE_URL = "http://project-dk.iptime.org:8081/community/image/";
     private static final int SPACE_HEIGHT_INT = 22;
     private static GradientDrawable gradientDrawable;
+
+    public static RequestOptions getGlideRequestOption(DiskCacheStrategy strategy) {
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(strategy)
+                .dontAnimate();
+        return options;
+    }
 
     public static RequestOptions getGlideRequestOption() {
         RequestOptions options = new RequestOptions()

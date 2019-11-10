@@ -9,7 +9,6 @@ public interface Define {
 
     boolean ON_CREATE_LOG = false;
 
-
 //    boolean TEST_USER = false;
     boolean TEST_USER = true;
     String TEST_ID = "1087708737";
@@ -36,6 +35,7 @@ public interface Define {
 
     int IMAGE_LIMIT_COUNT = 5;
 
+    String IMAGE_URL = "http://project-dk.iptime.org:8081/community/image/";
     String S3_DEFAULT_PATH = "https://s3.ap-northeast-2.amazonaws.com/2018community/";
 
     String YOUTUBE_PREVIEW_TAG = "YOUTUBE_PREVIEW";

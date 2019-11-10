@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.databinding.MediaSelectListGridItemBinding;
@@ -94,8 +95,11 @@ public class MediaSelectListGridViewHolder<T extends MediaSelectListModel> exten
         } else {
             binding.itemThumbnailGif.setVisibility(View.GONE);
             binding.itemThumbnail.setVisibility(View.VISIBLE);
-            GlideApp.with(binding.itemThumbnail.getContext()).load(item.getFilePath()).thumbnail(0.4f)
-                    .apply(ImageUtil.getGlideRequestOption().centerCrop()).into(binding.itemThumbnail);
+            GlideApp.with(binding.itemThumbnail.getContext())
+                    .load(item.getFilePath())
+                    .thumbnail(0.4f)
+                    .apply(ImageUtil.getGlideRequestOption(DiskCacheStrategy.RESOURCE).centerCrop())
+                    .into(binding.itemThumbnail);
         }
     }
 }

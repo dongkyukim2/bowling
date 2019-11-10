@@ -26,6 +26,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="1" />
 
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/club_setting"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="26dp"
+                android:layout_marginBottom="26dp"
+                android:background="@drawable/ic_settings_24dp"
+                android:onClick="@{viewModel::onClick}"
+                app:layout_constraintBottom_toTopOf="@id/club_info_root"
+                app:layout_constraintRight_toRightOf="@id/club_title_image" />
+
         <Space
                 android:id="@+id/space"
                 android:layout_width="match_parent"

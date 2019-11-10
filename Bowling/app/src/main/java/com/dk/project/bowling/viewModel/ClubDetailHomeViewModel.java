@@ -63,6 +63,9 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                         ToastUtil.showToastCenter(mContext, "가입신청을 해주세요.");
                 }
                 break;
+            case R.id.club_setting:
+                Toast.makeText(mContext,"클럽 설정",Toast.LENGTH_LONG).show();
+                break;
         }
     }
 

@@ -36,19 +36,13 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
 
                 @Override
                 public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                    Palette.from(resource).generate(palette -> {
-                        for (Palette.Swatch swatch : palette.getSwatches()) {
-                            if (swatch != null) {
-                                binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
-                                break;
-                            }
-                        }
-                    });
+                    setPaletteColor(resource);
                     return false;
                 }
             }).into(binding.clubImageView);
         } else {
-            GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(utils.getDefaultImage(Integer.valueOf(item.getClubImage()))).centerCrop().addListener(new RequestListener<Bitmap>() {
+
+            GlideApp.with(binding.clubImageView.getContext()).asBitmap().load(IMAGE_URL + item.getClubImage()).centerCrop().addListener(new RequestListener<Bitmap>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
                     return false;
@@ -56,14 +50,7 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
 
                 @Override
                 public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                    Palette.from(resource).generate(palette -> {
-                        for (Palette.Swatch swatch : palette.getSwatches()) {
-                            if (swatch != null) {
-                                binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
-                                break;
-                            }
-                        }
-                    });
+                    setPaletteColor(resource);
                     return false;
                 }
             }).into(binding.clubImageView);
@@ -77,5 +64,17 @@ public class SignClubViewHolder extends BindViewHolder<ViewHolderSignClubBinding
         }
 
         binding.clubTitleTextView.setText(item.getClubTitle());
+    }
+
+
+    private void setPaletteColor(Bitmap bitmap) {
+        Palette.from(bitmap).generate(palette -> {
+            for (Palette.Swatch swatch : palette.getSwatches()) {
+                if (swatch != null) {
+                    binding.clubTitleTextView.setBackgroundColor(swatch.getRgb());
+                    break;
+                }
+            }
+        });
     }
 }

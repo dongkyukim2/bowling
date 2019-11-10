@@ -18,6 +18,7 @@ import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.GlideApp
+import com.dk.project.post.utils.ImageUtil
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
 
@@ -28,15 +29,12 @@ import com.dk.project.post.utils.ScreenUtil
  */
 class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHomeViewModel>() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_club_detail
-    }
+    override fun getLayoutId() = R.layout.fragment_club_detail
 
-    override fun createViewModel(): ClubDetailHomeViewModel {
-        return ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
+    override fun createViewModel() =
+        ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(
             ClubDetailHomeViewModel::class.java
         )
-    }
 
     override fun registerLiveData() {
         RxBus.getInstance().registerRxObserver { integerObjectPair ->
@@ -55,14 +53,18 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
 
         binding.viewModel = viewModel
 
-        GlideApp.with(activity!!).asBitmap().load(utils.getDefaultImage()).centerCrop()
-            .into(binding.clubTitleImage)
-
         arguments?.apply {
             getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
                 binding.clubTitleTextView.text = clubTitle
                 binding.clubSubTitleTextView.text = clubInfo
                 binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
+
+                GlideApp.with(activity!!).asBitmap()
+                    .load(if (clubImage.length < 2) utils.getDefaultImage(Integer.valueOf(clubImage)) else Define.IMAGE_URL + clubImage)
+                    .centerCrop()
+                    .apply(ImageUtil.getGlideRequestOption())
+                    .into(binding.clubTitleImage)
+
                 viewModel.clubModel = this
 
                 getUserList()
@@ -85,11 +87,12 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         }
 
         (binding.space.layoutParams as ConstraintLayout.LayoutParams).apply {
-            matchConstraintPercentHeight = if(ScreenUtil.screenRatio(activity) < 56) { // 세로가 짧은 디바이스
-                0.1.toFloat()
-            } else { // 세로가 긴 디바이스
-                0.2.toFloat()
-            }
+            matchConstraintPercentHeight =
+                if (ScreenUtil.screenRatio(activity) < 56) { // 세로가 짧은 디바이스
+                    0.1.toFloat()
+                } else { // 세로가 긴 디바이스
+                    0.2.toFloat()
+                }
             binding.space.layoutParams = this
         }
 

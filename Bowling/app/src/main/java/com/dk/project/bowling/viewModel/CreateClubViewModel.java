@@ -31,6 +31,8 @@ public class CreateClubViewModel extends BaseViewModel {
 
     private int defaultImageIndex;
 
+    private boolean guardRequest;
+
     public CreateClubViewModel(@NonNull Application application) {
         super(application);
     }
@@ -55,6 +57,10 @@ public class CreateClubViewModel extends BaseViewModel {
 
         switch (view.getId()) {
             case R.id.create_club_btn:
+                if (guardRequest) {
+                    return;
+                }
+                guardRequest = true;
                 ClubModel clubModel = new ClubModel();
                 clubModel.setClubTitle(((CreateClubActivity) mContext).getBinding().clubTitleTextView.getText().toString());
                 clubModel.setClubInfo(((CreateClubActivity) mContext).getBinding().clubSubTitleTextView.getText().toString());
@@ -65,7 +71,7 @@ public class CreateClubViewModel extends BaseViewModel {
                     PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
                         createClub(clubModel, receivedData.get(0));
                     }, errorData -> {
-
+                        guardRequest = false;
                     }, new ProgressRequestBody.ProgressListener() {
                         @Override
                         public void onUploadStart(String fileName) {
@@ -101,6 +107,10 @@ public class CreateClubViewModel extends BaseViewModel {
         BowlingApi.getInstance().createClub(clubModel, receivedData -> {
             RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
             mContext.finish();
-        }, errorData -> Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show());
+            guardRequest = false;
+        }, errorData -> {
+            Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show();
+            guardRequest = false;
+        });
     }
 }
