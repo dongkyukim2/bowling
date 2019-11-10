@@ -58,19 +58,12 @@ public class CreateClubViewModel extends BaseViewModel {
                 ClubModel clubModel = new ClubModel();
                 clubModel.setClubTitle(((CreateClubActivity) mContext).getBinding().clubTitleTextView.getText().toString());
                 clubModel.setClubInfo(((CreateClubActivity) mContext).getBinding().clubSubTitleTextView.getText().toString());
-                clubModel.setClubImage(String.valueOf(defaultImageIndex));
-
-                BowlingApi.getInstance().createClub(clubModel, receivedData -> {
-                    RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
-                    mContext.finish();
-                }, errorData -> Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show());
-
 
                 if (ListController.getInstance().getMediaSelectList().isEmpty()) {
-
+                    createClub(clubModel, String.valueOf(defaultImageIndex));
                 } else {
                     PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
-
+                        createClub(clubModel, receivedData.get(0));
                     }, errorData -> {
 
                     }, new ProgressRequestBody.ProgressListener() {
@@ -101,5 +94,13 @@ public class CreateClubViewModel extends BaseViewModel {
                 });
                 break;
         }
+    }
+
+    private void createClub(ClubModel clubModel, String filePath) {
+        clubModel.setClubImage(filePath);
+        BowlingApi.getInstance().createClub(clubModel, receivedData -> {
+            RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
+            mContext.finish();
+        }, errorData -> Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show());
     }
 }

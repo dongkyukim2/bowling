@@ -44,7 +44,7 @@ public interface RetroBaseApiService {
 
     @Multipart
     @POST("community/image/")
-    Observable<ResponseModel<Object>> uploadFile(@Part MultipartBody.Part file);
+    Observable<ResponseModel<String>> uploadFile(@Part MultipartBody.Part file);
 
 
     @FormUrlEncoded

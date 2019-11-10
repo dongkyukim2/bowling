@@ -13,6 +13,7 @@ import com.dk.project.post.utils.ImageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -128,7 +129,7 @@ public class PostApi {
     }
 
 
-    public Disposable uploadFile(MultipartBody.Part file, SuccessCallback<ResponseModel<Object>> callback,
+    public Disposable uploadFile(MultipartBody.Part file, SuccessCallback<ResponseModel<String>> callback,
                                  ErrorCallback errorCallback) {
         return apiService.uploadFile(file)
                 .subscribeOn(Schedulers.io())
@@ -170,32 +171,29 @@ public class PostApi {
     }
 
 
-    public Disposable test(Context context, ArrayList<MediaSelectListModel> fileList,SuccessCallback<Object> callback, ErrorCallback errorCallback,ProgressListener progressListener) {
-        return ImageUtil.compressImage(context, fileList).flatMap(mediaSelectListModels -> {
-            return Observable.fromIterable(mediaSelectListModels).map(selectModel -> {
-
-                Part body;
-                if (TextUtils.isEmpty(selectModel.getYoutubeUrl()) && !selectModel.getFilePath().startsWith("http")) {
-                    File file = new File(selectModel.getFilePath());
-
-                    ProgressRequestBody fileBody = new ProgressRequestBody(file, MediaType.parse("image"), progressListener);
-                    body = Part.createFormData("file", file.getName(), fileBody);
-                    selectModel.setFilePath(file.getName());
-                    progressListener.onUploadStart(selectModel.getOriginalFileName());
-                } else {
-                    body = Part.createFormData("file", "file", RequestBody.create(MediaType.parse("image"), new File("")));
-                }
-                return body;
-            }).filter(part -> part.body().contentLength() != 0).
-                    flatMap(part -> apiService.uploadFile(part).retry(10, throwable -> {
-                        Thread.sleep(500);
-                        System.out.println("======================    retry");
-                        return true;
-                    }), 1).map(objectResponseModel -> {
-                progressListener.onUploadEnd("uploadEnd");
-                return objectResponseModel.getData();
-            }).toList();
-        }).subscribeOn(Schedulers.io()).
+    //todo 전반적인 파일 업로드 로직 수정
+    public Disposable test(Context context, ArrayList<MediaSelectListModel> fileList, SuccessCallback<List<String>> callback, ErrorCallback errorCallback, ProgressListener progressListener) {
+        return ImageUtil.compressImage(context, fileList).flatMap(mediaSelectListModels -> Observable.fromIterable(mediaSelectListModels).filter(selectModel -> {
+            if (TextUtils.isEmpty(selectModel.getYoutubeUrl()) && !selectModel.getFilePath().startsWith("http")) {
+                return true;
+            }
+            return false;
+        }).map(selectModel -> {
+            File file = new File(selectModel.getFilePath());
+            ProgressRequestBody fileBody = new ProgressRequestBody(file, MediaType.parse("image"), progressListener);
+            Part part = Part.createFormData("file", file.getName(), fileBody);
+            selectModel.setFilePath(file.getName());
+            progressListener.onUploadStart(selectModel.getOriginalFileName());
+            return part;
+        }).filter(part -> part.body().contentLength() != 0)
+                .flatMap(part -> apiService.uploadFile(part).retry(3, throwable -> {
+                    Thread.sleep(300);
+                    System.out.println("======================    retry");
+                    return true;
+                }), 1).map(objectResponseModel -> {
+                    progressListener.onUploadEnd("uploadEnd");
+                    return objectResponseModel.getData();
+                }).toList()).subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onSuccess,
                 throwable -> retroClient.errorHandling(throwable, errorCallback));
     }

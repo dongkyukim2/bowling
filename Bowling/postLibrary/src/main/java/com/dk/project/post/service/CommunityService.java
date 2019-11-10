@@ -88,7 +88,6 @@ public class CommunityService extends BaseService {
             }, new ProgressListener() {
                 @Override
                 public void onUploadStart(String fileName) {
-//          contentView.setTextViewText(R.id.noti_title, fileName);
                     contentView.setTextViewText(R.id.noti_file_count, fileCount.incrementAndGet() + "/" + uploadFileCount.get());
                     notifyManager.notify(notificationId, mNotification);
                 }
