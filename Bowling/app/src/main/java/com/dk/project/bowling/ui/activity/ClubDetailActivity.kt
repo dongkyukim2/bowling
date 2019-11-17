@@ -3,18 +3,25 @@ package com.dk.project.bowling.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
+import com.dk.project.bowling.ui.fragment.ClubDetailFragment
 import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
+import com.dk.project.post.bowling.model.ClubUserModel
+import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.ui.activity.WriteActivity
+import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.ToastUtil
+import com.dk.project.post.utils.Utils
+
 
 class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailViewModel>() {
 
@@ -91,7 +98,32 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         super.onToolbarRightClick()
         when (currentPosition) {
             0 -> {
-                Toast.makeText(this, "일반 회원 초대", Toast.LENGTH_SHORT).show()
+                AlertDialogUtil.showEditTextAlertDialog(
+                    this,
+                    "추가 할 일반 회원 이름을 입력하세요."
+                ) {
+
+                    val clubUserModel = ClubUserModel()
+                    clubUserModel.clubId = viewModel.clubModel.clubId
+                    clubUserModel.userId = "N_" + Utils.getRandomString()
+                    clubUserModel.type = USER_TYPE_JOIN
+                    clubUserModel.userName = (it as EditText).text.toString().trim()
+                    viewModel.executeRx(
+                        BowlingApi.getInstance().setModifyClubUserType(
+                            clubUserModel,
+                            { receivedData ->
+                                if (receivedData.isSuccess) {
+                                    (clubDetailPagerAdapter.createFragment(0) as ClubDetailFragment).getUserList();
+                                    Toast.makeText(this, "일반회원 추가 성공", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(this, "일반회원 추가 실패", Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            {
+                                Toast.makeText(this, "일반회원 추가 실패", Toast.LENGTH_SHORT).show()
+                            })
+                    )
+                }
             }
             1 -> Intent(this, CreateGameActivity::class.java).let {
                 it.putExtra(CLUB_MODEL, viewModel.clubModel)

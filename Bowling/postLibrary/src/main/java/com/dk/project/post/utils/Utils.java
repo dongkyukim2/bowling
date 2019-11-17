@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 import static com.dk.project.post.base.Define.YOUTUBE_PACKAGE_NAME;
@@ -181,4 +182,39 @@ public class Utils {
         int b = Color.blue(color);
         return Color.argb(alpha, r, g, b);
     }
+
+    public static String getRandomString() {
+
+        Random generator = new Random();
+        StringBuffer stringBuffer = new StringBuffer();
+
+        for (int i = 0; i < 9; i++) {
+            char ch = (char) ((Math.random() * 26) + 97);
+            int a = generator.nextInt(10);
+            stringBuffer.append(ch);
+            stringBuffer.append(a);
+        }
+        return stringBuffer.toString();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
