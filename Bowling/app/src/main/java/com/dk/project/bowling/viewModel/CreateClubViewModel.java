@@ -10,7 +10,6 @@ import androidx.core.util.Pair;
 
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.CreateClubActivity;
-import com.dk.project.bowling.utils;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
@@ -29,7 +28,7 @@ import com.dk.project.post.utils.RxBus;
 
 public class CreateClubViewModel extends BaseViewModel {
 
-    private int defaultImageIndex;
+    private int defaultImageIndex = 1;
 
     private boolean guardRequest;
 
@@ -41,8 +40,7 @@ public class CreateClubViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
 
-        defaultImageIndex = utils.getDefaultImageIndex();
-        GlideApp.with(mContext).load(utils.getDefaultImage(defaultImageIndex))
+        GlideApp.with(mContext).load(R.drawable.team_default_1)
                 .into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
 
     }

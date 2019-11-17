@@ -107,7 +107,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.signClubViewPager.alpha = abs(1.0f - slideOffset)
+//                binding.signClubViewPager.alpha = abs(1.0f - slideOffset)
 //                binding.recommendClubTextView
 //                    .setBackgroundColor(Utils.getColorWithAlpha(Color.WHITE, slideOffset))
             }

@@ -1,6 +1,5 @@
 package com.dk.project.bowling.ui.fragment
 
-
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubDetailBinding
-import com.dk.project.bowling.utils
 import com.dk.project.bowling.viewModel.ClubDetailHomeViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
@@ -60,7 +58,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                 binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
 
                 GlideApp.with(activity!!).asBitmap()
-                    .load(if (clubImage.length < 2) utils.getDefaultImage(Integer.valueOf(clubImage)) else Define.IMAGE_URL + clubImage)
+                    .load(if (clubImage.length == 1) R.drawable.team_default_1 else Define.IMAGE_URL + clubImage)
                     .centerCrop()
                     .apply(ImageUtil.getGlideRequestOption())
                     .into(binding.clubTitleImage)
