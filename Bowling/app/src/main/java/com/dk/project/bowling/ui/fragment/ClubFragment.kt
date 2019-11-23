@@ -21,7 +21,6 @@ import com.dk.project.post.base.BindFragment
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlin.math.abs
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
@@ -39,6 +38,10 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     override fun registerLiveData() {
         viewModel.clubListLiveData.observe(this, Observer {
+
+            binding.emptyView.visibility =
+                if (it.first?.data?.isEmpty()!!) View.VISIBLE else View.GONE
+            
             clubAdapter.setClubList(it)
             signClubViewPagerAdapter.setClubList(it)
             binding.dotsIndicator.setViewPager2(binding.signClubViewPager)

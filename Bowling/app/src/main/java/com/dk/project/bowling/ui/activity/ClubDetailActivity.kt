@@ -100,7 +100,8 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             0 -> {
                 AlertDialogUtil.showEditTextAlertDialog(
                     this,
-                    "추가 할 일반 회원 이름을 입력하세요."
+                    "일반회원 추가",
+                    "이름을 입력하세요."
                 ) {
 
                     val clubUserModel = ClubUserModel()

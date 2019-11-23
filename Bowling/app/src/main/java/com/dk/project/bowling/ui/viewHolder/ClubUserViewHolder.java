@@ -1,5 +1,6 @@
 package com.dk.project.bowling.ui.viewHolder;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.core.util.Pair;
@@ -47,12 +48,14 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding
             case R.id.join_no:
                 AlertDialogUtil.showAlertDialog(binding.userNameText.getContext(), null, "가입을 거부 하시겠습니까?", (dialog, which) -> {
                     setJoinType(Define.USER_TYPE_JOIN_NEGATIVE);
-                },(dialog, which) -> {});
+                }, (dialog, which) -> {
+                });
                 break;
             case R.id.join_yes:
                 AlertDialogUtil.showAlertDialog(binding.userNameText.getContext(), null, "가입을 수락 하시겠습니까?", (dialog, which) -> {
                     setJoinType(Define.USER_TYPE_JOIN);
-                },(dialog, which) -> {});
+                }, (dialog, which) -> {
+                });
                 break;
         }
     }
@@ -65,10 +68,8 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding
 
         BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {
             if (receivedData.isSuccess()) {
-                if (type == Define.USER_TYPE_JOIN_NEGATIVE) {
-                    ToastUtil.showToastCenter(binding.userNameText.getContext(), "거부 하였습니다.");
-                } else {
-                    ToastUtil.showToastCenter(binding.userNameText.getContext(), "수락 하였습니다.");
+                if (!TextUtils.isEmpty(receivedData.getMessage())) {
+                    ToastUtil.showToastCenter(binding.userNameText.getContext(), receivedData.getMessage());
                 }
                 RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_CLUB_USER_LIST, null));
             }

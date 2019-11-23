@@ -97,7 +97,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
         return view
     }
 
-    public fun getUserList() {
+    fun getUserList() {
         BowlingApi.getInstance().getClubUserList(
             viewModel.clubModel.clubId, {
                 binding.clubUserCount.text =

@@ -82,9 +82,9 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             }
 
             binding.addTeam.setOnClickListener {
-                AlertDialogUtil.showEditTextAlertDialog(this, "팀명을 입력해주세요.", teamTitleClickListener)
+                AlertDialogUtil.showEditTextAlertDialog(this, "팀 추가","팀명을 입력해주세요.", teamTitleClickListener)
             }
-            AlertDialogUtil.showEditTextAlertDialog(this, "팀명을 입력해주세요.", teamTitleClickListener)
+            AlertDialogUtil.showEditTextAlertDialog(this, "팀 추가","팀명을 입력해주세요.", teamTitleClickListener)
         }
     }
 

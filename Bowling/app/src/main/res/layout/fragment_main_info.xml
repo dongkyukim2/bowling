@@ -182,7 +182,7 @@
                         app:lottie_fileName="lottie/empty_box.json"
                         app:lottie_loop="true" />
 
-                <AutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#ffffff"
