@@ -53,6 +53,8 @@ public class ClubScoreListViewModel extends BaseViewModel {
         BowlingApi.getInstance().getGameAndScoreList(clubModel.getClubId(), count, receivedData -> {
             if (!receivedData.getData().isEmpty()) {
                 gameMutableLiveData.setValue(new Pair<>(receivedData.getData(), count == 0));
+            } else {
+                gameMutableLiveData.setValue(new Pair<>(null, count == 0));
             }
             isLoading = false;
         }, errorData -> isLoading = false);

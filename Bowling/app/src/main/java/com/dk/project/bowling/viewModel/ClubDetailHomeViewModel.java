@@ -64,7 +64,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
                 break;
             case R.id.club_setting:
-                Toast.makeText(mContext,"클럽 설정",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "클럽 설정", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -92,21 +92,32 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
             newType = Define.USER_TYPE_JOIN_WAIT;
         }
 
-        AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 " + msg + " 하시겠습니까?", (dialog, which) -> {
-            ClubUserModel clubUserModel = new ClubUserModel();
-            clubUserModel.setClubId(clubModel.getClubId());
-            clubUserModel.setUserId(LoginManager.getInstance().getUserCode());
-            clubUserModel.setType(newType);
-            executeRx(BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {
-                if (receivedData.isSuccess()) {
+        if (clubModel.getCreateUserId().equals(LoginManager.getInstance().getUserCode())) {
+            AlertDialogUtil.showAlertDialog(mContext, "알림", "클럽장 탈퇴시 클럽의 모든 정보가 삭제됩니다.\n\n정말 탈퇴하시겠습니까?", (dialog, which) -> {
+                BowlingApi.getInstance().deleteClub(clubModel, receivedData -> {
                     RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
                     mContext.finish();
-                } else {
-                    Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show();
-                }
-            }, errorData -> Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show()));
+                }, errorData -> Toast.makeText(mContext, "클럽 탈퇴하기 실패", Toast.LENGTH_SHORT).show());
 
-        }, (dialog, which) -> {
-        });
+            }, (dialog, which) -> {
+            });
+        } else {
+            AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 " + msg + " 하시겠습니까?", (dialog, which) -> {
+                ClubUserModel clubUserModel = new ClubUserModel();
+                clubUserModel.setClubId(clubModel.getClubId());
+                clubUserModel.setUserId(LoginManager.getInstance().getUserCode());
+                clubUserModel.setType(newType);
+                executeRx(BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {
+                    if (receivedData.isSuccess()) {
+                        RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
+                        mContext.finish();
+                    } else {
+                        Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show();
+                    }
+                }, errorData -> Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show()));
+
+            }, (dialog, which) -> {
+            });
+        }
     }
 }

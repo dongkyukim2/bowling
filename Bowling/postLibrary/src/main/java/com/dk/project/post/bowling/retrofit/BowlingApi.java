@@ -65,6 +65,17 @@ public class BowlingApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
+    // 클럽 삭제
+    public Disposable deleteClub(ClubModel clubModel,
+                                 SuccessCallback<ResponseModel<ClubModel>> callback,
+                                 ErrorCallback errorCallback) {
+        return apiService.deleteClub(clubModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
     // 내가 가입한 클럽 목록
     public Disposable getSignUpClubList(SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
                                         ErrorCallback errorCallback) {

@@ -51,6 +51,9 @@ public interface RetroBaseApiService {
     @POST("community/bowling/club/create/")
     Observable<ResponseModel<ClubModel>> createClub(@Body ClubModel clubModel);
 
+    @POST("community/bowling/club/delete/")
+    Observable<ResponseModel<ClubModel>> deleteClub(@Body ClubModel clubModel);
+
     @GET("community/bowling/club/me/")
     Observable<ResponseModel<ArrayList<ClubModel>>> getSignUpClub();
 

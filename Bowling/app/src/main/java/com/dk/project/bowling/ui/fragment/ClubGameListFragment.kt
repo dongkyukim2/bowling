@@ -1,6 +1,5 @@
 package com.dk.project.bowling.ui.fragment
 
-
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
@@ -33,7 +32,10 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
 
     override fun registerLiveData() {
         viewModel.gameMutableLiveData.observe(this, Observer {
-            clubGameListAdapter.setClubList(it)
+            binding.emptyView.visibility = if (it.first == null) View.VISIBLE else View.GONE
+            if (it.first != null) {
+                clubGameListAdapter.setClubList(it)
+            }
         })
 
     }
