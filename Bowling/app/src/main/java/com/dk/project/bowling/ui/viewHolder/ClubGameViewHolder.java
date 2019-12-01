@@ -20,6 +20,7 @@ public class ClubGameViewHolder extends BindViewHolder<ViewHolderClubGameBinding
 
         binding.userName.setText(item.getUserName());
         binding.gameName.setText(item.getGameName());
+        binding.gameName.setSelected(true);
 
         String[] date = item.getPlayDateTime().split(" ");
         String week = Utils.getDAY_OF_WEEK(date[0]);

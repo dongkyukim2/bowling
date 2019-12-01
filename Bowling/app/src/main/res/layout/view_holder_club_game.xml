@@ -39,9 +39,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/binggrae"
+                android:singleLine="true"
                 android:text="테스트 게임 제목"
                 android:textColor="#000000"
-                android:fontFamily="@font/binggrae"
                 android:textSize="20dp"
                 app:layout_constraintLeft_toLeftOf="@id/user_name"
                 app:layout_constraintTop_toBottomOf="@id/user_name" />
@@ -52,9 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/binggrae"
                 android:text="2019-10-10 12:45"
                 android:textColor="@color/gray_text_color"
-                android:fontFamily="@font/binggrae"
                 android:textSize="13dp"
                 app:layout_constraintLeft_toLeftOf="@id/game_name"
                 app:layout_constraintTop_toBottomOf="@id/game_name" />

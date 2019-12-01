@@ -3,6 +3,7 @@ package com.dk.project.bowling.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -21,8 +22,6 @@ import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.GameModel
 import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
-import com.dk.project.post.retrofit.ErrorCallback
-import com.dk.project.post.retrofit.SuccessCallback
 import com.dk.project.post.utils.AlertDialogUtil
 
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>() {
@@ -58,12 +57,18 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
 
         if (viewModel.isReadMode) {
-            toolbarTitle.text = viewModel.readGameModel.gameName
+//            toolbarTitle.text = viewModel.readGameModel.gameName
             toolbarRightButton.visibility = View.GONE
             binding.addTeam.visibility = View.GONE
+            binding.gameTitleTextView.visibility = View.VISIBLE
+            binding.gameTitleTextView.text = viewModel.readGameModel.gameName
+            binding.gameTitleTextView.isSelected = true
+            binding.gameTitleEditText.visibility = View.INVISIBLE
         } else {
             toolbarTitle.text = "경기 만들기"
             toolbarRightButton.visibility = View.VISIBLE
+            binding.gameTitleTextView.visibility = View.GONE
+            binding.gameTitleEditText.visibility = View.VISIBLE
 
             binding.createGameRecyclerView.apply {
                 layoutManager = LinearLayoutManager(this@CreateGameActivity)
@@ -82,9 +87,19 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             }
 
             binding.addTeam.setOnClickListener {
-                AlertDialogUtil.showEditTextAlertDialog(this, "팀 추가","팀명을 입력해주세요.", teamTitleClickListener)
+                AlertDialogUtil.showEditTextAlertDialog(
+                    this,
+                    "팀 추가",
+                    "팀명을 입력해주세요.",
+                    teamTitleClickListener
+                )
             }
-            AlertDialogUtil.showEditTextAlertDialog(this, "팀 추가","팀명을 입력해주세요.", teamTitleClickListener)
+            AlertDialogUtil.showEditTextAlertDialog(
+                this,
+                "팀 추가",
+                "팀명을 입력해주세요.",
+                teamTitleClickListener
+            )
         }
     }
 
@@ -109,12 +124,19 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
         GameModel().apply {
             clubId = viewModel.clubModel.clubId
-            gameName = "임시 게임 이름"
+            val title = binding.gameTitleEditText.text?.trim()
+            gameName = if (TextUtils.isEmpty(title)) {
+                "임시 게임 이름"
+            } else {
+                title.toString()
+            }
+
+
             userList = createGameAdapter.userList
-            BowlingApi.getInstance().setGameAndScoreList(this, SuccessCallback {
+            BowlingApi.getInstance().setGameAndScoreList(this, {
                 setResult(Activity.RESULT_OK)
                 finish()
-            }, ErrorCallback {
+            }, {
                 Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT).show()
             })
         }
