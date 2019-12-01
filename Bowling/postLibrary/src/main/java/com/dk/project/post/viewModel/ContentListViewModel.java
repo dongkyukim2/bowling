@@ -219,26 +219,6 @@ public class ContentListViewModel extends BaseViewModel {
     private void replyManualRefresh(int position, PostModel newPostModel) {
         View viewHolder = linearLayoutManager.findViewByPosition(position);
 
-//    LinearLayout replyParent = viewHolder.findViewById(R.id.reply_root);
-//
-//    switch (newPostModel.getReplyList().size()) {
-//      case 0:
-//        replyParent.getChildAt(0).setVisibility(View.GONE);
-//        replyParent.getChildAt(1).setVisibility(View.GONE);
-//        break;
-//      case 1:
-//        replyParent.getChildAt(0).setVisibility(View.VISIBLE);
-//        ((TextView) replyParent.getChildAt(0).findViewById(R.id.reply_contents_text)).setText(newPostModel.getReplyList().get(0).getReplyContents());
-//        replyParent.getChildAt(1).setVisibility(View.GONE);
-//        break;
-//      default:
-//        replyParent.getChildAt(0).setVisibility(View.VISIBLE);
-//        ((TextView) replyParent.getChildAt(0).findViewById(R.id.reply_contents_text)).setText(newPostModel.getReplyList().get(0).getReplyContents());
-//        replyParent.getChildAt(1).setVisibility(View.VISIBLE);
-//        ((TextView) replyParent.getChildAt(1).findViewById(R.id.reply_contents_text)).setText(newPostModel.getReplyList().get(1).getReplyContents());
-//        break;
-//    }
-
         TextView replyTextView = viewHolder.findViewById(R.id.reply_count_text);
         TextView likeCountTextView = viewHolder.findViewById(R.id.like_count_text);
         AppCompatImageView likeImageView = viewHolder.findViewById(R.id.like_image_view);

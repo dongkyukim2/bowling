@@ -15,6 +15,10 @@ public class ReadGameModel implements Parcelable {
     private String playDateTime;
     private ArrayList<GameScoreModel> scoreList;
 
+
+    private String userName;
+    private String userPhoto;
+
     public ReadGameModel() {
     }
 
@@ -25,6 +29,9 @@ public class ReadGameModel implements Parcelable {
         createUserId = in.readString();
         playDateTime = in.readString();
         scoreList = in.createTypedArrayList(GameScoreModel.CREATOR);
+
+        userName = in.readString();
+        userPhoto = in.readString();
     }
 
     public String getClubId() {
@@ -88,6 +95,9 @@ public class ReadGameModel implements Parcelable {
         dest.writeString(createUserId);
         dest.writeString(playDateTime);
         dest.writeTypedList(scoreList);
+
+        dest.writeString(userName);
+        dest.writeString(userPhoto);
     }
 
     public static final Creator<ReadGameModel> CREATOR = new Creator<ReadGameModel>() {

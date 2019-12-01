@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +15,10 @@ import com.dk.project.post.R;
 import com.dk.project.post.base.BindFragment;
 import com.dk.project.post.databinding.FragmentContentsListBinding;
 import com.dk.project.post.ui.adapter.ContentsListAdapter;
+import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.viewModel.ContentListViewModel;
+
+import java.util.List;
 
 public class ContentsListFragment extends BindFragment<FragmentContentsListBinding, ContentListViewModel> {
 
@@ -48,14 +52,9 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
     @Override
     protected void registerLiveData() {
         viewModel.getPostItemList().observe(this, postModels -> {
-            if(postModels.isEmpty()){
-                binding.emptyView.setVisibility(View.VISIBLE);
-                binding.contentsListViewRefresh.setVisibility(View.GONE);
-            } else {
-                binding.emptyView.setVisibility(View.GONE);
-                binding.contentsListViewRefresh.setVisibility(View.VISIBLE);
-            }
+            setEmptyView(postModels);
             contentsListAdapter.setClearPostList(postModels);
+            binding.contentsListViewRefresh.setRefreshing(false);
         });
     }
 
@@ -68,23 +67,9 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
         binding.contentsListView.setAdapter(contentsListAdapter);
         viewModel.setRecyclerViewAdapterNmanager(contentsListAdapter, linearLayoutManager);
 
-        binding.contentsListViewRefresh.setOnRefreshListener(() -> {
+        binding.contentsListViewRefresh.setOnRefreshListener(() ->
+                RxBus.getInstance().eventPost(new Pair(EVENT_POST_REFRESH, viewModel.getClubId())));
 
-            viewModel.getPostList(0, viewModel.getClubId(), null, receivedData -> {
-                contentsListAdapter.setClearPostList(receivedData.getData());
-                binding.contentsListViewRefresh.setRefreshing(false);
-            }, errorData -> {
-
-            });
-
-//      Observable.just("").delay(1, TimeUnit.SECONDS).
-//          observeOn(AndroidSchedulers.mainThread())
-//          .subscribe(v -> {
-//            binding.contentsListViewRefresh.setRefreshing(false);
-//            contentsListAdapter.notifyDataSetChanged();
-//          });
-
-        });
         binding.contentsListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int moveY;
             boolean showEvent = false;
@@ -133,6 +118,16 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
     public void onResume() {
         super.onResume();
         contentsListAdapter.refreshWriteDate();
+    }
+
+    private void setEmptyView(List list) {
+        if (list.isEmpty()) {
+            binding.emptyView.setVisibility(View.VISIBLE);
+            binding.contentsListViewRefresh.setVisibility(View.GONE);
+        } else {
+            binding.emptyView.setVisibility(View.GONE);
+            binding.contentsListViewRefresh.setVisibility(View.VISIBLE);
+        }
     }
 
     public void changeListViewHolderType() {
