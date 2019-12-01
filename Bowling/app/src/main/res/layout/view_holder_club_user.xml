@@ -27,7 +27,6 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:background="@drawable/user_profile"
-
                 app:layout_constraintLeft_toRightOf="@id/user_check_box"
                 app:layout_constraintTop_toTopOf="parent" />
 

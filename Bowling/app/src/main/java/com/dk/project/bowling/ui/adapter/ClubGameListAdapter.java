@@ -70,14 +70,14 @@ public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHol
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
                 ReadGameModel oldModel = oldList.get(oldItemPosition);
                 ReadGameModel newModel = newList.get(newItemPosition);
-                return TextUtils.equals(oldModel.getClubId(), newModel.getClubId());
+                return TextUtils.equals(oldModel.getGameId(), newModel.getGameId());
             }
 
             @Override
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                 ReadGameModel oldModel = oldList.get(oldItemPosition);
                 ReadGameModel newModel = newList.get(newItemPosition);
-                return TextUtils.equals(oldModel.getClubId(), newModel.getClubId());
+                return TextUtils.equals(oldModel.getGameId(), newModel.getGameId());
             }
         });
         return diffResult;

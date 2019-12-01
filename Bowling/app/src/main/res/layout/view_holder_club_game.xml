@@ -9,32 +9,54 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
+        <com.dk.project.post.ui.widget.CircleImageView
+                android:id="@+id/user_profile_image_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/user_profile"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/bamin"
+                android:text="김길동"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/user_profile_image_view"
+                app:layout_constraintLeft_toRightOf="@id/user_profile_image_view"
+                app:layout_constraintTop_toTopOf="@id/user_profile_image_view" />
+
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/game_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="4dp"
                 android:text="테스트 게임 제목"
                 android:textColor="#000000"
+                android:fontFamily="@font/binggrae"
                 android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toLeftOf="@id/user_name"
+                app:layout_constraintTop_toBottomOf="@id/user_name" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/game_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:text="2019-10-10 12:45"
-                android:textColor="#000000"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:textColor="@color/gray_text_color"
+                android:fontFamily="@font/binggrae"
+                android:textSize="13dp"
+                app:layout_constraintLeft_toLeftOf="@id/game_name"
                 app:layout_constraintTop_toBottomOf="@id/game_name" />
 
         <View

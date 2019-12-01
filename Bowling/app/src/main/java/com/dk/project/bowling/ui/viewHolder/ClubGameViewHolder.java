@@ -17,6 +17,8 @@ public class ClubGameViewHolder extends BindViewHolder<ViewHolderClubGameBinding
     @Override
     public void onBindView(ReadGameModel item, int position) {
         super.onBindView(item, position);
+
+        binding.userName.setText(item.getUserName());
         binding.gameName.setText(item.getGameName());
 
         String[] date = item.getPlayDateTime().split(" ");

@@ -32,10 +32,11 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
 
     override fun registerLiveData() {
         viewModel.gameMutableLiveData.observe(this, Observer {
-            binding.emptyView.visibility = if (it.first == null) View.VISIBLE else View.GONE
+            setEmptyView(it.first!!)
             if (it.first != null) {
                 clubGameListAdapter.setClubList(it)
             }
+            binding.recyclerViewRefresh.isRefreshing = false
         })
 
     }
@@ -93,6 +94,10 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                     }
                 })
             }
+
+            binding.recyclerViewRefresh.setOnRefreshListener {
+                viewModel.requestGameList(0)
+            }
         }
         return view
     }
@@ -119,5 +124,15 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                     putParcelable(Define.CLUB_MODEL, clubModel)
                 }
             }
+    }
+
+    private fun setEmptyView(list: List<Any>) {
+        if (list == null || list.isEmpty()) {
+            binding.emptyView.visibility = View.VISIBLE
+            binding.clubGameRecyclerView.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.clubGameRecyclerView.visibility = View.VISIBLE
+        }
     }
 }

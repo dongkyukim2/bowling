@@ -82,6 +82,14 @@ public class ReadGameModel implements Parcelable {
         this.scoreList = scoreList;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
     @Override
     public int describeContents() {
         return 0;

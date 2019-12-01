@@ -123,10 +123,10 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
     private void setEmptyView(List list) {
         if (list.isEmpty()) {
             binding.emptyView.setVisibility(View.VISIBLE);
-            binding.contentsListViewRefresh.setVisibility(View.GONE);
+            binding.contentsListView.setVisibility(View.GONE);
         } else {
             binding.emptyView.setVisibility(View.GONE);
-            binding.contentsListViewRefresh.setVisibility(View.VISIBLE);
+            binding.contentsListView.setVisibility(View.VISIBLE);
         }
     }
 
