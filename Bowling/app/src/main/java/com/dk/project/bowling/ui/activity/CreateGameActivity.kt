@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.util.Pair
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -23,6 +24,7 @@ import com.dk.project.post.bowling.model.GameModel
 import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
+import com.dk.project.post.utils.RxBus
 
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>() {
 
@@ -134,8 +136,8 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
             userList = createGameAdapter.userList
             BowlingApi.getInstance().setGameAndScoreList(this, {
-                setResult(Activity.RESULT_OK)
                 finish()
+                RxBus.getInstance().eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
             }, {
                 Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT).show()
             })

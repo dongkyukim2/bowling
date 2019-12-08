@@ -109,6 +109,9 @@ public interface Define {
     int EVENT_REFRESH_CLUB_USER_LIST = 1008; // 클럽 가입 승인이나 거부했을때 갱신
 
 
+    int EVENT_REFRESH_CLUB_GAME_LIST = 1008; // 클럽 점수 등록했을때 갱신
+
+
 
 
 

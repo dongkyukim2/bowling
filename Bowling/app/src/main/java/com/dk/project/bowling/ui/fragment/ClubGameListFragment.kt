@@ -17,6 +17,7 @@ import com.dk.project.bowling.viewModel.ClubScoreListViewModel
 import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
+import com.dk.project.post.utils.RxBus
 
 class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScoreListViewModel>() {
 
@@ -38,6 +39,14 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
             }
             binding.recyclerViewRefresh.isRefreshing = false
         })
+
+        RxBus.getInstance().registerRxObserver {
+            when (it.first) {
+                Define.EVENT_REFRESH_CLUB_GAME_LIST -> {
+                    viewModel.requestGameList(0)
+                }
+            }
+        }
 
     }
 

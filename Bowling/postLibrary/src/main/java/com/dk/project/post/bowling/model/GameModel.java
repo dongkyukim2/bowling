@@ -8,8 +8,9 @@ public class GameModel {
     private String gameId;
     private String gameName;
 
-
     private ArrayList<ScoreClubUserModel> userList;
+
+
 
     public String getClubId() {
         return clubId;
