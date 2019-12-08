@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.dk.project.bowling">
+        package="com.dk.project.bowling">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
             android:name="com.dk.project.post.base.BaseApplication"
@@ -22,63 +22,57 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/IntroTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+                android:name=".ui.activity.ClubSearchActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.ClubUserListActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.CreateGameActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.ClubDetailActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.CreateClubActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.ScoreListActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.MainActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustNothing">
-        </activity>
+                android:windowSoftInputMode="adjustNothing"></activity>
         <activity
                 android:name=".ui.activity.LoginInfoActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".ui.activity.LoginActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-<!--        <meta-data-->
-<!--                android:name="io.fabric.ApiKey"-->
-<!--                android:value="60dce4728353a5876fee42c97be4beae6a643560" />-->
+                android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

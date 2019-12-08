@@ -41,7 +41,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
             binding.emptyView.visibility =
                 if (it.first?.data?.isEmpty()!!) View.VISIBLE else View.GONE
-            
+
             clubAdapter.setClubList(it)
             signClubViewPagerAdapter.setClubList(it)
             binding.dotsIndicator.setViewPager2(binding.signClubViewPager)
@@ -64,7 +64,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         savedInstanceState: Bundle?
     ): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
-
+        
+        binding.viewModel = viewModel
         binding.clubRecycler.apply {
             clubAdapter = ClubAdapter()
             adapter = clubAdapter
