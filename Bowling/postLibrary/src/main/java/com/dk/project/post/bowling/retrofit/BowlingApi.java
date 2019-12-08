@@ -96,6 +96,16 @@ public class BowlingApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
+
+    public Disposable getSearchClubList(String clubId,int page, SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
+                                           ErrorCallback errorCallback) {
+        return apiService.getSearchClubList(clubId,page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
     // 내가 가입하고 추천하는 클럽 목록
     public void getSignUpAndRecommendClubList(SuccessCallback<Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>>> callback, ErrorCallback errorCallback) {
         Observable.zip(apiService.getSignUpClub().subscribeOn(Schedulers.io()),

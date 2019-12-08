@@ -60,6 +60,9 @@ public interface RetroBaseApiService {
     @GET("community/bowling/club/recommend/")
     Observable<ResponseModel<ArrayList<ClubModel>>> getRecommendClubList();
 
+    @GET("community/bowling/club/search/")
+    Observable<ResponseModel<ArrayList<ClubModel>>> getSearchClubList(@Query("clubName") String clubName, @Query("page") int page);
+
     @GET("community/bowling/club/user/")
     Observable<ResponseModel<ArrayList<ScoreClubUserModel>>> getClubUserList(@Query("clubId") String clubId);
 
