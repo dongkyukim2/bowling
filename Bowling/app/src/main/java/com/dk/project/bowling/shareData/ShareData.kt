@@ -1,12 +1,15 @@
 package com.dk.project.bowling.shareData
 
 import com.dk.project.post.bowling.model.ScoreClubUserModel
+import com.dk.project.post.model.LoginInfoModel
 import java.util.*
 
 class ShareData private constructor() {
 
-    // 클럽 게임 수정하기 임시 저장
-    val userList = ArrayList<ScoreClubUserModel>()
+//    val userMap = HashMap<String, LoginInfoModel>()
+
+    val scoreList = ArrayList<ScoreClubUserModel>()
+
 
     companion object {
         @Volatile

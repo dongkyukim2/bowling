@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.ClubUserListActivity;
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback;
@@ -22,13 +24,14 @@ import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
-import io.reactivex.Observable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import io.reactivex.Observable;
 
 public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
 
@@ -46,10 +49,14 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
         @Override
         public boolean addAll(int index, @NonNull Collection<? extends ScoreClubUserModel> c) {
-            Observable.fromIterable(c).filter(o -> o.isUserType()).subscribe(userModel -> userMap.put(userModel.getUserId(), true)).dispose();
+            Observable.fromIterable(c).
+                    filter(o -> o.isUserType()).
+                    subscribe(userModel -> userMap.put(userModel.getUserId(), true)).
+                    dispose();
             return super.addAll(index, c);
         }
     };
+
     private MutableLiveData<Integer> checkCountLiveData = new MutableLiveData<>();
 
     private RecyclerView recyclerView;
@@ -75,9 +82,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         ScoreClubUserModel userModel = userList.get(position);
         holder.onBindView(userModel, position);
 
-
-//        System.out.println("==============   onBindViewHolder   " + position);
-
         holder.getBinding().userInviteIcon.setTag(position);
         holder.getBinding().dragIcon.setTag(position);
         holder.itemView.setTag(position);
@@ -98,9 +102,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         View.OnClickListener onClickListener = v -> {
 
             int index = (int) v.getTag();
-
             AtomicInteger scoreIndex = new AtomicInteger(0);
-//            System.out.println("==============   onclick   " + index);
 
             switch (v.getId()) {
                 case R.id.user_invite_icon:
@@ -115,27 +117,21 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     break;
                 case R.id.game_num_6:
                 case R.id.game_num_score_6:
-//                    System.out.println("++++++++++++        position   " + index + "    1");
                     scoreIndex.incrementAndGet();
                 case R.id.game_num_5:
                 case R.id.game_num_score_5:
-//                    System.out.println("++++++++++++        position   " + index + "    2");
                     scoreIndex.incrementAndGet();
                 case R.id.game_num_4:
                 case R.id.game_num_score_4:
                     scoreIndex.incrementAndGet();
-//                    System.out.println("++++++++++++        position   " + index + "    3");
                 case R.id.game_num_3:
                 case R.id.game_num_score_3:
-//                    System.out.println("++++++++++++        position   " + index + "    4");
                     scoreIndex.incrementAndGet();
                 case R.id.game_num_2:
                 case R.id.game_num_score_2:
-//                    System.out.println("++++++++++++        position   " + index + "    5");
                     scoreIndex.incrementAndGet();
                 case R.id.game_num_1:
                 case R.id.game_num_score_1:
-//                    System.out.println("++++++++++++        position   " + index + "    6");
                     AlertDialogUtil.showScoreEditTextAlertDialog(mContext, "점수를 입력해주세요", editText -> {
                         setScore(userList.get(index), scoreIndex.get(), Integer.valueOf(((EditText) editText).getText().toString().trim()));
                         notifyItemChanged(index);
@@ -172,10 +168,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         if (!userList.get(fromPosition).isUserType()) {
             return;
         }
-
-
-//        System.out.println("==============   onRowMoved   fromPosition   " + fromPosition + "    toPosition   " + toPosition);
-
 
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
@@ -226,9 +218,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         to.getBinding().gameNum6.setTag(fromPosition);
         to.getBinding().gameNumScore6.setTag(fromPosition);
 
-//        System.out.println("==============   onRowMoved  11111  fromPosition   " + from.itemView.getTag() + "    toPosition   " + to.itemView.getTag());
-
-
         notifyItemMoved(fromPosition, toPosition);
 
 
@@ -264,15 +253,13 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
 
     public void setInviteUserList(ArrayList<ScoreClubUserModel> clubList) {
-//        if (userList.isEmpty()) {
         userList.addAll(selectInviteIndex + 1, clubList);
         notifyDataSetChanged();
-//        } else {
-//            DiffUtil.DiffResult result = getDiffUtil(this.userList, clubList);
-//            this.userList = clubList;
-//            result.dispatchUpdatesTo(this);
-//        }
+    }
 
+    public void setmodifyUserList(ArrayList<ScoreClubUserModel> clubList) {
+        userList.addAll(0, clubList);
+        notifyDataSetChanged();
     }
 
     public MutableLiveData<Integer> getCheckCountLiveData() {
@@ -321,7 +308,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             userList.add(new ScoreClubUserModel(LoginManager.getInstance().getLoginInfoModel()));
             notifyDataSetChanged();
         } else {
-//            notifyItemInserted(userList.size() - 1);
             notifyDataSetChanged();
         }
 
@@ -345,7 +331,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             }
 
             notifyItemRangeChanged(startIndex, count);
-//            notifyDataSetChanged();
         } else {
             userModel.setCheck(check);
 
@@ -354,7 +339,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             userList.get(headerIndex.first).setCheck(headerIndex.second);
             notifyItemChanged(headerIndex.first);
             notifyItemChanged(position);
-//            notifyDataSetChanged();
         }
 
 
@@ -365,10 +349,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             }
         }
         checkCountLiveData.setValue(checkUserCount);
-    }
-
-    public int getSelectInviteIndex() {
-        return selectInviteIndex;
     }
 
     public ArrayList<ScoreClubUserModel> getUserList() {

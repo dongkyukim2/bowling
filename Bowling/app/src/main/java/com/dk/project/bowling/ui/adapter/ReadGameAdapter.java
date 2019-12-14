@@ -30,10 +30,10 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
         layoutInflater = LayoutInflater.from(context);
         scoreUserList = new ArrayList<>();
 
-        HashMap<String, String> userMap = new HashMap<>();
+        HashMap<String, LoginInfoModel> userMap = new HashMap<>();
 
         for (LoginInfoModel model : userList) {
-            userMap.put(model.getUserId(), model.getUserName());
+            userMap.put(model.getUserId(), model);
         }
 
         ScoreClubUserModel readUserModel = null;
@@ -53,7 +53,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
                 } else {
                     readUserModel = new ScoreClubUserModel(teamName);
                     readUserModel.setViewType(1);
-                    readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()));
+                    readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()).getUserName());
                     readUserModel.setScore(scorePosition, score);
                     scoreUserList.add(readUserModel);
 
@@ -64,7 +64,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
 
                 readUserModel = new ScoreClubUserModel(teamName);
                 readUserModel.setViewType(1);
-                readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()));
+                readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()).getUserName());
                 readUserModel.setScore(scorePosition, score);
                 scoreUserList.add(readUserModel);
             }

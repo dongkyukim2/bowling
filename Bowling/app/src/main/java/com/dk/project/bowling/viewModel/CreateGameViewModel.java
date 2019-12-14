@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
@@ -45,9 +46,10 @@ public class CreateGameViewModel extends BaseViewModel {
 
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
         readGameModel = mContext.getIntent().getParcelableExtra(Define.READ_GAME_MODEL);
-        gameScoreList = mContext.getIntent().getParcelableArrayListExtra(Define.GAME_SCORE_LIST);
+        gameScoreList = new ArrayList<>(ShareData.getInstance().getScoreList());
 
-        if(gameScoreList != null){
+
+        if(gameScoreList != null && !gameScoreList.isEmpty()){
             adapterMode = Define.MODEFY_MODE;
         } else if(readGameModel != null){
             adapterMode = Define.READ_MODE;
@@ -58,7 +60,7 @@ public class CreateGameViewModel extends BaseViewModel {
 
         switch (adapterMode){
             case Define.MODEFY_MODE:
-                System.out.println("");
+
                 break;
             case Define.READ_MODE:
                 BowlingApi.getInstance().getGameUserList(readGameModel.getGameId(),
@@ -97,6 +99,10 @@ public class CreateGameViewModel extends BaseViewModel {
 
     public ReadGameModel getReadGameModel() {
         return readGameModel;
+    }
+
+    public ArrayList<ScoreClubUserModel> getGameScoreList() {
+        return gameScoreList;
     }
 
     public MutableLiveData<ArrayList<LoginInfoModel>> getGameUserLiveData() {

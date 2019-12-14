@@ -37,7 +37,7 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
             if (it.first != null) {
                 clubGameListAdapter.setClubList(it)
             }
-            binding.recyclerViewRefresh.isRefreshing = false
+            binding.recyclerViewRefresh.post { binding.recyclerViewRefresh.isRefreshing = false }
         })
 
         RxBus.getInstance().registerRxObserver {
