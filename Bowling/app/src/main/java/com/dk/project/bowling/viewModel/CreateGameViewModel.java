@@ -2,12 +2,15 @@ package com.dk.project.bowling.viewModel;
 
 import android.app.Application;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.model.ReadGameModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.model.LoginInfoModel;
 
@@ -23,8 +26,11 @@ public class CreateGameViewModel extends BaseViewModel {
 
 
     private ClubModel clubModel;
-    private boolean readMode;
+    private int adapterMode;
     private ReadGameModel readGameModel;
+    private ArrayList<ScoreClubUserModel> gameScoreList;
+
+
     private MutableLiveData<ArrayList<LoginInfoModel>> gameUserLiveData;
 
     public CreateGameViewModel(@NonNull Application application) {
@@ -39,12 +45,29 @@ public class CreateGameViewModel extends BaseViewModel {
 
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
         readGameModel = mContext.getIntent().getParcelableExtra(Define.READ_GAME_MODEL);
-        readMode = readGameModel != null;
-        if (readMode) {
-            BowlingApi.getInstance().getGameUserList(readGameModel.getGameId(),
-                    receivedData -> gameUserLiveData.setValue(receivedData.getData()),
-                    errorData -> {
-                    });
+        gameScoreList = mContext.getIntent().getParcelableArrayListExtra(Define.GAME_SCORE_LIST);
+
+        if(gameScoreList != null){
+            adapterMode = Define.MODEFY_MODE;
+        } else if(readGameModel != null){
+            adapterMode = Define.READ_MODE;
+        } else {
+            adapterMode = Define.CREATE_MODE;
+        }
+
+
+        switch (adapterMode){
+            case Define.MODEFY_MODE:
+                System.out.println("");
+                break;
+            case Define.READ_MODE:
+                BowlingApi.getInstance().getGameUserList(readGameModel.getGameId(),
+                        receivedData -> gameUserLiveData.setValue(receivedData.getData()),
+                        errorData -> {
+                        });
+                break;
+            case Define.CREATE_MODE:
+                break;
         }
     }
 
@@ -68,8 +91,8 @@ public class CreateGameViewModel extends BaseViewModel {
         return clubModel;
     }
 
-    public boolean isReadMode() {
-        return readMode;
+    public int getAdapterMode() {
+        return adapterMode;
     }
 
     public ReadGameModel getReadGameModel() {

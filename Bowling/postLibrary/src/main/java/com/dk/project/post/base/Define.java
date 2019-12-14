@@ -53,7 +53,12 @@ public interface Define {
 
     String POST_MODEL = "POST_MODEL";
     String REPLY_MODEL = "REPLY_MODEL";
+    String GAME_SCORE_LIST = "GAME_SCORE_LIST";
 
+
+    int READ_MODE = 0;
+    int CREATE_MODE = 1;
+    int MODEFY_MODE = 2;
 
 
 

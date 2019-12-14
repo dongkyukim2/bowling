@@ -10,7 +10,7 @@ public class ScoreClubUserModel extends ClubUserModel {
     private int viewType = 1;
     private String teamName;
     private boolean check;
-    private Integer[] scoreList = {0, 0, 0, 0, 0, 0};
+    private int[] scoreList = {0, 0, 0, 0, 0, 0};
 
     public ScoreClubUserModel() {
 
@@ -31,8 +31,9 @@ public class ScoreClubUserModel extends ClubUserModel {
     protected ScoreClubUserModel(Parcel in) {
         super(in);
         viewType = in.readInt();
-        check = in.readByte() != 0;
         teamName = in.readString();
+        check = in.readByte() != 0;
+        scoreList = in.createIntArray();
     }
 
     public static final Creator<ScoreClubUserModel> CREATOR = new Creator<ScoreClubUserModel>() {
@@ -54,10 +55,10 @@ public class ScoreClubUserModel extends ClubUserModel {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
         dest.writeInt(viewType);
-        dest.writeByte((byte) (check ? 1 : 0));
         dest.writeString(teamName);
+        dest.writeByte((byte) (check ? 1 : 0));
+        dest.writeIntArray(scoreList);
     }
 
     public boolean isUserType() {

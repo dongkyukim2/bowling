@@ -51,44 +51,52 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 }
             }
         })
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        if (viewModel.isReadMode) {
+        when (viewModel.adapterMode) {
+            Define.READ_MODE -> {
 //            toolbarTitle.text = viewModel.readGameModel.gameName
-            toolbarRightButton.visibility = View.GONE
-            binding.addTeam.visibility = View.GONE
-            binding.gameTitleTextView.visibility = View.VISIBLE
-            binding.gameTitleTextView.text = viewModel.readGameModel.gameName
-            binding.gameTitleTextView.isSelected = true
-            binding.gameTitleEditText.visibility = View.INVISIBLE
-        } else {
-            toolbarTitle.text = "경기 만들기"
-            toolbarRightButton.visibility = View.VISIBLE
-            binding.gameTitleTextView.visibility = View.GONE
-            binding.gameTitleEditText.visibility = View.VISIBLE
+                toolbarRightButton.visibility = View.VISIBLE
+                toolbarRightButton.setImageResource(R.drawable.ic_create)
+                binding.addTeam.visibility = View.GONE
+                binding.gameTitleTextView.visibility = View.VISIBLE
+                binding.gameTitleTextView.text = viewModel.readGameModel.gameName
+                binding.gameTitleTextView.isSelected = true
+                binding.gameTitleEditText.visibility = View.INVISIBLE
+            }
+            Define.CREATE_MODE -> {
+                toolbarTitle.text = "경기 만들기"
+                toolbarRightButton.visibility = View.VISIBLE
+                binding.gameTitleTextView.visibility = View.GONE
+                binding.gameTitleEditText.visibility = View.VISIBLE
 
-            binding.createGameRecyclerView.apply {
-                layoutManager = LinearLayoutManager(this@CreateGameActivity)
-                CreateGameAdapter(this, viewModel.clubModel).let {
-                    ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
-                    adapter = it
-                    createGameAdapter = it
+                binding.createGameRecyclerView.apply {
+                    layoutManager = LinearLayoutManager(this@CreateGameActivity)
+                    CreateGameAdapter(this, viewModel.clubModel).let {
+                        ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
+                        adapter = it
+                        createGameAdapter = it
+                    }
                 }
-            }
 
 
-            var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
-                it as EditText
-                var title = it.text.toString().trim()
-                createGameAdapter.addTeam(ScoreClubUserModel(title))
-            }
+                var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
+                    it as EditText
+                    var title = it.text.toString().trim()
+                    createGameAdapter.addTeam(ScoreClubUserModel(title))
+                }
 
-            binding.addTeam.setOnClickListener {
+                binding.addTeam.setOnClickListener {
+                    AlertDialogUtil.showEditTextAlertDialog(
+                        this,
+                        "팀 추가",
+                        "팀명을 입력해주세요.",
+                        teamTitleClickListener
+                    )
+                }
                 AlertDialogUtil.showEditTextAlertDialog(
                     this,
                     "팀 추가",
@@ -96,51 +104,56 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                     teamTitleClickListener
                 )
             }
-            AlertDialogUtil.showEditTextAlertDialog(
-                this,
-                "팀 추가",
-                "팀명을 입력해주세요.",
-                teamTitleClickListener
-            )
+
         }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        if (viewModel.isReadMode) {
+        when (viewModel.adapterMode) {
+            Define.CREATE_MODE -> {
+                createGameAdapter.checkCountLiveData.observe(this, Observer {
+                    deleteMode = it != 0
+                    if (deleteMode) {
+                        toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
+                    } else {
+                        toolbarRightButton.setImageResource(R.drawable.ic_done)
+                    }
+                })
+            }
 
-
-        } else {
-            createGameAdapter.checkCountLiveData.observe(this, Observer {
-                deleteMode = it != 0
-                if (deleteMode) {
-                    toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
-                } else {
-                    toolbarRightButton.setImageResource(R.drawable.ic_done)
-                }
-            })
         }
     }
 
     override fun onToolbarRightClick() {
-
-        GameModel().apply {
-            clubId = viewModel.clubModel.clubId
-            val title = binding.gameTitleEditText.text?.trim()
-            gameName = if (TextUtils.isEmpty(title)) {
-                "임시 게임 이름"
-            } else {
-                title.toString()
+        when (viewModel.adapterMode) {
+            Define.CREATE_MODE -> {
+                GameModel().apply {
+                    clubId = viewModel.clubModel.clubId
+                    val title = binding.gameTitleEditText.text?.trim()
+                    gameName = if (TextUtils.isEmpty(title)) {
+                        "임시 게임 이름"
+                    } else {
+                        title.toString()
+                    }
+                    userList = createGameAdapter.userList
+                    BowlingApi.getInstance().setGameAndScoreList(this, {
+                        finish()
+                        RxBus.getInstance()
+                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                    }, {
+                        Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT)
+                            .show()
+                    })
+                }
             }
-
-
-            userList = createGameAdapter.userList
-            BowlingApi.getInstance().setGameAndScoreList(this, {
-                finish()
-                RxBus.getInstance().eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
-            }, {
-                Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT).show()
-            })
+            Define.READ_MODE -> {
+                readGameAdapter?.let {
+                    val intent = Intent(this, CreateGameActivity::class.java)
+                    intent.putParcelableArrayListExtra(GAME_SCORE_LIST,it.scoreUserList)
+                    startActivity(intent)
+                }
+            }
         }
     }
 

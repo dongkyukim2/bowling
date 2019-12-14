@@ -94,4 +94,8 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
     public int getItemCount() {
         return scoreUserList.size();
     }
+
+    public ArrayList<ScoreClubUserModel> getScoreUserList() {
+        return scoreUserList;
+    }
 }
