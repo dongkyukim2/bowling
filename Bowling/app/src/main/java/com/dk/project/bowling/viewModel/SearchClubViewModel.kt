@@ -10,7 +10,7 @@ import com.dk.project.post.bowling.retrofit.BowlingApi
 
 class SearchClubViewModel(application: Application) : BaseViewModel(application) {
 
-    val searchLiveData = MutableLiveData<ArrayList<ClubModel>>()
+    val searchLiveData = MutableLiveData<Pair<ArrayList<ClubModel>, Boolean>>()
 
     override fun onThrottleClick(view: View?) {
 
@@ -21,9 +21,11 @@ class SearchClubViewModel(application: Application) : BaseViewModel(application)
             .getSearchClubList(name, page, {
                 if (it.isSuccess) {
                     if (it.data.isEmpty()) {
-                        Toast.makeText(mContext, "검색된 클럽이 없습니다.", Toast.LENGTH_SHORT).show()
+                        if (page == 0) {
+                            Toast.makeText(mContext, "검색된 클럽이 없습니다.", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        searchLiveData.value = it.data
+                        searchLiveData.value = Pair(it.data, page == 0)
                     }
                 }
             }, {
@@ -31,5 +33,4 @@ class SearchClubViewModel(application: Application) : BaseViewModel(application)
             })
 
     }
-
 }

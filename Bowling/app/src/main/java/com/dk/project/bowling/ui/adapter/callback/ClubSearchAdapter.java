@@ -43,14 +43,12 @@ public class ClubSearchAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
     }
 
 
-    public void setClubList(ArrayList<ClubModel> list, int page) {
-        if (page == 0) {
+    public void setClubList(ArrayList<ClubModel> list, boolean clear) {
+        if (clear) {
             clubList.clear();
-            clubList.addAll(list);
-            notifyDataSetChanged();
-        } else {
-
         }
+        clubList.addAll(list);
+        notifyDataSetChanged();
 
 //        ArrayList<ClubModel> receiveClubList = new ArrayList<>();
 //
