@@ -57,7 +57,6 @@ public interface Define {
     String GAME_SCORE_LIST = "GAME_SCORE_LIST";
 
 
-    int READ_MODE = 0;
     int CREATE_MODE = 1;
     int MODEFY_MODE = 2;
 

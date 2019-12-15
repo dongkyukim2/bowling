@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubGameListBinding
 import com.dk.project.bowling.ui.activity.CreateGameActivity
+import com.dk.project.bowling.ui.activity.ReadGameActivity
 import com.dk.project.bowling.ui.adapter.ClubGameListAdapter
 import com.dk.project.bowling.viewModel.ClubScoreListViewModel
 import com.dk.project.post.base.BindFragment
@@ -79,7 +80,7 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                         if (it.onTouchEvent(e)) {
                             rv.findChildViewUnder(e.x, e.y)?.let { view ->
                                 val position = rv.getChildAdapterPosition(view)
-                                var intent = Intent(activity, CreateGameActivity::class.java)
+                                var intent = Intent(activity, ReadGameActivity::class.java)
                                 intent.putExtra(
                                     Define.READ_GAME_MODEL,
                                     clubGameListAdapter.getClubGame(position)

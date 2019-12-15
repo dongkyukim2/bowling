@@ -4,16 +4,12 @@ import android.app.Application;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
 import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
-import com.dk.project.post.bowling.model.ReadGameModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
-import com.dk.project.post.bowling.retrofit.BowlingApi;
-import com.dk.project.post.model.LoginInfoModel;
 
 import java.util.ArrayList;
 
@@ -28,15 +24,11 @@ public class CreateGameViewModel extends BaseViewModel {
 
     private ClubModel clubModel;
     private int adapterMode;
-    private ReadGameModel readGameModel;
     private ArrayList<ScoreClubUserModel> gameScoreList;
 
 
-    private MutableLiveData<ArrayList<LoginInfoModel>> gameUserLiveData;
-
     public CreateGameViewModel(@NonNull Application application) {
         super(application);
-        gameUserLiveData = new MutableLiveData<>();
     }
 
 
@@ -45,32 +37,17 @@ public class CreateGameViewModel extends BaseViewModel {
         super.onCreate();
 
         clubModel = mContext.getIntent().getParcelableExtra(CLUB_MODEL);
-        readGameModel = mContext.getIntent().getParcelableExtra(Define.READ_GAME_MODEL);
+
         gameScoreList = new ArrayList<>(ShareData.getInstance().getScoreList());
 
 
-        if(gameScoreList != null && !gameScoreList.isEmpty()){
+        if (gameScoreList != null && !gameScoreList.isEmpty()) {
             adapterMode = Define.MODEFY_MODE;
-        } else if(readGameModel != null){
-            adapterMode = Define.READ_MODE;
         } else {
             adapterMode = Define.CREATE_MODE;
         }
 
 
-        switch (adapterMode){
-            case Define.MODEFY_MODE:
-
-                break;
-            case Define.READ_MODE:
-                BowlingApi.getInstance().getGameUserList(readGameModel.getGameId(),
-                        receivedData -> gameUserLiveData.setValue(receivedData.getData()),
-                        errorData -> {
-                        });
-                break;
-            case Define.CREATE_MODE:
-                break;
-        }
     }
 
     @Override
@@ -97,15 +74,9 @@ public class CreateGameViewModel extends BaseViewModel {
         return adapterMode;
     }
 
-    public ReadGameModel getReadGameModel() {
-        return readGameModel;
-    }
 
     public ArrayList<ScoreClubUserModel> getGameScoreList() {
         return gameScoreList;
     }
 
-    public MutableLiveData<ArrayList<LoginInfoModel>> getGameUserLiveData() {
-        return gameUserLiveData;
-    }
 }

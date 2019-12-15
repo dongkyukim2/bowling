@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateGameBinding
 import com.dk.project.bowling.shareData.ShareData
@@ -30,9 +31,6 @@ import com.dk.project.post.utils.RxBus
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>() {
 
     private lateinit var createGameAdapter: CreateGameAdapter
-    private lateinit var readGameAdapter: ReadGameAdapter
-
-
     private var deleteMode = false
 
 
@@ -44,17 +42,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     ).get(CreateGameViewModel::class.java)
 
     override fun subscribeToModel() {
-        viewModel.gameUserLiveData.observe(this, Observer {
-
-            binding.createGameRecyclerView.apply {
-                layoutManager = LinearLayoutManager(this@CreateGameActivity)
-                ReadGameAdapter(this@CreateGameActivity, it, viewModel.readGameModel).let {
-                    adapter = it
-                    readGameAdapter = it
-                }
-            }
-        })
-
         RxBus.getInstance().registerRxObserver {
             when (it.first) {
                 Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY -> finish()
@@ -66,48 +53,38 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         super.onCreate(savedInstanceState)
 
         when (viewModel.adapterMode) {
-            Define.READ_MODE -> {
-//            toolbarTitle.text = viewModel.readGameModel.gameName
-                toolbarRightButton.visibility = View.VISIBLE
-                toolbarRightButton.setImageResource(R.drawable.ic_create)
-                binding.addTeam.visibility = View.GONE
-                binding.gameTitleTextView.visibility = View.VISIBLE
-                binding.gameTitleTextView.text = viewModel.readGameModel.gameName
-                binding.gameTitleTextView.isSelected = true
-                binding.gameTitleEditText.visibility = View.INVISIBLE
-            }
             Define.MODEFY_MODE -> {
-                toolbarTitle.text = "경기 수정하기"
-                toolbarRightButton.visibility = View.VISIBLE
-                binding.gameTitleTextView.visibility = View.GONE
-                binding.gameTitleEditText.visibility = View.VISIBLE
-                binding.gameTitleEditText.setText(viewModel.readGameModel.gameName)
-
-                binding.createGameRecyclerView.apply {
-                    layoutManager = LinearLayoutManager(this@CreateGameActivity)
-
-                    CreateGameAdapter(this, viewModel.readGameModel).let {
-                        ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
-                        adapter = it
-                        createGameAdapter = it
-                        it.setmodifyUserList(viewModel.gameScoreList)
-                    }
-                }
-
-                var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
-                    it as EditText
-                    var title = it.text.toString().trim()
-                    createGameAdapter.addTeam(ScoreClubUserModel(title))
-                }
-
-                binding.addTeam.setOnClickListener {
-                    AlertDialogUtil.showEditTextAlertDialog(
-                        this,
-                        "팀 추가",
-                        "팀명을 입력해주세요.",
-                        teamTitleClickListener
-                    )
-                }
+//                toolbarTitle.text = "경기 수정하기"
+//                toolbarRightButton.visibility = View.VISIBLE
+//                binding.gameTitleTextView.visibility = View.GONE
+//                binding.gameTitleEditText.visibility = View.VISIBLE
+//                binding.gameTitleEditText.setText(viewModel.readGameModel.gameName)
+//
+//                binding.createGameRecyclerView.apply {
+//                    layoutManager = LinearLayoutManager(this@CreateGameActivity)
+//
+//                    CreateGameAdapter(this, viewModel.readGameModel).let {
+//                        ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
+//                        adapter = it
+//                        createGameAdapter = it
+//                        it.setmodifyUserList(viewModel.gameScoreList)
+//                    }
+//                }
+//
+//                var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
+//                    it as EditText
+//                    var title = it.text.toString().trim()
+//                    createGameAdapter.addTeam(ScoreClubUserModel(title))
+//                }
+//
+//                binding.addTeam.setOnClickListener {
+//                    AlertDialogUtil.showEditTextAlertDialog(
+//                        this,
+//                        "팀 추가",
+//                        "팀명을 입력해주세요.",
+//                        teamTitleClickListener
+//                    )
+//                }
 
             }
             Define.CREATE_MODE -> {
@@ -189,42 +166,32 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                     })
                 }
             }
-            Define.READ_MODE -> {
-                readGameAdapter?.let {
-                    val intent = Intent(this, CreateGameActivity::class.java)
-                    intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
-                    ShareData.getInstance().scoreList.clear()
-                    ShareData.getInstance().scoreList.addAll(it.scoreUserList)
-
-                    startActivity(intent)
-                }
-            }
             Define.MODEFY_MODE -> {
 
-                GameModel().apply {
-                    clubId = viewModel.readGameModel.clubId
-                    gameId = viewModel.readGameModel.gameId
-
-                    val title = binding.gameTitleEditText.text?.trim()
-                    gameName = if (TextUtils.isEmpty(title)) {
-                        viewModel.readGameModel.gameName
-                    } else {
-                        title.toString()
-                    }
-
-                    userList = createGameAdapter.userList
-
-                    BowlingApi.getInstance().setGameAndScoreList(this, {
-
-                        RxBus.getInstance()
-                            .eventPost(Pair(Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY, null))
-                        RxBus.getInstance()
-                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
-                    }, {
-                        Toast.makeText(this@CreateGameActivity, "게임 수정 오류!!!", Toast.LENGTH_SHORT)
-                            .show()
-                    })
-                }
+//                GameModel().apply {
+//                    clubId = viewModel.readGameModel.clubId
+//                    gameId = viewModel.readGameModel.gameId
+//
+//                    val title = binding.gameTitleEditText.text?.trim()
+//                    gameName = if (TextUtils.isEmpty(title)) {
+//                        viewModel.readGameModel.gameName
+//                    } else {
+//                        title.toString()
+//                    }
+//
+//                    userList = createGameAdapter.userList
+//
+//                    BowlingApi.getInstance().setGameAndScoreList(this, {
+//
+//                        RxBus.getInstance()
+//                            .eventPost(Pair(Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY, null))
+//                        RxBus.getInstance()
+//                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+//                    }, {
+//                        Toast.makeText(this@CreateGameActivity, "게임 수정 오류!!!", Toast.LENGTH_SHORT)
+//                            .show()
+//                    })
+//                }
 
             }
         }
