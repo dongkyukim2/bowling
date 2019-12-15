@@ -267,7 +267,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         notifyDataSetChanged();
     }
 
-    public void setmodifyUserList(ArrayList<ScoreClubUserModel> clubList) {
+    public void setModifyUserList(ArrayList<ScoreClubUserModel> clubList) {
         userList.addAll(0, clubList);
         notifyDataSetChanged();
     }

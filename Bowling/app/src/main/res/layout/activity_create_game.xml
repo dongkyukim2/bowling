@@ -16,21 +16,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/game_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:fontFamily="@font/binggrae"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/include_toolbar" />
-
         <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/game_title_edit_text"
                 android:layout_width="match_parent"
