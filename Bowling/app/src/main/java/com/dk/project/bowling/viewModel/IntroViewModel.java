@@ -68,6 +68,7 @@ public class IntroViewModel extends BaseViewModel {
             // todo LoginInfoModel, setUserCode 중복 수정해야함
             LoginInfoModel loginInfoModel = new LoginInfoModel();
             loginInfoModel.setUserId(Define.TEST_ID);
+            loginInfoModel.setUserName(Define.TEST_NAME);
             LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
             Intent intent = new Intent(mContext, MainActivity.class);
             mContext.startActivity(intent);

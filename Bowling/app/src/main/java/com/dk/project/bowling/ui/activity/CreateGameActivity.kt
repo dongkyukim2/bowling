@@ -81,7 +81,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 binding.createGameRecyclerView.apply {
                     layoutManager = LinearLayoutManager(this@CreateGameActivity)
 
-                    CreateGameAdapter(this, viewModel.clubModel).let {
+                    CreateGameAdapter(this, viewModel.readGameModel).let {
                         ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
                         adapter = it
                         createGameAdapter = it
@@ -119,7 +119,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                         createGameAdapter = it
                     }
                 }
-
 
                 var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
                     it as EditText
@@ -205,20 +204,17 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             return
         }
         when (requestCode) {
-
             Define.CLUB_USER_LIST -> {
-                data?.getParcelableArrayListExtra<ScoreClubUserModel>(Define.CLUB_USER_LIST_MODEL)
-                    ?.let {
-                        it.map { it.isCheck = false }
-                        createGameAdapter.setInviteUserList(it)
-                    }
+                // todo parcelable로 넘기면 깨짐
+                ShareData.getInstance().inviteUserList.map { it.isCheck = false }
+                createGameAdapter.setInviteUserList(ShareData.getInstance().inviteUserList)
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if(viewModel.adapterMode == Define.MODEFY_MODE){
+        if (viewModel.adapterMode == Define.MODEFY_MODE) {
             ShareData.getInstance().scoreList.clear()
         }
     }

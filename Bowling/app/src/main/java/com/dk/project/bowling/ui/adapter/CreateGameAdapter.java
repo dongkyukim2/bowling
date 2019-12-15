@@ -21,6 +21,7 @@ import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
+import com.dk.project.post.bowling.model.ReadGameModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
@@ -62,6 +63,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private RecyclerView recyclerView;
     private Context mContext;
     private ClubModel clubModel;
+    private ReadGameModel readGameModel;
     private int teamCount;
     private int selectInviteIndex;
 
@@ -69,6 +71,13 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         this.recyclerView = recyclerView;
         mContext = recyclerView.getContext();
         this.clubModel = clubModel;
+        layoutInflater = LayoutInflater.from(mContext);
+    }
+
+    public CreateGameAdapter(RecyclerView recyclerView, ReadGameModel readGameModel) {
+        this.recyclerView = recyclerView;
+        mContext = recyclerView.getContext();
+        this.readGameModel = readGameModel;
         layoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -110,6 +119,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     Intent intent = new Intent(mContext, ClubUserListActivity.class);
                     intent.putExtra(SELECTED_USER_MAP, userMap);
                     intent.putExtra(CLUB_MODEL, clubModel);
+                    intent.putExtra(READ_GAME_MODEL, readGameModel);
 
                     ((BindActivity) mContext).startActivityForResult(intent, Define.CLUB_USER_LIST);
                     break;

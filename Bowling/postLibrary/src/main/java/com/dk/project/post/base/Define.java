@@ -12,15 +12,16 @@ public interface Define {
 //    boolean TEST_USER = false;
     boolean TEST_USER = true;
     String TEST_ID = "1087708737";
+    String TEST_NAME = "박철수";
 //    String TEST_ID = "1087708739";
-
+//    String TEST_NAME = "최길동";
 
     boolean USE_GLIDE = false;
 
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
-    String CLUB_USER_LIST_MODEL = "CLUB_USER_LIST";
+
 
     String CLUB_ID = "CLUB_ID";
 

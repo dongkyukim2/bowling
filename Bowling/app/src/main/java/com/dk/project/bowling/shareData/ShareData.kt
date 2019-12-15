@@ -6,9 +6,9 @@ import java.util.*
 
 class ShareData private constructor() {
 
-//    val userMap = HashMap<String, LoginInfoModel>()
+    val scoreList = ArrayList<ScoreClubUserModel>() // 수정할때 임시저장
+    val inviteUserList = ArrayList<ScoreClubUserModel>() // 클럽 게임 유저 초대
 
-    val scoreList = ArrayList<ScoreClubUserModel>()
 
 
     companion object {

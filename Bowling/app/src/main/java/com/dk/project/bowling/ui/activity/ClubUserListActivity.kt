@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubUserListBinding
+import com.dk.project.bowling.shareData.ShareData
 import com.dk.project.bowling.ui.adapter.ClubUserListAdapter
 import com.dk.project.bowling.viewModel.ClubUserListViewModel
 import com.dk.project.post.base.BindActivity
@@ -79,7 +80,8 @@ class ClubUserListActivity : BindActivity<ActivityClubUserListBinding, ClubUserL
 
     override fun onToolbarRightClick() {
         Intent().let {
-            it.putParcelableArrayListExtra(CLUB_USER_LIST_MODEL, clubUserListAdapter.selectList)
+            ShareData.getInstance().inviteUserList.clear()
+            ShareData.getInstance().inviteUserList.addAll(clubUserListAdapter.selectList)
             setResult(Activity.RESULT_OK, it)
             finish()
         }
