@@ -53,8 +53,13 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                     readGameAdapter = it
                 }
             }
-
         })
+
+        RxBus.getInstance().registerRxObserver {
+            when (it.first) {
+                Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY -> finish()
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -188,12 +193,39 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 readGameAdapter?.let {
                     val intent = Intent(this, CreateGameActivity::class.java)
                     intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
-//                    intent.putParcelableArrayListExtra(GAME_SCORE_LIST, it.scoreUserList)
                     ShareData.getInstance().scoreList.clear()
                     ShareData.getInstance().scoreList.addAll(it.scoreUserList)
 
                     startActivity(intent)
                 }
+            }
+            Define.MODEFY_MODE -> {
+
+                GameModel().apply {
+                    clubId = viewModel.readGameModel.clubId
+                    gameId = viewModel.readGameModel.gameId
+
+                    val title = binding.gameTitleEditText.text?.trim()
+                    gameName = if (TextUtils.isEmpty(title)) {
+                        viewModel.readGameModel.gameName
+                    } else {
+                        title.toString()
+                    }
+
+                    userList = createGameAdapter.userList
+
+                    BowlingApi.getInstance().setGameAndScoreList(this, {
+
+                        RxBus.getInstance()
+                            .eventPost(Pair(Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY, null))
+                        RxBus.getInstance()
+                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                    }, {
+                        Toast.makeText(this@CreateGameActivity, "게임 수정 오류!!!", Toast.LENGTH_SHORT)
+                            .show()
+                    })
+                }
+
             }
         }
     }
