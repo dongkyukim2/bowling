@@ -3,6 +3,7 @@ package com.dk.project.bowling.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.dk.project.bowling.ui.adapter.ReadGameAdapter
 import com.dk.project.bowling.viewModel.ReadGameViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
+import com.dk.project.post.utils.AlertDialogUtil
 
 class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel>() {
 
@@ -43,7 +45,7 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
         super.onCreate(savedInstanceState)
 
         toolbarRightButton.visibility = View.VISIBLE
-        toolbarRightButton.setImageResource(R.drawable.ic_create)
+        toolbarRightButton.setImageResource(R.drawable.ic_more_grey)
 
         toolbarTitle.text = viewModel.readGameModel.gameName
         toolbarTitle.isSelected = true
@@ -53,13 +55,18 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
 
-        readGameAdapter?.let {
-            val intent = Intent(this, CreateGameActivity::class.java)
-            intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
-            ShareData.getInstance().scoreList.clear()
-            ShareData.getInstance().scoreList.addAll(it.scoreUserList)
-
-            startActivity(intent)
+        AlertDialogUtil.showBottomSheetDialog(this) {
+            if (it.id == R.id.btnModify) {
+                readGameAdapter?.let {
+                    val intent = Intent(this, CreateGameActivity::class.java)
+                    intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
+                    ShareData.getInstance().scoreList.clear()
+                    ShareData.getInstance().scoreList.addAll(it.scoreUserList)
+                    startActivity(intent)
+                }
+            } else if (it.id == com.dk.project.post.R.id.btnDelete) {
+                Toast.makeText(this, "삭제하기", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
