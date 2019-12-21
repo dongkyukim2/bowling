@@ -23,7 +23,7 @@
                 android:background="#ffffff"
                 android:fontFamily="@font/binggrae"
                 android:hint="게임 제목을 입력해주세요"
-                android:lines="1"
+                android:singleLine="true"
                 android:maxLength="40"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"

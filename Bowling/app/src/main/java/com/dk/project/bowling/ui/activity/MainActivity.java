@@ -73,9 +73,8 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_layout_root)
                 .setBackground(ImageUtil.getGradientDrawable(this, 0));
 
-
         binding.navigation.setOnNavigationItemSelectedListener(this);
-        toolbarRightButton.setVisibility(View.GONE);
+        toolbarRightButton.setVisibility(View.INVISIBLE);
         toolbarRightAniButton.setVisibility(View.VISIBLE);
         toolbarLeftButton.setVisibility(View.VISIBLE);
         toolbarLeftButton.setImageResource(R.drawable.ic_action_menu);
