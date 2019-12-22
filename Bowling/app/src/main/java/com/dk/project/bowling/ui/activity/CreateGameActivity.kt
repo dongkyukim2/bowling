@@ -105,70 +105,84 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        when (viewModel.adapterMode) {
-            Define.CREATE_MODE -> {
-                createGameAdapter.checkCountLiveData.observe(this, Observer {
-                    deleteMode = it != 0
-                    if (deleteMode) {
-                        toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
-                    } else {
-                        toolbarRightButton.setImageResource(R.drawable.ic_done)
-                    }
-                })
+        createGameAdapter.checkCountLiveData.observe(this, Observer {
+            deleteMode = it != 0
+            if (deleteMode) {
+                toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
+            } else {
+                toolbarRightButton.setImageResource(R.drawable.ic_done)
             }
-
-        }
+        })
     }
 
     override fun onToolbarRightClick() {
-        when (viewModel.adapterMode) {
-            Define.CREATE_MODE -> {
-                GameModel().apply {
-                    clubId = viewModel.clubModel.clubId
-                    val title = binding.gameTitleEditText.text?.trim()
-                    gameName = if (TextUtils.isEmpty(title)) {
-                        "임시 게임 이름"
-                    } else {
-                        title.toString()
+
+        if (createGameAdapter.isDeleteMode) {
+
+        } else {
+            when (viewModel.adapterMode) {
+                Define.CREATE_MODE -> {
+                    GameModel().apply {
+                        clubId = viewModel.clubModel.clubId
+                        val title = binding.gameTitleEditText.text?.trim()
+                        gameName = if (TextUtils.isEmpty(title)) {
+                            "임시 게임 이름"
+                        } else {
+                            title.toString()
+                        }
+                        userList = createGameAdapter.userList
+                        BowlingApi.getInstance().setGameAndScoreList(this, {
+                            finish()
+                            RxBus.getInstance()
+                                .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                        }, {
+                            Toast.makeText(
+                                this@CreateGameActivity,
+                                "게임 등록 오류!!!",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        })
                     }
-                    userList = createGameAdapter.userList
-                    BowlingApi.getInstance().setGameAndScoreList(this, {
-                        finish()
-                        RxBus.getInstance()
-                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
-                    }, {
-                        Toast.makeText(this@CreateGameActivity, "게임 등록 오류!!!", Toast.LENGTH_SHORT)
-                            .show()
-                    })
                 }
-            }
-            Define.MODEFY_MODE -> {
-                GameModel().apply {
-                    clubId = viewModel.clubModel.clubId
-                    gameId = viewModel.gameId
+                Define.MODEFY_MODE -> {
+                    GameModel().apply {
+                        clubId = viewModel.clubModel.clubId
+                        gameId = viewModel.gameId
 
-                    val title = binding.gameTitleEditText.text?.trim()
-                    gameName = if (TextUtils.isEmpty(title)) {
-                        viewModel.gameName
-                    } else {
-                        title.toString()
+                        val title = binding.gameTitleEditText.text?.trim()
+                        gameName = if (TextUtils.isEmpty(title)) {
+                            viewModel.gameName
+                        } else {
+                            title.toString()
+                        }
+                        userList = createGameAdapter.userList
+
+                        BowlingApi.getInstance().setGameAndScoreList(this, {
+                            RxBus.getInstance()
+                                .eventPost(
+                                    Pair(
+                                        Define.EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY,
+                                        null
+                                    )
+                                )
+                            RxBus.getInstance()
+                                .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                            finish()
+                        }, {
+                            Toast.makeText(
+                                this@CreateGameActivity,
+                                "게임 수정 오류!!!",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        })
                     }
-                    userList = createGameAdapter.userList
-
-                    BowlingApi.getInstance().setGameAndScoreList(this, {
-                        RxBus.getInstance()
-                            .eventPost(Pair(Define.EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY, null))
-                        RxBus.getInstance()
-                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
-                        finish()
-                    }, {
-                        Toast.makeText(this@CreateGameActivity, "게임 수정 오류!!!", Toast.LENGTH_SHORT)
-                            .show()
-                    })
                 }
-
             }
         }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

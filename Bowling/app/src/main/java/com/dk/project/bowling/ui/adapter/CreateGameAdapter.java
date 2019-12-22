@@ -21,7 +21,6 @@ import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
-import com.dk.project.post.bowling.model.ReadGameModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
@@ -63,9 +62,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     private RecyclerView recyclerView;
     private Context mContext;
     private ClubModel clubModel;
-    private ReadGameModel readGameModel;
+    //    private ReadGameModel readGameModel;
     private int teamCount;
     private int selectInviteIndex;
+
+    private boolean deleteMode;
 
     public CreateGameAdapter(RecyclerView recyclerView, ClubModel clubModel) {
         this.recyclerView = recyclerView;
@@ -74,12 +75,12 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         layoutInflater = LayoutInflater.from(mContext);
     }
 
-    public CreateGameAdapter(RecyclerView recyclerView, ReadGameModel readGameModel) {
-        this.recyclerView = recyclerView;
-        mContext = recyclerView.getContext();
-        this.readGameModel = readGameModel;
-        layoutInflater = LayoutInflater.from(mContext);
-    }
+//    public CreateGameAdapter(RecyclerView recyclerView, ReadGameModel readGameModel) {
+//        this.recyclerView = recyclerView;
+//        mContext = recyclerView.getContext();
+//        this.readGameModel = readGameModel;
+//        layoutInflater = LayoutInflater.from(mContext);
+//    }
 
     @Override
     public CreateGameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -119,7 +120,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     Intent intent = new Intent(mContext, ClubUserListActivity.class);
                     intent.putExtra(SELECTED_USER_MAP, userMap);
                     intent.putExtra(CLUB_MODEL, clubModel);
-                    intent.putExtra(READ_GAME_MODEL, readGameModel);
+//                    intent.putExtra(READ_GAME_MODEL, readGameModel);
 
                     ((BindActivity) mContext).startActivityForResult(intent, Define.CLUB_USER_LIST);
                     break;
@@ -189,12 +190,9 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             }
         }
 
-
         CreateGameViewHolder from = (CreateGameViewHolder) recyclerView.findViewHolderForAdapterPosition(fromPosition);
         CreateGameViewHolder to = (CreateGameViewHolder) recyclerView.findViewHolderForAdapterPosition(toPosition);
 
-
-//        System.out.println("==============   onRowMoved  00000  fromPosition   " + from.itemView.getTag() + "    toPosition   " + to.itemView.getTag());
 
         from.itemView.setTag(toPosition);
         from.getBinding().userInviteIcon.setTag(toPosition);
@@ -268,6 +266,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
     }
 
     public void setModifyUserList(ArrayList<ScoreClubUserModel> clubList) {
+        for (ScoreClubUserModel clubUserModel : clubList) {
+            if (!clubUserModel.isUserType()) {
+                teamCount++;
+            }
+        }
         userList.addAll(0, clubList);
         notifyDataSetChanged();
     }
@@ -358,7 +361,16 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                 checkUserCount++;
             }
         }
+        deleteMode = checkUserCount > 0;
         checkCountLiveData.setValue(checkUserCount);
+    }
+
+    public boolean isDeleteMode() {
+        return deleteMode;
+    }
+
+    public void setDeleteMode(boolean deleteMode) {
+        this.deleteMode = deleteMode;
     }
 
     public ArrayList<ScoreClubUserModel> getUserList() {
