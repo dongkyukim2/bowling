@@ -42,6 +42,7 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
                     readGameAdapter = it
                 }
             }
+            binding.loading.visibility = View.GONE
         })
 
         RxBus.getInstance().registerRxObserver {
@@ -68,7 +69,7 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
         super.onToolbarRightClick()
         AlertDialogUtil.showBottomSheetDialog(this) {
             if (it.id == R.id.btnModify) {
-                readGameAdapter?.let {
+                readGameAdapter.let {
                     val intent = Intent(this, CreateGameActivity::class.java)
                     intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
                     ShareData.getInstance().scoreList.clear()
