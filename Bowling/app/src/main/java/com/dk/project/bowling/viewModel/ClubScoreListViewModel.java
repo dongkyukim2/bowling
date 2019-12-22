@@ -2,9 +2,11 @@ package com.dk.project.bowling.viewModel;
 
 import android.app.Application;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
+
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
@@ -49,12 +51,11 @@ public class ClubScoreListViewModel extends BaseViewModel {
     }
 
     public void requestGameList(int count) {
-
         BowlingApi.getInstance().getGameAndScoreList(clubModel.getClubId(), count, receivedData -> {
             if (!receivedData.getData().isEmpty()) {
                 gameMutableLiveData.setValue(new Pair<>(receivedData.getData(), count == 0));
             } else {
-                gameMutableLiveData.setValue(new Pair<>(null, count == 0));
+                gameMutableLiveData.setValue(new Pair<>(new ArrayList<>(), count == 0));
             }
             isLoading = false;
         }, errorData -> isLoading = false);

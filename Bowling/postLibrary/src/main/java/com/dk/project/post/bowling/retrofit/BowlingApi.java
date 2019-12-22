@@ -1,18 +1,26 @@
 package com.dk.project.post.bowling.retrofit;
 
 import androidx.core.util.Pair;
-import com.dk.project.post.bowling.model.*;
+
+import com.dk.project.post.bowling.model.ClubModel;
+import com.dk.project.post.bowling.model.ClubUserModel;
+import com.dk.project.post.bowling.model.GameModel;
+import com.dk.project.post.bowling.model.ReadGameModel;
+import com.dk.project.post.bowling.model.ScoreAvgModel;
+import com.dk.project.post.bowling.model.ScoreClubUserModel;
+import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ResponseModel;
 import com.dk.project.post.retrofit.SuccessCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by dkkim on 2017-12-12.
@@ -97,9 +105,9 @@ public class BowlingApi {
     }
 
 
-    public Disposable getSearchClubList(String clubId,int page, SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
-                                           ErrorCallback errorCallback) {
-        return apiService.getSearchClubList(clubId,page)
+    public Disposable getSearchClubList(String clubId, int page, SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
+                                        ErrorCallback errorCallback) {
+        return apiService.getSearchClubList(clubId, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -214,6 +222,18 @@ public class BowlingApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
+    // 클럽 게임 삭제
+    public Disposable requestDeleteGame(String gameId,
+                                        SuccessCallback<ResponseModel<String>> callback,
+                                        ErrorCallback errorCallback) {
+        return apiService.deleteGame(gameId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+
     // 클럽 게임 및 점수 목록
     public Disposable getGameAndScoreList(String clubId, int count,
                                           SuccessCallback<ResponseModel<ArrayList<ReadGameModel>>> callback,
@@ -227,8 +247,8 @@ public class BowlingApi {
 
     // 클럽 게임에 참여한 유저 목록
     public Disposable getGameUserList(String gameId,
-                                          SuccessCallback<ResponseModel<ArrayList<LoginInfoModel>>> callback,
-                                          ErrorCallback errorCallback) {
+                                      SuccessCallback<ResponseModel<ArrayList<LoginInfoModel>>> callback,
+                                      ErrorCallback errorCallback) {
         return apiService.getGameUserList(gameId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -238,8 +258,8 @@ public class BowlingApi {
 
     // 클럽 가입하거나 상태값 변경
     public Disposable setModifyClubUserType(ClubUserModel clubUserModel,
-                                      SuccessCallback<ResponseModel<ClubUserModel>> callback,
-                                      ErrorCallback errorCallback) {
+                                            SuccessCallback<ResponseModel<ClubUserModel>> callback,
+                                            ErrorCallback errorCallback) {
         return apiService.setModifyClubUserType(clubUserModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

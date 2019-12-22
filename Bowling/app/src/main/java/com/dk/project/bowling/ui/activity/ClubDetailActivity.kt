@@ -11,7 +11,6 @@ import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityClubDetailBinding
 import com.dk.project.bowling.ui.adapter.ClubDetailPagerAdapter
 import com.dk.project.bowling.ui.fragment.ClubDetailFragment
-import com.dk.project.bowling.ui.fragment.ClubGameListFragment
 import com.dk.project.bowling.viewModel.ClubDetailViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
@@ -137,11 +136,5 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             }
 
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        supportFragmentManager.fragments.filterIsInstance<ClubGameListFragment>()
-            .map { fragment -> fragment.onActivityResult(requestCode, resultCode, data) }
     }
 }

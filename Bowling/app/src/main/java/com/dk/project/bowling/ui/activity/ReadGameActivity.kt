@@ -1,9 +1,9 @@
 package com.dk.project.bowling.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +14,7 @@ import com.dk.project.bowling.ui.adapter.ReadGameAdapter
 import com.dk.project.bowling.viewModel.ReadGameViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
+import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
 
 class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel>() {
@@ -54,7 +55,6 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
 
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
-
         AlertDialogUtil.showBottomSheetDialog(this) {
             if (it.id == R.id.btnModify) {
                 readGameAdapter?.let {
@@ -65,7 +65,12 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
                     startActivity(intent)
                 }
             } else if (it.id == com.dk.project.post.R.id.btnDelete) {
-                Toast.makeText(this, "삭제하기", Toast.LENGTH_SHORT).show()
+                BowlingApi.getInstance().requestDeleteGame(viewModel.readGameModel.gameId, {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }, {
+
+                })
             }
         }
     }

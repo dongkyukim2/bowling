@@ -83,6 +83,11 @@ public class ClubGameListAdapter extends BaseRecyclerViewAdapter<ClubGameViewHol
         return diffResult;
     }
 
+    public void clearList() {
+        clubGameList.clear();
+        notifyDataSetChanged();
+    }
+
     public ReadGameModel getClubGame(int position) {
         return clubGameList.get(position);
     }

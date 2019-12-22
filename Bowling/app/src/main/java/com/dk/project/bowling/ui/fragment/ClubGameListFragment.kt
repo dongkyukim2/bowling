@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.FragmentClubGameListBinding
-import com.dk.project.bowling.ui.activity.CreateGameActivity
 import com.dk.project.bowling.ui.activity.ReadGameActivity
 import com.dk.project.bowling.ui.adapter.ClubGameListAdapter
 import com.dk.project.bowling.viewModel.ClubScoreListViewModel
@@ -35,8 +34,10 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
     override fun registerLiveData() {
         viewModel.gameMutableLiveData.observe(this, Observer {
             setEmptyView(it.first!!)
-            if (it.first != null) {
+            if (it.first!!.isNotEmpty()) {
                 clubGameListAdapter.setClubList(it)
+            } else {
+                clubGameListAdapter.clearList()
             }
             binding.recyclerViewRefresh.postDelayed({
                 binding.recyclerViewRefresh.isRefreshing = false
@@ -85,7 +86,11 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                                     Define.READ_GAME_MODEL,
                                     clubGameListAdapter.getClubGame(position)
                                 )
-                                activity?.startActivity(intent)
+                                activity?.startActivityFromFragment(
+                                    this@ClubGameListFragment,
+                                    intent,
+                                    Define.REFRESH_GAME_LIST
+                                )
                                 return true
                             }
                         }
@@ -139,7 +144,7 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
     }
 
     private fun setEmptyView(list: List<Any>) {
-        if (list == null || list.isEmpty()) {
+        if (list.isEmpty()) {
             binding.emptyView.visibility = View.VISIBLE
             binding.clubGameRecyclerView.visibility = View.GONE
         } else {

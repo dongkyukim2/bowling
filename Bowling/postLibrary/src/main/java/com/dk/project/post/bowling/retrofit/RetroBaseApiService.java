@@ -15,8 +15,10 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetroBaseApiService {
@@ -68,6 +70,9 @@ public interface RetroBaseApiService {
 
     @POST("community/bowling/game/")
     Observable<ResponseModel<GameModel>> writeGame(@Body GameModel gameModel);
+
+    @DELETE("community/bowling/game/{gameId}/")
+    Observable<ResponseModel<String>> deleteGame(@Path("gameId") String gameId);
 
     @GET("community/bowling/game/")
     Observable<ResponseModel<ArrayList<ReadGameModel>>> getGameAndScoreList(@Query("clubId") String clubId, @Query("count") int count);
