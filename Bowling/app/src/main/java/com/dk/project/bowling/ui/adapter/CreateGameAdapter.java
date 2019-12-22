@@ -17,6 +17,7 @@ import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.ClubUserListActivity;
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback;
 import com.dk.project.bowling.ui.viewHolder.CreateGameViewHolder;
+import com.dk.project.bowling.viewModel.impl.CreateGameListener;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
@@ -55,32 +56,32 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     dispose();
             return super.addAll(index, c);
         }
-    };
 
-    private MutableLiveData<Integer> checkCountLiveData = new MutableLiveData<>();
+        @Override
+        public boolean removeAll(@NonNull Collection<?> c) {
+            Observable.fromIterable(c).
+                    filter(o -> ((ScoreClubUserModel) o).isUserType()).
+                    subscribe(userModel -> userMap.remove(((ScoreClubUserModel) userModel).getUserId())).
+                    dispose();
+            return super.removeAll(c);
+        }
+    };
 
     private RecyclerView recyclerView;
     private Context mContext;
     private ClubModel clubModel;
-    //    private ReadGameModel readGameModel;
     private int teamCount;
     private int selectInviteIndex;
-
+    private CreateGameListener createGameListener;
     private boolean deleteMode;
 
-    public CreateGameAdapter(RecyclerView recyclerView, ClubModel clubModel) {
+    public CreateGameAdapter(RecyclerView recyclerView, ClubModel clubModel, CreateGameListener createGameListener) {
         this.recyclerView = recyclerView;
         mContext = recyclerView.getContext();
         this.clubModel = clubModel;
         layoutInflater = LayoutInflater.from(mContext);
+        this.createGameListener = createGameListener;
     }
-
-//    public CreateGameAdapter(RecyclerView recyclerView, ReadGameModel readGameModel) {
-//        this.recyclerView = recyclerView;
-//        mContext = recyclerView.getContext();
-//        this.readGameModel = readGameModel;
-//        layoutInflater = LayoutInflater.from(mContext);
-//    }
 
     @Override
     public CreateGameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -120,7 +121,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     Intent intent = new Intent(mContext, ClubUserListActivity.class);
                     intent.putExtra(SELECTED_USER_MAP, userMap);
                     intent.putExtra(CLUB_MODEL, clubModel);
-//                    intent.putExtra(READ_GAME_MODEL, readGameModel);
 
                     ((BindActivity) mContext).startActivityForResult(intent, Define.CLUB_USER_LIST);
                     break;
@@ -244,12 +244,12 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     @Override
     public void onDragStart() {
-        if (checkCountLiveData.getValue() != null && checkCountLiveData.getValue() > 0) {
-
+        if (deleteMode) {
             Observable.fromIterable(userList).subscribe(userModel -> userModel.setCheck(false), throwable -> {
             }, () -> {
                 notifyDataSetChanged();
-                checkCountLiveData.setValue(0);
+                deleteMode = false;
+                createGameListener.OnCheckedChange(0);
             }).dispose();
         }
     }
@@ -273,10 +273,6 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         }
         userList.addAll(0, clubList);
         notifyDataSetChanged();
-    }
-
-    public MutableLiveData<Integer> getCheckCountLiveData() {
-        return checkCountLiveData;
     }
 
     private Pair<Integer, Boolean> checkTeamSelectAll(int position) {
@@ -362,15 +358,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
             }
         }
         deleteMode = checkUserCount > 0;
-        checkCountLiveData.setValue(checkUserCount);
+        createGameListener.OnCheckedChange(checkUserCount);
     }
 
     public boolean isDeleteMode() {
         return deleteMode;
-    }
-
-    public void setDeleteMode(boolean deleteMode) {
-        this.deleteMode = deleteMode;
     }
 
     public ArrayList<ScoreClubUserModel> getUserList() {
@@ -379,5 +371,18 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     private void setScore(ScoreClubUserModel userModel, int index, int score) {
         userModel.setScore(index, score);
+    }
+
+    public void deleteSelectUser() {
+        ArrayList<ScoreClubUserModel> removeList = new ArrayList<>();
+        for (ScoreClubUserModel userModel : userList) {
+            if (userModel.isCheck()) {
+                removeList.add(userModel);
+            }
+        }
+        userList.removeAll(removeList);
+        notifyDataSetChanged();
+        deleteMode = false;
+        createGameListener.OnCheckedChange(0);
     }
 }

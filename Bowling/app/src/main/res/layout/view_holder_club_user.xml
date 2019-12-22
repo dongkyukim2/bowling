@@ -10,12 +10,11 @@
 
         <ImageView
                 android:id="@+id/user_check_box"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginLeft="16dp"
-                android:background="@drawable/input_border"
                 android:clickable="false"
-                android:src="@drawable/ic_action_check"
+                android:background="@drawable/check_enable"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

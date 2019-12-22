@@ -32,9 +32,9 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding
         binding.userCheckBox.setClickable(false);
 
         if (item.isCheck()) {
-            binding.userCheckBox.setImageResource(R.drawable.ic_action_check);
+            binding.userCheckBox.setBackgroundResource(R.drawable.check_enable);
         } else {
-            binding.userCheckBox.setImageResource(R.drawable.ic_action_uncheck);
+            binding.userCheckBox.setBackgroundResource(R.drawable.check_disable);
         }
 
         binding.joinNo.setOnClickListener(this);

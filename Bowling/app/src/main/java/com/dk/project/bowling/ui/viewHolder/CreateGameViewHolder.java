@@ -42,9 +42,9 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.userProfileImageView.setVisibility(View.VISIBLE);
         }
         if (item.isCheck()) {
-            binding.userCheckBox.setImageResource(R.drawable.ic_action_check);
+            binding.userCheckBox.setBackgroundResource(R.drawable.check_enable);
         } else {
-            binding.userCheckBox.setImageResource(R.drawable.ic_action_uncheck);
+            binding.userCheckBox.setBackgroundResource(R.drawable.check_disable);
         }
 
     }

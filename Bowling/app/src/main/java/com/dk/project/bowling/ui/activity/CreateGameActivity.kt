@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.util.Pair
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,7 @@ import com.dk.project.bowling.shareData.ShareData
 import com.dk.project.bowling.ui.adapter.CreateGameAdapter
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback
 import com.dk.project.bowling.viewModel.CreateGameViewModel
+import com.dk.project.bowling.viewModel.impl.CreateGameListener
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.GameModel
@@ -26,11 +26,10 @@ import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.RxBus
 
-class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>() {
+class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>(),
+    CreateGameListener {
 
     private lateinit var createGameAdapter: CreateGameAdapter
-    private var deleteMode = false
-
 
     override fun getLayoutId() = R.layout.activity_create_game
 
@@ -62,7 +61,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 binding.createGameRecyclerView.apply {
                     layoutManager = LinearLayoutManager(this@CreateGameActivity)
 
-                    CreateGameAdapter(this, viewModel.clubModel).let {
+                    CreateGameAdapter(this, viewModel.clubModel, this@CreateGameActivity).let {
                         ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
                         adapter = it
                         createGameAdapter = it
@@ -80,7 +79,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
 
                 binding.createGameRecyclerView.apply {
                     layoutManager = LinearLayoutManager(this@CreateGameActivity)
-                    CreateGameAdapter(this, viewModel.clubModel).let {
+                    CreateGameAdapter(this, viewModel.clubModel, this@CreateGameActivity).let {
                         ItemTouchHelper(ItemMoveCallback(it)).attachToRecyclerView(this)
                         adapter = it
                         createGameAdapter = it
@@ -103,22 +102,10 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         )
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        createGameAdapter.checkCountLiveData.observe(this, Observer {
-            deleteMode = it != 0
-            if (deleteMode) {
-                toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
-            } else {
-                toolbarRightButton.setImageResource(R.drawable.ic_done)
-            }
-        })
-    }
-
     override fun onToolbarRightClick() {
 
         if (createGameAdapter.isDeleteMode) {
-
+            createGameAdapter.deleteSelectUser()
         } else {
             when (viewModel.adapterMode) {
                 Define.CREATE_MODE -> {
@@ -203,6 +190,14 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         super.onDestroy()
         if (viewModel.adapterMode == Define.MODEFY_MODE) {
             ShareData.getInstance().scoreList.clear()
+        }
+    }
+
+    override fun OnCheckedChange(count: Int) {
+        if (count == 0) {
+            toolbarRightButton.setImageResource(R.drawable.ic_done)
+        } else {
+            toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
         }
     }
 }
