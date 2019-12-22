@@ -8,12 +8,15 @@ import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
 public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, ScoreClubUserModel> {
 
+    private ScoreClubUserModel item;
+
     public CreateGameViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
     public void onBindView(ScoreClubUserModel item, int position) {
+        this.item = item;
         if (!item.isUserType()) { // 헤더
             binding.createGameTeamName.setText(item.getTeamName());
             binding.dragIcon.setVisibility(View.INVISIBLE);
@@ -46,6 +49,9 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
         } else {
             binding.userCheckBox.setBackgroundResource(R.drawable.check_disable);
         }
+    }
 
+    public ScoreClubUserModel getItem() {
+        return item;
     }
 }

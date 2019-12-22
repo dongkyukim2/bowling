@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dk.project.bowling.R;
@@ -233,8 +232,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     @Override
     public void onRowSelected(CreateGameViewHolder myViewHolder) {
-        myViewHolder.itemView.setBackgroundColor(Color.GRAY);
-
+        if (myViewHolder.getItem().isUserType()) {
+            myViewHolder.itemView.setBackgroundColor(Color.GRAY);
+        } else {
+            myViewHolder.itemView.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateGameBinding
 import com.dk.project.bowling.shareData.ShareData
+import com.dk.project.bowling.shareData.ShareData.Companion.getInstance
 import com.dk.project.bowling.ui.adapter.CreateGameAdapter
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback
 import com.dk.project.bowling.viewModel.CreateGameViewModel
@@ -44,12 +45,13 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        getInstance().scoreList.map { it.isCheck = false }
+
         var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
             it as EditText
             var title = it.text.toString().trim()
             createGameAdapter.addTeam(ScoreClubUserModel(title))
         }
-
 
         when (viewModel.adapterMode) {
             Define.MODEFY_MODE -> {
@@ -68,9 +70,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                         it.setModifyUserList(viewModel.gameScoreList)
                     }
                 }
-
                 binding.addTeam.setOnClickListener { showDialog(teamTitleClickListener) }
-
             }
             Define.CREATE_MODE -> {
                 toolbarTitle.text = "경기 만들기"
@@ -89,7 +89,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 binding.addTeam.setOnClickListener { showDialog(teamTitleClickListener) }
                 showDialog(teamTitleClickListener)
             }
-
         }
     }
 
@@ -168,8 +167,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 }
             }
         }
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
