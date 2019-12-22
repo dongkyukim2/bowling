@@ -235,21 +235,21 @@ public class BowlingApi {
 
 
     // 클럽 게임 및 점수 목록
-    public Disposable getGameAndScoreList(String clubId, int count,
+    public Disposable getGameList(String clubId, int count,
                                           SuccessCallback<ResponseModel<ArrayList<ReadGameModel>>> callback,
                                           ErrorCallback errorCallback) {
-        return apiService.getGameAndScoreList(clubId, count)
+        return apiService.getGameList(clubId, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
-    // 클럽 게임 및 점수
+    // 클럽 게임
     public Disposable getGameAndScore(String gameId,
                                       SuccessCallback<ResponseModel<ReadGameModel>> callback,
                                       ErrorCallback errorCallback) {
-        return apiService.getGameAndScore(gameId)
+        return apiService.getGame(gameId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -268,11 +268,14 @@ public class BowlingApi {
     }
 
 
-    public Disposable getGameAndUserList(String gameId, SuccessCallback<Pair<ResponseModel<ArrayList<LoginInfoModel>>, ResponseModel<ReadGameModel>>> callback,
-                                         ErrorCallback errorCallback) {
+    public Disposable getGameAndUserListAndScoreList(String gameId, SuccessCallback<Pair<ResponseModel<ArrayList<LoginInfoModel>>, ResponseModel<ReadGameModel>>> callback,
+                                                     ErrorCallback errorCallback) {
+        return Observable.zip(apiService.getGameUserList(gameId), apiService.getGame(gameId), apiService.getGameScoreList(gameId),
+                (arrayListResponseModel, readGameModelResponseModel, arrayListScoreResponseModel) -> {
+                    readGameModelResponseModel.getData().setScoreList(arrayListScoreResponseModel.getData());
+                    return new Pair<>(arrayListResponseModel, readGameModelResponseModel);
 
-        return Observable.zip(apiService.getGameUserList(gameId), apiService.getGameAndScore(gameId), (arrayListResponseModel, readGameModelResponseModel)
-                -> new Pair<>(arrayListResponseModel, readGameModelResponseModel)).subscribeOn(Schedulers.io())
+                }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
                         throwable -> retroClient.errorHandling(throwable, errorCallback));

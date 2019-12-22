@@ -53,7 +53,7 @@ public class ReadGameViewModel extends BaseViewModel {
     }
 
     public void requestGameModel() {
-        BowlingApi.getInstance().getGameAndUserList(readGameModel.getGameId(),
+        BowlingApi.getInstance().getGameAndUserListAndScoreList(readGameModel.getGameId(),
                 receivedData -> gameUserAndGameLiveData.setValue(receivedData), errorData -> {
                 });
     }

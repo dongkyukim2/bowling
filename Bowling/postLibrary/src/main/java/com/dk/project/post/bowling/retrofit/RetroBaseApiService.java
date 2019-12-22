@@ -3,6 +3,7 @@ package com.dk.project.post.bowling.retrofit;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.model.ClubUserModel;
 import com.dk.project.post.bowling.model.GameModel;
+import com.dk.project.post.bowling.model.GameScoreModel;
 import com.dk.project.post.bowling.model.ReadGameModel;
 import com.dk.project.post.bowling.model.ScoreAvgModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
@@ -75,10 +76,13 @@ public interface RetroBaseApiService {
     Observable<ResponseModel<String>> deleteGame(@Path("gameId") String gameId);
 
     @GET("community/bowling/game/list/")
-    Observable<ResponseModel<ArrayList<ReadGameModel>>> getGameAndScoreList(@Query("clubId") String clubId, @Query("count") int count);
+    Observable<ResponseModel<ArrayList<ReadGameModel>>> getGameList(@Query("clubId") String clubId, @Query("count") int count);
 
     @GET("community/bowling/game/")
-    Observable<ResponseModel<ReadGameModel>> getGameAndScore(@Query("gameId") String gameId);
+    Observable<ResponseModel<ReadGameModel>> getGame(@Query("gameId") String gameId);
+
+    @GET("community/bowling/game/score/")
+    Observable<ResponseModel<ArrayList<GameScoreModel>>> getGameScoreList(@Query("gameId") String gameId);
 
     @GET("community/bowling/game/user/")
     Observable<ResponseModel<ArrayList<LoginInfoModel>>> getGameUserList(@Query("gameId") String gameId);
