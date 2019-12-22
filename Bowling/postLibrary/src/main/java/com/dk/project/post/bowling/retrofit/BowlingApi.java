@@ -245,12 +245,34 @@ public class BowlingApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
+    // 클럽 게임 및 점수
+    public Disposable getGameAndScore(String gameId,
+                                      SuccessCallback<ResponseModel<ReadGameModel>> callback,
+                                      ErrorCallback errorCallback) {
+        return apiService.getGameAndScore(gameId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
     // 클럽 게임에 참여한 유저 목록
     public Disposable getGameUserList(String gameId,
                                       SuccessCallback<ResponseModel<ArrayList<LoginInfoModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getGameUserList(gameId)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+
+    public Disposable getGameAndUserList(String gameId, SuccessCallback<Pair<ResponseModel<ArrayList<LoginInfoModel>>, ResponseModel<ReadGameModel>>> callback,
+                                         ErrorCallback errorCallback) {
+
+        return Observable.zip(apiService.getGameUserList(gameId), apiService.getGameAndScore(gameId), (arrayListResponseModel, readGameModelResponseModel)
+                -> new Pair<>(arrayListResponseModel, readGameModelResponseModel)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
                         throwable -> retroClient.errorHandling(throwable, errorCallback));

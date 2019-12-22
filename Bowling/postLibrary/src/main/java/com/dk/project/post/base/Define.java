@@ -116,7 +116,7 @@ public interface Define {
 
     int EVENT_REFRESH_CLUB_GAME_LIST = 1009; // 클럽 점수 등록했을때 갱신
 
-    int EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY = 1010; // 클럽 점수 수정하고 화면 닫기
+    int EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY = 1010; // 클럽 점수 수정하고 화면 닫기
 
 
 

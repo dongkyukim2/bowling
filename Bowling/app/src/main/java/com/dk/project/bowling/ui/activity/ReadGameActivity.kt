@@ -16,6 +16,7 @@ import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
+import com.dk.project.post.utils.RxBus
 
 class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel>() {
 
@@ -31,15 +32,25 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
     override fun subscribeToModel() {
 
         // 유저목록 가져와서 게임 점수 목록 표시
-        viewModel.gameUserLiveData.observe(this, Observer {
+        viewModel.gameUserAndGameLiveData.observe(this, Observer {
+            viewModel.readGameModel = it.second?.data
             binding.readGameRecyclerView.apply {
+                toolbarTitle.text = viewModel.readGameModel.gameName
                 layoutManager = LinearLayoutManager(this@ReadGameActivity)
-                ReadGameAdapter(this@ReadGameActivity, it, viewModel.readGameModel).let {
+                ReadGameAdapter(this@ReadGameActivity, it.first?.data, it.second?.data).let {
                     adapter = it
                     readGameAdapter = it
                 }
             }
         })
+
+        RxBus.getInstance().registerRxObserver {
+            when (it.first) {
+                Define.EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY -> {
+                    viewModel.requestGameModel()
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

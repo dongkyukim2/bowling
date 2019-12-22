@@ -40,11 +40,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     ).get(CreateGameViewModel::class.java)
 
     override fun subscribeToModel() {
-        RxBus.getInstance().registerRxObserver {
-            when (it.first) {
-                Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY -> finish()
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,11 +156,11 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                     userList = createGameAdapter.userList
 
                     BowlingApi.getInstance().setGameAndScoreList(this, {
-
                         RxBus.getInstance()
-                            .eventPost(Pair(Define.EVENT_CLOSE_CREATE_READ_GAME_ACTIVITY, null))
+                            .eventPost(Pair(Define.EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY, null))
                         RxBus.getInstance()
                             .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                        finish()
                     }, {
                         Toast.makeText(this@CreateGameActivity, "게임 수정 오류!!!", Toast.LENGTH_SHORT)
                             .show()

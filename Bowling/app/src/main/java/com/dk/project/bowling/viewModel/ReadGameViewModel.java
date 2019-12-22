@@ -4,6 +4,7 @@ import android.app.Application;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 
 import com.dk.project.post.base.BaseViewModel;
@@ -11,6 +12,7 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ReadGameModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.model.LoginInfoModel;
+import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;
 
@@ -19,11 +21,11 @@ public class ReadGameViewModel extends BaseViewModel {
 
     private ReadGameModel readGameModel;
 
-    private MutableLiveData<ArrayList<LoginInfoModel>> gameUserLiveData;
+    private MutableLiveData<Pair<ResponseModel<ArrayList<LoginInfoModel>>, ResponseModel<ReadGameModel>>> gameUserAndGameLiveData;
 
     public ReadGameViewModel(@NonNull Application application) {
         super(application);
-        gameUserLiveData = new MutableLiveData<>();
+        gameUserAndGameLiveData = new MutableLiveData<>();
     }
 
 
@@ -31,11 +33,7 @@ public class ReadGameViewModel extends BaseViewModel {
     protected void onCreate() {
         super.onCreate();
         readGameModel = mContext.getIntent().getParcelableExtra(Define.READ_GAME_MODEL);
-
-        BowlingApi.getInstance().getGameUserList(readGameModel.getGameId(),
-                receivedData -> gameUserLiveData.setValue(receivedData.getData()),
-                errorData -> {
-                });
+        requestGameModel();
     }
 
     @Override
@@ -46,8 +44,17 @@ public class ReadGameViewModel extends BaseViewModel {
         return readGameModel;
     }
 
+    public void setReadGameModel(ReadGameModel readGameModel) {
+        this.readGameModel = readGameModel;
+    }
 
-    public MutableLiveData<ArrayList<LoginInfoModel>> getGameUserLiveData() {
-        return gameUserLiveData;
+    public MutableLiveData<Pair<ResponseModel<ArrayList<LoginInfoModel>>, ResponseModel<ReadGameModel>>> getGameUserAndGameLiveData() {
+        return gameUserAndGameLiveData;
+    }
+
+    public void requestGameModel() {
+        BowlingApi.getInstance().getGameAndUserList(readGameModel.getGameId(),
+                receivedData -> gameUserAndGameLiveData.setValue(receivedData), errorData -> {
+                });
     }
 }

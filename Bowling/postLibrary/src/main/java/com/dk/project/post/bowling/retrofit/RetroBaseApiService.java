@@ -74,8 +74,11 @@ public interface RetroBaseApiService {
     @DELETE("community/bowling/game/{gameId}/")
     Observable<ResponseModel<String>> deleteGame(@Path("gameId") String gameId);
 
-    @GET("community/bowling/game/")
+    @GET("community/bowling/game/list/")
     Observable<ResponseModel<ArrayList<ReadGameModel>>> getGameAndScoreList(@Query("clubId") String clubId, @Query("count") int count);
+
+    @GET("community/bowling/game/")
+    Observable<ResponseModel<ReadGameModel>> getGameAndScore(@Query("gameId") String gameId);
 
     @GET("community/bowling/game/user/")
     Observable<ResponseModel<ArrayList<LoginInfoModel>>> getGameUserList(@Query("gameId") String gameId);
