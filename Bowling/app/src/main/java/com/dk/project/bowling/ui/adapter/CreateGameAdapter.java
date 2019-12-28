@@ -175,7 +175,7 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
 
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
-        if (!userList.get(fromPosition).isUserType()) {
+        if (!userList.get(fromPosition).isUserType() || toPosition == 0) {
             return;
         }
 

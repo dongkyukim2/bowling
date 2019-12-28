@@ -1,12 +1,23 @@
 package com.dk.project.bowling.ui.activity
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TimePicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -26,6 +37,7 @@ import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.RxBus
+import java.util.*
 
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>(),
     CreateGameListener {
@@ -102,7 +114,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     }
 
     override fun onToolbarRightClick() {
-
         if (createGameAdapter.isDeleteMode) {
             createGameAdapter.deleteSelectUser()
         } else {
@@ -196,5 +207,86 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         } else {
             toolbarRightButton.setImageResource(R.drawable.ic_action_delete)
         }
+    }
+
+
+    private fun showDateDialog() {
+
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.dialog_score_input, null)
+
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.MILLISECOND] = 0
+
+        val scoreDate: AppCompatTextView = view.findViewById(R.id.score_date)
+        val scoreTime: AppCompatTextView = view.findViewById(R.id.score_time)
+        (view.findViewById(R.id.score_text) as View).visibility = View.GONE
+        (view.findViewById(R.id.comment_text) as View).visibility = View.GONE
+
+        setDate(scoreDate, calendar)
+        setTime(scoreTime, calendar)
+
+        scoreDate.setOnClickListener {
+            DatePickerDialog(
+                this,
+                OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+                    calendar[year, month] = dayOfMonth
+                    setDate(scoreDate, calendar)
+                },
+                calendar[Calendar.YEAR], calendar[Calendar.MONTH],
+                calendar[Calendar.DAY_OF_MONTH]
+            ).show()
+        }
+
+        scoreTime.setOnClickListener {
+            TimePickerDialog(
+                this,
+                OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+                    calendar[Calendar.HOUR_OF_DAY] = hourOfDay
+                    calendar[Calendar.MINUTE] = minute
+                    setTime(scoreTime, calendar)
+                }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
+            ).show()
+        }
+
+        val builder =
+            AlertDialog.Builder(this)
+        builder.setView(view)
+        builder.setPositiveButton(
+            "확인"
+        ) { _: DialogInterface?, _: Int -> }
+        builder.setNegativeButton("취소", null)
+
+        val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.startColor))
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.startColor))
+
+        }
+
+        alertDialog.show()
+    }
+
+    private fun setDate(
+        textView: AppCompatTextView,
+        calendar: Calendar
+    ) {
+        String.format("%02d", calendar[Calendar.MONTH] + 1)
+        textView.text = calendar[Calendar.YEAR].toString() + "-" + String.format(
+            "%02d",
+            calendar[Calendar.MONTH] + 1
+        ) + "-" + String.format("%02d", calendar[Calendar.DAY_OF_MONTH])
+    }
+
+    private fun setTime(
+        textView: AppCompatTextView,
+        calendar: Calendar
+    ) {
+        textView.text = (if (calendar[Calendar.AM_PM] == 0) "오전 " else "오후 ") + String.format(
+            "%02d",
+            calendar[Calendar.HOUR]
+        ) + ":" + String.format("%02d", calendar[Calendar.MINUTE])
     }
 }
