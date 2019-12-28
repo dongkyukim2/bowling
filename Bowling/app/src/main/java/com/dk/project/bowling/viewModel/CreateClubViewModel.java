@@ -32,17 +32,24 @@ public class CreateClubViewModel extends BaseViewModel {
 
     private boolean guardRequest;
 
+    // 수정할때는 널이 아님
+    private ClubModel clubModel;
+
     public CreateClubViewModel(@NonNull Application application) {
         super(application);
     }
 
     @Override
-    protected void onCreated() {
-        super.onCreated();
+    protected void onCreate() {
+        super.onCreate();
 
-        GlideApp.with(mContext).load(R.drawable.team_default_1)
-                .into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
-
+        clubModel = mContext.getIntent().getParcelableExtra(Define.CLUB_MODEL);
+        if (clubModel == null) {
+            GlideApp.with(mContext).load(R.drawable.team_default_1).centerCrop().into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
+        } else {
+            GlideApp.with(mContext).load(clubModel.getClubImage().length() == 1 ? R.drawable.team_default_1 : Define.IMAGE_URL + clubModel.getClubImage()).centerCrop()
+                    .into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
+        }
     }
 
     @Override
@@ -101,7 +108,17 @@ public class CreateClubViewModel extends BaseViewModel {
     }
 
     private void createClub(ClubModel clubModel, String filePath) {
-        clubModel.setClubImage(filePath);
+        if (this.clubModel == null) {
+            clubModel.setClubImage(filePath);
+        } else { // 클럽 수정
+            clubModel.setClubImage(this.clubModel.getClubImage());
+            if (filePath.length() < 2) {
+                clubModel.setClubNewImage(this.clubModel.getClubImage());
+            } else {
+                clubModel.setClubNewImage(filePath);
+            }
+            clubModel.setClubId(this.clubModel.getClubId());
+        }
         BowlingApi.getInstance().createClub(clubModel, receivedData -> {
             RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
             mContext.finish();
@@ -110,5 +127,9 @@ public class CreateClubViewModel extends BaseViewModel {
             Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show();
             guardRequest = false;
         });
+    }
+
+    public ClubModel getClubModel() {
+        return clubModel;
     }
 }

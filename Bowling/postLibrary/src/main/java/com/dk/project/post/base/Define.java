@@ -96,6 +96,8 @@ public interface Define {
 
     int YOUTUBE_FULL_SCREEN = 5434;
 
+    int CLUB_MODIFY = 9433;
+
     /*
      =====================   Event Bus   ======================
      */

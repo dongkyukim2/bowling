@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dk.project.bowling.R
 import com.dk.project.bowling.databinding.ActivityCreateGameBinding
 import com.dk.project.bowling.shareData.ShareData
-import com.dk.project.bowling.shareData.ShareData.Companion.getInstance
 import com.dk.project.bowling.ui.adapter.CreateGameAdapter
 import com.dk.project.bowling.ui.adapter.callback.ItemMoveCallback
 import com.dk.project.bowling.viewModel.CreateGameViewModel
@@ -37,10 +36,19 @@ import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.RxBus
+import com.dk.project.post.utils.Utils
 import java.util.*
 
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>(),
     CreateGameListener {
+
+    private val calendar = Calendar.getInstance().also {
+        it[Calendar.MILLISECOND] = 0
+    }
+
+    private val tempCalendar = Calendar.getInstance().also {
+        it[Calendar.MILLISECOND] = 0
+    }
 
     private lateinit var createGameAdapter: CreateGameAdapter
 
@@ -57,7 +65,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        getInstance().scoreList.map { it.isCheck = false }
+        ShareData.getInstance().scoreList.map { it.isCheck = false }
 
         var teamTitleClickListener: View.OnClickListener = View.OnClickListener {
             it as EditText
@@ -71,6 +79,9 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                 toolbarRightButton.visibility = View.VISIBLE
                 binding.gameTitleEditText.visibility = View.VISIBLE
                 binding.gameTitleEditText.setText(viewModel.gameName)
+
+                calendar.time = Utils.DateFormat_0.parse(viewModel.playDateTime)
+                tempCalendar.time = calendar.time
 
                 binding.createGameRecyclerView.apply {
                     layoutManager = LinearLayoutManager(this@CreateGameActivity)
@@ -117,66 +128,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         if (createGameAdapter.isDeleteMode) {
             createGameAdapter.deleteSelectUser()
         } else {
-            when (viewModel.adapterMode) {
-                Define.CREATE_MODE -> {
-                    GameModel().apply {
-                        clubId = viewModel.clubModel.clubId
-                        val title = binding.gameTitleEditText.text?.trim()
-                        gameName = if (TextUtils.isEmpty(title)) {
-                            "임시 게임 이름"
-                        } else {
-                            title.toString()
-                        }
-                        userList = createGameAdapter.userList
-                        BowlingApi.getInstance().setGameAndScoreList(this, {
-                            finish()
-                            RxBus.getInstance()
-                                .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
-                        }, {
-                            Toast.makeText(
-                                this@CreateGameActivity,
-                                "게임 등록 오류!!!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        })
-                    }
-                }
-                Define.MODEFY_MODE -> {
-                    GameModel().apply {
-                        clubId = viewModel.clubModel.clubId
-                        gameId = viewModel.gameId
-
-                        val title = binding.gameTitleEditText.text?.trim()
-                        gameName = if (TextUtils.isEmpty(title)) {
-                            viewModel.gameName
-                        } else {
-                            title.toString()
-                        }
-                        userList = createGameAdapter.userList
-
-                        BowlingApi.getInstance().setGameAndScoreList(this, {
-                            RxBus.getInstance()
-                                .eventPost(
-                                    Pair(
-                                        Define.EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY,
-                                        null
-                                    )
-                                )
-                            RxBus.getInstance()
-                                .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
-                            finish()
-                        }, {
-                            Toast.makeText(
-                                this@CreateGameActivity,
-                                "게임 수정 오류!!!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        })
-                    }
-                }
-            }
+            showDateDialog()
         }
     }
 
@@ -215,9 +167,6 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         val inflater = LayoutInflater.from(this)
         val view = inflater.inflate(R.layout.dialog_score_input, null)
 
-        val calendar = Calendar.getInstance()
-        calendar[Calendar.MILLISECOND] = 0
-
         val scoreDate: AppCompatTextView = view.findViewById(R.id.score_date)
         val scoreTime: AppCompatTextView = view.findViewById(R.id.score_time)
         (view.findViewById(R.id.score_text) as View).visibility = View.GONE
@@ -230,8 +179,8 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             DatePickerDialog(
                 this,
                 OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
-                    calendar[year, month] = dayOfMonth
-                    setDate(scoreDate, calendar)
+                    tempCalendar[year, month] = dayOfMonth
+                    setDate(scoreDate, tempCalendar)
                 },
                 calendar[Calendar.YEAR], calendar[Calendar.MONTH],
                 calendar[Calendar.DAY_OF_MONTH]
@@ -242,9 +191,9 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
             TimePickerDialog(
                 this,
                 OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
-                    calendar[Calendar.HOUR_OF_DAY] = hourOfDay
-                    calendar[Calendar.MINUTE] = minute
-                    setTime(scoreTime, calendar)
+                    tempCalendar[Calendar.HOUR_OF_DAY] = hourOfDay
+                    tempCalendar[Calendar.MINUTE] = minute
+                    setTime(scoreTime, tempCalendar)
                 }, calendar[Calendar.HOUR_OF_DAY], calendar[Calendar.MINUTE], false
             ).show()
         }
@@ -254,8 +203,12 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         builder.setView(view)
         builder.setPositiveButton(
             "확인"
-        ) { _: DialogInterface?, _: Int -> }
-        builder.setNegativeButton("취소", null)
+        ) { _: DialogInterface?, _: Int ->
+            writeGame()
+        }
+        builder.setNegativeButton("취소") { _, _ ->
+            tempCalendar.time = calendar.time
+        }
 
         val alertDialog = builder.create()
         alertDialog.setOnShowListener {
@@ -267,6 +220,74 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         }
 
         alertDialog.show()
+    }
+
+    private fun writeGame() {
+        when (viewModel.adapterMode) {
+            Define.CREATE_MODE -> {
+                GameModel().apply {
+                    clubId = viewModel.clubModel.clubId
+                    val title = binding.gameTitleEditText.text?.trim()
+                    gameName = if (TextUtils.isEmpty(title)) {
+                        "임시 게임 이름"
+                    } else {
+                        title.toString()
+                    }
+                    userList = createGameAdapter.userList
+
+                    playDateTime = Utils.DateFormat_0.format(tempCalendar.time)
+
+                    BowlingApi.getInstance().setGameAndScoreList(this, {
+                        finish()
+                        RxBus.getInstance()
+                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                    }, {
+                        Toast.makeText(
+                            this@CreateGameActivity,
+                            "게임 등록 오류!!!",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    })
+                }
+            }
+            Define.MODEFY_MODE -> {
+                GameModel().apply {
+                    clubId = viewModel.clubModel.clubId
+                    gameId = viewModel.gameId
+
+                    val title = binding.gameTitleEditText.text?.trim()
+                    gameName = if (TextUtils.isEmpty(title)) {
+                        viewModel.gameName
+                    } else {
+                        title.toString()
+                    }
+                    userList = createGameAdapter.userList
+
+                    playDateTime = Utils.DateFormat_0.format(tempCalendar.time)
+
+                    BowlingApi.getInstance().setGameAndScoreList(this, {
+                        RxBus.getInstance()
+                            .eventPost(
+                                Pair(
+                                    Define.EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY,
+                                    null
+                                )
+                            )
+                        RxBus.getInstance()
+                            .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                        finish()
+                    }, {
+                        Toast.makeText(
+                            this@CreateGameActivity,
+                            "게임 수정 오류!!!",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    })
+                }
+            }
+        }
     }
 
     private fun setDate(

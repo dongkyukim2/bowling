@@ -11,6 +11,7 @@ public class ClubModel implements Parcelable {
     private String createDate;
     private String clubInfo;
     private String clubImage;
+    private String clubNewImage;
     private int count;
     /*
     0 : 가입 완료
@@ -37,6 +38,7 @@ public class ClubModel implements Parcelable {
         createDate = in.readString();
         clubInfo = in.readString();
         clubImage = in.readString();
+        clubNewImage = in.readString();
         count = in.readInt();
         type = in.readInt();
     }
@@ -101,6 +103,14 @@ public class ClubModel implements Parcelable {
         this.clubImage = clubImage;
     }
 
+    public String getClubNewImage() {
+        return clubNewImage;
+    }
+
+    public void setClubNewImage(String clubNewImage) {
+        this.clubNewImage = clubNewImage;
+    }
+
     public int getCount() {
         return count;
     }
@@ -130,6 +140,7 @@ public class ClubModel implements Parcelable {
         dest.writeString(createDate);
         dest.writeString(clubInfo);
         dest.writeString(clubImage);
+        dest.writeString(clubNewImage);
         dest.writeInt(count);
         dest.writeInt(type);
     }

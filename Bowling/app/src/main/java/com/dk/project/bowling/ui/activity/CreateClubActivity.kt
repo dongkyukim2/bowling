@@ -44,6 +44,14 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
         }
 
         binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
+
+
+        viewModel.clubModel?.let {
+            binding.clubTitleTextView.setText(it.clubTitle)
+            binding.clubSubTitleTextView.setText(it.clubInfo)
+            toolbarTitle.text = "수정하기"
+            binding.createClubBtn.text = "수정하기"
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -57,5 +65,10 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
                 .centerCrop()
                 .into(binding.clubTitleImageView)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ListController.getInstance().mediaSelectList.clear()
     }
 }

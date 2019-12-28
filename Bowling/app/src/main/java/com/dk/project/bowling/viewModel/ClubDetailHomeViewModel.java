@@ -10,6 +10,7 @@ import androidx.core.util.Pair;
 
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.ClubUserListActivity;
+import com.dk.project.bowling.ui.activity.CreateClubActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
@@ -64,7 +65,9 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 }
                 break;
             case R.id.club_setting:
-                Toast.makeText(mContext, "클럽 설정", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(mContext, CreateClubActivity.class);
+                intent.putExtra(Define.CLUB_MODEL, clubModel);
+                mContext.startActivityFromFragment(bindFragment, intent, Define.CLUB_MODIFY);
                 break;
         }
     }
@@ -95,7 +98,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
         if (clubModel.getCreateUserId().equals(LoginManager.getInstance().getUserCode())) {
             AlertDialogUtil.showAlertDialog(mContext, "알림", "클럽장 탈퇴시 클럽의 모든 정보가 삭제됩니다.\n\n정말 탈퇴하시겠습니까?", (dialog, which) -> {
                 BowlingApi.getInstance().deleteClub(clubModel, receivedData -> {
-                    if(receivedData.isSuccess()){
+                    if (receivedData.isSuccess()) {
                         RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
                         mContext.finish();
                     } else {

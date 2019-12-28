@@ -38,7 +38,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="26dp"
                 android:layout_marginBottom="26dp"
-                android:background="@drawable/check_enable"
+                android:background="@drawable/ic_image"
                 android:onClick="@{viewModel::onClick}"
                 app:layout_constraintBottom_toTopOf="@id/club_info_root"
                 app:layout_constraintRight_toRightOf="@id/club_title_image_view" />

@@ -25,7 +25,7 @@ public class CreateGameViewModel extends BaseViewModel {
     private ClubModel clubModel;
     private String gameName;
     private String gameId;
-
+    private String playDateTime;
 
     private int adapterMode;
     private ArrayList<ScoreClubUserModel> gameScoreList;
@@ -49,6 +49,7 @@ public class CreateGameViewModel extends BaseViewModel {
             clubModel.setClubId(readGameModel.getClubId());
             gameName = readGameModel.getGameName();
             gameId = readGameModel.getGameId();
+            playDateTime = readGameModel.getPlayDateTime();
         }
 
         gameScoreList = new ArrayList<>(ShareData.getInstance().getScoreList());
@@ -109,5 +110,9 @@ public class CreateGameViewModel extends BaseViewModel {
 
     public String getGameId() {
         return gameId;
+    }
+
+    public String getPlayDateTime() {
+        return playDateTime;
     }
 }

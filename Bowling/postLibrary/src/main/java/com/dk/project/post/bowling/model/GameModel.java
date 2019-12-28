@@ -1,12 +1,14 @@
 package com.dk.project.post.bowling.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GameModel {
 
     private String clubId;
     private String gameId;
     private String gameName;
+    private String playDateTime;
 
     private ArrayList<ScoreClubUserModel> userList;
 
@@ -34,6 +36,15 @@ public class GameModel {
 
     public void setGameName(String gameName) {
         this.gameName = gameName;
+    }
+
+
+    public String getPlayDateTime() {
+        return playDateTime;
+    }
+
+    public void setPlayDateTime(String playDateTime) {
+        this.playDateTime = playDateTime;
     }
 
     public ArrayList<ScoreClubUserModel> getUserList() {
