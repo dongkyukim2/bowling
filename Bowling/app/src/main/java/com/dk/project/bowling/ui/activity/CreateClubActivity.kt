@@ -50,7 +50,7 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
             binding.clubTitleTextView.setText(it.clubTitle)
             binding.clubSubTitleTextView.setText(it.clubInfo)
             toolbarTitle.text = "수정하기"
-            binding.createClubBtn.text = "수정하기"
+            binding.createClubBtn.text = "수정완료"
         }
     }
 

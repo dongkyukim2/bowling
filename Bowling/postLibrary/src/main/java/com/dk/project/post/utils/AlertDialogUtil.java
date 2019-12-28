@@ -163,12 +163,22 @@ public class AlertDialogUtil {
         return alertDialog;
     }
 
-    private static void setTextColor(AlertDialog dialog) {
+    public static void setTextColor(AlertDialog dialog) {
         dialog.setOnShowListener(arg0 -> {
             Context context = dialog.getButton(AlertDialog.BUTTON_NEGATIVE).getContext();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.startColor));
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.startColor));
         });
+    }
+
+    public static void showProgressDialog(Context context){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.progress_dialog_layout, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 }
 

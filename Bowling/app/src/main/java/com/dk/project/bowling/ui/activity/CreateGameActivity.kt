@@ -211,13 +211,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         }
 
         val alertDialog = builder.create()
-        alertDialog.setOnShowListener {
-            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(this, R.color.startColor))
-            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(this, R.color.startColor))
-
-        }
+        AlertDialogUtil.setTextColor(alertDialog)
 
         alertDialog.show()
     }
