@@ -77,12 +77,17 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
                     startActivity(intent)
                 }
             } else if (it.id == com.dk.project.post.R.id.btnDelete) {
-                BowlingApi.getInstance().requestDeleteGame(viewModel.readGameModel.gameId, {
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }, {
+                AlertDialogUtil.showAlertDialog(this@ReadGameActivity,
+                    null,
+                    "삭제 하시겠습니까?",
+                    { _, _ ->
+                        BowlingApi.getInstance().requestDeleteGame(viewModel.readGameModel.gameId, {
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }, {
 
-                })
+                        })
+                    }, { _, _ -> })
             }
         }
     }

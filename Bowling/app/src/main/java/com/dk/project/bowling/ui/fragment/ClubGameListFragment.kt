@@ -51,7 +51,6 @@ class ClubGameListFragment : BindFragment<FragmentClubGameListBinding, ClubScore
                 }
             }
         }
-
     }
 
     override fun onCreateView(
