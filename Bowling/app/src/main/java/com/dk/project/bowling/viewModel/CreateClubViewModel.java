@@ -1,5 +1,6 @@
 package com.dk.project.bowling.viewModel;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.view.View;
@@ -121,6 +122,9 @@ public class CreateClubViewModel extends BaseViewModel {
         }
         BowlingApi.getInstance().createClub(clubModel, receivedData -> {
             RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
+            Intent intent = new Intent();
+            intent.putExtra(Define.CLUB_MODEL, clubModel);
+            mContext.setResult(Activity.RESULT_OK, intent);
             mContext.finish();
             guardRequest = false;
         }, errorData -> {

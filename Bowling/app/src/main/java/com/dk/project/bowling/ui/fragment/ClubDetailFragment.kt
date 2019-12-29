@@ -1,5 +1,7 @@
 package com.dk.project.bowling.ui.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -103,6 +105,31 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                 binding.clubUserCount.text =
                     it.data.filter { user -> user.type <= Define.USER_TYPE_OWNER }.size.toString()
             }, { })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            Define.CLUB_MODIFY -> {
+                data?.getParcelableExtra<ClubModel>(Define.CLUB_MODEL)?.let {
+                    viewModel.clubModel.clubTitle = it.clubTitle
+                    viewModel.clubModel.clubInfo = it.clubInfo
+                    viewModel.clubModel.clubImage = it.clubNewImage
+                }
+
+                binding.clubTitleTextView.text = viewModel.clubModel.clubTitle
+                binding.clubSubTitleTextView.text = viewModel.clubModel.clubInfo
+
+                GlideApp.with(activity!!).asBitmap()
+                    .load(if (viewModel.clubModel.clubImage.length == 1) R.drawable.team_default_1 else Define.IMAGE_URL + viewModel.clubModel.clubImage)
+                    .centerCrop()
+                    .apply(ImageUtil.getGlideRequestOption())
+                    .into(binding.clubTitleImage)
+            }
+        }
     }
 
     companion object {
