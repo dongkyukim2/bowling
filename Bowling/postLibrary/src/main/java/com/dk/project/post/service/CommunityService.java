@@ -15,6 +15,7 @@ import androidx.core.util.Pair;
 
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseService;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.retrofit.PostApi;
@@ -67,6 +68,8 @@ public class CommunityService extends BaseService {
         AtomicInteger uploadFileCount = new AtomicInteger(0);
 
         PostModel postModel = (PostModel) postPair.second;
+        postModel.setUserId(LoginManager.getInstance().getUserCode());
+
         if (postModel.getImageList() != null) {
             for (MediaSelectListModel imageFile : postModel.getImageList()) {
                 if (TextUtils.isEmpty(imageFile.getYoutubeUrl()) && !imageFile.getFilePath().startsWith("http")) {
