@@ -30,6 +30,10 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 import static com.dk.project.post.base.Define.YOUTUBE_PACKAGE_NAME;
 
 
@@ -125,19 +129,48 @@ public class Utils {
         return Looper.myLooper() == Looper.getMainLooper();
     }
 
-    public static void getHashKey(Context contenxt) {
+    public static String getHashKey(Context context) {
         try {
-            PackageInfo info = contenxt.getPackageManager().getPackageInfo("com.dk.project.bowling", PackageManager.GET_SIGNATURES);
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                System.out.println("============             " + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                return Base64.encodeToString(md.digest(), Base64.DEFAULT);
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+        return "";
+    }
+
+    public static String Encrypt(String text, String key) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        byte[] keyBytes = new byte[16];
+        byte[] b = key.getBytes("UTF-8");
+        int len = b.length;
+        if (len > keyBytes.length) len = keyBytes.length;
+        System.arraycopy(b, 0, keyBytes, 0, len);
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+        IvParameterSpec ivSpec = new IvParameterSpec(keyBytes);
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+        byte[] results = cipher.doFinal(text.getBytes("UTF-8"));
+        return Base64.encodeToString(results, Base64.DEFAULT).trim();
+    }
+
+    public static String Decrypt(String text, String key) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        byte[] keyBytes = new byte[16];
+        byte[] b = key.getBytes("UTF-8");
+        int len = b.length;
+        if (len > keyBytes.length) len = keyBytes.length;
+        System.arraycopy(b, 0, keyBytes, 0, len);
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+        IvParameterSpec ivSpec = new IvParameterSpec(keyBytes);
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+        byte[] results = cipher.doFinal(Base64.decode(text, 0));
+        return new String(results, "UTF-8").trim();
     }
 
     public static String getDAY_OF_WEEK(String day) {
