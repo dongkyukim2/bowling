@@ -2,12 +2,17 @@ package com.dk.project.post.base;
 
 import android.app.Application;
 
+import com.dk.project.post.R;
 import com.dk.project.post.utils.AppExecutors;
 import com.dk.project.post.utils.ImagePipelineConfigFactory;
 import com.dk.project.post.utils.KakaoSDKAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
+import com.google.android.gms.ads.MobileAds;
 import com.kakao.auth.KakaoSDK;
+
+import static com.google.android.gms.ads.RequestConfiguration.MAX_AD_CONTENT_RATING_G;
+import static com.google.android.gms.ads.RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE;
 
 /**
  * Created by dkkim on 2017-10-05.
@@ -28,6 +33,14 @@ public class BaseApplication extends Application {
         mAppExecutors = new AppExecutors();
         obj = this;
         KakaoSDK.init(new KakaoSDKAdapter());
+
+        MobileAds.initialize(this, getResources().getString(R.string.admob_app_id));
+
+        MobileAds.getRequestConfiguration()
+                .toBuilder()
+                .setTagForChildDirectedTreatment(TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE)
+                .setMaxAdContentRating(MAX_AD_CONTENT_RATING_G)
+                .build();
     }
 
 

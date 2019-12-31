@@ -16,6 +16,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/ad_view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/bottom_banner_ad_unit_id"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
         <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/game_title_edit_text"
                 android:layout_width="match_parent"
@@ -53,7 +64,7 @@
                 android:text="팀 추가"
                 android:textColor="#ffffff"
                 android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ad_view_bottom"
                 app:layout_constraintLeft_toLeftOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

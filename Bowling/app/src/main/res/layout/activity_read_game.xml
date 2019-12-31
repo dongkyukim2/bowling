@@ -15,12 +15,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/ad_view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/bottom_banner_ad_unit_id"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/read_game_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:overScrollMode="never"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ad_view_bottom"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/include_toolbar" />
@@ -30,13 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ad_view_bottom"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/include_toolbar"
                 app:lottie_autoPlay="true"
                 app:lottie_fileName="frame_loading.json"
                 app:lottie_loop="true" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

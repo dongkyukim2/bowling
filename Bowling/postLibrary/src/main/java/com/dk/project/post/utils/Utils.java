@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -17,6 +18,10 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 
 import com.dk.project.post.service.CommunityService;
+import com.google.ads.mediation.admob.AdMobAdapter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.apache.commons.lang3.time.FastDateFormat;
 
@@ -228,6 +233,33 @@ public class Utils {
             stringBuffer.append(a);
         }
         return stringBuffer.toString();
+    }
+
+    public static void loadAdView(AdView adView) {
+        if (adView != null) {
+            Bundle extras = new Bundle();
+            extras.putString("max_ad_content_rating", "G"); // 앱이 3세 이상 사용가능이라면 광고레벨을 설정해줘야 한다
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addNetworkExtrasBundle(AdMobAdapter.class, extras)
+                    .build();
+
+            adView.setAdListener(new AdListener() {
+
+                // 로딩 될 때
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                    System.out.println("+++++++++++     onAdLoaded");
+                }
+
+                @Override
+                public void onAdFailedToLoad(int error) {
+                    super.onAdFailedToLoad(error);
+                    System.out.println("+++++++++++     onAdFailedToLoad     " + error);
+                }
+            });
+            adView.loadAd(adRequest);
+        }
     }
 }
 

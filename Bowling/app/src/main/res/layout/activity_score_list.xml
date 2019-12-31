@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             tools:context=".ui.activity.ScoreListActivity">
 
         <include
                 android:id="@+id/include_toolbar"
                 layout="@layout/toolbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         <fragment
                 android:id="@+id/score_day_fragment"
+                android:name="com.dk.project.bowling.ui.fragment.ScoreListFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.dk.project.bowling.ui.fragment.ScoreListFragment"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/ad_view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/bottom_banner_ad_unit_id"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">모두의 볼링</string>
     <string name="kakao_app_key">1f3f2913cd46548d21f00039ba8edbf0</string>
+
+    <string name="admob_app_id">ca-app-pub-1697584873717386~3272588843</string>
+<!--    <string name="bottom_banner_ad_unit_id">ca-app-pub-1697584873717386/9579170418</string>-->
+
+
+    <string name="bottom_banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+
+
+
+
 </resources>

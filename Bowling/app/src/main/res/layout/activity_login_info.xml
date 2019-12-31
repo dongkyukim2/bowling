@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
                 name="viewModel"
-                type="com.dk.project.bowling.viewModel.LoginInfoViewModel"/>
+                type="com.dk.project.bowling.viewModel.LoginInfoViewModel" />
 
     </data>
 
@@ -20,27 +21,38 @@
         <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/nick_name_edit"
                 android:layout_width="0dp"
-                android:maxLength="10"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintTop_toTopOf="parent"
+                android:maxLength="10"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/sign_up_btn"
-                android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
-                android:text="가 입 완 료"
                 android:layout_marginTop="50dp"
+                android:gravity="center"
                 android:onClick="@{viewModel::onClick}"
+                android:text="가 입 완 료"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nick_name_edit"/>
+                app:layout_constraintTop_toBottomOf="@id/nick_name_edit"
+                app:layout_constraintWidth_percent="0.5" />
+
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/ad_view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/bottom_banner_ad_unit_id"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

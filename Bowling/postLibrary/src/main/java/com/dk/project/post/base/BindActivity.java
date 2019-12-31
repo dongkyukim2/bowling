@@ -7,17 +7,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.dk.project.post.R;
+import com.dk.project.post.utils.Utils;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.appbar.AppBarLayout;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.subjects.PublishSubject;
 
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by dkkim on 2017-10-03.
@@ -81,6 +86,7 @@ public abstract class BindActivity<B extends ViewDataBinding, T extends BaseView
             toolbarLeftButton.setVisibility(View.INVISIBLE);
             toolbarRightButton.setVisibility(View.INVISIBLE);
         }
+        Utils.loadAdView(binding.getRoot().findViewById(R.id.ad_view_bottom));
 
         viewModel = getViewModel();
         viewModel.setContext(this);

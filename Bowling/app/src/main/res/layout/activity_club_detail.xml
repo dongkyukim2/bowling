@@ -36,6 +36,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/ad_view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/bottom_banner_ad_unit_id"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation"
                 android:layout_width="0dp"
@@ -43,7 +55,7 @@
                 android:background="@color/colorAccent"
                 app:itemIconTint="#ffffff"
                 app:itemTextColor="#ffffff"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ad_view_bottom"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:menu="@menu/navigation2" />
@@ -52,7 +64,6 @@
                 android:id="@+id/club_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/include_toolbar" />

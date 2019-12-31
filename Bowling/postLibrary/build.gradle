@@ -110,6 +110,8 @@ dependencies {
 
     implementation 'nl.bravobit:android-ffmpeg:1.1.7'
 
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
+
     testImplementation 'junit:junit:4.13-rc-2'
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha03'

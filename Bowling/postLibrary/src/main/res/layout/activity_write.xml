@@ -1,129 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-  <data>
+    <data>
 
-    <variable
-      name="viewModel"
-      type="com.dk.project.post.viewModel.WriteViewModel"/>
+        <variable
+                name="viewModel"
+                type="com.dk.project.post.viewModel.WriteViewModel" />
 
-  </data>
+    </data>
 
-  <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-      android:id="@+id/write_root"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="#ffffff"
-      android:orientation="vertical"
-      tools:context="com.project.dk.community.ui.activity.WriteActivity">
-
-      <include
-        layout="@layout/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
-      <androidx.core.widget.NestedScrollView
-        android:id="@+id/input_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:overScrollMode="never">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <LinearLayout
-          android:id="@+id/input_parent_view"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:orientation="vertical">
+                android:id="@+id/write_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                tools:context="com.project.dk.community.ui.activity.WriteActivity">
+
+            <include
+                    layout="@layout/toolbar_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            <androidx.core.widget.NestedScrollView
+                    android:id="@+id/input_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:overScrollMode="never">
+
+                <LinearLayout
+                        android:id="@+id/input_parent_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="10dp">
+
+                <ImageView
+                        android:id="@+id/image_select_btn"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/ic_gallery"
+                        android:onClick="@{viewModel::onClick}" />
+
+                <ImageView
+                        android:id="@+id/youtube_select_btn"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_marginLeft="30dp"
+                        android:background="@drawable/you"
+                        android:onClick="@{viewModel::onClick}" />
+
+                <ImageView
+                        android:id="@+id/camera_select_btn"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_marginLeft="30dp"
+                        android:background="@drawable/ic_camera"
+                        android:onClick="@{viewModel::onClick}"
+                        android:visibility="gone" />
+
+            </LinearLayout>
+
+            <com.google.android.gms.ads.AdView
+                    android:id="@+id/ad_view_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:adSize="BANNER"
+                    app:adUnitId="@string/bottom_banner_ad_unit_id" />
+
+            <LinearLayout
+                    android:id="@+id/keyboard_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
 
         </LinearLayout>
-      </androidx.core.widget.NestedScrollView>
 
+        <com.dk.project.post.ui.widget.CustomRelativeLayout
+                android:id="@+id/rl_bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                app:behavior_hideable="true"
+                app:behavior_peekHeight="0dp"
+                app:layout_behavior="@string/bottom_sheet_behavior" />
 
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="horizontal">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <ImageView
-          android:id="@+id/image_select_btn"
-          android:layout_width="34dp"
-          android:layout_height="34dp"
-          android:background="@drawable/ic_gallery"
-          android:onClick="@{viewModel::onClick}"/>
+            <RelativeLayout
+                    android:id="@+id/take_photo_button"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:visibility="gone">
 
-        <ImageView
-          android:id="@+id/youtube_select_btn"
-          android:layout_width="34dp"
-          android:layout_height="34dp"
-          android:layout_marginLeft="30dp"
-          android:background="@drawable/you"
-          android:onClick="@{viewModel::onClick}"/>
+                <com.dk.project.post.ui.widget.CircleImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:src="#32000000" />
 
-        <ImageView
-          android:id="@+id/camera_select_btn"
-          android:layout_width="34dp"
-          android:layout_height="34dp"
-          android:layout_marginLeft="30dp"
-          android:background="@drawable/ic_camera"
-          android:onClick="@{viewModel::onClick}"
-          android:visibility="gone"/>
+                <com.dk.project.post.ui.widget.CircleImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:src="#ff0000" />
+            </RelativeLayout>
 
-      </LinearLayout>
-
-      <LinearLayout
-        android:id="@+id/keyboard_space"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
-
-    </LinearLayout>
-
-    <com.dk.project.post.ui.widget.CustomRelativeLayout
-      android:id="@+id/rl_bottom_sheet"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="#000000"
-      app:behavior_hideable="true"
-      app:behavior_peekHeight="0dp"
-      app:layout_behavior="@string/bottom_sheet_behavior"/>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="100dp"
-      android:gravity="center_horizontal"
-      android:orientation="horizontal"
-      app:layout_behavior="@string/bottom_sheet_behavior">
-
-      <RelativeLayout
-        android:id="@+id/take_photo_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:visibility="gone">
-
-        <com.dk.project.post.ui.widget.CircleImageView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_centerInParent="true"
-          android:src="#32000000"/>
-
-        <com.dk.project.post.ui.widget.CircleImageView
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_centerInParent="true"
-          android:src="#ff0000"/>
-      </RelativeLayout>
-
-    </LinearLayout>
-  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

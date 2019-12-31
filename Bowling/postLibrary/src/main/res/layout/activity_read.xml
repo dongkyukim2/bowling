@@ -6,7 +6,7 @@
 
         <variable
                 name="bindingReadViewModel"
-                type="com.dk.project.post.viewModel.ReadViewModel"/>
+                type="com.dk.project.post.viewModel.ReadViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -36,7 +36,7 @@
                             layout="@layout/toolbar_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:layout_scrollFlags="scroll|enterAlways"/>
+                            app:layout_scrollFlags="scroll|enterAlways" />
 
                     <LinearLayout
                             android:layout_width="match_parent"
@@ -48,44 +48,44 @@
                                 android:id="@+id/user_info_parent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingBottom="8dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
                                 android:paddingLeft="8dp"
                                 android:paddingRight="8dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:paddingBottom="8dp">
 
                             <com.dk.project.post.ui.widget.CircleImageView
                                     android:id="@+id/user_profile"
                                     android:layout_width="46dp"
                                     android:layout_height="46dp"
-                                    app:srcCompat="@drawable/ic_user_profile"/>
+                                    app:srcCompat="@drawable/ic_user_profile" />
 
                             <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="18dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="18dp">
 
                                 <TextView
                                         android:id="@+id/user_name"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
                                         android:layout_marginBottom="1dp"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/bamin"
                                         android:text="@{bindingReadViewModel.postModel.userName}"
                                         android:textColor="#000000"
-                                        android:fontFamily="@font/bamin"
-                                        android:textSize="18dp"/>
+                                        android:textSize="18dp" />
 
                                 <TextView
                                         android:id="@+id/write_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="1dp"
-                                        android:fontFamily="@font/bamin"
                                         android:layout_marginRight="10dp"
+                                        android:fontFamily="@font/bamin"
                                         android:textColor="#969696"
-                                        android:textSize="@dimen/post_write_text_size"/>
+                                        android:textSize="@dimen/post_write_text_size" />
 
                             </LinearLayout>
 
@@ -121,7 +121,7 @@
                                                 android:layout_height="25dp"
                                                 android:layout_marginLeft="10dp"
                                                 android:onClick="@{bindingReadViewModel::onClick}"
-                                                app:srcCompat="@drawable/ic_heart_outline_grey"/>
+                                                app:srcCompat="@drawable/ic_heart_outline_grey" />
 
                                         <TextView
                                                 android:id="@+id/like_count_text"
@@ -130,7 +130,7 @@
                                                 android:layout_marginLeft="6dp"
                                                 android:text="0"
                                                 android:textColor="#000000"
-                                                android:textSize="14dp"/>
+                                                android:textSize="14dp" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -145,7 +145,7 @@
                                                 android:layout_width="25dp"
                                                 android:layout_height="25dp"
                                                 android:layout_marginLeft="10dp"
-                                                app:srcCompat="@drawable/ic_comment_outline_grey"/>
+                                                app:srcCompat="@drawable/ic_comment_outline_grey" />
 
                                         <TextView
                                                 android:id="@+id/reply_count_text"
@@ -153,7 +153,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="6dp"
                                                 android:textColor="#000000"
-                                                android:textSize="14dp"/>
+                                                android:textSize="14dp" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -164,7 +164,6 @@
 
                                         <TextView
                                                 android:id="@+id/reply_more"
-                                                android:textStyle="bold"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="6dp"
@@ -172,7 +171,8 @@
                                                 android:paddingRight="6dp"
                                                 android:text="모두 보기"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textSize="14dp"/>
+                                                android:textSize="14dp"
+                                                android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -186,7 +186,7 @@
                                                 android:id="@+id/more_image_view"
                                                 android:layout_width="25dp"
                                                 android:layout_height="25dp"
-                                                app:srcCompat="@drawable/ic_more_grey"/>
+                                                app:srcCompat="@drawable/ic_more_grey" />
                                     </LinearLayout>
 
                                 </LinearLayout>
@@ -195,11 +195,11 @@
                                         android:id="@+id/reply_list"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="-10dp"
                                         android:layout_below="@id/info_parent"
+                                        android:layout_marginTop="-10dp"
                                         android:nestedScrollingEnabled="false"
                                         android:overScrollMode="never"
-                                        android:scrollbars="none"/>
+                                        android:scrollbars="none" />
                             </RelativeLayout>
 
                         </RelativeLayout>
@@ -215,21 +215,21 @@
                     android:id="@+id/reply_input_parent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:layout_gravity="bottom"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/reply_round"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
                     android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:background="@drawable/reply_round">
+                    android:paddingRight="8dp"
+                    android:paddingBottom="4dp">
 
                 <RelativeLayout
                         android:id="@+id/reply_send_parent"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/reply_edit_text"
                         android:layout_alignBottom="@+id/reply_edit_text"
                         android:layout_alignParentRight="true"
-                        android:layout_alignTop="@+id/reply_edit_text"
                         android:background="@drawable/reply_send_round"
                         android:onClick="@{bindingReadViewModel::onClick}">
 
@@ -239,7 +239,7 @@
                             android:layout_centerInParent="true"
                             android:text="등록"
                             android:textColor="#ffffff"
-                            android:textSize="15dp"/>
+                            android:textSize="15dp" />
 
                 </RelativeLayout>
 
@@ -250,13 +250,24 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/reply_send_parent"
-                        android:padding="8dp"
                         android:background="@color/background_color"
                         android:hint="댓글을 남겨주세요."
                         android:maxLines="3"
-                        android:textSize="16dp"/>
+                        android:padding="8dp"
+                        android:textSize="16dp" />
 
             </RelativeLayout>
+
+            <com.google.android.gms.ads.AdView
+                    android:id="@+id/ad_view_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:adSize="BANNER"
+                    app:adUnitId="@string/bottom_banner_ad_unit_id"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent" />
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
