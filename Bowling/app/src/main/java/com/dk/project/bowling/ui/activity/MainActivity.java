@@ -28,21 +28,16 @@ import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BindActivity;
-import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.controller.LoginController;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.RetroClient;
-import com.dk.project.post.ui.activity.LoginInfoActivity;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
-import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.util.Calendar;
 

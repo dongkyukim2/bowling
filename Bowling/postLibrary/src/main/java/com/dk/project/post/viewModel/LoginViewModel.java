@@ -1,23 +1,11 @@
 package com.dk.project.post.viewModel;
 
 import android.app.Application;
-import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.dk.project.post.base.BaseViewModel;
-import com.dk.project.post.base.Define;
-import com.dk.project.post.manager.LoginManager;
-import com.dk.project.post.retrofit.PostApi;
-import com.dk.project.post.ui.activity.LoginInfoActivity;
-import com.dk.project.post.utils.KakaoLoginUtils;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.auth.Session;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.callback.MeV2ResponseCallback;
-import com.kakao.usermgmt.response.MeV2Response;
-import com.kakao.util.exception.KakaoException;
 
 /**
  * Created by dkkim on 2017-10-04.

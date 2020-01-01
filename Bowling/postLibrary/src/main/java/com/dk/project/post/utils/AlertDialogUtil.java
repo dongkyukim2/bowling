@@ -1,12 +1,10 @@
 package com.dk.project.post.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,17 +17,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
 import com.dk.project.post.R;
-import com.dk.project.post.model.LoginInfoModel;
-import com.dk.project.post.retrofit.PostApi;
-import com.dk.project.post.retrofit.SuccessCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.kakao.auth.AuthType;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.auth.Session;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.callback.MeV2ResponseCallback;
-import com.kakao.usermgmt.response.MeV2Response;
-import com.kakao.util.exception.KakaoException;
 
 
 /**
