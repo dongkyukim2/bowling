@@ -12,6 +12,8 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.model.ReadGameModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
+import com.dk.project.post.manager.LoginManager;
+import com.dk.project.post.utils.AlertDialogUtil;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,9 @@ public class ClubScoreListViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         clubModel = getBindFragment().getArguments().getParcelable(Define.CLUB_MODEL);
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            return;
+        }
         requestGameList(0);
     }
 

@@ -16,6 +16,7 @@ import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
+import com.dk.project.post.manager.LoginManager
 import com.dk.project.post.ui.activity.WriteActivity
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.ToastUtil
@@ -83,6 +84,10 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
     }
 
     private fun movePage(index: Int) {
+        if (LoginManager.getInstance().loginInfoModel == null) {
+            AlertDialogUtil.showLoginAlertDialog(this)
+            return
+        }
         when (viewModel.clubModel.type) {
             Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> binding.clubViewpager.setCurrentItem(
                 index,
@@ -95,6 +100,10 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
+        if (LoginManager.getInstance().loginInfoModel == null) {
+            AlertDialogUtil.showLoginAlertDialog(this)
+            return
+        }
         when (currentPosition) {
             0 -> {
                 AlertDialogUtil.showEditTextAlertDialog(

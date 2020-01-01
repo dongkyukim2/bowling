@@ -17,6 +17,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
 import com.dk.project.post.R;
+import com.dk.project.post.manager.LoginManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 
@@ -25,6 +26,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
  */
 
 public class AlertDialogUtil {
+
+    public static AlertDialog showLoginAlertDialog(Context context) {
+        try {
+            throw new Exception("++++++++++");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return showLoginAlertDialog(context, (dialog, which) -> {
+        });
+    }
+
+    public static AlertDialog showLoginAlertDialog(Context context, DialogInterface.OnClickListener onPositiveClickListener) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setTitle("알림")
+                .setMessage("로그인 후 이용하실 수 있습니다.")
+                .setPositiveButton("확인", onPositiveClickListener);
+        AlertDialog dialog = dialogBuilder.create();
+        setTextColor(dialog);
+        dialog.show();
+        return dialog;
+    }
 
     public static AlertDialog showListAlertDialog(Context context, String title, CharSequence info[], DialogInterface.OnClickListener onClickListener) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -50,7 +72,11 @@ public class AlertDialogUtil {
         return dialog;
     }
 
-    public static BottomSheetDialog showBottomSheetDialog(Context context, OnClickListener onClickListener) {
+    public static void showBottomSheetDialog(Context context, OnClickListener onClickListener) {
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            showLoginAlertDialog(context);
+            return;
+        }
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.popup_menu, null);
         BottomSheetDialog dialog = new BottomSheetDialog(context);
@@ -65,7 +91,7 @@ public class AlertDialogUtil {
             onClickListener.onClick(v);
             dialog.dismiss();
         });
-        return dialog;
+        return;
     }
 
     public static AlertDialog showEditTextAlertDialog(final Context context, String title, String hint, View.OnClickListener onClickListener) {

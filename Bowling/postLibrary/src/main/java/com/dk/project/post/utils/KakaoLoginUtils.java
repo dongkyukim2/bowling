@@ -50,6 +50,13 @@ public class KakaoLoginUtils {
         session.open(AuthType.KAKAO_LOGIN_ALL, activity);
     }
 
+    public static void removeCallback(ISessionCallback iSessionCallback) {
+        if (iSessionCallback != null) {
+            Session.getCurrentSession().removeCallback(iSessionCallback);
+        }
+
+    }
+
     public static void logout(Activity activity) {
         UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
             @Override

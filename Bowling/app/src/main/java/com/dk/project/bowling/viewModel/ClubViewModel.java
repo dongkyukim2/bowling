@@ -13,6 +13,7 @@ import com.dk.project.bowling.ui.activity.ClubSearchActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.ResponseModel;
 
 import java.util.ArrayList;
@@ -32,7 +33,17 @@ public class ClubViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        getClubList();
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            BowlingApi.getInstance().getRecommendClubList(receivedData -> {
+                ResponseModel<ArrayList<ClubModel>> emptyModel = new ResponseModel<>();
+                emptyModel.setCode("0000");
+                emptyModel.setData(new ArrayList<>());
+                clubListLiveData.setValue(new Pair(emptyModel, receivedData));
+            }, errorData -> {
+            });
+        } else {
+            getClubList();
+        }
     }
 
     @Override

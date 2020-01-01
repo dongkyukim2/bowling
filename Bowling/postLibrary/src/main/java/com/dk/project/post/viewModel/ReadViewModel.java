@@ -9,28 +9,37 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.MediatorLiveData;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.retrofit.ResponseModel;
 import com.dk.project.post.retrofit.SuccessCallback;
-import com.dk.project.post.utils.*;
+import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.RxBus;
+import com.dk.project.post.utils.ScreenUtil;
+import com.dk.project.post.utils.TextViewUtil;
+import com.dk.project.post.utils.YoutubeUtil;
 import com.google.gson.Gson;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 import static com.dk.project.post.base.Define.EVENT_POST_REFRESH_MODIFY;
 import static com.dk.project.post.base.Define.IMAGE_DIVIDER;
@@ -89,6 +98,10 @@ public class ReadViewModel extends BaseViewModel {
 
     @Override
     public void onThrottleClick(View view) {
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            AlertDialogUtil.showLoginAlertDialog(mContext);
+            return;
+        }
         int id = view.getId();
         if (id == R.id.reply_more) {
             Toast.makeText(mContext, "모두 보기", Toast.LENGTH_SHORT).show();

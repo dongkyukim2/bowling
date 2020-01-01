@@ -48,8 +48,7 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
     public void setClubList(Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>> clubListModel) {
 
         ArrayList<ClubModel> receiveClubList = new ArrayList<>();
-
-
+        
         if (clubListModel.first.isSuccess() && clubListModel.second.isSuccess()) {
             ArrayList<ClubModel> filterList = new ArrayList<>();
             for (ClubModel signClub : clubListModel.first.getData()) {

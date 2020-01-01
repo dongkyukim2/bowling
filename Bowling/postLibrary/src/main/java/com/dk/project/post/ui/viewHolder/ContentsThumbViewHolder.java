@@ -101,7 +101,7 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
         binding.likeImageParent.setOnClickListener(v -> contentListViewModel.onLikeClick(binding.likeImageView, binding.likeCountText, postModel));
 
         binding.moreImageParent.setOnClickListener(v -> {
-            Dialog dialog = AlertDialogUtil.showBottomSheetDialog(mContext, view -> {
+            AlertDialogUtil.showBottomSheetDialog(mContext, view -> {
                 if (view.getId() == R.id.btnModify) {
                     startModify(mContext, postModel);
                 } else if (view.getId() == R.id.btnDelete) {

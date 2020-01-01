@@ -29,11 +29,11 @@ import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ScoreModel;
-import com.dk.project.post.controller.LoginController;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.RetroClient;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
+import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
@@ -170,11 +170,11 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void onToolbarRightClick() {
-        if (!LoginController.getInstance().isLogin()) {
-            Toast.makeText(this, "로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
+
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            AlertDialogUtil.showLoginAlertDialog(this);
             return;
         }
-
         if (binding.navigation.getSelectedItemId() == R.id.navigation_club) {
             startActivity(new Intent(this, CreateClubActivity.class));
         } else if (binding.navigation.getSelectedItemId() == R.id.navigation_community) {

@@ -45,6 +45,10 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
 
     @Override
     public void onThrottleClick(View view) {
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            AlertDialogUtil.showLoginAlertDialog(mContext);
+            return;
+        }
         switch (view.getId()) {
             case R.id.sign_up_btn:
                 setUserType(clubModel.getType());

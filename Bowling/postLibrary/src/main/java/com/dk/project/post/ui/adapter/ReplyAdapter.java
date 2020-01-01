@@ -12,6 +12,7 @@ import com.dk.project.post.R;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.impl.ReplyListener;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.activity.ReplyModifyActivity;
@@ -109,6 +110,10 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
 
     @Override
     public boolean onReplyLongClick(ReplyModel replyModel) {
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            AlertDialogUtil.showLoginAlertDialog(mContext);
+            return true;
+        }
         AlertDialogUtil.showListAlertDialog(mContext, null, new String[]{"댓글 수정", "삭제하기"}, (dialog, which) -> {
             switch (which) {
                 case 0:

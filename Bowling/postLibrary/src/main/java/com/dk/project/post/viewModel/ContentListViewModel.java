@@ -6,12 +6,15 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.PostApi;
@@ -19,17 +22,22 @@ import com.dk.project.post.retrofit.ResponseModel;
 import com.dk.project.post.retrofit.SuccessCallback;
 import com.dk.project.post.ui.activity.SearchContentsActivity;
 import com.dk.project.post.ui.adapter.ContentsListAdapter;
+import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.AnimationUtil;
 import com.dk.project.post.utils.RxBus;
 import com.google.gson.Gson;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import static com.dk.project.post.base.Define.*;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
+
+import static com.dk.project.post.base.Define.EVENT_DELETE_POST;
+import static com.dk.project.post.base.Define.EVENT_POST_REFRESH;
+import static com.dk.project.post.base.Define.EVENT_POST_REFRESH_MODIFY;
+import static com.dk.project.post.base.Define.EVENT_POST_REFRESH_REPLY_LIKE;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -159,6 +167,10 @@ public class ContentListViewModel extends BaseViewModel {
     }
 
     public void onLikeClick(AppCompatImageView imageView, TextView textView, PostModel postModel) {
+        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+            AlertDialogUtil.showLoginAlertDialog(imageView.getContext());
+            return;
+        }
         if (postModel.isLikeSelected()) {
             postModel.setLikeSelected(false);
             postModel.subLikeCount();

@@ -34,6 +34,7 @@ public class IntroViewModel extends BaseViewModel {
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
     private ValueEventListener valueEventListener;
+    private ISessionCallback iSessionCallback;
 
     public IntroViewModel(@NonNull Application application) {
         super(application);
@@ -54,6 +55,7 @@ public class IntroViewModel extends BaseViewModel {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        KakaoLoginUtils.removeCallback(iSessionCallback);
     }
 
     @Override
@@ -86,24 +88,27 @@ public class IntroViewModel extends BaseViewModel {
                     if (KakaoLoginUtils.checkLogin()) {
                         loginCheck();
                     } else {
-                        KakaoLoginUtils.openSession(mContext, new ISessionCallback() {
+                        iSessionCallback = new ISessionCallback() {
                             @Override
                             public void onSessionOpened() {
                                 loginCheck();
                             }
 
                             @Override
-                            public void onSessionOpenFailed(KakaoException exception) {
+                            public void onSessionOpenFailed(KakaoException exception) { // 카카오 로그인 화면 열었다가 닫기하면
                                 LoginManager.getInstance().setLoginInfoModel(null);
                                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                                 mContext.finish();
+                                Toast.makeText(mContext, "카카오 로그인 안함", Toast.LENGTH_LONG).show();
                             }
-                        });
+                        };
+                        KakaoLoginUtils.openSession(mContext, iSessionCallback);
                     }
                 } else { // 로그아웃 상태
                     LoginManager.getInstance().setLoginInfoModel(null);
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
                     mContext.finish();
+                    Toast.makeText(mContext, "로그아웃 상태로 진입", Toast.LENGTH_LONG).show();
                 }
             }
         }

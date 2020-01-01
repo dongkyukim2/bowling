@@ -63,6 +63,18 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+                android:name=".ui.activity.LoginActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+                android:name=".ui.activity.LoginInfoActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
         <service
                 android:name=".service.CommunityService"
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
