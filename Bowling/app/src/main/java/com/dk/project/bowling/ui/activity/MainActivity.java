@@ -139,7 +139,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LoginManager.getInstance().setLoginInfoModel(null);
+        LoginManager.clear();
         RetroClient.clear();
         com.dk.project.post.bowling.retrofit.RetroClient.clear();
     }

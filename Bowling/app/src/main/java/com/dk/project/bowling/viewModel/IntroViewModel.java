@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -108,24 +109,28 @@ public class IntroViewModel extends BaseViewModel {
         }
     }
 
-    private void loginCheck(){
+    private void loginCheck() {
         KakaoLoginUtils.getUserInfo(receivedData -> {
             if (receivedData.first > 0 && receivedData.second != null) { // 카카오에서 유저정보 가져오고, 회원정보 있음
                 LoginManager.getInstance().setLoginInfoModel(receivedData.second);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 로그인 된 상태로 메인 진입
                 mContext.finish();
-            } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상
+                Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_LONG).show();
+            } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상태
                 LoginManager.getInstance().setLoginInfoModel(null);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                 mContext.finish();
+                Toast.makeText(mContext, "로그인 실패 - 가입안된 상태", Toast.LENGTH_LONG).show();
             } else if (receivedData.first <= 0) { // 카카오에서 유저정보 못가져옴, 결국 로그인 실패
                 LoginManager.getInstance().setLoginInfoModel(null);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                 mContext.finish();
+                Toast.makeText(mContext, "로그인 실패 - 카카오 로그인 실패", Toast.LENGTH_LONG).show();
             } else { // 이거 타는 경우가 있나??
                 LoginManager.getInstance().setLoginInfoModel(null);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                 mContext.finish();
+                Toast.makeText(mContext, "로그인 실패 - 이유 모름", Toast.LENGTH_LONG).show();
             }
         });
     }

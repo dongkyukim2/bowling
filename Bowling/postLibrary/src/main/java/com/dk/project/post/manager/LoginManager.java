@@ -23,6 +23,11 @@ public class LoginManager {
         return loginManager;
     }
 
+
+    public static void clear() {
+        loginManager = null;
+    }
+
     public String getUserCode() {
         return String.valueOf(userCode);
     }
