@@ -4,19 +4,21 @@ import com.dk.project.post.BuildConfig;
 import com.dk.project.post.manager.LoginManager;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
-import retrofit2.HttpException;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.HttpException;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroClient {
 
@@ -31,7 +33,7 @@ public class RetroClient {
 
     private RetroBaseApiService apiService;
     private Retrofit retrofit;
-
+    private String userId = "";
 
     private RetroClient() {
         if (retrofit == null) {
@@ -47,10 +49,13 @@ public class RetroClient {
                     .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS) //쓰기 타임아웃 시간 설정
                     .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
                     .addInterceptor((chain) -> {
-                        Request request = chain.request().newBuilder()
-                                .addHeader("userId", LoginManager.getInstance().getUserCode())
-                                .build();
-                        return chain.proceed(request);
+                        Request.Builder requestBuilder = chain.request().newBuilder();
+                        if (StringUtils.isBlank(userId)) {
+                            userId = LoginManager.getInstance().getEncodeId();
+                            System.out.println("++++++++++  header  " + userId);
+                        }
+                        requestBuilder.addHeader("userId", userId);
+                        return chain.proceed(requestBuilder.build());
                     }).addNetworkInterceptor(new StethoInterceptor());
 
             OkHttpClient okHttpClient = builder.build();
@@ -79,6 +84,9 @@ public class RetroClient {
         return instance.apiService;
     }
 
+    public static void clear() {
+        instance = null;
+    }
 
     public void errorHandling(Throwable throwable, ErrorCallback errorCallback) {
         System.out.println("==========     error     ================ " + throwable.getMessage());

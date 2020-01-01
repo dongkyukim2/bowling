@@ -55,6 +55,8 @@ public abstract class BindActivity<B extends ViewDataBinding, T extends BaseView
 
     private PublishSubject<Integer> toolbarClickSubject = PublishSubject.create();
 
+    private AdView bottomAdView;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         touchSubject.onNext(ev);
@@ -86,7 +88,8 @@ public abstract class BindActivity<B extends ViewDataBinding, T extends BaseView
             toolbarLeftButton.setVisibility(View.INVISIBLE);
             toolbarRightButton.setVisibility(View.INVISIBLE);
         }
-        Utils.loadAdView(binding.getRoot().findViewById(R.id.ad_view_bottom));
+        bottomAdView = binding.getRoot().findViewById(R.id.ad_view_bottom);
+        Utils.loadAdView(bottomAdView);
 
         viewModel = getViewModel();
         viewModel.setContext(this);
@@ -131,6 +134,9 @@ public abstract class BindActivity<B extends ViewDataBinding, T extends BaseView
     @Override
     protected void onResume() {
         super.onResume();
+        if (bottomAdView != null) {
+            bottomAdView.resume();
+        }
         viewModel.onResume();
         if (ON_CREATE_LOG) {
             System.out.println("aaaaaaaaaaa      " + getClass().getSimpleName() + "       onResume");
@@ -139,6 +145,9 @@ public abstract class BindActivity<B extends ViewDataBinding, T extends BaseView
 
     @Override
     protected void onPause() {
+        if (bottomAdView != null) {
+            bottomAdView.pause();
+        }
         super.onPause();
         viewModel.onPause();
         if (ON_CREATE_LOG) {

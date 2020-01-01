@@ -32,7 +32,6 @@ public class ReplyViewHolder<T extends ReplyModel> extends BindViewHolder<ReplyI
     @Override
     public void onBindView(ReplyModel item, int position) {
         replyModel = item;
-        binding.setReplyHolder(this);
         binding.replyDateText.setText(Utils.converterDate(item.getReplyDate()));
         binding.replyUserNameText.setText(item.getUserName());
         binding.replyContentsText.setText(item.getReplyContents());

@@ -1,8 +1,11 @@
 package com.dk.project.post.base;
 
 import android.view.View;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+
+import com.google.android.gms.ads.AdView;
 
 /**
  * Created by dkkim on 2017-04-12.
@@ -15,7 +18,11 @@ public abstract class BindViewHolder<B extends ViewDataBinding, T> extends BaseV
 
     public BindViewHolder(View itemView) {
         super(itemView);
-        binding = DataBindingUtil.bind(itemView);
+        if (itemView instanceof AdView) {
+
+        } else {
+            binding = DataBindingUtil.bind(itemView);
+        }
     }
 
     public void onBindView(T item, int position) {

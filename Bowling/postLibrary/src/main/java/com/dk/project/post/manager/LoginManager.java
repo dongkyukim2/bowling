@@ -1,12 +1,14 @@
 package com.dk.project.post.manager;
 
+import com.dk.project.post.base.BaseApplication;
 import com.dk.project.post.model.LoginInfoModel;
+import com.dk.project.post.utils.Utils;
 
 public class LoginManager {
 
     private static LoginManager loginManager;
 
-    private long userCode; // 유저 고유 번호, 아이디 같은것
+    private String userCode = ""; // 유저 고유 번호, 아이디 같은것
     private LoginInfoModel loginInfoModel;
 
     public static LoginManager getInstance() {
@@ -27,9 +29,18 @@ public class LoginManager {
     public void setLoginInfoModel(LoginInfoModel loginInfoModel) {
         this.loginInfoModel = loginInfoModel;
         if (loginInfoModel == null) {
-            userCode = 0;
+            userCode = "";
         } else {
-            userCode = Long.parseLong(loginInfoModel.getUserId());
+            userCode = loginInfoModel.getUserId();
         }
+    }
+
+    public String getEncodeId() {
+        try {
+            return Utils.Encrypt(getUserCode(), Utils.getHashKey(BaseApplication.getGlobalApplicationContext()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

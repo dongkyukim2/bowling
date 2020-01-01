@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.security.MessageDigest;
@@ -151,6 +152,9 @@ public class Utils {
     }
 
     public static String Encrypt(String text, String key) throws Exception {
+        if (StringUtils.isBlank(text)) {
+            return "";
+        }
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         byte[] keyBytes = new byte[16];
         byte[] b = key.getBytes("UTF-8");
@@ -165,6 +169,9 @@ public class Utils {
     }
 
     public static String Decrypt(String text, String key) throws Exception {
+        if (StringUtils.isBlank(text)) {
+            return "";
+        }
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         byte[] keyBytes = new byte[16];
         byte[] b = key.getBytes("UTF-8");
@@ -244,7 +251,6 @@ public class Utils {
                     .build();
 
             adView.setAdListener(new AdListener() {
-
                 // 로딩 될 때
                 @Override
                 public void onAdLoaded() {

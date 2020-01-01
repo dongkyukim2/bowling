@@ -31,6 +31,7 @@ import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.controller.LoginController;
 import com.dk.project.post.manager.LoginManager;
+import com.dk.project.post.retrofit.RetroClient;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.ImageUtil;
@@ -133,6 +134,8 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     protected void onDestroy() {
         super.onDestroy();
         LoginManager.getInstance().setLoginInfoModel(null);
+        RetroClient.clear();
+        com.dk.project.post.bowling.retrofit.RetroClient.clear();
     }
 
     @Override
