@@ -9,8 +9,8 @@ public interface Define {
 
     boolean ON_CREATE_LOG = false;
 
-//    boolean TEST_USER = false;
-    boolean TEST_USER = true;
+    boolean TEST_USER = false;
+//    boolean TEST_USER = true;
     String TEST_ID = "1087708737";
     String TEST_NAME = "박철수";
 //    String TEST_ID = "1087708739";
@@ -21,6 +21,10 @@ public interface Define {
     String SCORE_DATE = "SCORE_DATE";
     String CLUB_MODEL = "CLUB_MODEL";
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
+
+    String ID = "ID";
+
+    String PREFERENCES = "info";
 
 
     String CLUB_ID = "CLUB_ID";
@@ -48,6 +52,7 @@ public interface Define {
     String YOUTUBE_SHARE_URL = "https://youtu.be/";
     String INTRO_DELAY = "intro delay";
     String IMAGE_MULTI_SELECT = "IMAGE_MULTI_SELECT";
+
 
 //    String FIX_POSITION = "FIX_POSITION";
 

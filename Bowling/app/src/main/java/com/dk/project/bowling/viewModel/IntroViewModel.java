@@ -8,13 +8,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.dk.project.bowling.BuildConfig;
-import com.dk.project.bowling.ui.activity.LoginActivity;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
-import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
@@ -23,9 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.callback.MeV2ResponseCallback;
-import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.auth.ISessionCallback;
+import com.kakao.util.exception.KakaoException;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -81,49 +78,59 @@ public class IntroViewModel extends BaseViewModel {
                 mContext.startActivity(intent);
                 mContext.finish();
             } else {
-                // 세션이 열려있는지
-                // todo 로그인되어있으면 열려있는듯
-                if (KakaoLoginUtils.checkLogin()) {
-                    KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
-                        @Override
-                        public void onSuccess(MeV2Response result) {
-                            long userKakaoCode = result.getId();
-                            executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
-                                    receivedData -> {
-                                        if (receivedData.getData() == null) {
-                                            Intent intent = new Intent(mContext, LoginActivity.class);
-                                            mContext.startActivity(intent);
-                                            mContext.finish();
-                                        } else { // 세션 열려있고 디비에 가입도 되어있음
-                                            LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-                                            Intent intent = new Intent(mContext, MainActivity.class);
-                                            mContext.startActivity(intent);
-                                            mContext.finish();
 
-                                        }
-                                    }, errorData -> {
+                if (LoginManager.getInstance().autoLogIn()) {
+                    // 세션이 열려있는지
+                    // todo 로그인되어있으면 열려있는듯
+                    if (KakaoLoginUtils.checkLogin()) {
+                        loginCheck();
+                    } else {
+                        KakaoLoginUtils.openSession(mContext, new ISessionCallback() {
+                            @Override
+                            public void onSessionOpened() {
+                                loginCheck();
+                            }
 
-                                    }));
-                        }
-
-                        @Override
-                        public void onSessionClosed(ErrorResult errorResult) {
-
-                        }
-                    });
-
-                } else {
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(intent);
+                            @Override
+                            public void onSessionOpenFailed(KakaoException exception) {
+                                LoginManager.getInstance().setLoginInfoModel(null);
+                                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+                                mContext.finish();
+                            }
+                        });
+                    }
+                } else { // 로그아웃 상태
+                    LoginManager.getInstance().setLoginInfoModel(null);
+                    mContext.startActivity(new Intent(mContext, MainActivity.class));
                     mContext.finish();
                 }
             }
         }
     }
 
-    private void checkVersion() {
+    private void loginCheck(){
+        KakaoLoginUtils.getUserInfo(receivedData -> {
+            if (receivedData.first > 0 && receivedData.second != null) { // 카카오에서 유저정보 가져오고, 회원정보 있음
+                LoginManager.getInstance().setLoginInfoModel(receivedData.second);
+                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 로그인 된 상태로 메인 진입
+                mContext.finish();
+            } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상
+                LoginManager.getInstance().setLoginInfoModel(null);
+                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+                mContext.finish();
+            } else if (receivedData.first <= 0) { // 카카오에서 유저정보 못가져옴, 결국 로그인 실패
+                LoginManager.getInstance().setLoginInfoModel(null);
+                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+                mContext.finish();
+            } else { // 이거 타는 경우가 있나??
+                LoginManager.getInstance().setLoginInfoModel(null);
+                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+                mContext.finish();
+            }
+        });
+    }
 
-//        database.setPersistenceEnabled(false);
+    private void checkVersion() {
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -18,6 +18,7 @@ import com.dk.project.post.R;
 import com.dk.project.post.utils.Utils;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.appbar.AppBarLayout;
+import com.kakao.auth.Session;
 
 import java.util.concurrent.TimeUnit;
 
@@ -166,6 +167,9 @@ public abstract class BindActivity<B extends ViewDataBinding, T extends BaseView
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
         super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
     }

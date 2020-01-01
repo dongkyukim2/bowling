@@ -70,16 +70,6 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="adjustNothing" />
-        <activity
-                android:name=".ui.activity.LoginInfoActivity"
-                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-                android:name=".ui.activity.LoginActivity"
-                android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"

@@ -28,13 +28,17 @@ import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BindActivity;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.controller.LoginController;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.RetroClient;
+import com.dk.project.post.ui.activity.LoginInfoActivity;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
+import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.KakaoLoginUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.kakao.usermgmt.UserManagement;
@@ -108,14 +112,21 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         binding.navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                case R.id.login:
+//                    Intent intent = new Intent(this, LoginActivity.class);
+//                    startActivity(intent);
+//                    AlertDialogUtil.showLoginAlertDialog(this, receivedData -> {
+//                        if (receivedData.second == null) { // 디비에 가입된 이력 없음
+//                            Intent intent = new Intent(this, LoginInfoActivity.class);
+//                            intent.putExtra(Define.ID, String.valueOf(receivedData.first));
+//                            startActivity(intent);
+//                        } else {
+//                            LoginManager.getInstance().setLoginInfoModel(receivedData.second);
+//                        }
+//                    });
+                    break;
                 case R.id.logout:
-                    UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                        @Override
-                        public void onCompleteLogout() {
-                            LoginManager.getInstance().setLoginInfoModel(null);
-                            finish();
-                        }
-                    });
+                    KakaoLoginUtils.logout(this);
                     break;
             }
             return false;

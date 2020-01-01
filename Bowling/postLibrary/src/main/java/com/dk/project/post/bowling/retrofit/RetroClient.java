@@ -55,7 +55,6 @@ public class RetroClient {
                         Request.Builder requestBuilder = chain.request().newBuilder();
                         if (StringUtils.isBlank(userId)) {
                             userId = LoginManager.getInstance().getEncodeId();
-                            System.out.println("++++++++++  header  " + userId);
                         }
                         requestBuilder.addHeader("userId", userId);
                         return chain.proceed(requestBuilder.build());

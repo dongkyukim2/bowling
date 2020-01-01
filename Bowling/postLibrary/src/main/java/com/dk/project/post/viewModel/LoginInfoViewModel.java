@@ -1,14 +1,17 @@
-package com.dk.project.bowling.viewModel;
+package com.dk.project.post.viewModel;
 
 import android.app.Application;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
-import com.dk.project.bowling.R;
-import com.dk.project.bowling.ui.activity.MainActivity;
+
+import com.dk.project.post.R;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.PostApi;
@@ -19,7 +22,7 @@ import com.dk.project.post.retrofit.PostApi;
 
 public class LoginInfoViewModel extends BaseViewModel {
 
-    private long userKakaoCode = 0;
+    private String signId;
 
     public LoginInfoViewModel(@NonNull Application application) {
         super(application);
@@ -29,7 +32,7 @@ public class LoginInfoViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
 
-        userKakaoCode = mContext.getIntent().getLongExtra("USER_CODE", 0);
+        signId = mContext.getIntent().getStringExtra(Define.ID);
     }
 
     @Override
@@ -40,6 +43,9 @@ public class LoginInfoViewModel extends BaseViewModel {
     @Override
     public void onThrottleClick(View view) {
         if (view.getId() == R.id.sign_up_btn) {
+            if (TextUtils.isEmpty(signId)) {
+                return;
+            }
             AppCompatEditText nickNameEdt = mContext.findViewById(R.id.nick_name_edit);
             String nickName = nickNameEdt.getText().toString().trim();
 
@@ -49,15 +55,15 @@ public class LoginInfoViewModel extends BaseViewModel {
                 Toast.makeText(mContext, "10자까지 입력가능합니다", Toast.LENGTH_SHORT).show();
             } else {
                 LoginInfoModel loginInfoModel = new LoginInfoModel();
-                loginInfoModel.setUserId(String.valueOf(userKakaoCode));
+                loginInfoModel.setUserId(signId);
                 loginInfoModel.setUserName(nickName);
                 executeRx(PostApi.getInstance().signUp(loginInfoModel,
                         receivedData -> {
                             if (receivedData.isSuccess()) { // 회원가입성공
                                 LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-                                Intent intent = new Intent(mContext, MainActivity.class);
-                                mContext.startActivity(intent);
-                                mContext.finish();
+//                                Intent intent = new Intent(mContext, MainActivity.class);
+//                                mContext.startActivity(intent);
+//                                mContext.finish();
                             } else {
                                 Toast.makeText(mContext, receivedData.getMessage(), Toast.LENGTH_SHORT).show();
                             }

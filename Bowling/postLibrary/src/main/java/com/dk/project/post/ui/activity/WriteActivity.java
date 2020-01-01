@@ -26,25 +26,19 @@ import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
-import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.databinding.ActivityWriteBinding;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
-import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.fragment.Camera2BasicFragment;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
-import com.dk.project.post.utils.KakaoLoginUtils;
 import com.dk.project.post.utils.ScreenUtil;
 import com.dk.project.post.utils.TextViewUtil;
 import com.dk.project.post.utils.YoutubeUtil;
 import com.dk.project.post.viewModel.WriteViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.callback.MeV2ResponseCallback;
-import com.kakao.usermgmt.response.MeV2Response;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -308,7 +302,6 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        isLogin();
     }
 
     @Override
@@ -728,33 +721,34 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
         return count;
     }
 
-    private void isLogin() {
-        // todo 로그인되어있으면 열려있는듯
-        if (KakaoLoginUtils.checkLogin()) {
-            KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
-                @Override
-                public void onSuccess(MeV2Response result) {
-                    long userKakaoCode = result.getId();
-                    viewModel.executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
-                            receivedData -> {
-                                if (receivedData.getData() == null) {
-                                } else { // 세션 열려있고 디비에 가입도 되어있음
-                                    LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-                                    BowlingApi.getInstance().getSignUpClubList(receiveCignClubList -> {
-                                        signClubList.clear();
-                                        signClubList.addAll(receiveCignClubList.getData());
-                                    }, errorData -> {
-                                    });
-                                }
-                            }, errorData -> {
-                            }));
-                }
-
-                @Override
-                public void onSessionClosed(ErrorResult errorResult) {
-
-                }
-            });
-        }
-    }
+//     todo 개발해야
+//    private void isLogin() {
+//
+//        if (KakaoLoginUtils.checkLogin()) {
+//            KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
+//                @Override
+//                public void onSuccess(MeV2Response result) {
+//                    long userKakaoCode = result.getId();
+//                    viewModel.executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
+//                            receivedData -> {
+//                                if (receivedData.getData() == null) {
+//                                } else { // 세션 열려있고 디비에 가입도 되어있음
+//                                    LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
+//                                    BowlingApi.getInstance().getSignUpClubList(receiveCignClubList -> {
+//                                        signClubList.clear();
+//                                        signClubList.addAll(receiveCignClubList.getData());
+//                                    }, errorData -> {
+//                                    });
+//                                }
+//                            }, errorData -> {
+//                            }));
+//                }
+//
+//                @Override
+//                public void onSessionClosed(ErrorResult errorResult) {
+//
+//                }
+//            });
+//        }
+//    }
 }

@@ -1,8 +1,13 @@
 package com.dk.project.post.manager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.dk.project.post.base.BaseApplication;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.utils.Utils;
+
 
 public class LoginManager {
 
@@ -30,9 +35,12 @@ public class LoginManager {
         this.loginInfoModel = loginInfoModel;
         if (loginInfoModel == null) {
             userCode = "";
+            saveAutoLogIn(false);
         } else {
             userCode = loginInfoModel.getUserId();
+            saveAutoLogIn(true);
         }
+
     }
 
     public String getEncodeId() {
@@ -42,5 +50,18 @@ public class LoginManager {
             e.printStackTrace();
         }
         return "";
+    }
+
+    private void saveAutoLogIn(boolean isLogin) {
+
+        SharedPreferences sharedPreferences = BaseApplication.getGlobalApplicationContext().getSharedPreferences(Define.PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("login", isLogin);
+        editor.commit();
+    }
+
+    public boolean autoLogIn() {
+        SharedPreferences sharedPreferences = BaseApplication.getGlobalApplicationContext().getSharedPreferences(Define.PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("login", false);
     }
 }
