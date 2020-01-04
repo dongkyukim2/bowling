@@ -31,6 +31,7 @@ import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.manager.LoginManager;
+import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.RetroClient;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
@@ -108,6 +109,11 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         });
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
+
+        LoginInfoModel loginInfoModel = LoginManager.getInstance().getLoginInfoModel();
+        if (loginInfoModel != null) {
+            binding.userName.setText(loginInfoModel.getUserName() + " : " + loginInfoModel.getUserId());
+        }
     }
 
     @Override

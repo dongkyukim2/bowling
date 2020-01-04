@@ -11,9 +11,9 @@ import io.reactivex.subjects.PublishSubject;
 
 import java.util.concurrent.TimeUnit;
 
-public abstract class BaseViewModel extends AndroidViewModel {
+public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewModel {
 
-    protected BaseActivity mContext;
+    protected T mContext;
     protected BindFragment bindFragment;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     protected PublishSubject<View> clickPublishSubject = PublishSubject.create();
@@ -51,8 +51,8 @@ public abstract class BaseViewModel extends AndroidViewModel {
 
     }
 
-    public void setContext(BaseActivity context) {
-        this.mContext = context;
+    public void setContext(T mContext) {
+        this.mContext = mContext;
     }
 
     public BaseActivity getContext() {

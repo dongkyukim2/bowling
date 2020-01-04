@@ -4,11 +4,12 @@ import android.app.Application
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.dk.project.bowling.ui.activity.ClubSearchActivity
 import com.dk.project.post.base.BaseViewModel
 import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 
-class SearchClubViewModel(application: Application) : BaseViewModel(application) {
+class SearchClubViewModel(application: Application) : BaseViewModel<ClubSearchActivity>(application) {
 
     val searchLiveData = MutableLiveData<Pair<ArrayList<ClubModel>, Boolean>>()
 
@@ -31,6 +32,5 @@ class SearchClubViewModel(application: Application) : BaseViewModel(application)
             }, {
 
             })
-
     }
 }
