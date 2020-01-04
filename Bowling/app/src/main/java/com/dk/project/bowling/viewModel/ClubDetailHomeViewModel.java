@@ -45,7 +45,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
 
     @Override
     public void onThrottleClick(View view) {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             AlertDialogUtil.showLoginAlertDialog(mContext);
             return;
         }

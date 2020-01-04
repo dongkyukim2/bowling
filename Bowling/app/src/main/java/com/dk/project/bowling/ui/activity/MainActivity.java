@@ -45,10 +45,8 @@ import java.util.Calendar;
 
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
 
-
     private BottomSheetBehavior bottomSheetBehavior;
     private MainViewPagerFragmentAdapter mainViewPagerFragmentAdapter;
-
 
     @Override
     protected int getLayoutId() {
@@ -126,6 +124,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LoginManager.getInstance().stopTimer();
         LoginManager.clear();
         RetroClient.clear();
         com.dk.project.post.bowling.retrofit.RetroClient.clear();
@@ -160,7 +159,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     @Override
     public void onToolbarRightClick() {
 
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             AlertDialogUtil.showLoginAlertDialog(this);
             return;
         }

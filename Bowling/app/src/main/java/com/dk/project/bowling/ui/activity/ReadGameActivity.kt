@@ -63,36 +63,43 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
         toolbarTitle.text = viewModel.readGameModel.gameName
         toolbarTitle.isSelected = true
 
-        if (LoginManager.getInstance().ispermissionUser(viewModel.readGameModel.createUserId)) {
+        if (LoginManager.getInstance().isPermissionUser(viewModel.readGameModel.createUserId) == Define.OK) {
             toolbarRightButton.visibility = View.VISIBLE
         }
-
     }
 
 
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
-        AlertDialogUtil.showBottomSheetDialog(this) {
-            if (it.id == R.id.btnModify) {
-                readGameAdapter.let {
-                    val intent = Intent(this, CreateGameActivity::class.java)
-                    intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
-                    ShareData.getInstance().scoreList.clear()
-                    ShareData.getInstance().scoreList.addAll(it.scoreUserList)
-                    startActivity(intent)
-                }
-            } else if (it.id == com.dk.project.post.R.id.btnDelete) {
-                AlertDialogUtil.showAlertDialog(this@ReadGameActivity,
-                    null,
-                    "삭제 하시겠습니까?",
-                    { _, _ ->
-                        BowlingApi.getInstance().requestDeleteGame(viewModel.readGameModel.gameId, {
-                            setResult(Activity.RESULT_OK)
-                            finish()
-                        }, {
+        when (LoginManager.getInstance().isPermissionUser(viewModel.readGameModel.createUserId)) {
+            Define.OK -> {
+                AlertDialogUtil.showBottomSheetDialog(this) {
+                    if (it.id == R.id.btnModify) {
+                        readGameAdapter.let {
+                            val intent = Intent(this, CreateGameActivity::class.java)
+                            intent.putExtra(Define.READ_GAME_MODEL, viewModel.readGameModel)
+                            ShareData.getInstance().scoreList.clear()
+                            ShareData.getInstance().scoreList.addAll(it.scoreUserList)
+                            startActivity(intent)
+                        }
+                    } else if (it.id == com.dk.project.post.R.id.btnDelete) {
+                        AlertDialogUtil.showAlertDialog(this@ReadGameActivity,
+                            null,
+                            "삭제 하시겠습니까?",
+                            { _, _ ->
+                                BowlingApi.getInstance()
+                                    .requestDeleteGame(viewModel.readGameModel.gameId, {
+                                        setResult(Activity.RESULT_OK)
+                                        finish()
+                                    }, {
 
-                        })
-                    }, { _, _ -> })
+                                    })
+                            }, { _, _ -> })
+                    }
+                }
+            }
+            else -> {
+                AlertDialogUtil.showLoginAlertDialog(this)
             }
         }
     }

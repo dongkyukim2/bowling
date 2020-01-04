@@ -35,7 +35,7 @@ public class ClubScoreListViewModel extends BaseViewModel {
     protected void onCreated() {
         super.onCreated();
         clubModel = getBindFragment().getArguments().getParcelable(Define.CLUB_MODEL);
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             return;
         }
         requestGameList(0);

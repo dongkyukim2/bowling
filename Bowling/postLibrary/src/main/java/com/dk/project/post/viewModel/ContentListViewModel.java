@@ -167,7 +167,7 @@ public class ContentListViewModel extends BaseViewModel {
     }
 
     public void onLikeClick(AppCompatImageView imageView, TextView textView, PostModel postModel) {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             AlertDialogUtil.showLoginAlertDialog(imageView.getContext());
             return;
         }

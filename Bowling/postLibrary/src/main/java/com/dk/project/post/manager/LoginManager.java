@@ -10,6 +10,12 @@ import com.dk.project.post.utils.Utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 public class LoginManager {
 
@@ -18,6 +24,14 @@ public class LoginManager {
     private String userCode = ""; // 유저 고유 번호, 아이디 같은것
     private LoginInfoModel loginInfoModel;
 
+    private AtomicLong time;
+    private Disposable disposable;
+
+
+    public LoginManager() {
+        startTimer();
+    }
+
     public static LoginManager getInstance() {
         if (loginManager == null) {
             loginManager = new LoginManager();
@@ -25,7 +39,21 @@ public class LoginManager {
         return loginManager;
     }
 
+    public void startTimer() {
+        if (disposable == null) {
+            time = new AtomicLong(System.currentTimeMillis());
+            disposable = Observable.interval(5, TimeUnit.SECONDS)
+                    .map(aLong -> System.currentTimeMillis())
+                    .subscribe(aLong -> time.set(aLong));
+        }
+    }
 
+    public void stopTimer(){
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+            disposable = null;
+        }
+    }
     public static void clear() {
         loginManager = null;
     }
@@ -52,7 +80,8 @@ public class LoginManager {
 
     public String getEncodeId() {
         try {
-            return Utils.Encrypt(getUserCode(), Utils.getHashKey(BaseApplication.getGlobalApplicationContext()));
+            System.out.println("+++++++++++   requestTime = " + Utils.DateFormat_0.format(new Date(time.get())));
+            return Utils.Encrypt(getUserCode() + "|" + time.get(), Utils.getHashKey(BaseApplication.getGlobalApplicationContext()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,10 +101,17 @@ public class LoginManager {
         return sharedPreferences.getBoolean("login", false);
     }
 
-    public boolean ispermissionUser(String userId) {
+    public int isPermissionUser(String userId) {
         if (loginInfoModel == null || StringUtils.isBlank(userId)) {
-            return false;
+            return Define.LOGOUT;
         }
-        return loginInfoModel.getUserId().equalsIgnoreCase(userId);
+        if (loginInfoModel.getUserId().equalsIgnoreCase(userId)) {
+            return Define.OK;
+        }
+        return Define.NO_PERMISSION;
+    }
+
+    public boolean isLogIn() {
+        return (loginInfoModel != null && !StringUtils.isBlank(loginInfoModel.getUserId()));
     }
 }

@@ -22,6 +22,10 @@ public interface Define {
     String CLUB_MODEL = "CLUB_MODEL";
     String SELECTED_USER_MAP = "SELECTED_USER_MAP";
 
+    int LOGOUT = 0;
+    int NO_PERMISSION = 1;
+    int OK = 2;
+
     String ID = "ID";
 
     String PREFERENCES = "info";
@@ -144,14 +148,6 @@ public interface Define {
     int USER_TYPE_FORCE_SECESSION = 4;
     int USER_TYPE_JOIN_NEGATIVE = 5;
     int USER_TYPE_NOT_JOIN = 6;
-
-
-
-
-
-
-
-
 
 
     String REQUEST_SIGN_UP = "signUp";

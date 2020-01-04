@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.databinding.ActivityReadBinding;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.PostModel;
@@ -150,13 +151,7 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
 
         binding.likeCountText.setText(String.valueOf(postModel.getLikeCount()));
 
-        binding.replyMore.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ReplyMoreActivity.class);
-            intent.putExtra(POST_MODEL, postModel);
-            startActivity(intent);
-        });
-
-        if (LoginManager.getInstance().ispermissionUser(postModel.getUserId())) {
+        if (LoginManager.getInstance().isPermissionUser(postModel.getUserId()) == Define.OK) {
             binding.moreImageView.setVisibility(View.VISIBLE);
         }
         binding.moreImageView.setOnClickListener(view -> AlertDialogUtil.showBottomSheetDialog(this, v -> {

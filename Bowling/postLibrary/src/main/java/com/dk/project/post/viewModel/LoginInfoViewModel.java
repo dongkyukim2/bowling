@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -15,6 +14,7 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.PostApi;
+import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.utils.Utils;
 
 /**
@@ -49,17 +49,18 @@ public class LoginInfoViewModel extends BaseViewModel {
         }
         if (view.getId() == R.id.sign_up_btn) {
             if (TextUtils.isEmpty(signId)) {
+                ToastUtil.showToastCenter(mContext, "가입 할 수 없습니다.");
                 return;
             }
             AppCompatEditText nickNameEdt = mContext.findViewById(R.id.nick_name_edit);
             String nickName = nickNameEdt.getText().toString().trim();
 
             if (nickName.isEmpty()) {
-                Toast.makeText(mContext, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToastCenter(mContext, "이름을 입력해주세요");
             } else if (nickName.length() > 10) {
-                Toast.makeText(mContext, "10자까지 입력가능합니다", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToastCenter(mContext, "10자까지 입력가능합니다");
             } else if (!Utils.stringCheck(nickName)) {
-                Toast.makeText(mContext, "한글, 영문, 숫자만 가능합니다.", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToastCenter(mContext, "한글, 영문, 숫자만 가능합니다.");
             } else {
                 LoginInfoModel loginInfoModel = new LoginInfoModel();
                 loginInfoModel.setUserId(signId);
@@ -72,11 +73,11 @@ public class LoginInfoViewModel extends BaseViewModel {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 mContext.startActivity(intent);
                                 mContext.finish();
+                                ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
                             } else {
-                                Toast.makeText(mContext, receivedData.getMessage(), Toast.LENGTH_SHORT).show();
+                                ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                             }
-                        }, errorData -> {
-                        }));
+                        }, errorData -> ToastUtil.showToastCenter(mContext, "가입 실패했습니다.")));
             }
         }
     }

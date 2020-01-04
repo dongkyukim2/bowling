@@ -21,7 +21,7 @@ public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewM
     public BaseViewModel(@NonNull Application application) {
         super(application);
         executeRx(clickPublishSubject.
-                throttleFirst(500, TimeUnit.MILLISECONDS).
+                throttleFirst(1000, TimeUnit.MILLISECONDS).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(this::onThrottleClick));
     }

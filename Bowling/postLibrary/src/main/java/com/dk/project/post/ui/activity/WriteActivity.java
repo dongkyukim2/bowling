@@ -425,8 +425,8 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
 
     @Override
     public void onToolbarRightClick() {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
-            Toast.makeText(this, "로그인 후 이용해주세요", Toast.LENGTH_SHORT).show();
+        if (!LoginManager.getInstance().isLogIn()) {
+            AlertDialogUtil.showLoginAlertDialog(this);
             return;
         }
         if (TextUtils.isEmpty(viewModel.getClubId())) {

@@ -84,7 +84,7 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
     }
 
     private fun movePage(index: Int) {
-        if (LoginManager.getInstance().loginInfoModel == null) {
+        if (!LoginManager.getInstance().isLogIn) {
             AlertDialogUtil.showLoginAlertDialog(this)
             return
         }

@@ -107,7 +107,7 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
     }
 
     public void checkShare() {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             return;
         }
         Intent shareIntent = mContext.getIntent();

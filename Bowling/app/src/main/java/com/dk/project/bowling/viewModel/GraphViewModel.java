@@ -46,7 +46,7 @@ public class GraphViewModel extends BaseViewModel {
 
         scoreAvgModelMutableLiveData = MutableLiveDataManager.getInstance().getScoreMonthAvgList();
 
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             return;
         }
         getMonthAvgList();
@@ -55,7 +55,7 @@ public class GraphViewModel extends BaseViewModel {
 
     @Override
     public void onThrottleClick(View view) {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             AlertDialogUtil.showLoginAlertDialog(mContext);
             return;
         }

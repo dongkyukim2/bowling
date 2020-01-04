@@ -35,7 +35,6 @@ public class RetroClient {
 
     private RetroBaseApiService apiService;
     private Retrofit retrofit;
-    private String userId = "";
 
 
     private RetroClient() {
@@ -53,7 +52,8 @@ public class RetroClient {
                     .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
                     .addInterceptor((chain) -> {
                         Request.Builder requestBuilder = chain.request().newBuilder();
-                        if (StringUtils.isBlank(userId)) {
+                        String userId = "";
+                        if (LoginManager.getInstance().isLogIn()) {
                             userId = LoginManager.getInstance().getEncodeId();
                         }
                         requestBuilder.addHeader("userId", userId);

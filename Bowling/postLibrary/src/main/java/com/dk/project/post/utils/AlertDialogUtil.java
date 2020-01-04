@@ -78,10 +78,6 @@ public class AlertDialogUtil {
     }
 
     public static void showBottomSheetDialog(Context context, OnClickListener onClickListener) {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
-            showLoginAlertDialog(context);
-            return;
-        }
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.popup_menu, null);
         BottomSheetDialog dialog = new BottomSheetDialog(context);

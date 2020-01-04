@@ -2,6 +2,7 @@ package com.dk.project.post.viewModel;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.lifecycle.MediatorLiveData;
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
@@ -25,6 +27,7 @@ import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.retrofit.ResponseModel;
 import com.dk.project.post.retrofit.SuccessCallback;
+import com.dk.project.post.ui.activity.ReplyMoreActivity;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.RxBus;
@@ -98,13 +101,17 @@ public class ReadViewModel extends BaseViewModel {
 
     @Override
     public void onThrottleClick(View view) {
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             AlertDialogUtil.showLoginAlertDialog(mContext);
             return;
         }
         int id = view.getId();
         if (id == R.id.reply_more) {
-            Toast.makeText(mContext, "모두 보기", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(mContext, ReplyMoreActivity.class);
+            intent.putExtra(Define.POST_MODEL, postModel);
+            mContext.startActivity(intent);
+
         } else if (id == R.id.like_image_view) {
 
             if (postModel.isLikeSelected()) {

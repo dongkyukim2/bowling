@@ -12,6 +12,7 @@ import androidx.core.view.GestureDetectorCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.dk.project.post.R;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.databinding.FragmentContentsThumbItemBinding;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.PostModel;
@@ -170,7 +171,7 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
             binding.pagerPositionTextParent.setVisibility(View.VISIBLE);
             binding.pagerPositionText.setText((postModel.getCurrentPosition() + 1) + "/" + postModel.getImageList().size());
         }
-        if (LoginManager.getInstance().ispermissionUser(postModel.getUserId())) {
+        if (LoginManager.getInstance().isPermissionUser(postModel.getUserId()) == Define.OK) {
             binding.moreImageParent.setVisibility(View.VISIBLE);
         } else {
             binding.moreImageParent.setVisibility(View.INVISIBLE);

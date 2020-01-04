@@ -33,7 +33,7 @@ public class ClubViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        if (LoginManager.getInstance().getLoginInfoModel() == null) {
+        if (!LoginManager.getInstance().isLogIn()) {
             BowlingApi.getInstance().getRecommendClubList(receivedData -> {
                 ResponseModel<ArrayList<ClubModel>> emptyModel = new ResponseModel<>();
                 emptyModel.setCode("0000");
