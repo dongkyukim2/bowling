@@ -64,6 +64,7 @@ public class LoginInfoViewModel extends BaseViewModel {
     protected void onDestroy() {
         super.onDestroy();
         PostApi.getInstance().requestBlockClear(Define.REQUEST_SIGN_UP);
+        ListController.getInstance().mediaSelectListClear();
     }
 
     @Override
