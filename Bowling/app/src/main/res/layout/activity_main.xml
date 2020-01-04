@@ -71,7 +71,7 @@
                     android:background="#ffffff"
                     app:behavior_hideable="true"
                     app:behavior_peekHeight="0dp"
-                    app:layout_behavior="@string/bottom_sheet_behavior"/>
+                    app:layout_behavior="@string/bottom_sheet_behavior" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -91,7 +91,6 @@
                         android:id="@+id/drawer_layout_root"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
                         android:padding="24dp">
 
                     <com.dk.project.post.ui.widget.CircleImageView
@@ -101,6 +100,7 @@
                             android:background="@drawable/user_profile"
                             app:layout_constraintDimensionRatio="w,1:1"
                             app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -108,14 +108,30 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="Charlie Park"
+                            android:ellipsize="marquee"
+                            android:fontFamily="@font/bamin"
+                            android:singleLine="true"
+                            android:text=""
                             android:textColor="#ffffff"
-                            android:textSize="16dp"
+                            android:textSize="20dp"
                             app:layout_constraintLeft_toLeftOf="@id/imageView"
                             app:layout_constraintRight_toRightOf="@id/imageView"
                             app:layout_constraintTop_toBottomOf="@+id/imageView" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <TextView
+                        android:id="@+id/setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClick}"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="설정"
+                        android:textColor="#000000"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
 
                 <TextView
                         android:id="@+id/login"

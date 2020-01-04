@@ -46,7 +46,7 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
             switch (busModel.first) {
                 case Define.EVENT_LOGIN_SUCCESS:
                     LoginInfoModel loginInfoModel = LoginManager.getInstance().getLoginInfoModel();
-                    mContext.getBinding().userName.setText(loginInfoModel.getUserName() + " : " + loginInfoModel.getUserId());
+                    mContext.getBinding().userName.setText(loginInfoModel.getUserName());
                     break;
             }
         }));
@@ -67,11 +67,16 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
 
 
         switch (view.getId()) {
+            case R.id.setting:
+                mContext.onBackPressed();
+                Intent intent = new Intent(mContext, LoginInfoActivity.class);
+                mContext.startActivity(intent);
+                break;
             case R.id.login:
+                mContext.onBackPressed();
                 if (KakaoLoginUtils.checkLogin()) { // 카카오 세션이 열려있나?
                     requestLogin();
                 } else {
-                    mContext.onBackPressed();
                     if (iSessionCallback == null) {
                         iSessionCallback = new ISessionCallback() {
                             @Override
@@ -91,9 +96,9 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
                 break;
             case R.id.logout:
                 AlertDialogUtil.showAlertDialog(mContext, "알림", "로그아웃 하시겠습니까?", (dialog, which) -> {
-                    mContext.onBackPressed();
                     KakaoLoginUtils.logout(mContext);
                 });
+                mContext.onBackPressed();
                 break;
         }
     }

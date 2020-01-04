@@ -9,15 +9,18 @@ public class LoginInfoModel implements Parcelable {
     private String userName;
     private String userPhoto;
     private String loginType;
+    private boolean modify;
 
     public LoginInfoModel() {
     }
+
 
     protected LoginInfoModel(Parcel in) {
         userId = in.readString();
         userName = in.readString();
         userPhoto = in.readString();
         loginType = in.readString();
+        modify = in.readByte() != 0;
     }
 
     public static final Creator<LoginInfoModel> CREATOR = new Creator<LoginInfoModel>() {
@@ -64,6 +67,14 @@ public class LoginInfoModel implements Parcelable {
         this.loginType = loginType;
     }
 
+    public boolean isModify() {
+        return modify;
+    }
+
+    public void setModify(boolean modify) {
+        this.modify = modify;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -75,5 +86,6 @@ public class LoginInfoModel implements Parcelable {
         dest.writeString(userName);
         dest.writeString(userPhoto);
         dest.writeString(loginType);
+        dest.writeByte((byte) (modify ? 1 : 0));
     }
 }

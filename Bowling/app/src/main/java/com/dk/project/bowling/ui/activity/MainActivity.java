@@ -3,6 +3,9 @@ package com.dk.project.bowling.ui.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,6 +23,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityMainBinding;
 import com.dk.project.bowling.ui.adapter.MainViewPagerFragmentAdapter;
@@ -29,6 +36,7 @@ import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BindActivity;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.manager.LoginManager;
@@ -37,11 +45,16 @@ import com.dk.project.post.retrofit.RetroClient;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.Calendar;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
 
@@ -72,7 +85,25 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         viewModel.checkShare();
 
-        binding.drawerLayoutRoot.setBackground(ImageUtil.getGradientDrawable(this, 0));
+        GlideApp.with(this)
+                .asBitmap()
+                .load(R.drawable.side_bg)
+                .centerCrop()
+                .apply(bitmapTransform(new BlurTransformation(5, 1)))
+                .addListener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        Drawable drawable = new BitmapDrawable(getResources(), resource);
+                        binding.drawerLayoutRoot.setBackground(drawable);
+                        return false;
+                    }
+                }).submit();
+
 
         binding.navigation.setOnNavigationItemSelectedListener(this);
         toolbarRightButton.setVisibility(View.INVISIBLE);
@@ -109,9 +140,25 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
 
+        binding.userName.setSelected(true);
+
         LoginInfoModel loginInfoModel = LoginManager.getInstance().getLoginInfoModel();
-        if (loginInfoModel != null) {
-            binding.userName.setText(loginInfoModel.getUserName() + " : " + loginInfoModel.getUserId());
+        if (loginInfoModel == null) {
+            binding.login.setVisibility(View.VISIBLE);
+            binding.logout.setVisibility(View.GONE);
+            binding.setting.setVisibility(View.GONE);
+        } else {
+            binding.login.setVisibility(View.GONE);
+            binding.logout.setVisibility(View.VISIBLE);
+            binding.setting.setVisibility(View.VISIBLE);
+            binding.userName.setText(loginInfoModel.getUserName());
+
+            if (!TextUtils.isEmpty(loginInfoModel.getUserPhoto())) {
+                GlideApp.with(this).applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
+                        .load(Define.IMAGE_URL + loginInfoModel.getUserPhoto())
+                        .centerCrop()
+                        .into(binding.imageView);
+            }
         }
     }
 

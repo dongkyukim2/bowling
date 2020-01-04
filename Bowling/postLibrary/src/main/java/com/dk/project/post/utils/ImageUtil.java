@@ -297,9 +297,9 @@ public class ImageUtil implements Define {
                 destFile.createNewFile();
                 OutputStream out = new FileOutputStream(destFile);
                 if (ext.equalsIgnoreCase("png")) {
-                    bitmap.compress(CompressFormat.PNG, 100, out);
+                    bitmap.compress(CompressFormat.PNG, 70, out);
                 } else {
-                    bitmap.compress(CompressFormat.JPEG, 100, out);
+                    bitmap.compress(CompressFormat.JPEG, 70, out);
                 }
                 selectFile.setFilePath(destFile.getAbsolutePath());
             }
