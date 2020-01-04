@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/toolbar_left_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -29,10 +29,11 @@
                     android:padding="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/toolbar_right_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -43,7 +44,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_done" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/toolbar_right_Search"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -74,7 +75,7 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
