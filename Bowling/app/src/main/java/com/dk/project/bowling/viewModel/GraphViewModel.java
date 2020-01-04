@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dk.project.bowling.R;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreAvgModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
@@ -16,8 +17,6 @@ import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.RxBus;
 
 import java.util.Calendar;
-
-import static com.dk.project.post.base.Define.EVENT_REFRESH_SCORE;
 
 public class GraphViewModel extends BaseViewModel {
 
@@ -31,10 +30,13 @@ public class GraphViewModel extends BaseViewModel {
         super(application);
         executeRx(RxBus.getInstance().registerRxObserver(integerObjectPair -> {
             switch (integerObjectPair.first) {
-                case EVENT_REFRESH_SCORE:
+                case Define.EVENT_REFRESH_SCORE:
+                case Define.EVENT_LOGIN_SUCCESS:
                     getMonthAvgList();
                     break;
             }
+
+
         }));
     }
 
@@ -47,7 +49,6 @@ public class GraphViewModel extends BaseViewModel {
         if (LoginManager.getInstance().getLoginInfoModel() == null) {
             return;
         }
-        graphLoading = true;
         getMonthAvgList();
 
     }
@@ -82,6 +83,7 @@ public class GraphViewModel extends BaseViewModel {
     }
 
     private void getMonthAvgList() {
+        graphLoading = true;
         executeRx(BowlingApi.getInstance().getScoreMonthAgvDayList(getYearMonth(),
                 receivedData -> {
                     scoreAvgModelMutableLiveData.setValue(receivedData.getData());

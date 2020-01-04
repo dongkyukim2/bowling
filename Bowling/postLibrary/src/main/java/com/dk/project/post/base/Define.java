@@ -125,6 +125,8 @@ public interface Define {
 
     int EVENT_CLOSE_CREATE_MODIFY_GAME_ACTIVITY = 1010; // 클럽 점수 수정하고 화면 닫기
 
+    int EVENT_LOGIN_SUCCESS = 8888; // 앱 사용중 로그인 성공
+
 
 
 

@@ -3,6 +3,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+                name="viewModel"
+                type="com.dk.project.bowling.viewModel.MainViewModel" />
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
             android:id="@+id/main_drawer_layout"
             android:layout_width="match_parent"
@@ -20,31 +27,31 @@
                         android:id="@+id/include_toolbar"
                         layout="@layout/toolbar_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
 
                 <com.google.android.gms.ads.AdView
                         android:id="@+id/ad_view_bottom"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         app:adSize="BANNER"
-                        app:adUnitId="@string/bottom_banner_ad_unit_id" />
+                        app:adUnitId="@string/bottom_banner_ad_unit_id"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                         android:id="@+id/navigation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:itemIconTint="#ffffff"
+                        app:itemTextColor="#ffffff"
                         app:layout_constraintBottom_toTopOf="@id/ad_view_bottom"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:menu="@menu/navigation"
-                        app:itemTextColor="#ffffff"
-                        app:itemIconTint="#ffffff"
-                        android:background="@color/colorAccent"/>
+                        app:menu="@menu/navigation" />
 
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -52,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toTopOf="@id/navigation"
-                        app:layout_constraintTop_toBottomOf="@+id/include_toolbar"/>
+                        app:layout_constraintTop_toBottomOf="@+id/include_toolbar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,12 +68,10 @@
                     android:id="@+id/rl_bottom_sheet"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
+                    android:background="#ffffff"
                     app:behavior_hideable="true"
                     app:behavior_peekHeight="0dp"
-                    android:background="#ffffff"
-                    app:layout_behavior="@string/bottom_sheet_behavior">
-            </RelativeLayout>
-
+                    app:layout_behavior="@string/bottom_sheet_behavior"></RelativeLayout>
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -75,8 +80,70 @@
                 android:id="@+id/navigationView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="start"
-                app:headerLayout="@layout/main_header"
-                app:menu="@menu/main_navigation_menu"/>
+                android:layout_gravity="start">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/drawer_layout_root"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:padding="24dp">
+
+                    <com.dk.project.post.ui.widget.CircleImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="150dp"
+                            android:layout_height="0dp"
+                            android:background="@drawable/user_profile"
+                            app:layout_constraintDimensionRatio="w,1:1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Charlie Park"
+                            android:textColor="#ffffff"
+                            android:textSize="20dp"
+                            app:layout_constraintLeft_toLeftOf="@id/imageView"
+                            app:layout_constraintRight_toRightOf="@id/imageView"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                        android:id="@+id/login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClick}"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="로그인"
+                        android:textColor="#000000"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+                <TextView
+                        android:id="@+id/logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{viewModel::onClick}"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="로그아웃"
+                        android:textColor="#000000"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

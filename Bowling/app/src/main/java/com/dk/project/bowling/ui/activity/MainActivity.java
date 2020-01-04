@@ -29,13 +29,13 @@ import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ScoreModel;
+import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.retrofit.RetroClient;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
-import com.dk.project.post.utils.KakaoLoginUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -67,10 +67,12 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        binding.setViewModel(viewModel);
+
         viewModel.checkShare();
 
-        binding.navigationView.getHeaderView(0).findViewById(R.id.drawer_layout_root)
-                .setBackground(ImageUtil.getGradientDrawable(this, 0));
+        binding.drawerLayoutRoot.setBackground(ImageUtil.getGradientDrawable(this, 0));
 
         binding.navigation.setOnNavigationItemSelectedListener(this);
         toolbarRightButton.setVisibility(View.INVISIBLE);
@@ -105,28 +107,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             }
         });
 
-        binding.navigationView.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.login:
-//                    Intent intent = new Intent(this, LoginActivity.class);
-//                    startActivity(intent);
-//                    AlertDialogUtil.showLoginAlertDialog(this, receivedData -> {
-//                        if (receivedData.second == null) { // 디비에 가입된 이력 없음
-//                            Intent intent = new Intent(this, LoginInfoActivity.class);
-//                            intent.putExtra(Define.ID, String.valueOf(receivedData.first));
-//                            startActivity(intent);
-//                        } else {
-//                            LoginManager.getInstance().setLoginInfoModel(receivedData.second);
-//                        }
-//                    });
-                    break;
-                case R.id.logout:
-                    KakaoLoginUtils.logout(this);
-                    break;
-            }
-            return false;
-        });
-
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
     }
 
@@ -142,6 +122,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         LoginManager.clear();
         RetroClient.clear();
         com.dk.project.post.bowling.retrofit.RetroClient.clear();
+        MutableLiveDataManager.clear();
     }
 
     @Override
@@ -191,13 +172,13 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             AppCompatEditText scoreText = view.findViewById(R.id.score_text);
             AppCompatEditText commentText = view.findViewById(R.id.comment_text);
 
-            setDate(scoreDate, calendar);
-            setTime(scoreTime, calendar);
+            viewModel.setDate(scoreDate, calendar);
+            viewModel.setTime(scoreTime, calendar);
 
             scoreDate.setOnClickListener(v -> new DatePickerDialog(this,
                     (view1, year, month, dayOfMonth) -> {
                         calendar.set(year, month, dayOfMonth);
-                        setDate(scoreDate, calendar);
+                        viewModel.setDate(scoreDate, calendar);
                     },
                     calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)).show());
@@ -206,7 +187,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
                     (view1, hourOfDay, minute) -> {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        setTime(scoreTime, calendar);
+                        viewModel.setTime(scoreTime, calendar);
                     }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show());
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -241,19 +222,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
                 alertDialog.dismiss();
             });
         }
-    }
-
-    private void setDate(AppCompatTextView textView, Calendar calendar) {
-        String.format("%02d", (calendar.get(Calendar.MONTH) + 1));
-        textView.setText(calendar.get(Calendar.YEAR) + "-" +
-                String.format("%02d", (calendar.get(Calendar.MONTH) + 1)) + "-" + String
-                .format("%02d", calendar.get(Calendar.DAY_OF_MONTH)));
-    }
-
-    private void setTime(AppCompatTextView textView, Calendar calendar) {
-        textView.setText((calendar.get(Calendar.AM_PM) == 0 ? "오전 " : "오후 ") +
-                String.format("%02d", calendar.get(Calendar.HOUR)) + ":" +
-                String.format("%02d", calendar.get(Calendar.MINUTE)));
     }
 
     @Override

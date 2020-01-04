@@ -60,6 +60,11 @@ public class AlertDialogUtil {
         return dialog;
     }
 
+    public static AlertDialog showAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onPositiveClickListener) {
+        return showAlertDialog(context, title, message, onPositiveClickListener, (dialog, which) -> {
+        });
+    }
+
     public static AlertDialog showAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onPositiveClickListener, DialogInterface.OnClickListener onNegativeClickListener) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         dialogBuilder.setTitle(title)

@@ -1,6 +1,7 @@
 package com.dk.project.post.bowling.retrofit;
 
 import androidx.lifecycle.MutableLiveData;
+
 import com.dk.project.post.bowling.model.ScoreAvgModel;
 
 public class MutableLiveDataManager {
@@ -23,5 +24,9 @@ public class MutableLiveDataManager {
 
     public MutableLiveData<ScoreAvgModel> getScoreMonthAvgList() {
         return scoreMonthAvgList;
+    }
+
+    public static void clear() {
+        instance = null;
     }
 }

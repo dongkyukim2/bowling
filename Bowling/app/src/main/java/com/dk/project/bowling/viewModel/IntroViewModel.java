@@ -81,7 +81,6 @@ public class IntroViewModel extends BaseViewModel {
                 mContext.startActivity(intent);
                 mContext.finish();
             } else {
-
                 if (LoginManager.getInstance().autoLogIn()) {
                     // 세션이 열려있는지
                     // todo 로그인되어있으면 열려있는듯
