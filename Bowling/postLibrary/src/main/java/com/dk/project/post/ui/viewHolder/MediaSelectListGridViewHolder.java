@@ -70,8 +70,6 @@ public class MediaSelectListGridViewHolder<T extends MediaSelectListModel> exten
                     adapter.unCheckRefresh();
                 }
             } else {
-
-
                 boolean checked = !ListController.getInstance().isExistModel(item.getFilePath());
                 adapter.allUnCheckRefresh();
                 ListController.getInstance().mediaSelectListClear();

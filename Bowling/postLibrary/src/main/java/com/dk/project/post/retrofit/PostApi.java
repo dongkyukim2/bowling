@@ -190,8 +190,12 @@ public class PostApi implements Define {
 
 
     //todo 전반적인 파일 업로드 로직 수정
-    public Disposable test(Context context, ArrayList<MediaSelectListModel> fileList, SuccessCallback<List<String>> callback, ErrorCallback errorCallback, ProgressListener progressListener) {
-        return ImageUtil.compressImage(context, fileList).flatMap(mediaSelectListModels -> Observable.fromIterable(mediaSelectListModels).filter(selectModel -> {
+    public Disposable test(Context context, ArrayList<MediaSelectListModel> fileList,
+                           SuccessCallback<List<String>> callback,
+                           ErrorCallback errorCallback,
+                           ProgressListener progressListener) {
+        return ImageUtil.compressImage(context, fileList).flatMap(mediaSelectListModels ->
+                Observable.fromIterable(mediaSelectListModels).filter(selectModel -> {
             if (TextUtils.isEmpty(selectModel.getYoutubeUrl()) && !selectModel.getFilePath().startsWith("http")) {
                 return true;
             }

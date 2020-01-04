@@ -33,6 +33,7 @@ public class LoginInfoViewModel extends BaseViewModel {
     private String signId;
     private CircleImageView profileImage;
     private LoginInfoModel model;
+    private String userPhoto;
 
     public LoginInfoViewModel(@NonNull Application application) {
         super(application);
@@ -50,6 +51,7 @@ public class LoginInfoViewModel extends BaseViewModel {
             signId = model.getUserId();
             ((AppCompatEditText) mContext.findViewById(R.id.nick_name_edit)).setText(model.getUserName());
             if (!TextUtils.isEmpty(model.getUserPhoto())) {
+                userPhoto = model.getUserPhoto();
                 GlideApp.with(mContext)
                         .load(Define.IMAGE_URL + model.getUserPhoto())
                         .apply(ImageUtil.getGlideConterCropRequestOption())
@@ -104,8 +106,13 @@ public class LoginInfoViewModel extends BaseViewModel {
                                 }
                             }, errorData -> ToastUtil.showToastCenter(mContext, "가입 실패했습니다.")));
                 } else {
-                    PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), iamgeList -> {
-                        loginInfoModel.setUserPhoto(iamgeList.get(0));
+                    executeRx(PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), iamgeList -> {
+                        if (iamgeList.isEmpty()) { // 등록하다가 올리면 이미지 못올려서 예외처리
+                            loginInfoModel.setUserPhoto(userPhoto);
+
+                        } else {
+                            loginInfoModel.setUserPhoto(iamgeList.get(0));
+                        }
                         executeRx(PostApi.getInstance().signUp(loginInfoModel,
                                 receivedData -> {
                                     if (receivedData.isSuccess()) { // 회원가입성공
@@ -136,7 +143,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                         public void onUploadEnd(String fileName) {
 
                         }
-                    });
+                    }));
                 }
 
 
