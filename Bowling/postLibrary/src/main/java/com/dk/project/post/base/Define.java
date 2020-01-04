@@ -10,7 +10,7 @@ public interface Define {
     boolean ON_CREATE_LOG = false;
 
     boolean TEST_USER = false;
-//    boolean TEST_USER = true;
+    //    boolean TEST_USER = true;
     String TEST_ID = "1087708737";
     String TEST_NAME = "박철수";
 //    String TEST_ID = "1087708739";
@@ -53,6 +53,8 @@ public interface Define {
     String INTRO_DELAY = "intro delay";
     String IMAGE_MULTI_SELECT = "IMAGE_MULTI_SELECT";
 
+    String MAIN = "com.dk.project.bowling.MainActivity";
+
 
 //    String FIX_POSITION = "FIX_POSITION";
 
@@ -66,18 +68,11 @@ public interface Define {
     int MODEFY_MODE = 2;
 
 
-
-
-
     int mdpi = 0;
     int hdpi = 1;
     int xhdpi = 2;
     int xxhdpi = 3;
     int xxxhdpi = 4;
-
-
-
-
 
 
     /*
@@ -149,5 +144,17 @@ public interface Define {
     int USER_TYPE_FORCE_SECESSION = 4;
     int USER_TYPE_JOIN_NEGATIVE = 5;
     int USER_TYPE_NOT_JOIN = 6;
+
+
+
+
+
+
+
+
+
+
+    String REQUEST_SIGN_UP = "signUp";
+
 
 }

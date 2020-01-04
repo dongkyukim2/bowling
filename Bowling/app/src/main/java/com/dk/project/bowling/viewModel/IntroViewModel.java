@@ -14,7 +14,6 @@ import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
-import com.dk.project.post.ui.activity.LoginInfoActivity;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
@@ -65,10 +64,6 @@ public class IntroViewModel extends BaseViewModel {
     }
 
     private void startMainActivity() {
-        if (true) {
-            mContext.startActivity(new Intent(mContext, LoginInfoActivity.class));
-            return;
-        }
         if (Define.TEST_USER) {
             // todo LoginInfoModel, setUserCode 중복 수정해야함
             LoginInfoModel loginInfoModel = new LoginInfoModel();

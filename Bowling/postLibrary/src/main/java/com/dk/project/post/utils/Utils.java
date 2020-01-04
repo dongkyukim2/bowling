@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -266,6 +267,12 @@ public class Utils {
             });
             adView.loadAd(adRequest);
         }
+    }
+
+
+    public static boolean stringCheck(String string) {
+        String tempString = string.replace(" ", "");
+        return Pattern.matches("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\\*]+$", tempString); // 한글, 영어, 숫자만
     }
 }
 

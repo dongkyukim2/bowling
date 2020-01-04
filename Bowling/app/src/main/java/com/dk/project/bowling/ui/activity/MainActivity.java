@@ -27,6 +27,7 @@ import com.dk.project.bowling.ui.fragment.ClubFragment;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.bowling.ui.fragment.MainInfoFragment;
 import com.dk.project.bowling.viewModel.MainViewModel;
+import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
@@ -129,6 +130,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         RetroClient.clear();
         com.dk.project.post.bowling.retrofit.RetroClient.clear();
         MutableLiveDataManager.clear();
+        BaseActivity.getActivityStack().clear();
     }
 
     @Override

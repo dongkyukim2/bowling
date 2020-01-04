@@ -15,6 +15,7 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.retrofit.PostApi;
+import com.dk.project.post.utils.Utils;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -38,10 +39,14 @@ public class LoginInfoViewModel extends BaseViewModel {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        PostApi.getInstance().requestBlockClear(Define.REQUEST_SIGN_UP);
     }
 
     @Override
     public void onThrottleClick(View view) {
+        if (PostApi.getInstance().isRequestBlock(Define.REQUEST_SIGN_UP)) {
+            return;
+        }
         if (view.getId() == R.id.sign_up_btn) {
             if (TextUtils.isEmpty(signId)) {
                 return;
@@ -53,6 +58,8 @@ public class LoginInfoViewModel extends BaseViewModel {
                 Toast.makeText(mContext, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
             } else if (nickName.length() > 10) {
                 Toast.makeText(mContext, "10자까지 입력가능합니다", Toast.LENGTH_SHORT).show();
+            } else if (!Utils.stringCheck(nickName)) {
+                Toast.makeText(mContext, "한글, 영문, 숫자만 가능합니다.", Toast.LENGTH_SHORT).show();
             } else {
                 LoginInfoModel loginInfoModel = new LoginInfoModel();
                 loginInfoModel.setUserId(signId);
@@ -61,9 +68,10 @@ public class LoginInfoViewModel extends BaseViewModel {
                         receivedData -> {
                             if (receivedData.isSuccess()) { // 회원가입성공
                                 LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-//                                Intent intent = new Intent(mContext, MainActivity.class);
-//                                mContext.startActivity(intent);
-//                                mContext.finish();
+                                Intent intent = new Intent(Define.MAIN);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                mContext.startActivity(intent);
+                                mContext.finish();
                             } else {
                                 Toast.makeText(mContext, receivedData.getMessage(), Toast.LENGTH_SHORT).show();
                             }

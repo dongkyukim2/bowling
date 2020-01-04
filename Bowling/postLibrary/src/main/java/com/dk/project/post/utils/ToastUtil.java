@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.Toast;
+
 import com.dk.project.post.R;
 
 /**
@@ -20,7 +21,7 @@ public class ToastUtil {
     }
 
     public static void showToastCenter(Context context, String msg) {
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP, 0, (int) (ScreenUtil.getDeviceScreenSize(context)[1] * 0.3));
         toast.show();
     }

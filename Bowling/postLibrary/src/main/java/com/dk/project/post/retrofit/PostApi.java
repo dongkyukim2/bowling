@@ -4,16 +4,20 @@ package com.dk.project.post.retrofit;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.dk.project.post.base.BaseActivity;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
 import com.dk.project.post.retrofit.ProgressRequestBody.ProgressListener;
 import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,16 +32,23 @@ import okhttp3.RequestBody;
  * Created by dkkim on 2017-12-12.
  */
 
-public class PostApi {
+public class PostApi implements Define {
 
     private static PostApi instance;
 
     private RetroClient retroClient;
     private RetroBaseApiService apiService;
+    private ConcurrentHashMap<String, Boolean> requestBlock;
 
     private PostApi() {
         retroClient = RetroClient.getInstance();
         apiService = RetroClient.getApiService();
+        initBlockMap();
+    }
+
+    private void initBlockMap() {
+        requestBlock = new ConcurrentHashMap<>();
+        requestBlock.put(REQUEST_SIGN_UP, false);
     }
 
     public static PostApi getInstance() {
@@ -54,11 +65,18 @@ public class PostApi {
 
 
     public Disposable signUp(LoginInfoModel loginInfoModel, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
+        requestBlock.put(REQUEST_SIGN_UP, true);
         return apiService.signUp(loginInfoModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onSuccess,
-                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+                .subscribe(model -> {
+                            callback.onSuccess(model);
+                            requestBlock.put(REQUEST_SIGN_UP, false);
+                        },
+                        throwable -> {
+                            retroClient.errorHandling(throwable, errorCallback);
+                            requestBlock.put(REQUEST_SIGN_UP, false);
+                        });
     }
 
     public Disposable getUserInfo(String userId, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
@@ -216,4 +234,18 @@ public class PostApi {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
+
+    public boolean isRequestBlock(String key) {
+        boolean request = requestBlock.get(key);
+        if (request) {
+            ToastUtil.showToastCenter(BaseActivity.getActivityStack().get(BaseActivity.getActivityStack().size() - 1), "처리중입니다. 잠시만 기다려 주세요.");
+        }
+        return request;
+    }
+
+    public void requestBlockClear(String... key) {
+        for (String temp : key) {
+            requestBlock.put(temp, false);
+        }
+    }
 }
