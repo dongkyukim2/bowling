@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.databinding.ActivityReadBinding;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.adapter.ReplyAdapter;
@@ -154,6 +156,9 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
             startActivity(intent);
         });
 
+        if (LoginManager.getInstance().ispermissionUser(postModel.getUserId())) {
+            binding.moreImageView.setVisibility(View.VISIBLE);
+        }
         binding.moreImageView.setOnClickListener(view -> AlertDialogUtil.showBottomSheetDialog(this, v -> {
             if (v.getId() == R.id.btnModify) {
                 Intent intent = new Intent(this, WriteActivity.class);

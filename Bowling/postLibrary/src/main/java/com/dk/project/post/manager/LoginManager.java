@@ -8,6 +8,8 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.utils.Utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 public class LoginManager {
 
@@ -68,5 +70,12 @@ public class LoginManager {
     public boolean autoLogIn() {
         SharedPreferences sharedPreferences = BaseApplication.getGlobalApplicationContext().getSharedPreferences(Define.PREFERENCES, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("login", false);
+    }
+
+    public boolean ispermissionUser(String userId) {
+        if (loginInfoModel == null || StringUtils.isBlank(userId)) {
+            return false;
+        }
+        return loginInfoModel.getUserId().equalsIgnoreCase(userId);
     }
 }

@@ -186,6 +186,7 @@
                                                 android:id="@+id/more_image_view"
                                                 android:layout_width="25dp"
                                                 android:layout_height="25dp"
+                                                android:visibility="invisible"
                                                 app:srcCompat="@drawable/ic_more_grey" />
                                     </LinearLayout>
 

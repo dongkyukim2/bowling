@@ -15,6 +15,7 @@ import com.dk.project.bowling.viewModel.ReadGameViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.retrofit.BowlingApi
+import com.dk.project.post.manager.LoginManager
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.RxBus
 
@@ -57,11 +58,15 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        toolbarRightButton.visibility = View.VISIBLE
         toolbarRightButton.setImageResource(R.drawable.ic_more_grey)
 
         toolbarTitle.text = viewModel.readGameModel.gameName
         toolbarTitle.isSelected = true
+
+        if (LoginManager.getInstance().ispermissionUser(viewModel.readGameModel.createUserId)) {
+            toolbarRightButton.visibility = View.VISIBLE
+        }
+
     }
 
 

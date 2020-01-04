@@ -64,7 +64,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         savedInstanceState: Bundle?
     ): View? {
         view = super.onCreateView(inflater, container, savedInstanceState)
-        
+
         binding.viewModel = viewModel
         binding.clubRecycler.apply {
             clubAdapter = ClubAdapter()
@@ -127,7 +127,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     private fun setRecommendClubHeight() {
         binding.clubRecycler.postDelayed({
-            bottomSheetBehavior.peekHeight = binding.recommendClubParentSpace.height
+            bottomSheetBehavior.peekHeight =
+                binding.recommendClubParentSpace.height - resources.getDimension(R.dimen.bottom_ad_height).toInt()
             binding.recommendClubParent.requestLayout()
         }, 1000)
     }

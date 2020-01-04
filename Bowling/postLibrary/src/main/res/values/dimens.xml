@@ -1,4 +1,5 @@
 <resources>
     <dimen name="content_list_view_holder_width_margin">0dp</dimen>
     <dimen name="post_write_text_size">11dp</dimen>
+    <dimen name="bottom_ad_height">56dp</dimen>
 </resources>

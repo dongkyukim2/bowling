@@ -114,23 +114,25 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
             AlertDialogUtil.showLoginAlertDialog(mContext);
             return true;
         }
-        AlertDialogUtil.showListAlertDialog(mContext, null, new String[]{"댓글 수정", "삭제하기"}, (dialog, which) -> {
-            switch (which) {
-                case 0:
-                    Intent intent = new Intent(mContext, ReplyModifyActivity.class);
-                    intent.putExtra(REPLY_MODEL, replyModel);
-                    mContext.startActivityForResult(intent, MODIFY_REPLY);
-                    mContext.overridePendingTransition(0, 0);
-                    break;
-                case 1:
-                    AlertDialogUtil.showAlertDialog(mContext, null, "댓글을 삭제하시겠습니까?", (dialog1, which1) ->
-                            executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(), receivedData -> setDeleteReply(receivedData.getData()),
-                                    errorData -> {
-                                    })), (dialog1, which1) -> {
-                    });
-                    break;
-            }
-        });
+        if (LoginManager.getInstance().ispermissionUser(replyModel.getUserId())) {
+            AlertDialogUtil.showListAlertDialog(mContext, null, new String[]{"댓글 수정", "삭제하기"}, (dialog, which) -> {
+                switch (which) {
+                    case 0:
+                        Intent intent = new Intent(mContext, ReplyModifyActivity.class);
+                        intent.putExtra(REPLY_MODEL, replyModel);
+                        mContext.startActivityForResult(intent, MODIFY_REPLY);
+                        mContext.overridePendingTransition(0, 0);
+                        break;
+                    case 1:
+                        AlertDialogUtil.showAlertDialog(mContext, null, "댓글을 삭제하시겠습니까?", (dialog1, which1) ->
+                                executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(), receivedData -> setDeleteReply(receivedData.getData()),
+                                        errorData -> {
+                                        })), (dialog1, which1) -> {
+                        });
+                        break;
+                }
+            });
+        }
         return true;
     }
 }
