@@ -48,7 +48,12 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
         binding.viewModel = viewModel
 
-        toolbarRightButton.visibility = View.VISIBLE
+
+        if (LoginManager.getInstance().isPermissionUser(viewModel.clubModel.createUserId) == Define.OK) {
+            toolbarRightButton.visibility = View.VISIBLE
+        } else {
+            toolbarRightButton.visibility = View.INVISIBLE
+        }
 
         binding.clubViewpager.apply {
             offscreenPageLimit = 2
@@ -100,10 +105,6 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
 
     override fun onToolbarRightClick() {
         super.onToolbarRightClick()
-        if (LoginManager.getInstance().loginInfoModel == null) {
-            AlertDialogUtil.showLoginAlertDialog(this)
-            return
-        }
         when (currentPosition) {
             0 -> {
                 AlertDialogUtil.showEditTextAlertDialog(

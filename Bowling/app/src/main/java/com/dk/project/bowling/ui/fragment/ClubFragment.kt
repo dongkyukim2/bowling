@@ -18,6 +18,7 @@ import com.dk.project.bowling.ui.adapter.SignClubViewPagerAdapter
 import com.dk.project.bowling.ui.widget.CustomMarginPageTransformer
 import com.dk.project.bowling.viewModel.ClubViewModel
 import com.dk.project.post.base.BindFragment
+import com.dk.project.post.base.Define
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -50,7 +51,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         viewModel.executeRx(RxBus.getInstance().registerRxObserver { pair ->
             run {
                 when (pair.first) {
-                    EVENT_REFRESH_MY_CLUB_LIST -> {
+                    Define.EVENT_LOGIN_SUCCESS,
+                    Define.EVENT_REFRESH_MY_CLUB_LIST -> {
                         viewModel.getClubList()
                     }
                 }

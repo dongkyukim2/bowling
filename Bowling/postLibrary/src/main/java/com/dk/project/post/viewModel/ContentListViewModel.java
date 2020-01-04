@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseViewModel;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.retrofit.ErrorCallback;
@@ -59,6 +60,11 @@ public class ContentListViewModel extends BaseViewModel {
         executeRx(RxBus.getInstance().registerRxObserver(pair -> {
             ArrayList<PostModel> newPostList;
             switch (pair.first) {
+                case Define.EVENT_LOGIN_SUCCESS:
+                    getPostList(0, clubId, null, receivedData -> postItemList.setValue(receivedData.getData()),
+                            errorData -> {
+                            });
+                    break;
                 case EVENT_POST_REFRESH:
                     if (TextUtils.isEmpty(clubId) && pair.second == null) {
                         getPostList(0, null, null, receivedData -> postItemList.setValue(receivedData.getData()),

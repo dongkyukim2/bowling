@@ -88,7 +88,7 @@ public class ContentsListAdapter extends BaseRecyclerViewAdapter {
     public void setClearPostList(ArrayList<PostModel> postList) {
         if (this.postList.isEmpty()) {
             this.postList = postList;
-            notifyItemRangeInserted(0, postList.size());
+            notifyDataSetChanged();
         } else {
             DiffUtil.DiffResult result = getDiffUtil(this.postList, postList);
             this.postList = postList;

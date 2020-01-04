@@ -17,6 +17,7 @@ import com.dk.project.post.base.BindFragment
 import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
+import com.dk.project.post.manager.LoginManager
 import com.dk.project.post.utils.GlideApp
 import com.dk.project.post.utils.ImageUtil
 import com.dk.project.post.utils.RxBus
@@ -96,6 +97,20 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
             binding.space.layoutParams = this
         }
 
+        when (LoginManager.getInstance().isPermissionUser(viewModel.clubModel.createUserId)) {
+            Define.OK -> {
+                binding.clubSetting.visibility = View.VISIBLE
+                binding.signUpBtn.visibility = View.VISIBLE
+            }
+            Define.NO_PERMISSION -> {
+                binding.clubSetting.visibility = View.INVISIBLE
+                binding.signUpBtn.visibility = View.VISIBLE
+            }
+            Define.LOGOUT -> {
+                binding.clubSetting.visibility = View.INVISIBLE
+                binding.signUpBtn.visibility = View.INVISIBLE
+            }
+        }
         return view
     }
 

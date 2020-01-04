@@ -35,8 +35,6 @@ public class GraphViewModel extends BaseViewModel {
                     getMonthAvgList();
                     break;
             }
-
-
         }));
     }
 
