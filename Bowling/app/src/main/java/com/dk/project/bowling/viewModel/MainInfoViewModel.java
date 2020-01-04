@@ -3,14 +3,19 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.bowling.ui.activity.ScoreListActivity;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.bowling.model.ScoreModel;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 import static com.dk.project.post.base.Define.SCORE_DATE;
 
@@ -53,5 +58,10 @@ public class MainInfoViewModel extends BaseViewModel {
 
     public MutableLiveData<ScoreModel> getWriteScoreLiveData() {
         return writeScoreLiveData;
+    }
+
+    public String getYearMonth() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR) + "-" + String.format(Locale.KOREA, "%02d", (calendar.get(Calendar.MONTH) + 1));
     }
 }

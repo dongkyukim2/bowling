@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:fontFamily="@font/bamin"
-                            android:text="2019-07"
+                            android:text="@{viewModel.yearMonth}"
                             android:textColor="@color/startColor"
                             android:textSize="18dp"
                             app:layout_constraintBottom_toBottomOf="@id/score_graph"

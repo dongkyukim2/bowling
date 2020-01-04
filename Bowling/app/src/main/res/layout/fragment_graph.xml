@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="com.dk.project.post.base.BaseViewModel" />
+                type="com.dk.project.bowling.viewModel.GraphViewModel" />
     </data>
 
     <!--그래프 최소 최대 평균 -->
@@ -30,7 +30,7 @@
                     android:id="@+id/graph_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2019-02"
+                    android:text="@{viewModel.yearMonth}"
                     android:textColor="#000000"
                     android:textSize="16dp"
                     android:textStyle="bold"
