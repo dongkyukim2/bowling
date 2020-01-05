@@ -52,10 +52,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.Calendar;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
 
     private BottomSheetBehavior bottomSheetBehavior;
@@ -87,9 +83,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         GlideApp.with(this)
                 .asBitmap()
-                .load(R.drawable.side_bg)
+                .load(R.drawable.side_bg2)
                 .centerCrop()
-                .apply(bitmapTransform(new BlurTransformation(5, 1)))
+//                .apply(bitmapTransform(new BlurTransformation(5, 1)))
                 .addListener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -141,18 +137,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         bottomSheetBehavior = BottomSheetBehavior.from(binding.rlBottomSheet);
 
         binding.userName.setSelected(true);
-
-        LoginInfoModel loginInfoModel = LoginManager.getInstance().getLoginInfoModel();
-        if (loginInfoModel == null) {
-            binding.login.setVisibility(View.VISIBLE);
-            binding.logout.setVisibility(View.GONE);
-            binding.setting.setVisibility(View.GONE);
-        } else {
-            binding.login.setVisibility(View.GONE);
-            binding.logout.setVisibility(View.VISIBLE);
-            binding.setting.setVisibility(View.VISIBLE);
-        }
-
         setUserInfoView();
     }
 
@@ -316,6 +300,13 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
                         .centerCrop()
                         .into(binding.imageView);
             }
+            binding.loginParent.setVisibility(View.GONE);
+            binding.logoutParent.setVisibility(View.VISIBLE);
+            binding.settingParent.setVisibility(View.VISIBLE);
+        } else {
+            binding.loginParent.setVisibility(View.VISIBLE);
+            binding.logoutParent.setVisibility(View.GONE);
+            binding.settingParent.setVisibility(View.GONE);
         }
     }
 }
