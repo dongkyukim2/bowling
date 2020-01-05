@@ -2,6 +2,7 @@ package com.dk.project.post.ui.viewHolder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -147,10 +148,16 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
         binding.replyCountText.setText(String.valueOf(postModel.getReplyCount()));
         binding.likeCountText.setText(String.valueOf(postModel.getLikeCount()));
 
-        GlideApp.with(mContext).load(Define.IMAGE_URL + postModel.getUserProfile())
-                .apply(ImageUtil.getGlideRequestOption()
-                        .placeholder(R.drawable.user_profile))
-                .into(binding.userProfile);
+        if (TextUtils.isEmpty(postModel.getUserProfile())) {
+            GlideApp.with(mContext).load(R.drawable.user_profile)
+                    .centerCrop()
+                    .into(binding.userProfile);
+        } else {
+            GlideApp.with(mContext).applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
+                    .load(Define.IMAGE_URL + postModel.getUserProfile())
+                    .centerCrop()
+                    .into(binding.userProfile);
+        }
 
         if (binding.contentsText.getVisibility() == View.VISIBLE && postModel.getImageList().size() != 0) {
             binding.attachSpace.setVisibility(View.VISIBLE);

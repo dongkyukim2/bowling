@@ -13,6 +13,8 @@ import com.dk.project.post.bowling.model.ClubUserModel;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.GlideApp;
+import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ToastUtil;
 
@@ -28,6 +30,21 @@ public class ClubUserViewHolder extends BindViewHolder<ViewHolderClubUserBinding
     @Override
     public void onBindView(ScoreClubUserModel item, int position) {
         userModel = item;
+
+
+        if (TextUtils.isEmpty(item.getUserPhoto())) {
+            GlideApp.with(binding.userProfileImageView)
+                    .load(R.drawable.user_profile)
+                    .centerCrop()
+                    .into(binding.userProfileImageView);
+        } else {
+            GlideApp.with(binding.userProfileImageView)
+                    .applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
+                    .load(Define.IMAGE_URL + item.getUserPhoto())
+                    .centerCrop()
+                    .into(binding.userProfileImageView);
+        }
+
         binding.userNameText.setText(item.getUserName());
         binding.userCheckBox.setClickable(false);
 

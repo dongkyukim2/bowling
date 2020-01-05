@@ -1,10 +1,15 @@
 package com.dk.project.bowling.ui.viewHolder;
 
+import android.text.TextUtils;
 import android.view.View;
+
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ViewHolderCreateGameBinding;
 import com.dk.project.post.base.BindViewHolder;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreClubUserModel;
+import com.dk.project.post.utils.GlideApp;
+import com.dk.project.post.utils.ImageUtil;
 
 public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBinding, ScoreClubUserModel> {
 
@@ -43,6 +48,19 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.scoreLayout.setVisibility(View.VISIBLE);
             binding.createGameTeamName.setVisibility(View.INVISIBLE);
             binding.userProfileImageView.setVisibility(View.VISIBLE);
+
+            if (TextUtils.isEmpty(item.getUserPhoto())) {
+                GlideApp.with(binding.userProfileImageView)
+                        .load(R.drawable.user_profile)
+                        .centerCrop()
+                        .into(binding.userProfileImageView);
+            } else {
+                GlideApp.with(binding.userProfileImageView)
+                        .applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
+                        .load(Define.IMAGE_URL + item.getUserPhoto())
+                        .centerCrop()
+                        .into(binding.userProfileImageView);
+            }
         }
         if (item.isCheck()) {
             binding.userCheckBox.setBackgroundResource(R.drawable.check_enable);

@@ -55,6 +55,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
                     readUserModel.setViewType(1);
                     readUserModel.setUserId(userId);
                     readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()).getUserName());
+                    readUserModel.setUserPhoto(userMap.get(gameScoreModel.getUserId()).getUserPhoto());
                     readUserModel.setScore(scorePosition, score);
                     scoreUserList.add(readUserModel);
 
@@ -67,6 +68,7 @@ public class ReadGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHolde
                 readUserModel.setViewType(1);
                 readUserModel.setUserId(userId);
                 readUserModel.setUserName(userMap.get(gameScoreModel.getUserId()).getUserName());
+                readUserModel.setUserPhoto(userMap.get(gameScoreModel.getUserId()).getUserPhoto());
                 readUserModel.setScore(scorePosition, score);
                 scoreUserList.add(readUserModel);
             }

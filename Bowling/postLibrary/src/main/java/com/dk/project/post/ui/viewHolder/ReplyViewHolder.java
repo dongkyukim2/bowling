@@ -1,6 +1,7 @@
 package com.dk.project.post.ui.viewHolder;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.dk.project.post.R;
@@ -36,8 +37,16 @@ public class ReplyViewHolder<T extends ReplyModel> extends BindViewHolder<ReplyI
         binding.replyDateText.setText(Utils.converterDate(item.getReplyDate()));
         binding.replyUserNameText.setText(item.getUserName());
         binding.replyContentsText.setText(item.getReplyContents());
-        GlideApp.with(mContext).load(Define.IMAGE_URL + item.getUserProfile())
-                .apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
-                .into(binding.replyProfileImage);
+
+        if (TextUtils.isEmpty(item.getUserProfile())) {
+            GlideApp.with(mContext).load(R.drawable.user_profile)
+                    .centerCrop()
+                    .into(binding.replyProfileImage);
+        } else {
+            GlideApp.with(mContext).applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
+                    .load(Define.IMAGE_URL + item.getUserProfile())
+                    .centerCrop()
+                    .into(binding.replyProfileImage);
+        }
     }
 }
