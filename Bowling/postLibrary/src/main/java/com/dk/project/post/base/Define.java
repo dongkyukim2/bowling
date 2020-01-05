@@ -10,7 +10,7 @@ public interface Define {
     boolean ON_CREATE_LOG = false;
 
     boolean TEST_USER = false;
-    //    boolean TEST_USER = true;
+//        boolean TEST_USER = true;
     String TEST_ID = "1087708737";
     String TEST_NAME = "박철수";
 //    String TEST_ID = "1087708739";
@@ -140,7 +140,7 @@ public interface Define {
     3 : 탈퇴
     4 : 강퇴
     5 : 가입 거부
-    6 : 가입안된 상태, 아직 아무것도 안함
+    6 : 가입했다가 가입 취소
     */
 
     int USER_TYPE_JOIN = 0;

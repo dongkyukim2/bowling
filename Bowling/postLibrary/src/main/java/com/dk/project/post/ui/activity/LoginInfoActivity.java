@@ -11,6 +11,7 @@ import com.dk.project.post.R;
 import com.dk.project.post.base.BindActivity;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.databinding.ActivityLoginInfoBinding;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
@@ -41,6 +42,9 @@ public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, Lo
         super.onCreate(savedInstanceState);
         binding.setViewModel(viewModel);
         toolbarLeftButton.setVisibility(View.VISIBLE);
+        if (LoginManager.getInstance().isLogIn()) {
+            binding.signUpBtnText.setText("수 정 완 료");
+        }
     }
 
     @Override
@@ -51,7 +55,12 @@ public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, Lo
 
     @Override
     public void onBackPressed() {
-        AlertDialogUtil.showAlertDialog(this, null, "가입을 취소하겠습니까?", (dialog, which) -> {
+
+        String msg = "가입을 취소하겠습니까?";
+        if (LoginManager.getInstance().isLogIn()) {
+            msg = "수정을 취소하겠습니까?";
+        }
+        AlertDialogUtil.showAlertDialog(this, null, msg, (dialog, which) -> {
             UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
                 @Override
                 public void onCompleteLogout() {
