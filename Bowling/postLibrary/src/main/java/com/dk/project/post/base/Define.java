@@ -126,6 +126,8 @@ public interface Define {
 
     int EVENT_LOGIN_SUCCESS = 8888; // 앱 사용중 로그인 성공
 
+    int EVENT_PROFILE_SUCCESS = 9999; // 프로필 변경 성공
+
 
 
 

@@ -151,15 +151,9 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             binding.login.setVisibility(View.GONE);
             binding.logout.setVisibility(View.VISIBLE);
             binding.setting.setVisibility(View.VISIBLE);
-            binding.userName.setText(loginInfoModel.getUserName());
-
-            if (!TextUtils.isEmpty(loginInfoModel.getUserPhoto())) {
-                GlideApp.with(this).applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
-                        .load(Define.IMAGE_URL + loginInfoModel.getUserPhoto())
-                        .centerCrop()
-                        .into(binding.imageView);
-            }
         }
+
+        setUserInfoView();
     }
 
     @Override
@@ -309,6 +303,19 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void setUserInfoView() {
+        if (LoginManager.getInstance().isLogIn()) {
+            LoginInfoModel loginInfoModel = LoginManager.getInstance().getLoginInfoModel();
+            binding.userName.setText(loginInfoModel.getUserName());
+            if (!TextUtils.isEmpty(loginInfoModel.getUserPhoto())) {
+                GlideApp.with(this).applyDefaultRequestOptions(ImageUtil.getGlideRequestOption())
+                        .load(Define.IMAGE_URL + loginInfoModel.getUserPhoto())
+                        .centerCrop()
+                        .into(binding.imageView);
+            }
         }
     }
 }

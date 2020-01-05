@@ -86,14 +86,9 @@ public class ContentsListAdapter extends BaseRecyclerViewAdapter {
     }
 
     public void setClearPostList(ArrayList<PostModel> postList) {
-        if (this.postList.isEmpty()) {
-            this.postList = postList;
-            notifyDataSetChanged();
-        } else {
-            DiffUtil.DiffResult result = getDiffUtil(this.postList, postList);
-            this.postList = postList;
-            result.dispatchUpdatesTo(this);
-        }
+        this.postList.clear();
+        this.postList = postList;
+        notifyDataSetChanged();
     }
 
     public DiffUtil.DiffResult getDiffUtil(ArrayList<PostModel> oldList, ArrayList<PostModel> newList) {

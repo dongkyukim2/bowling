@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.util.Pair;
 
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseViewModel;
@@ -21,6 +22,7 @@ import com.dk.project.post.ui.widget.CircleImageView;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.PermissionsUtil;
+import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.utils.Utils;
 
@@ -34,6 +36,7 @@ public class LoginInfoViewModel extends BaseViewModel {
     private CircleImageView profileImage;
     private LoginInfoModel model;
     private String userPhoto;
+    private boolean modify = false;
 
     public LoginInfoViewModel(@NonNull Application application) {
         super(application);
@@ -48,6 +51,7 @@ public class LoginInfoViewModel extends BaseViewModel {
         signId = mContext.getIntent().getStringExtra(Define.ID);
         model = LoginManager.getInstance().getLoginInfoModel();
         if (model != null) {
+            modify = true;
             signId = model.getUserId();
             ((AppCompatEditText) mContext.findViewById(R.id.nick_name_edit)).setText(model.getUserName());
             if (!TextUtils.isEmpty(model.getUserPhoto())) {
@@ -91,7 +95,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                 LoginInfoModel loginInfoModel = new LoginInfoModel();
                 loginInfoModel.setUserId(signId);
                 loginInfoModel.setUserName(nickName);
-                loginInfoModel.setModify(model != null);
+                loginInfoModel.setModify(modify);
                 if (ListController.getInstance().getMediaSelectList().isEmpty()) {
                     executeRx(PostApi.getInstance().signUp(loginInfoModel,
                             receivedData -> {
@@ -101,11 +105,26 @@ public class LoginInfoViewModel extends BaseViewModel {
                                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     mContext.startActivity(intent);
                                     mContext.finish();
-                                    ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
+                                    if (modify) {
+                                        ToastUtil.showToastCenter(mContext, "수정 성공했습니다.");
+                                        RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_PROFILE_SUCCESS,true));
+                                    } else {
+                                        ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
+                                    }
+                                } else {
+                                    if (modify) {
+                                        ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
+                                    } else {
+                                        ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
+                                    }
+                                }
+                            }, errorData -> {
+                                if (modify) {
+                                    ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
                                 } else {
                                     ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                                 }
-                            }, errorData -> ToastUtil.showToastCenter(mContext, "가입 실패했습니다.")));
+                            }));
                 } else {
                     executeRx(PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), iamgeList -> {
                         if (iamgeList.isEmpty()) { // 등록하다가 올리면 이미지 못올려서 예외처리
@@ -122,11 +141,26 @@ public class LoginInfoViewModel extends BaseViewModel {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                         mContext.startActivity(intent);
                                         mContext.finish();
-                                        ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
+                                        if (modify) {
+                                            ToastUtil.showToastCenter(mContext, "수정 성공했습니다.");
+                                            RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_PROFILE_SUCCESS,true));
+                                        } else {
+                                            ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
+                                        }
+                                    } else {
+                                        if (modify) {
+                                            ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
+                                        } else {
+                                            ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
+                                        }
+                                    }
+                                }, errorData -> {
+                                    if (modify) {
+                                        ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
                                     } else {
                                         ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                                     }
-                                }, errorData -> ToastUtil.showToastCenter(mContext, "가입 실패했습니다.")));
+                                }));
                     }, errorData -> {
 
                     }, new ProgressRequestBody.ProgressListener() {

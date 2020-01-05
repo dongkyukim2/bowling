@@ -61,6 +61,7 @@ public class ContentListViewModel extends BaseViewModel {
             ArrayList<PostModel> newPostList;
             switch (pair.first) {
                 case Define.EVENT_LOGIN_SUCCESS:
+                case Define.EVENT_PROFILE_SUCCESS:
                     getPostList(0, clubId, null, receivedData -> postItemList.setValue(receivedData.getData()),
                             errorData -> {
                             });

@@ -17,7 +17,6 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.manager.LoginManager;
-import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.ui.activity.LoginInfoActivity;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.AlertDialogUtil;
@@ -45,8 +44,8 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
         executeRx(RxBus.getInstance().registerRxObserver(busModel -> {
             switch (busModel.first) {
                 case Define.EVENT_LOGIN_SUCCESS:
-                    LoginInfoModel loginInfoModel = LoginManager.getInstance().getLoginInfoModel();
-                    mContext.getBinding().userName.setText(loginInfoModel.getUserName());
+                case Define.EVENT_PROFILE_SUCCESS:
+                    mContext.setUserInfoView();
                     break;
             }
         }));
