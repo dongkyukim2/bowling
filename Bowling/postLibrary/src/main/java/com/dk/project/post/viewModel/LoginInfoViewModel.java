@@ -97,6 +97,10 @@ public class LoginInfoViewModel extends BaseViewModel {
                 loginInfoModel.setUserName(nickName);
                 loginInfoModel.setModify(modify);
                 if (ListController.getInstance().getMediaSelectList().isEmpty()) {
+                    if (modify) {
+                        loginInfoModel.setUserPhoto(userPhoto);
+                        loginInfoModel.setNewUserPhoto(userPhoto);
+                    }
                     executeRx(PostApi.getInstance().signUp(loginInfoModel,
                             receivedData -> {
                                 if (receivedData.isSuccess()) { // 회원가입성공
@@ -126,12 +130,14 @@ public class LoginInfoViewModel extends BaseViewModel {
                                 }
                             }));
                 } else {
+                    if (modify) {
+                        loginInfoModel.setUserPhoto(userPhoto);
+                    }
                     executeRx(PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), iamgeList -> {
                         if (iamgeList.isEmpty()) { // 등록하다가 올리면 이미지 못올려서 예외처리
-                            loginInfoModel.setUserPhoto(userPhoto);
-
+                            loginInfoModel.setNewUserPhoto(userPhoto);
                         } else {
-                            loginInfoModel.setUserPhoto(iamgeList.get(0));
+                            loginInfoModel.setNewUserPhoto(iamgeList.get(0));
                         }
                         executeRx(PostApi.getInstance().signUp(loginInfoModel,
                                 receivedData -> {

@@ -141,7 +141,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         });
 
         binding.writeDate.setText(Utils.converterDate(postModel.getWriteDate()));
-        GlideApp.with(this).load(postModel.getUserProfile())
+
+        GlideApp.with(this).load(Define.IMAGE_URL + postModel.getUserProfile())
                 .apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
                 .into(binding.userProfile);
 

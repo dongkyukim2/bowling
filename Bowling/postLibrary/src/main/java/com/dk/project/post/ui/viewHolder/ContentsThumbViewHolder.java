@@ -147,7 +147,9 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
         binding.replyCountText.setText(String.valueOf(postModel.getReplyCount()));
         binding.likeCountText.setText(String.valueOf(postModel.getLikeCount()));
 
-        GlideApp.with(mContext).load(postModel.getUserProfile()).apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
+        GlideApp.with(mContext).load(Define.IMAGE_URL + postModel.getUserProfile())
+                .apply(ImageUtil.getGlideRequestOption()
+                        .placeholder(R.drawable.user_profile))
                 .into(binding.userProfile);
 
         if (binding.contentsText.getVisibility() == View.VISIBLE && postModel.getImageList().size() != 0) {
