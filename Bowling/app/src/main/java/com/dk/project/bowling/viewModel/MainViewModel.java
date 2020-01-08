@@ -111,11 +111,13 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
     }
 
     public void checkShare() {
+        System.out.println("+++++++++++    0");
         if (!LoginManager.getInstance().isLogIn()) {
             return;
         }
         Intent shareIntent = mContext.getIntent();
         if (Utils.isShareIntent(shareIntent)) {
+            System.out.println("+++++++++++    1");
             Intent intent = new Intent(mContext, WriteActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             Bundle bundle = shareIntent.getExtras();

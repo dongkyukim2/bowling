@@ -22,6 +22,9 @@ import com.dk.project.post.base.Define
 import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.ScreenUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 
 class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
@@ -128,11 +131,15 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     }
 
     private fun setRecommendClubHeight() {
-        binding.clubRecycler.postDelayed({
-            bottomSheetBehavior.peekHeight =
-                binding.recommendClubParentSpace.height - resources.getDimension(R.dimen.bottom_ad_height).toInt()
-            binding.recommendClubParent.requestLayout()
-        }, 1000)
+        Observable.timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                bottomSheetBehavior.peekHeight =
+                    binding.recommendClubParentSpace.height - resources.getDimension(R.dimen.bottom_ad_height).toInt()
+                binding.recommendClubParent.requestLayout()
+            }.let {
+                viewModel.executeRx(it)
+            }
     }
 
     companion object {
