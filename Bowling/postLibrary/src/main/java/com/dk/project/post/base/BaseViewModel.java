@@ -45,6 +45,7 @@ public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewM
 
     public void executeRx(Disposable disposable) {
         if (compositeDisposable == null) {
+            disposable.dispose();
         } else {
             compositeDisposable.add(disposable);
         }

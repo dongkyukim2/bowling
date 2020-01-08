@@ -29,6 +29,16 @@ public class BaseActivity extends AppCompatActivity implements Define {
         activityStack.remove(this);
     }
 
+
+    public static boolean isLoadMainActivity() {
+        for (BaseActivity baseActivity : activityStack) {
+            if (baseActivity.getClass().getSimpleName().equalsIgnoreCase("MainActivity")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static BaseActivity getLastActivity() {
 
         if (!activityStack.isEmpty()) {

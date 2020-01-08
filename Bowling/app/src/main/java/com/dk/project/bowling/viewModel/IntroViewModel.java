@@ -3,6 +3,7 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
@@ -10,13 +11,16 @@ import androidx.annotation.NonNull;
 
 import com.dk.project.bowling.BuildConfig;
 import com.dk.project.bowling.ui.activity.MainActivity;
+import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
+import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
+import com.dk.project.post.utils.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,10 +50,23 @@ public class IntroViewModel extends BaseViewModel {
 
         ImageUtil.getImagePath(mContext);
 
-        database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("version");
-        database.goOnline();
-        checkVersion();
+        Intent shareIntent = mContext.getIntent();
+        if (Utils.isShareIntent(shareIntent) && LoginManager.getInstance().isLogIn() && BaseActivity.isLoadMainActivity()) {
+            Intent intent = new Intent(mContext, WriteActivity.class);
+
+            Bundle bundle = shareIntent.getExtras();
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
+
+            mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
+            mContext.finish();
+        } else {
+            database = FirebaseDatabase.getInstance();
+            dbRef = database.getReference("version");
+            database.goOnline();
+            checkVersion();
+        }
     }
 
     @Override
@@ -117,7 +134,15 @@ public class IntroViewModel extends BaseViewModel {
         KakaoLoginUtils.getUserInfo(receivedData -> {
             if (receivedData.first > 0 && receivedData.second != null) { // 카카오에서 유저정보 가져오고, 회원정보 있음
                 LoginManager.getInstance().setLoginInfoModel(receivedData.second);
-                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 로그인 된 상태로 메인 진입
+                Intent intent = new Intent(mContext, MainActivity.class);
+                Intent shareIntent = mContext.getIntent();
+                if (Utils.isShareIntent(shareIntent)) {
+                    Bundle bundle = shareIntent.getExtras();
+                    if (bundle != null) {
+                        intent.putExtras(bundle);
+                    }
+                }
+                mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
                 mContext.finish();
                 Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_LONG).show();
             } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상태

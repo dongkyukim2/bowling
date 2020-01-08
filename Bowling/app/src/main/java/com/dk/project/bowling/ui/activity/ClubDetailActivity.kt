@@ -75,6 +75,11 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_home -> {
+                    if (LoginManager.getInstance().isPermissionUser(viewModel.clubModel.createUserId) == Define.OK) {
+                        toolbarRightButton.visibility = View.VISIBLE
+                    } else {
+                        toolbarRightButton.visibility = View.INVISIBLE
+                    }
                     binding.clubViewpager.setCurrentItem(0, true)
                 }
                 R.id.navigation_score_board -> {
@@ -94,10 +99,10 @@ class ClubDetailActivity : BindActivity<ActivityClubDetailBinding, ClubDetailVie
             return
         }
         when (viewModel.clubModel.type) {
-            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> binding.clubViewpager.setCurrentItem(
-                index,
-                true
-            )
+            Define.USER_TYPE_JOIN, Define.USER_TYPE_OWNER -> {
+                binding.clubViewpager.setCurrentItem(index, true)
+                toolbarRightButton.visibility = View.VISIBLE
+            }
             Define.USER_TYPE_JOIN_WAIT -> ToastUtil.showToastCenter(this, "가입신청 대기중입니다.")
             else -> ToastUtil.showToastCenter(this, "가입신청을 해주세요.")
         }
