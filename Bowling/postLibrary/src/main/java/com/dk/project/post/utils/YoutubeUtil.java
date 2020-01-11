@@ -163,7 +163,7 @@ public class YoutubeUtil implements Define {
         linearLayout.setTag(IMAGE_DIVIDER);
         return linearLayout;
     }
-    
+
     // todo 유튜브에서 바로 첨부 후 다시 첨부 하면 첨부 안됨
     private static void setYoutubeThumbnail(Context context, ImageView imageView, String videoUri) {
 

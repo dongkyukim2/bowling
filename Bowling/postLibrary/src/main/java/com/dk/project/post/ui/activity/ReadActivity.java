@@ -150,6 +150,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
             scrollPosition = -1;
         });
 
+        binding.userName.setSelected(true);
+
         binding.writeDate.setText(Utils.converterDate(postModel.getWriteDate()));
 
         GlideApp.with(this).load(Define.IMAGE_URL + postModel.getUserProfile())

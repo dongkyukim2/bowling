@@ -112,7 +112,8 @@ public class PostApi implements Define {
                                  ErrorCallback errorCallback) {
         return apiService.writeReply(replyModel)
                 .map(replyModelResponseModel -> {
-                    if (replyModelResponseModel.getMessage().equalsIgnoreCase("ALREADY_DELETE")) {
+                    if (!TextUtils.isEmpty(replyModelResponseModel.getMessage()) &&
+                            replyModelResponseModel.getMessage().equalsIgnoreCase("ALREADY_DELETE")) {
                         String postId = replyModelResponseModel.getData().getPostId();
                         alreadyDeleteCallback.onSuccess(postId);
                     }

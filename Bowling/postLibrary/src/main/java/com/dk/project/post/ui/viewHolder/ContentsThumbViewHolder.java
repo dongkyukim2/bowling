@@ -140,6 +140,7 @@ public class ContentsThumbViewHolder<T extends PostModel> extends BaseContentsVi
         }
 
         binding.userName.setText(postModel.getUserName());
+        binding.userName.setSelected(true);
 
         binding.writeDate.setText(Utils.converterDate(postModel.getWriteDate()));
 

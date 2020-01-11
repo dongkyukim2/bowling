@@ -40,6 +40,8 @@ public class CreateGameViewHolder extends BindViewHolder<ViewHolderCreateGameBin
             binding.gameNumScore4.setText(String.valueOf(item.getScore(3)));
             binding.gameNumScore5.setText(String.valueOf(item.getScore(4)));
             binding.gameNumScore6.setText(String.valueOf(item.getScore(5)));
+            binding.gameNumScore7.setText(String.valueOf(item.getScore(6)));
+            binding.gameNumScore8.setText(String.valueOf(item.getScore(7)));
 
 
             binding.dragIcon.setVisibility(View.VISIBLE);

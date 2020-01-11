@@ -4,21 +4,28 @@ import android.os.Parcel;
 
 import com.dk.project.post.model.LoginInfoModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ScoreClubUserModel extends ClubUserModel {
 
     // 0이면 팀 , 1이면 유저 정보
     private int viewType = 1;
     private String teamName;
     private boolean check;
-    private int[] scoreList = {0, 0, 0, 0, 0, 0};
+//    private int[] scoreList = {0, 0, 0, 0, 0, 0};
+
+    private ArrayList<Integer> scoreList;
+
 
     public ScoreClubUserModel() {
-
+        scoreList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0));
     }
 
     public ScoreClubUserModel(String teamName) {
         this.viewType = 0;
         this.teamName = teamName;
+        scoreList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0));
     }
 
     public ScoreClubUserModel(LoginInfoModel loginInfoModel) {
@@ -26,6 +33,7 @@ public class ScoreClubUserModel extends ClubUserModel {
         setUserId(loginInfoModel.getUserId());
         setUserName(loginInfoModel.getUserName());
         setUserPhoto(loginInfoModel.getUserPhoto());
+        scoreList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0));
     }
 
     protected ScoreClubUserModel(Parcel in) {
@@ -33,7 +41,8 @@ public class ScoreClubUserModel extends ClubUserModel {
         viewType = in.readInt();
         teamName = in.readString();
         check = in.readByte() != 0;
-        scoreList = in.createIntArray();
+//        scoreList = in.createIntArray();
+        in.readList(scoreList, Integer.class.getClassLoader());
     }
 
     public static final Creator<ScoreClubUserModel> CREATOR = new Creator<ScoreClubUserModel>() {
@@ -58,7 +67,8 @@ public class ScoreClubUserModel extends ClubUserModel {
         dest.writeInt(viewType);
         dest.writeString(teamName);
         dest.writeByte((byte) (check ? 1 : 0));
-        dest.writeIntArray(scoreList);
+//        dest.writeIntArray(scoreList);
+        dest.writeList(scoreList);
     }
 
     public boolean isUserType() {
@@ -86,10 +96,12 @@ public class ScoreClubUserModel extends ClubUserModel {
     }
 
     public void setScore(int index, int score) {
-        scoreList[index] = score;
+//        scoreList[index] = score;
+        scoreList.set(index, score);
     }
 
     public int getScore(int index) {
-        return scoreList[index];
+//        return scoreList[index];
+        return scoreList.get(index);
     }
 }

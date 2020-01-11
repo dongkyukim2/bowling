@@ -108,6 +108,10 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         holder.getBinding().gameNumScore5.setTag(position);
         holder.getBinding().gameNum6.setTag(position);
         holder.getBinding().gameNumScore6.setTag(position);
+        holder.getBinding().gameNum7.setTag(position);
+        holder.getBinding().gameNumScore7.setTag(position);
+        holder.getBinding().gameNum8.setTag(position);
+        holder.getBinding().gameNumScore8.setTag(position);
 
         View.OnClickListener onClickListener = v -> {
 
@@ -125,6 +129,12 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
                     break;
                 case R.id.drag_icon:
                     break;
+                case R.id.game_num_8:
+                case R.id.game_num_score_8:
+                    scoreIndex.incrementAndGet();
+                case R.id.game_num_7:
+                case R.id.game_num_score_7:
+                    scoreIndex.incrementAndGet();
                 case R.id.game_num_6:
                 case R.id.game_num_score_6:
                     scoreIndex.incrementAndGet();
@@ -165,6 +175,11 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         holder.getBinding().gameNumScore5.setOnClickListener(onClickListener);
         holder.getBinding().gameNum6.setOnClickListener(onClickListener);
         holder.getBinding().gameNumScore6.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum7.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore7.setOnClickListener(onClickListener);
+        holder.getBinding().gameNum8.setOnClickListener(onClickListener);
+        holder.getBinding().gameNumScore8.setOnClickListener(onClickListener);
+
 
         holder.getBinding().userInviteIcon.setOnClickListener(onClickListener);
         holder.getBinding().dragIcon.setOnClickListener(onClickListener);
@@ -208,6 +223,10 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         from.getBinding().gameNumScore5.setTag(toPosition);
         from.getBinding().gameNum6.setTag(toPosition);
         from.getBinding().gameNumScore6.setTag(toPosition);
+        from.getBinding().gameNum7.setTag(toPosition);
+        from.getBinding().gameNumScore7.setTag(toPosition);
+        from.getBinding().gameNum8.setTag(toPosition);
+        from.getBinding().gameNumScore8.setTag(toPosition);
 
         to.itemView.setTag(fromPosition);
         to.getBinding().userInviteIcon.setTag(fromPosition);
@@ -224,6 +243,10 @@ public class CreateGameAdapter extends BaseRecyclerViewAdapter<CreateGameViewHol
         to.getBinding().gameNumScore5.setTag(fromPosition);
         to.getBinding().gameNum6.setTag(fromPosition);
         to.getBinding().gameNumScore6.setTag(fromPosition);
+        to.getBinding().gameNum7.setTag(fromPosition);
+        to.getBinding().gameNumScore7.setTag(fromPosition);
+        to.getBinding().gameNum8.setTag(fromPosition);
+        to.getBinding().gameNumScore8.setTag(fromPosition);
 
         notifyItemMoved(fromPosition, toPosition);
 

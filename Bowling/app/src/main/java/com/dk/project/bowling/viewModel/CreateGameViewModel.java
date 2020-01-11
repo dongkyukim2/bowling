@@ -14,7 +14,6 @@ import com.dk.project.post.bowling.model.ScoreClubUserModel;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by dkkim on 2017-10-04.
  */
@@ -29,7 +28,6 @@ public class CreateGameViewModel extends BaseViewModel {
 
     private int adapterMode;
     private ArrayList<ScoreClubUserModel> gameScoreList;
-
 
     public CreateGameViewModel(@NonNull Application application) {
         super(application);

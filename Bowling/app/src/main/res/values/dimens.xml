@@ -7,6 +7,6 @@
     <dimen name="floating_action_button_right">40dp</dimen>
     <dimen name="floating_action_button_bottom">40dp</dimen>
 
-    <dimen name="score_percent">0.166666666667</dimen>
+    <dimen name="score_percent">0.125</dimen>
 
 </resources>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
                 name="viewModel"
-                type="com.dk.project.post.base.BaseViewModel"/>
+                type="com.dk.project.post.base.BaseViewModel" />
 
     </data>
 
@@ -12,13 +14,13 @@
             android:id="@+id/content_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/main_background_color"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="10dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp">
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/main_background_color"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp">
 
         <com.dk.project.post.ui.widget.ContentViewHolderLinearLayout
                 android:id="@+id/content_view_holder_root"
@@ -29,39 +31,41 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
                 <com.dk.project.post.ui.widget.CircleImageView
                         android:id="@+id/user_profile"
                         android:layout_width="46dp"
-                        android:layout_height="46dp"/>
+                        android:layout_height="46dp" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
 
                     <TextView
                             android:id="@+id/user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textColor="#000000"
                             android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:ellipsize="marquee"
                             android:fontFamily="@font/bamin"
-                            android:textSize="18dp"/>
+                            android:singleLine="true"
+                            android:textColor="#000000"
+                            android:textSize="@dimen/post_name_text_size" />
 
                     <TextView
                             android:id="@+id/write_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#969696"
-                            android:fontFamily="@font/bamin"
                             android:layout_marginRight="10dp"
-                            android:textSize="@dimen/post_write_text_size"/>
+                            android:fontFamily="@font/bamin"
+                            android:textColor="#969696"
+                            android:textSize="@dimen/post_write_text_size" />
 
                 </LinearLayout>
 
@@ -71,13 +75,13 @@
                     android:id="@+id/contents_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/binggrae"
+                    android:maxLines="3"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:ellipsize="end"
-                    android:maxLines="3"
                     android:textColor="#000000"
-                    android:fontFamily="@font/binggrae"
-                    android:textSize="22dp"/>
+                    android:textSize="22dp" />
 
             <LinearLayout
                     android:id="@+id/content_root"
@@ -88,7 +92,7 @@
                 <RelativeLayout
                         android:id="@+id/attach_space"
                         android:layout_width="match_parent"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
 
                 <RelativeLayout
                         android:id="@+id/attach_view_pager_parent"
@@ -98,29 +102,29 @@
                     <androidx.viewpager.widget.ViewPager
                             android:id="@+id/attach_view_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                     <RelativeLayout
                             android:id="@+id/pager_position_text_parent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignRight="@id/attach_view_pager"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
-                            android:layout_alignRight="@id/attach_view_pager"
                             android:background="#7e000000">
 
                         <TextView
                                 android:id="@+id/pager_position_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingTop="4dp"
-                                android:paddingBottom="4dp"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
                                 android:animateLayoutChanges="true"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="4dp"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="4dp"
                                 android:text="10/10"
                                 android:textColor="#ffffff"
-                                android:textSize="16dp"/>
+                                android:textSize="16dp" />
 
                     </RelativeLayout>
 
@@ -147,7 +151,7 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
-                            app:srcCompat="@drawable/ic_heart_outline_grey"/>
+                            app:srcCompat="@drawable/ic_heart_outline_grey" />
 
                     <TextView
                             android:id="@+id/like_count_text"
@@ -156,7 +160,7 @@
                             android:layout_marginLeft="6dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="14dp"/>
+                            android:textSize="14dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -171,7 +175,7 @@
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
-                            app:srcCompat="@drawable/ic_comment_outline_grey"/>
+                            app:srcCompat="@drawable/ic_comment_outline_grey" />
 
                     <TextView
                             android:id="@+id/reply_count_text"
@@ -180,13 +184,13 @@
                             android:layout_marginLeft="6dp"
                             android:text="0"
                             android:textColor="#000000"
-                            android:textSize="14dp"/>
+                            android:textSize="14dp" />
                 </LinearLayout>
 
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                 <LinearLayout
                         android:id="@+id/more_image_parent"
@@ -199,7 +203,7 @@
                             android:id="@+id/more_image_view"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            app:srcCompat="@drawable/ic_more_grey"/>
+                            app:srcCompat="@drawable/ic_more_grey" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -209,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-10dp"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
         </com.dk.project.post.ui.widget.ContentViewHolderLinearLayout>
     </androidx.cardview.widget.CardView>

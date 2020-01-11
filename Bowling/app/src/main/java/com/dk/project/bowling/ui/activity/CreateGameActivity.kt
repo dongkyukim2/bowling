@@ -17,7 +17,6 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -240,8 +239,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                             this@CreateGameActivity,
                             "게임 등록 오류!!!",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     })
                 }
             }
@@ -276,8 +274,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                             this@CreateGameActivity,
                             "게임 수정 오류!!!",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     })
                 }
             }
