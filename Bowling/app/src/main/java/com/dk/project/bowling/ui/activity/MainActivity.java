@@ -76,7 +76,6 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         binding.setViewModel(viewModel);
 
         viewModel.checkShare();

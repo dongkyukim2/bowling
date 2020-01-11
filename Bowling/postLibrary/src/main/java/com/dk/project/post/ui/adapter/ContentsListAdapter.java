@@ -85,6 +85,16 @@ public class ContentsListAdapter extends BaseRecyclerViewAdapter {
         }
     }
 
+    public void deletePost(String postId) {
+        for (PostModel postModel : postList) {
+            if (postModel.getPostId().equalsIgnoreCase(postId)) {
+                postList.remove(postModel);
+                notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
     public void setClearPostList(ArrayList<PostModel> postList) {
         this.postList.clear();
         this.postList = postList;

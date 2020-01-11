@@ -19,6 +19,7 @@ import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.activity.ReplyModifyActivity;
 import com.dk.project.post.ui.viewHolder.ReplyViewHolder;
 import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.viewModel.ReadViewModel;
 
 import java.util.ArrayList;
 
@@ -34,10 +35,12 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
     private BindActivity mContext;
     private ArrayList<ReplyModel> replyItemArrayList = new ArrayList<>();
     private LayoutInflater layoutInflater;
+    private ReadViewModel readViewModel;
 
-    public ReplyAdapter(BindActivity context, boolean isReplyMoreList) {
+    public ReplyAdapter(BindActivity context, boolean isReplyMoreList , ReadViewModel readViewModel) {
         mContext = context;
         layoutInflater = LayoutInflater.from(mContext);
+        this.readViewModel = readViewModel;
     }
 
     @Override
@@ -63,15 +66,17 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
             if (deleteReplyModel.getReplyId().equals(replyModel.getReplyId())) {
                 replyModelArrayList.remove(replyModel);
                 setReplyList(replyModelArrayList, true);
+                if (readViewModel != null) {
+                    int replyCount = Integer.valueOf(readViewModel.getReplyCountLiveData().getValue());
+                    replyCount--;
+                    readViewModel.getReplyCountLiveData().setValue(String.valueOf(replyCount));
+                }
                 break;
             }
         }
     }
 
     public void setReplyList(ArrayList<ReplyModel> replyList, boolean clean) {
-        if (replyList.isEmpty()) {
-            return;
-        }
         if (clean) {
             replyItemArrayList.clear();
 
@@ -123,7 +128,8 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
                             break;
                         case 1:
                             AlertDialogUtil.showAlertDialog(mContext, null, "댓글을 삭제하시겠습니까?", (dialog1, which1) ->
-                                    executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(), receivedData -> setDeleteReply(receivedData.getData()),
+                                    executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(),
+                                            receivedData -> setDeleteReply(receivedData.getData()),
                                             errorData -> {
                                             })), (dialog1, which1) -> {
                             });

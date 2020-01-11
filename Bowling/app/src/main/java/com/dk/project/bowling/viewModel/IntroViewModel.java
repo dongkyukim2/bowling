@@ -3,6 +3,7 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -81,16 +82,10 @@ public class IntroViewModel extends BaseViewModel {
     }
 
     private void startMainActivity() {
-        if (Define.TEST_USER) {
-            // todo LoginInfoModel, setUserCode 중복 수정해야함
-            LoginInfoModel loginInfoModel = new LoginInfoModel();
-            loginInfoModel.setUserId(Define.TEST_ID);
-            loginInfoModel.setUserName(Define.TEST_NAME);
-            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
-            Intent intent = new Intent(mContext, MainActivity.class);
-            mContext.startActivity(intent);
-            mContext.finish();
-        } else {
+
+
+        System.out.println("+++++++++++   " + Build.MODEL);
+        if (Build.MODEL.equalsIgnoreCase("SM-G965N")) {
             // todo 여기도 수정해야함
             if (mContext.getIntent().hasExtra(Define.INTRO_DELAY)) {
                 Intent intent = new Intent(mContext, MainActivity.class);
@@ -127,6 +122,24 @@ public class IntroViewModel extends BaseViewModel {
                     Toast.makeText(mContext, "로그아웃 상태로 진입", Toast.LENGTH_LONG).show();
                 }
             }
+        } else if (Build.MODEL.equalsIgnoreCase("SM-G900K")) {
+            // todo LoginInfoModel, setUserCode 중복 수정해야함
+            LoginInfoModel loginInfoModel = new LoginInfoModel();
+            loginInfoModel.setUserId("1087708737");
+            loginInfoModel.setUserName("박철수");
+            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
+            Intent intent = new Intent(mContext, MainActivity.class);
+            mContext.startActivity(intent);
+            mContext.finish();
+        } else if (Build.MODEL.equalsIgnoreCase("SM-N900L")) {
+            // todo LoginInfoModel, setUserCode 중복 수정해야함
+            LoginInfoModel loginInfoModel = new LoginInfoModel();
+            loginInfoModel.setUserId("1087708739");
+            loginInfoModel.setUserName("최길동");
+            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
+            Intent intent = new Intent(mContext, MainActivity.class);
+            mContext.startActivity(intent);
+            mContext.finish();
         }
     }
 

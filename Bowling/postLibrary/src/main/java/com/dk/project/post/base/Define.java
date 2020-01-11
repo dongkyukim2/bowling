@@ -9,10 +9,10 @@ public interface Define {
 
     boolean ON_CREATE_LOG = false;
 
-    boolean TEST_USER = false;
+//    boolean TEST_USER = false;
 //        boolean TEST_USER = true;
-    String TEST_ID = "1087708737";
-    String TEST_NAME = "박철수";
+//    String TEST_ID = "1087708737";
+//    String TEST_NAME = "박철수";
 //    String TEST_ID = "1087708739";
 //    String TEST_NAME = "최길동";
 
@@ -127,6 +127,9 @@ public interface Define {
     int EVENT_LOGIN_SUCCESS = 8888; // 앱 사용중 로그인 성공
 
     int EVENT_PROFILE_SUCCESS = 9999; // 프로필 변경 성공
+
+
+    int EVENT_ALREADY_DELETE_POST = 12324; // 이미 삭제된 포스트
 
 
 

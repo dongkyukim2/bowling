@@ -46,7 +46,7 @@ public class ReplyMoreActivity extends BindActivity<ActivityReplyMoreBinding, Re
 
         postModel = getIntent().getParcelableExtra(POST_MODEL);
 
-        replyAdapter = new ReplyAdapter(this, true);
+        replyAdapter = new ReplyAdapter(this, true, null);
 
         linearLayoutManager = new LinearLayoutManager(this);
         binding.replyMoreRecycler.setLayoutManager(linearLayoutManager);

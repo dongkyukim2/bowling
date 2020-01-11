@@ -65,6 +65,7 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 public class ImageUtil implements Define {
 
     public static boolean IGNORE_WEBP = true;
+    public static boolean IGNORE_GIF = true;
     public static String imagePath;
     private static final int SPACE_HEIGHT_INT = 22;
     private static GradientDrawable gradientDrawable;

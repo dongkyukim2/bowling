@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dk.project.post.R;
 import com.dk.project.post.base.BindFragment;
+import com.dk.project.post.base.Define;
 import com.dk.project.post.databinding.FragmentContentsListBinding;
 import com.dk.project.post.ui.adapter.ContentsListAdapter;
 import com.dk.project.post.utils.RxBus;
+import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.viewModel.ContentListViewModel;
 
 import java.util.List;
@@ -56,6 +58,14 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
             contentsListAdapter.setClearPostList(postModels);
             binding.contentsListViewRefresh.setRefreshing(false);
         });
+
+        viewModel.executeRx(RxBus.getInstance().registerRxObserver(busModel -> {
+            switch (busModel.first) {
+                case Define.EVENT_ALREADY_DELETE_POST:
+                    contentsListAdapter.deletePost(busModel.second.toString());
+                    break;
+            }
+        }));
     }
 
     @Override

@@ -108,9 +108,17 @@ public class PostApi implements Define {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
-    public Disposable writeReply(ReplyModel replyModel, SuccessCallback<ResponseModel<ArrayList<ReplyModel>>> callback,
+    public Disposable writeReply(ReplyModel replyModel, SuccessCallback<ResponseModel<ArrayList<ReplyModel>>> callback, SuccessCallback<String> alreadyDeleteCallback,
                                  ErrorCallback errorCallback) {
         return apiService.writeReply(replyModel)
+                .map(replyModelResponseModel -> {
+                    if (replyModelResponseModel.getMessage().equalsIgnoreCase("ALREADY_DELETE")) {
+                        String postId = replyModelResponseModel.getData().getPostId();
+                        alreadyDeleteCallback.onSuccess(postId);
+                    }
+                    return replyModelResponseModel;
+                })
+                .filter(replyModelResponseModel -> replyModelResponseModel.isSuccess())
                 .flatMap(responseModel -> apiService.replyList(0, responseModel.getData().getPostId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -196,23 +204,23 @@ public class PostApi implements Define {
                            ProgressListener progressListener) {
         return ImageUtil.compressImage(context, fileList).flatMap(mediaSelectListModels ->
                 Observable.fromIterable(mediaSelectListModels).filter(selectModel -> {
-            if (TextUtils.isEmpty(selectModel.getYoutubeUrl()) && !selectModel.getFilePath().startsWith("http")) {
-                return true;
-            }
-            return false;
-        }).map(selectModel -> {
-            File file = new File(selectModel.getFilePath());
-            ProgressRequestBody fileBody = new ProgressRequestBody(file, MediaType.parse("image"), progressListener);
-            Part part = Part.createFormData("file", file.getName(), fileBody);
-            selectModel.setFilePath(file.getName());
-            progressListener.onUploadStart(selectModel.getOriginalFileName());
-            return part;
-        }).filter(part -> part.body().contentLength() != 0)
-                .flatMap(part -> apiService.uploadFile(part).retry(3, throwable -> {
-                    Thread.sleep(300);
-                    System.out.println("======================    retry");
-                    return true;
-                }), 1).map(objectResponseModel -> {
+                    if (TextUtils.isEmpty(selectModel.getYoutubeUrl()) && !selectModel.getFilePath().startsWith("http")) {
+                        return true;
+                    }
+                    return false;
+                }).map(selectModel -> {
+                    File file = new File(selectModel.getFilePath());
+                    ProgressRequestBody fileBody = new ProgressRequestBody(file, MediaType.parse("image"), progressListener);
+                    Part part = Part.createFormData("file", file.getName(), fileBody);
+                    selectModel.setFilePath(file.getName());
+                    progressListener.onUploadStart(selectModel.getOriginalFileName());
+                    return part;
+                }).filter(part -> part.body().contentLength() != 0)
+                        .flatMap(part -> apiService.uploadFile(part).retry(3, throwable -> {
+                            Thread.sleep(300);
+                            System.out.println("======================    retry");
+                            return true;
+                        }), 1).map(objectResponseModel -> {
                     progressListener.onUploadEnd("uploadEnd");
                     return objectResponseModel.getData();
                 }).toList()).subscribeOn(Schedulers.io()).

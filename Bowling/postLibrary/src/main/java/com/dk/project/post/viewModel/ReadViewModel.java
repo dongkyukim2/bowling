@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.util.Pair;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.MediatorLiveData;
 
@@ -107,11 +108,11 @@ public class ReadViewModel extends BaseViewModel {
         }
         int id = view.getId();
         if (id == R.id.reply_more) {
-
-            Intent intent = new Intent(mContext, ReplyMoreActivity.class);
-            intent.putExtra(Define.POST_MODEL, postModel);
-            mContext.startActivity(intent);
-
+            if (postModel.getReplyCount() > 0) {
+                Intent intent = new Intent(mContext, ReplyMoreActivity.class);
+                intent.putExtra(Define.POST_MODEL, postModel);
+                mContext.startActivity(intent);
+            }
         } else if (id == R.id.like_image_view) {
 
             if (postModel.isLikeSelected()) {
@@ -135,6 +136,7 @@ public class ReadViewModel extends BaseViewModel {
             }
             executeRx(PostApi.getInstance().writeReply(new ReplyModel(postModel.getPostId(), editText.getText().toString().trim()),
                     getReplyModelListCallback(),
+                    postId -> RxBus.getInstance().eventPost(new Pair(Define.EVENT_ALREADY_DELETE_POST, postId)),
                     errorData -> {
                     }));
             editText.setText("");
@@ -244,8 +246,10 @@ public class ReadViewModel extends BaseViewModel {
     private SuccessCallback<ResponseModel<ArrayList<ReplyModel>>> getReplyModelListCallback() {
         if (replyModelListCallback == null) {
             replyModelListCallback = receivedData -> {
-                replyItemList.setValue(receivedData.getData());
-                setReplyCount();
+                if (receivedData.isSuccess()) {
+                    replyItemList.setValue(receivedData.getData());
+                    setReplyCount();
+                }
             };
         }
         return replyModelListCallback;

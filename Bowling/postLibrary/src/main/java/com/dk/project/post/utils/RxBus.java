@@ -1,8 +1,11 @@
 package com.dk.project.post.utils;
 
 import androidx.core.util.Pair;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -34,12 +37,15 @@ public class RxBus {
     }
 
     public Disposable registerRxObserver(Consumer<Pair<Integer, Object>> onNext) {
-        return eventSubject.subscribe(onNext, throwable -> {
-            System.out.println("bbbbbbbbbbbbbbbbbb   registerRxObserver   " + throwable.toString());
-            for (StackTraceElement element : throwable.getStackTrace()) {
-                System.out.println("bbbbbbbbbbbbbbbbbb   registerRxObserver   " + element.toString());
-            }
-            System.out.println("bbbbbbbbbbbbbbbbbb   registerRxObserver   ====================================");
-        });
+        return eventSubject
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext, throwable -> {
+                    System.out.println("bbbbbbbbbbbbbbbbbb   registerRxObserver   " + throwable.toString());
+                    for (StackTraceElement element : throwable.getStackTrace()) {
+                        System.out.println("bbbbbbbbbbbbbbbbbb   registerRxObserver   " + element.toString());
+                    }
+                    System.out.println("bbbbbbbbbbbbbbbbbb   registerRxObserver   ====================================");
+                });
     }
 }

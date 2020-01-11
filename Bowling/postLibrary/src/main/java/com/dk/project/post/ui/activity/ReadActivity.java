@@ -29,13 +29,14 @@ import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ScreenUtil;
+import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.utils.Utils;
 import com.dk.project.post.viewModel.ReadViewModel;
 
 public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewModel> implements NestedScrollView.OnScrollChangeListener {
 
     private ReplyAdapter replyAdapter;
-    private ReplyAdapter bottomSheetReplyAdapter;
+    //    private ReplyAdapter bottomSheetReplyAdapter;
     private int scrollPosition = -1;
     private int scrollY;
     private int oldScrollY;
@@ -71,7 +72,6 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
     @Override
     protected void subscribeToModel() {
         viewModel.getReplyItemList().observe(this, replyModels -> {
-            bottomSheetReplyAdapter.setReplyList(replyModels, true);
             replyAdapter.setReplyList(replyModels, true);
 
             postModel.getReplyList().clear();
@@ -86,7 +86,6 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
                     postModel.getReplyList().addAll(replyModels.subList(0, 2));
                     break;
             }
-            postModel.setReplyCount(replyModels.size());
         });
 
 
@@ -109,6 +108,17 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
                 }
             }, binding.likeImageView);
         });
+
+        viewModel.executeRx(RxBus.getInstance().registerRxObserver(integerObjectPair -> {
+            switch (integerObjectPair.first) {
+                case Define.EVENT_ALREADY_DELETE_POST:
+                    if(viewModel.getPostModel().getPostId().equalsIgnoreCase(integerObjectPair.second.toString())){
+                        ToastUtil.showToastCenter(this,"이미 삭제된 내용입니다.");
+                        finish();
+                    }
+                    break;
+            }
+        }));
     }
 
     @Override
@@ -126,8 +136,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
 
         binding.setBindingReadViewModel(viewModel);
 
-        replyAdapter = new ReplyAdapter(this, false);
-        bottomSheetReplyAdapter = new ReplyAdapter(this, true);
+        replyAdapter = new ReplyAdapter(this, false, viewModel);
+//        bottomSheetReplyAdapter = new ReplyAdapter(this, true);
 
         linearLayoutManager = new LinearLayoutManager(this);
 
