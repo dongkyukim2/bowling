@@ -41,16 +41,22 @@ import com.dk.project.post.bowling.model.ScoreModel;
 import com.dk.project.post.bowling.retrofit.MutableLiveDataManager;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
+import com.dk.project.post.model.YoutubeData;
 import com.dk.project.post.retrofit.RetroClient;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.YoutubeUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
 
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
 
@@ -137,12 +143,19 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
         binding.userName.setSelected(true);
         setUserInfoView();
+
+        YoutubeUtil.selectYoutubeDb();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         viewModel.checkShare();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

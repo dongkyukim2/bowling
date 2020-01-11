@@ -22,6 +22,7 @@ import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.dk.project.post.utils.Utils;
+import com.dk.project.post.utils.YoutubeUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +51,8 @@ public class IntroViewModel extends BaseViewModel {
         super.onCreated();
 
         ImageUtil.getImagePath(mContext);
+
+        YoutubeUtil.deleteYoutubeDb();
 
         Intent shareIntent = mContext.getIntent();
         if (Utils.isShareIntent(shareIntent) && LoginManager.getInstance().isLogIn() && BaseActivity.isLoadMainActivity()) {
@@ -82,9 +85,6 @@ public class IntroViewModel extends BaseViewModel {
     }
 
     private void startMainActivity() {
-
-
-        System.out.println("+++++++++++   " + Build.MODEL);
         if (Build.MODEL.equalsIgnoreCase("SM-G965N")) {
             // todo 여기도 수정해야함
             if (mContext.getIntent().hasExtra(Define.INTRO_DELAY)) {

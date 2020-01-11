@@ -2,7 +2,11 @@ package com.dk.project.post.base;
 
 import android.app.Application;
 
+import androidx.room.Database;
+import androidx.room.Room;
+
 import com.dk.project.post.R;
+import com.dk.project.post.manager.AppDatabase;
 import com.dk.project.post.utils.AppExecutors;
 import com.dk.project.post.utils.ImagePipelineConfigFactory;
 import com.dk.project.post.utils.KakaoSDKAdapter;
@@ -22,6 +26,7 @@ public class BaseApplication extends Application {
 
     private AppExecutors mAppExecutors;
     private static volatile BaseApplication obj = null;
+
 
     @Override
     public void onCreate() {

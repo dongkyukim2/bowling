@@ -15,11 +15,13 @@ import com.dk.project.post.R;
 import com.dk.project.post.base.BindFragment;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.databinding.FragmentContentsListBinding;
+import com.dk.project.post.manager.AppDatabase;
+import com.dk.project.post.manager.DataBaseManager;
 import com.dk.project.post.ui.adapter.ContentsListAdapter;
 import com.dk.project.post.utils.RxBus;
-import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.viewModel.ContentListViewModel;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ContentsListFragment extends BindFragment<FragmentContentsListBinding, ContentListViewModel> {

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -79,13 +80,13 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
     implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.2.0-rc03'
-//    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc02'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc03'
 
 
 
     implementation 'androidx.room:room-rxjava2:2.2.3'
     implementation 'androidx.room:room-runtime:2.2.3'
-    annotationProcessor 'androidx.room:room-compiler:2.2.3'
+    kapt 'androidx.room:room-compiler:2.2.3'
 
 
     implementation 'com.facebook.fresco:fresco:2.0.0'
@@ -94,9 +95,9 @@ dependencies {
     implementation 'com.facebook.fresco:webpsupport:2.1.0'
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:2.1.0'
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    implementation 'jp.wasabeef:glide-transformations:4.1.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+    implementation 'jp.wasabeef:glide-transformations:4.1.0'
 
     implementation 'com.airbnb.android:lottie:3.3.1'
 

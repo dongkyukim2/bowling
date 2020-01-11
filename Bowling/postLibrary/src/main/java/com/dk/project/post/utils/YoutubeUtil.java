@@ -19,9 +19,16 @@ import com.bumptech.glide.request.target.Target;
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.Define;
+import com.dk.project.post.manager.AppDatabase;
+import com.dk.project.post.manager.DataBaseManager;
+import com.dk.project.post.model.YoutubeData;
 import com.dk.project.post.ui.fragment.YoutubeFragment;
 
-import java.util.HashSet;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.HashMap;
+
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -30,7 +37,31 @@ import java.util.HashSet;
 
 public class YoutubeUtil implements Define {
 
-    private static final HashSet<String> lowImageList = new HashSet<>();
+    private static AppDatabase appDatabase = DataBaseManager.INSTANCE.getAppDatabase();
+    private static HashMap<String, Boolean> youtubeMap = new HashMap<>();
+
+    public static void selectYoutubeDb() {
+        appDatabase.youtubeDao().selectAllYoutube()
+                .subscribeOn(Schedulers.io())
+                .subscribe(youtubeDataList -> {
+                    for (YoutubeData youtubeData : youtubeDataList) {
+                        System.out.println("++++++++++++     " + youtubeData.getYoutubeId());
+                        youtubeMap.put(youtubeData.getYoutubeId(), true);
+                    }
+                });
+    }
+
+    public static void deleteYoutubeDb() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -7);
+        appDatabase.youtubeDao()
+                .deleteInsertTime(calendar.getTimeInMillis())
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {
+
+                });
+    }
+
 
     public static LinearLayout setYoutubeFragment(BaseActivity context, String videoId,
                                                   View.OnClickListener onClickListener, boolean fullScreenButton) {
@@ -132,26 +163,35 @@ public class YoutubeUtil implements Define {
         linearLayout.setTag(IMAGE_DIVIDER);
         return linearLayout;
     }
-
-
+    
     // todo 유튜브에서 바로 첨부 후 다시 첨부 하면 첨부 안됨
-    // todo 썸네일 없는거 로컬 디비에 저정하면 좋을듯
     private static void setYoutubeThumbnail(Context context, ImageView imageView, String videoUri) {
-        GlideApp.with(context).load(getYoutubeThumbnailUrl(videoUri)).thumbnail(0.1f).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                imageView.postDelayed(() -> GlideApp.with(context)
-                        .load(getSecondYoutubeThumbnailUrl(videoUri))
-                        .thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption())
-                        .into(imageView), 0);
-                return false;
-            }
 
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                imageView.post(() -> imageView.setImageDrawable(resource));
-                return false;
-            }
-        }).submit();
+
+        String youtubeUrl = getYoutubeThumbnailUrl(videoUri);
+        if (youtubeMap.containsKey(youtubeUrl)) {
+            imageView.postDelayed(() -> GlideApp.with(context)
+                    .load(getSecondYoutubeThumbnailUrl(videoUri))
+                    .thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption())
+                    .into(imageView), 0);
+        } else {
+            GlideApp.with(context).load(youtubeUrl).thumbnail(0.1f).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    appDatabase.youtubeDao().insertYoutube(new YoutubeData(model.toString(), new Timestamp(System.currentTimeMillis())));
+                    imageView.postDelayed(() -> GlideApp.with(context)
+                            .load(getSecondYoutubeThumbnailUrl(videoUri))
+                            .thumbnail(0.1f).apply(ImageUtil.getGlideRequestOption())
+                            .into(imageView), 0);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imageView.post(() -> imageView.setImageDrawable(resource));
+                    return false;
+                }
+            }).submit();
+        }
     }
 }
