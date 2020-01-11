@@ -28,11 +28,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 public class AlertDialogUtil {
 
     public static AlertDialog showLoginAlertDialog(Context context) {
-        try {
-            throw new Exception("++++++++++");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return showLoginAlertDialog(context, (dialog, which) -> {
         });
     }

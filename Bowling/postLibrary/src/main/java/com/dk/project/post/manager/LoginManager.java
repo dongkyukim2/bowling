@@ -42,18 +42,19 @@ public class LoginManager {
     public void startTimer() {
         if (disposable == null) {
             time = new AtomicLong(System.currentTimeMillis());
-            disposable = Observable.interval(5, TimeUnit.SECONDS)
+            disposable = Observable.interval(0, 5, TimeUnit.SECONDS)
                     .map(aLong -> System.currentTimeMillis())
                     .subscribe(aLong -> time.set(aLong));
         }
     }
 
-    public void stopTimer(){
+    public void stopTimer() {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
             disposable = null;
         }
     }
+
     public static void clear() {
         loginManager = null;
     }
