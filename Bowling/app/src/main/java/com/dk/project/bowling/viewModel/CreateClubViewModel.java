@@ -28,7 +28,7 @@ import com.dk.project.post.utils.ToastUtil;
  * Created by dkkim on 2017-10-04.
  */
 
-public class CreateClubViewModel extends BaseViewModel {
+public class CreateClubViewModel extends BaseViewModel<CreateClubActivity> {
 
     private int defaultImageIndex = 1;
 
@@ -47,10 +47,10 @@ public class CreateClubViewModel extends BaseViewModel {
 
         clubModel = mContext.getIntent().getParcelableExtra(Define.CLUB_MODEL);
         if (clubModel == null) {
-            GlideApp.with(mContext).load(R.drawable.team_default_1).centerCrop().into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
+            GlideApp.with(mContext).load(R.drawable.team_default_1).centerCrop().into(mContext.getBinding().clubTitleImageView);
         } else {
             GlideApp.with(mContext).load(clubModel.getClubImage().length() == 1 ? R.drawable.team_default_1 : Define.IMAGE_URL + clubModel.getClubImage()).centerCrop()
-                    .into(((CreateClubActivity) mContext).getBinding().clubTitleImageView);
+                    .into(mContext.getBinding().clubTitleImageView);
         }
     }
 
@@ -68,10 +68,18 @@ public class CreateClubViewModel extends BaseViewModel {
                     ToastUtil.showWaitToastCenter(mContext);
                     return;
                 }
+                if (mContext.getBinding().clubTitleTextView.getText().toString().trim().isEmpty()) {
+                    ToastUtil.showToastCenter(mContext,"제목을 입력해주세요.");
+                    return;
+                }
+                if (mContext.getBinding().clubSubTitleTextView.getText().toString().trim().isEmpty()) {
+                    ToastUtil.showToastCenter(mContext,"내용을 입력해주세요.");
+                    return;
+                }
                 guardRequest = true;
                 ClubModel clubModel = new ClubModel();
-                clubModel.setClubTitle(((CreateClubActivity) mContext).getBinding().clubTitleTextView.getText().toString());
-                clubModel.setClubInfo(((CreateClubActivity) mContext).getBinding().clubSubTitleTextView.getText().toString());
+                clubModel.setClubTitle(mContext.getBinding().clubTitleTextView.getText().toString().trim());
+                clubModel.setClubInfo(mContext.getBinding().clubSubTitleTextView.getText().toString().trim());
 
                 if (ListController.getInstance().getMediaSelectList().isEmpty()) {
                     createClub(clubModel, String.valueOf(defaultImageIndex));

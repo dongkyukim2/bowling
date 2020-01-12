@@ -110,7 +110,7 @@ public class IntroViewModel extends BaseViewModel {
                                 LoginManager.getInstance().setLoginInfoModel(null);
                                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                                 mContext.finish();
-                                Toast.makeText(mContext, "카카오 로그인 안함", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(mContext, "카카오 로그인 안함", Toast.LENGTH_LONG).show();
                             }
                         };
                         KakaoLoginUtils.openSession(mContext, iSessionCallback);
@@ -157,22 +157,22 @@ public class IntroViewModel extends BaseViewModel {
                 }
                 mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
                 mContext.finish();
-                Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_LONG).show();
             } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상태
                 LoginManager.getInstance().setLoginInfoModel(null);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                 mContext.finish();
-                Toast.makeText(mContext, "로그인 실패 - 가입안된 상태", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "로그인 실패 - 가입안된 상태", Toast.LENGTH_LONG).show();
             } else if (receivedData.first <= 0) { // 카카오에서 유저정보 못가져옴, 결국 로그인 실패
                 LoginManager.getInstance().setLoginInfoModel(null);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                 mContext.finish();
-                Toast.makeText(mContext, "로그인 실패 - 카카오 로그인 실패", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "로그인 실패 - 카카오 로그인 실패", Toast.LENGTH_LONG).show();
             } else { // 이거 타는 경우가 있나??
                 LoginManager.getInstance().setLoginInfoModel(null);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                 mContext.finish();
-                Toast.makeText(mContext, "로그인 실패 - 이유 모름", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "로그인 실패 - 이유 모름", Toast.LENGTH_LONG).show();
             }
         });
     }
