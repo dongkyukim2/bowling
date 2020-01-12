@@ -122,7 +122,11 @@ public class CommunityService extends BaseService {
                     ToastUtil.showUploadSuccessToast(this);
                     stopSelf();
                 },
-                errorData -> Toast.makeText(this, "글쓰기 성공", Toast.LENGTH_LONG).show()));
+                errorData -> {
+                    Toast.makeText(this, "글쓰기 성공", Toast.LENGTH_LONG).show();
+                    stopSelf();
+                }
+        ));
     }
 
     private void modifyPost(PostModel postModel) {

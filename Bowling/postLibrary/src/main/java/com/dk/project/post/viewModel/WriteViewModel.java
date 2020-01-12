@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MediatorLiveData;
+
 import com.dk.project.post.R;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.model.PostModel;
@@ -18,7 +20,10 @@ import com.dk.project.post.utils.PermissionsUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.Utils;
 
-import static com.dk.project.post.base.Define.*;
+import static com.dk.project.post.base.Define.EVENT_MODIFY_POST;
+import static com.dk.project.post.base.Define.EVENT_WRITE_POST;
+import static com.dk.project.post.base.Define.MEDIA_ATTACH_LIST;
+import static com.dk.project.post.base.Define.YOUTUBE_PACKAGE_NAME;
 
 /**
  * Created by dkkim on 2017-10-04.
