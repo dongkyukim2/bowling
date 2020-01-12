@@ -24,6 +24,7 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
 
     private ReplyModel replyModel;
     private AlertDialog alertDialog;
+    private boolean requestWriteReply = false;
 
     @Override
     protected int getLayoutId() {
@@ -70,11 +71,14 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
 
     @Override
     public void onToolbarRightClick() {
-        replyModel.setReplyContents(binding.replyEditText.getText().toString().trim());
 
-//        viewModel.executeRx(Observable.timer(1, TimeUnit.SECONDS).
-//                observeOn(AndroidSchedulers.mainThread()).
-//                subscribe(aLong -> alertDialog = AlertDialogUtil.showLoadingAlertDialog(this)));
+        if (requestWriteReply) {
+            ToastUtil.showWaitToastCenter(this);
+            return;
+        }
+        requestWriteReply = true;
+
+        replyModel.setReplyContents(binding.replyEditText.getText().toString().trim());
 
         viewModel.executeRx(PostApi.getInstance().writeReply(replyModel, receivedData -> {
                     dismissAlertDialog();
@@ -82,8 +86,14 @@ public class ReplyModifyActivity extends BindActivity<ActivityReplyModifyBinding
                     intent.putExtra(REPLY_MODEL, replyModel);
                     setResult(RESULT_OK, intent);
                     finish();
-                }, postId -> RxBus.getInstance().eventPost(new Pair(Define.EVENT_ALREADY_DELETE_POST, postId)),
-                errorData -> dismissAlertDialog()));
+                }, postId -> {
+                    RxBus.getInstance().eventPost(new Pair(Define.EVENT_ALREADY_DELETE_POST, postId));
+                    requestWriteReply = false;
+                },
+                errorData -> {
+                    dismissAlertDialog();
+                    requestWriteReply = false;
+                }));
     }
 
     @Override

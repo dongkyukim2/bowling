@@ -17,18 +17,16 @@ public class MediaSelectAdapter extends BaseRecyclerViewAdapter {
     private ArrayList<MediaSelectModel> mediaList;
     private Context context;
     private String viewerType;
-    private boolean multiSelect;
 
-    public MediaSelectAdapter(Context context, String type, boolean multi) {
+    public MediaSelectAdapter(Context context, String type) {
         this.context = context;
         viewerType = type;
-        multiSelect = multi;
         mediaList = new ArrayList<>();
     }
 
     @Override
     public BindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MediaSelectListViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.media_select_item, parent, false), multiSelect);
+        return new MediaSelectListViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.media_select_item, parent, false));
     }
 
     @Override
@@ -43,5 +41,9 @@ public class MediaSelectAdapter extends BaseRecyclerViewAdapter {
 
     public void addList(ArrayList<MediaSelectModel> list) {
         mediaList.addAll(list);
+    }
+
+    public MediaSelectModel getItem(int position) {
+        return mediaList.get(position);
     }
 }

@@ -42,7 +42,6 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
     override fun registerLiveData() {
         viewModel.clubListLiveData.observe(this, Observer {
-
             binding.emptyView.visibility =
                 if (it.first?.data?.isEmpty()!!) View.VISIBLE else View.GONE
 

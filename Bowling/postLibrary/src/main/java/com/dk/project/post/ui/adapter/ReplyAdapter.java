@@ -19,6 +19,7 @@ import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.activity.ReplyModifyActivity;
 import com.dk.project.post.ui.viewHolder.ReplyViewHolder;
 import com.dk.project.post.utils.AlertDialogUtil;
+import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.viewModel.ReadViewModel;
 
 import java.util.ArrayList;
@@ -36,8 +37,9 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
     private ArrayList<ReplyModel> replyItemArrayList = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private ReadViewModel readViewModel;
+    private boolean requestModifyReply = false;
 
-    public ReplyAdapter(BindActivity context, boolean isReplyMoreList , ReadViewModel readViewModel) {
+    public ReplyAdapter(BindActivity context, boolean isReplyMoreList, ReadViewModel readViewModel) {
         mContext = context;
         layoutInflater = LayoutInflater.from(mContext);
         this.readViewModel = readViewModel;
@@ -127,11 +129,21 @@ public class ReplyAdapter extends BaseRecyclerViewAdapter<ReplyViewHolder> imple
                             mContext.overridePendingTransition(0, 0);
                             break;
                         case 1:
+                            if (requestModifyReply) {
+                                ToastUtil.showWaitToastCenter(mContext);
+                                return;
+                            }
+                            requestModifyReply = true;
                             AlertDialogUtil.showAlertDialog(mContext, null, "댓글을 삭제하시겠습니까?", (dialog1, which1) ->
                                     executeRx(PostApi.getInstance().deleteReply(replyModel.getReplyId(),
-                                            receivedData -> setDeleteReply(receivedData.getData()),
+                                            receivedData -> {
+                                                setDeleteReply(receivedData.getData());
+                                                requestModifyReply = false;
+                                            },
                                             errorData -> {
+                                                requestModifyReply = false;
                                             })), (dialog1, which1) -> {
+                                requestModifyReply = false;
                             });
                             break;
                     }

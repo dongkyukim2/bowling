@@ -22,6 +22,7 @@ import com.dk.project.post.ui.activity.MediaSelectActivity;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.PermissionsUtil;
 import com.dk.project.post.utils.RxBus;
+import com.dk.project.post.utils.ToastUtil;
 
 /**
  * Created by dkkim on 2017-10-04.
@@ -64,6 +65,7 @@ public class CreateClubViewModel extends BaseViewModel {
         switch (view.getId()) {
             case R.id.create_club_btn:
                 if (guardRequest) {
+                    ToastUtil.showWaitToastCenter(mContext);
                     return;
                 }
                 guardRequest = true;
@@ -74,7 +76,7 @@ public class CreateClubViewModel extends BaseViewModel {
                 if (ListController.getInstance().getMediaSelectList().isEmpty()) {
                     createClub(clubModel, String.valueOf(defaultImageIndex));
                 } else {
-                    PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
+                    executeRx(PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
                         createClub(clubModel, receivedData.get(0));
                     }, errorData -> {
                         guardRequest = false;
@@ -93,7 +95,7 @@ public class CreateClubViewModel extends BaseViewModel {
                         public void onUploadEnd(String fileName) {
 
                         }
-                    });
+                    }));
                 }
                 break;
             case R.id.image_attach:
@@ -120,7 +122,7 @@ public class CreateClubViewModel extends BaseViewModel {
             }
             clubModel.setClubId(this.clubModel.getClubId());
         }
-        BowlingApi.getInstance().createClub(clubModel, receivedData -> {
+        executeRx(BowlingApi.getInstance().createClub(clubModel, receivedData -> {
             RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
             Intent intent = new Intent();
             intent.putExtra(Define.CLUB_MODEL, clubModel);
@@ -130,7 +132,7 @@ public class CreateClubViewModel extends BaseViewModel {
         }, errorData -> {
             Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show();
             guardRequest = false;
-        });
+        }));
     }
 
     public ClubModel getClubModel() {

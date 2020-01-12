@@ -29,6 +29,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dk.project.bowling.R;
 import com.dk.project.bowling.databinding.ActivityMainBinding;
+import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.bowling.ui.adapter.MainViewPagerFragmentAdapter;
 import com.dk.project.bowling.ui.fragment.ClubFragment;
 import com.dk.project.bowling.ui.fragment.GraphFragment;
@@ -47,6 +48,7 @@ import com.dk.project.post.ui.fragment.ContentsListFragment;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
+import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.utils.YoutubeUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -57,6 +59,8 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
 
     private BottomSheetBehavior bottomSheetBehavior;
     private MainViewPagerFragmentAdapter mainViewPagerFragmentAdapter;
+
+    public boolean requestWriteSore = false;
 
     @Override
     protected int getLayoutId() {
@@ -196,10 +200,20 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             return;
         }
         if (binding.navigation.getSelectedItemId() == R.id.navigation_club) {
+            if (ShareData.getInstance().getSignCLubCount() >= 5) {
+                ToastUtil.showToastCenter(this, "최대 5개까지 생성 할 수 있습니다.");
+                return;
+            }
             startActivity(new Intent(this, CreateClubActivity.class));
         } else if (binding.navigation.getSelectedItemId() == R.id.navigation_community) {
             startActivity(new Intent(this, WriteActivity.class));
         } else {
+            if (requestWriteSore) {
+                ToastUtil.showWaitToastCenter(this);
+                return;
+            }
+            requestWriteSore = true;
+
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.dialog_score_input, null);
 
@@ -240,6 +254,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
                 if (TextUtils.isEmpty(scoreText.getText().toString().trim())) {
                     Toast.makeText(this, "점수를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    requestWriteSore = false;
                     return;
                 }
                 int score;
@@ -247,10 +262,12 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
                     score = Integer.valueOf(scoreText.getText().toString());
                     if (score < 0 || score > 300) {
                         Toast.makeText(this, "올바른 점수를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                        requestWriteSore = false;
                         return;
                     }
                 } catch (NumberFormatException e) {
                     Toast.makeText(this, "숫자를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    requestWriteSore = false;
                     return;
                 }
                 ScoreModel scoreModel = new ScoreModel();

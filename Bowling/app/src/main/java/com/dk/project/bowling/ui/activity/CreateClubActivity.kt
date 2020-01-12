@@ -52,6 +52,8 @@ class CreateClubActivity : BindActivity<ActivityCreateClubBinding, CreateClubVie
             toolbarTitle.text = "수정하기"
             binding.createClubBtn.text = "수정완료"
         }
+
+        ListController.getInstance().mediaSelectList.clear()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

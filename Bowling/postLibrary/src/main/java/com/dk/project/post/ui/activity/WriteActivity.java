@@ -54,7 +54,6 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
     private PostModel writePostModel;
     private PostModel modifyPostModel;
     //  private String youtubeUrl;
-//  private ArrayList<String> youtubeUrlList = new ArrayList<>();
     private EditText editText;
     private int keyBoardHeight;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -720,35 +719,4 @@ public class WriteActivity extends BindActivity<ActivityWriteBinding, WriteViewM
         }
         return count;
     }
-
-//     todo 개발해야
-//    private void isLogin() {
-//
-//        if (KakaoLoginUtils.checkLogin()) {
-//            KakaoLoginUtils.getUserInfo(new MeV2ResponseCallback() {
-//                @Override
-//                public void onSuccess(MeV2Response result) {
-//                    long userKakaoCode = result.getId();
-//                    viewModel.executeRx(PostApi.getInstance().getUserInfo(String.valueOf(userKakaoCode),
-//                            receivedData -> {
-//                                if (receivedData.getData() == null) {
-//                                } else { // 세션 열려있고 디비에 가입도 되어있음
-//                                    LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
-//                                    BowlingApi.getInstance().getSignUpClubList(receiveCignClubList -> {
-//                                        signClubList.clear();
-//                                        signClubList.addAll(receiveCignClubList.getData());
-//                                    }, errorData -> {
-//                                    });
-//                                }
-//                            }, errorData -> {
-//                            }));
-//                }
-//
-//                @Override
-//                public void onSessionClosed(ErrorResult errorResult) {
-//
-//                }
-//            });
-//        }
-//    }
 }

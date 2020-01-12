@@ -35,11 +35,15 @@ import com.dk.project.post.bowling.model.ScoreClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.RxBus
+import com.dk.project.post.utils.ToastUtil
 import com.dk.project.post.utils.Utils
 import java.util.*
 
 class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameViewModel>(),
     CreateGameListener {
+
+
+    private var requestWriteGame = false;
 
     private val calendar = Calendar.getInstance().also {
         it[Calendar.MILLISECOND] = 0
@@ -127,6 +131,10 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         if (createGameAdapter.isDeleteMode) {
             createGameAdapter.deleteSelectUser()
         } else {
+            if (requestWriteGame) {
+                ToastUtil.showWaitToastCenter(this)
+                return
+            }
             showDateDialog()
         }
     }
@@ -207,6 +215,7 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         }
         builder.setNegativeButton("취소") { _, _ ->
             tempCalendar.time = calendar.time
+            requestWriteGame = false
         }
 
         val alertDialog = builder.create()
@@ -234,12 +243,14 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                         finish()
                         RxBus.getInstance()
                             .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
+                        requestWriteGame = false
                     }, {
                         Toast.makeText(
                             this@CreateGameActivity,
                             "게임 등록 오류!!!",
                             Toast.LENGTH_SHORT
                         ).show()
+                        requestWriteGame = false
                     })
                 }
             }
@@ -269,12 +280,14 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
                         RxBus.getInstance()
                             .eventPost(Pair(Define.EVENT_REFRESH_CLUB_GAME_LIST, clubId))
                         finish()
+                        requestWriteGame = false
                     }, {
                         Toast.makeText(
                             this@CreateGameActivity,
                             "게임 수정 오류!!!",
                             Toast.LENGTH_SHORT
                         ).show()
+                        requestWriteGame = false
                     })
                 }
             }

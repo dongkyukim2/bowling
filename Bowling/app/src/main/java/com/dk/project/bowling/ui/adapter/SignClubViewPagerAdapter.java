@@ -10,6 +10,7 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.dk.project.bowling.R;
+import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.bowling.ui.activity.ClubDetailActivity;
 import com.dk.project.bowling.ui.viewHolder.SignClubViewHolder;
 import com.dk.project.post.base.BaseRecyclerViewAdapter;
@@ -50,9 +51,9 @@ public class SignClubViewPagerAdapter extends BaseRecyclerViewAdapter<SignClubVi
 
 
     public void setClubList(Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>> clubListModel) {
-
         clubList.clear();
         clubList.addAll(clubListModel.first.getData());
+        ShareData.getInstance().setSignCLubCount(clubList.size());
         notifyDataSetChanged();
         //todo 지웠을때 수정해야됨 클릭 이벤트 다른곳에서 받아야함 index 안맞음
 //        DiffUtil.DiffResult result = getDiffUtil(this.clubList, clubListModel.first.getData());

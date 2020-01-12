@@ -2,14 +2,16 @@ package com.dk.project.post.base;
 
 import android.app.Application;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
-
-import java.util.concurrent.TimeUnit;
 
 public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewModel {
 
@@ -22,6 +24,7 @@ public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewM
         super(application);
         executeRx(clickPublishSubject.
                 throttleFirst(1000, TimeUnit.MILLISECONDS).
+                filter(view -> mContext != null && !mContext.isDestroyed() && !mContext.isFinishing()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(this::onThrottleClick));
     }
@@ -73,7 +76,6 @@ public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewM
             compositeDisposable.dispose(); // 객체 받을수 없다.
 //            compositeDisposable.clear(); // 객체 받을수 있다.
             compositeDisposable = null;
-            mContext = null;
         }
     }
 

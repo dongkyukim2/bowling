@@ -34,6 +34,7 @@ import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ScreenUtil;
 import com.dk.project.post.utils.TextViewUtil;
+import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.utils.YoutubeUtil;
 import com.google.gson.Gson;
 
@@ -64,6 +65,8 @@ public class ReadViewModel extends BaseViewModel {
     private PublishSubject<Boolean> likeClickSubject;
 
     private RelativeLayout postLayout;
+
+    private boolean requestWriteReply = false;
 
     public ReadViewModel(@NonNull Application application) {
         super(application);
@@ -129,16 +132,22 @@ public class ReadViewModel extends BaseViewModel {
 
         } else if (id == R.id.reply_send_parent) {
             AppCompatEditText editText = ((AppCompatEditText) ((ViewGroup) view.getParent()).getChildAt(1));
-
             if (editText.getText().toString().trim().isEmpty()) {
                 Toast.makeText(mContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if(requestWriteReply){
+                ToastUtil.showWaitToastCenter(mContext);
+                return;
+            }
+            requestWriteReply = true;
             executeRx(PostApi.getInstance().writeReply(new ReplyModel(postModel.getPostId(), editText.getText().toString().trim()),
                     getReplyModelListCallback(),
-                    postId -> RxBus.getInstance().eventPost(new Pair(Define.EVENT_ALREADY_DELETE_POST, postId)),
-                    errorData -> {
-                    }));
+                    postId -> {
+                        RxBus.getInstance().eventPost(new Pair(Define.EVENT_ALREADY_DELETE_POST, postId));
+                        requestWriteReply = false;
+                    },
+                    errorData -> requestWriteReply = false));
             editText.setText("");
         }
     }

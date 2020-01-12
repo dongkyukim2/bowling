@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
 import com.dk.project.bowling.R;
+import com.dk.project.bowling.shareData.ShareData;
 import com.dk.project.bowling.ui.activity.ClubUserListActivity;
 import com.dk.project.bowling.ui.activity.CreateClubActivity;
 import com.dk.project.post.base.BaseViewModel;
@@ -32,6 +33,8 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
     public ClubDetailHomeViewModel(@NonNull Application application) {
         super(application);
     }
+
+    private boolean requestUserType = false;
 
     @Override
     protected void onCreated() {
@@ -85,6 +88,12 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
     }
 
     private void setUserType(int userType) {
+
+        if (requestUserType) {
+            ToastUtil.showWaitToastCenter(mContext);
+            return;
+        }
+        requestUserType = true;
         //todo 상태값 전체적으로 정리해야 함
         String msg;
         int newType;
@@ -97,6 +106,10 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
         } else {
             msg = "가입신청";
             newType = Define.USER_TYPE_JOIN_WAIT;
+            if (ShareData.getInstance().getSignCLubCount() >= 5) {
+                ToastUtil.showToastCenter(mContext, "최대 5개입니다.");
+                return;
+            }
         }
 
         if (clubModel.getCreateUserId().equals(LoginManager.getInstance().getUserCode())) {
@@ -108,10 +121,13 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                     } else {
                         Toast.makeText(mContext, "클럽 탈퇴하기 실패", Toast.LENGTH_SHORT).show();
                     }
-                }, errorData -> Toast.makeText(mContext, "클럽 탈퇴하기 실패", Toast.LENGTH_SHORT).show());
+                    requestUserType = false;
+                }, errorData -> {
+                    Toast.makeText(mContext, "클럽 탈퇴하기 실패", Toast.LENGTH_SHORT).show();
+                    requestUserType = false;
+                });
 
-            }, (dialog, which) -> {
-            });
+            }, (dialog, which) -> requestUserType = false);
         } else {
             AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 " + msg + " 하시겠습니까?", (dialog, which) -> {
                 ClubUserModel clubUserModel = new ClubUserModel();
@@ -125,10 +141,13 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                     } else {
                         Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show();
                     }
-                }, errorData -> Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show()));
+                    requestUserType = false;
+                }, errorData -> {
+                    Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show();
+                    requestUserType = false;
+                }));
 
-            }, (dialog, which) -> {
-            });
+            }, (dialog, which) -> requestUserType = false);
         }
     }
 }

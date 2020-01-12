@@ -18,10 +18,13 @@ import com.dk.project.post.bowling.retrofit.BowlingApi
 import com.dk.project.post.manager.LoginManager
 import com.dk.project.post.utils.AlertDialogUtil
 import com.dk.project.post.utils.RxBus
+import com.dk.project.post.utils.ToastUtil
 
 class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel>() {
 
     private lateinit var readGameAdapter: ReadGameAdapter
+
+    private var requestDeleteGame = false
 
     override fun getLayoutId() = R.layout.activity_read_game
 
@@ -83,6 +86,11 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
                             startActivity(intent)
                         }
                     } else if (it.id == com.dk.project.post.R.id.btnDelete) {
+                        if (requestDeleteGame) {
+                            ToastUtil.showWaitToastCenter(this)
+                            return@showBottomSheetDialog
+                        }
+                        requestDeleteGame = true
                         AlertDialogUtil.showAlertDialog(this@ReadGameActivity,
                             null,
                             "삭제 하시겠습니까?",
@@ -91,10 +99,11 @@ class ReadGameActivity : BindActivity<ActivityReadGameBinding, ReadGameViewModel
                                     .requestDeleteGame(viewModel.readGameModel.gameId, {
                                         setResult(Activity.RESULT_OK)
                                         finish()
+                                        requestDeleteGame = false
                                     }, {
-
+                                        requestDeleteGame = false
                                     })
-                            }, { _, _ -> })
+                            }, { _, _ -> requestDeleteGame = false })
                     }
                 }
             }

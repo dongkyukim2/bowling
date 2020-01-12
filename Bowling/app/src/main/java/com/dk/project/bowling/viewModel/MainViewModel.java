@@ -106,8 +106,12 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
         executeRx(BowlingApi.getInstance().writeScore(scoreModel,
                 receivedData -> {
                     RxBus.getInstance().eventPost(Pair.create(Define.EVENT_REFRESH_SCORE, receivedData.getData()));
+                    mContext.requestWriteSore = false;
                 },
-                errorData -> Toast.makeText(mContext, "점수등록 실패", Toast.LENGTH_SHORT).show()));
+                errorData -> {
+                    Toast.makeText(mContext, "점수등록 실패", Toast.LENGTH_SHORT).show();
+                    mContext.requestWriteSore = false;
+                }));
     }
 
     public void checkShare() {

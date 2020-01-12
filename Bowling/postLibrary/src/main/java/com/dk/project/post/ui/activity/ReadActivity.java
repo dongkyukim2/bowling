@@ -59,6 +59,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
     private boolean isLoading;
     private boolean isReplyLast;
 
+    private boolean requestDeletePost = false;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_read;
@@ -112,8 +114,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         viewModel.executeRx(RxBus.getInstance().registerRxObserver(integerObjectPair -> {
             switch (integerObjectPair.first) {
                 case Define.EVENT_ALREADY_DELETE_POST:
-                    if(viewModel.getPostModel().getPostId().equalsIgnoreCase(integerObjectPair.second.toString())){
-                        ToastUtil.showToastCenter(this,"이미 삭제된 내용입니다.");
+                    if (viewModel.getPostModel().getPostId().equalsIgnoreCase(integerObjectPair.second.toString())) {
+                        ToastUtil.showToastCenter(this, "이미 삭제된 내용입니다.");
                         finish();
                     }
                     break;
@@ -173,16 +175,28 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
                 intent.putExtra(POST_MODEL, postModel);
                 startActivityForResult(intent, MODIFY_POST);
             } else if (v.getId() == R.id.btnDelete) {
+                if (requestDeletePost) {
+                    ToastUtil.showWaitToastCenter(this);
+                    return;
+                }
+                requestDeletePost = true;
                 AlertDialogUtil.showAlertDialog(this, null, "삭제 하시겠습니까?", (dialog, which) ->
-                        PostApi.getInstance().deletePost(postModel.getPostId(), receivedData -> {
-                            if (receivedData.isSuccess()) {
-                                RxBus.getInstance().eventPost(new Pair(EVENT_DELETE_POST, receivedData.getData()));
-                                finish();
-                            } else {
-                                Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show();
-                            }
-                        }, errorData -> Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show()), (dialog, which) -> {
-                });
+                                PostApi.getInstance().deletePost(postModel.getPostId(), receivedData -> {
+                                    if (receivedData.isSuccess()) {
+                                        RxBus.getInstance().eventPost(new Pair(EVENT_DELETE_POST, receivedData.getData()));
+                                        finish();
+                                        requestDeletePost = false;
+                                    } else {
+                                        Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show();
+                                        requestDeletePost = false;
+                                    }
+                                }, errorData -> {
+                                    Toast.makeText(this, "삭제 실패", Toast.LENGTH_SHORT).show();
+                                    requestDeletePost = false;
+                                }),
+                        (dialog, which) -> {
+                            requestDeletePost = false;
+                        });
             }
         }));
 

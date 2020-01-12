@@ -38,6 +38,8 @@ public class LoginInfoViewModel extends BaseViewModel {
     private String userPhoto;
     private boolean modify = false;
 
+    private boolean requestSignUp = false;
+
     public LoginInfoViewModel(@NonNull Application application) {
         super(application);
     }
@@ -67,19 +69,21 @@ public class LoginInfoViewModel extends BaseViewModel {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PostApi.getInstance().requestBlockClear(Define.REQUEST_SIGN_UP);
         ListController.getInstance().mediaSelectListClear();
     }
 
     @Override
     public void onThrottleClick(View view) {
-        if (PostApi.getInstance().isRequestBlock(Define.REQUEST_SIGN_UP)) {
+        if (requestSignUp) {
+            ToastUtil.showWaitToastCenter(mContext);
             return;
         }
+        requestSignUp = true;
 
         if (view.getId() == R.id.sign_up_btn) {
             if (TextUtils.isEmpty(signId)) {
                 ToastUtil.showToastCenter(mContext, "가입 할 수 없습니다.");
+                requestSignUp = false;
                 return;
             }
             AppCompatEditText nickNameEdt = mContext.findViewById(R.id.nick_name_edit);
@@ -122,12 +126,14 @@ public class LoginInfoViewModel extends BaseViewModel {
                                         ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                                     }
                                 }
+                                requestSignUp = false;
                             }, errorData -> {
                                 if (modify) {
                                     ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
                                 } else {
                                     ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                                 }
+                                requestSignUp = false;
                             }));
                 } else {
                     if (modify) {
@@ -160,15 +166,17 @@ public class LoginInfoViewModel extends BaseViewModel {
                                             ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                                         }
                                     }
+                                    requestSignUp = false;
                                 }, errorData -> {
                                     if (modify) {
                                         ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
                                     } else {
                                         ToastUtil.showToastCenter(mContext, "가입 실패했습니다.");
                                     }
+                                    requestSignUp = false;
                                 }));
                     }, errorData -> {
-
+                        requestSignUp = false;
                     }, new ProgressRequestBody.ProgressListener() {
                         @Override
                         public void onUploadStart(String fileName) {

@@ -1,14 +1,10 @@
 package com.dk.project.post.ui.viewHolder;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
-import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BindViewHolder;
 import com.dk.project.post.databinding.MediaSelectItemBinding;
 import com.dk.project.post.model.MediaSelectModel;
-import com.dk.project.post.ui.activity.MediaSelectListActivity;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
 
@@ -18,11 +14,8 @@ import com.dk.project.post.utils.ImageUtil;
 
 public class MediaSelectListViewHolder<T extends MediaSelectModel> extends BindViewHolder<MediaSelectItemBinding, T> {
 
-    private boolean multiSelect;
-
-    public MediaSelectListViewHolder(View itemView, boolean multiSelect) {
+    public MediaSelectListViewHolder(View itemView) {
         super(itemView);
-        this.multiSelect = multiSelect;
     }
 
     @Override
@@ -30,17 +23,6 @@ public class MediaSelectListViewHolder<T extends MediaSelectModel> extends BindV
         binding.folderName.setText(item.getName());
         binding.fileCount.setText(String.valueOf(item.getAlbumCount()));
         setThumbnail(item);
-        binding.getRoot().setOnClickListener(v -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("BucketId", item.getBucketId());
-                    bundle.putInt("type", item.getType());
-                    bundle.putString("viewerType", "image");
-                    bundle.putBoolean(IMAGE_MULTI_SELECT, multiSelect);
-                    Intent intent = new Intent(binding.folderName.getContext(), MediaSelectListActivity.class);
-                    intent.putExtras(bundle);
-                    ((BaseActivity) binding.folderName.getContext()).startActivityForResult(intent, MEDIA_ATTACH_LIST);
-                }
-        );
     }
 
     private void setThumbnail(MediaSelectModel item) {

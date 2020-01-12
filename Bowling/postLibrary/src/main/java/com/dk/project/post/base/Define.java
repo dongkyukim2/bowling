@@ -154,8 +154,4 @@ public interface Define {
     int USER_TYPE_JOIN_NEGATIVE = 5;
     int USER_TYPE_NOT_JOIN = 6;
 
-
-    String REQUEST_SIGN_UP = "signUp";
-
-
 }

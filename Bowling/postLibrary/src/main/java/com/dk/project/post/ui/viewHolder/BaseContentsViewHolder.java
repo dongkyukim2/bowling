@@ -14,12 +14,15 @@ import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.RxBus;
+import com.dk.project.post.utils.ToastUtil;
 
 /**
  * Created by dkkim on 2018-01-29.
  */
 
 public class BaseContentsViewHolder<B extends ViewDataBinding, T> extends BindViewHolder<B, T> {
+
+    private static boolean requestDeletePost = false;
 
     public BaseContentsViewHolder(View itemView) {
         super(itemView);
@@ -37,6 +40,11 @@ public class BaseContentsViewHolder<B extends ViewDataBinding, T> extends BindVi
     }
 
     public void startDelete(Context context, PostModel postModel) {
+        if (requestDeletePost) {
+            ToastUtil.showWaitToastCenter(context);
+            return;
+        }
+        requestDeletePost = true;
         AlertDialogUtil.showAlertDialog(context, null, "삭제 하시겠습니까?", (dialog, which) ->
                 PostApi.getInstance().deletePost(postModel.getPostId(), receivedData -> {
                     if (receivedData.isSuccess()) {
@@ -44,7 +52,11 @@ public class BaseContentsViewHolder<B extends ViewDataBinding, T> extends BindVi
                     } else {
                         Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
                     }
-                }, errorData -> Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show()), (dialog, which) -> {
+                    requestDeletePost = false;
+                }, errorData -> {
+                    Toast.makeText(context, "삭제 실패", Toast.LENGTH_SHORT).show();
+                    requestDeletePost = false;
+                }), (dialog, which) -> {
         });
     }
 
