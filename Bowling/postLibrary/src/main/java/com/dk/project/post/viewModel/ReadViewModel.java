@@ -258,6 +258,7 @@ public class ReadViewModel extends BaseViewModel {
                 if (receivedData.isSuccess()) {
                     replyItemList.setValue(receivedData.getData());
                     setReplyCount();
+                    requestWriteReply = false;
                 }
             };
         }
