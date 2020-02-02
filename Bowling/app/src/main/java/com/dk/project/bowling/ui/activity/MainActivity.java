@@ -53,7 +53,15 @@ import com.dk.project.post.utils.YoutubeUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends BindActivity<ActivityMainBinding, MainViewModel> implements OnNavigationItemSelectedListener {
 
@@ -332,5 +340,26 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
             binding.logoutParent.setVisibility(View.GONE);
             binding.settingParent.setVisibility(View.GONE);
         }
+    }
+
+    public void asd() {
+        new Thread(() -> {
+            File file = new File("/storage/emulated/0/a.png");
+            if(file.exists()){
+                OkHttpClient client = new OkHttpClient();
+
+                RequestBody body = RequestBody.create(new File("/storage/emulated/0/a.png"), MediaType.parse("image/*"));
+                Request request = new Request.Builder()
+                        .url("https://api-storage.cloud.toast.com/v1/AUTH_34ee9d51c09041778e1ad43165b6370d/bowling_image/7be99332-3a27-4bef-8113-58094d755a4a.JPG")
+                        .put(body)
+                        .addHeader("X-Auth-Token", "557b5ab07b504db596d9320806ff2b49")
+                        .build();
+                try {
+                    Response a = client.newCall(request).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

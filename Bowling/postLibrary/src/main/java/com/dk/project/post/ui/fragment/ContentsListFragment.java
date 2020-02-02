@@ -15,13 +15,10 @@ import com.dk.project.post.R;
 import com.dk.project.post.base.BindFragment;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.databinding.FragmentContentsListBinding;
-import com.dk.project.post.manager.AppDatabase;
-import com.dk.project.post.manager.DataBaseManager;
 import com.dk.project.post.ui.adapter.ContentsListAdapter;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.viewModel.ContentListViewModel;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class ContentsListFragment extends BindFragment<FragmentContentsListBinding, ContentListViewModel> {
@@ -83,35 +80,13 @@ public class ContentsListFragment extends BindFragment<FragmentContentsListBindi
                 RxBus.getInstance().eventPost(new Pair(EVENT_POST_REFRESH, viewModel.getClubId())));
 
         binding.contentsListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int moveY;
-            boolean showEvent = false;
-            boolean hideEvent = false;
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                ContentsContextMenuManager.getInstance().onScrolled(recyclerView, dx, dy);
-//        if (onFloatingActionButtonListener != null) {
-//          if (dy < 0) {
-//            if (moveY > 0) {
-//              moveY = 0;
-//            }
-//            hideEvent = false;
-//            moveY += dy;
-//          } else {
-//            if (moveY < 0) {
-//              moveY = 0;
-//            }
-//            showEvent = false;
-//            moveY += dy;
-//          }
-//          if (moveY > 300 && !hideEvent) {
-//            hideEvent = true;
-//            onFloatingActionButtonListener.showFloatingActionButton(false);
-//          } else if (moveY < -300 && !showEvent) {
-//            showEvent = true;
-//            onFloatingActionButtonListener.showFloatingActionButton(true);
-//          }
-//        }
+                if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+                    binding.contentsListViewRefresh.setEnabled(true);
+                } else if (binding.contentsListViewRefresh.isEnabled()) {
+                    binding.contentsListViewRefresh.setEnabled(false);
+                }
 
                 if (dy > 0 && !isLoading && linearLayoutManager.getItemCount() - 1 == linearLayoutManager.findLastVisibleItemPosition()) {
                     isLoading = true;
