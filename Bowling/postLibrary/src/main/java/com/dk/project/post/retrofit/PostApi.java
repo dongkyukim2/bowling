@@ -56,6 +56,8 @@ public class PostApi implements Define {
 
     public Disposable signUp(LoginInfoModel loginInfoModel, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
         return apiService.signUp(loginInfoModel)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -64,6 +66,8 @@ public class PostApi implements Define {
 
     public Disposable getUserInfo(String userId, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
         return apiService.getUserInfo(userId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -112,6 +116,7 @@ public class PostApi implements Define {
 
     public Disposable getPostList(int page, String clubId, String search, SuccessCallback<ResponseModel<ArrayList<PostModel>>> callback, ErrorCallback errorCallback) {
         return apiService.postList(clubId, search, page)
+                .doOnError(throwable -> Thread.sleep(1000))
                 .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -122,6 +127,8 @@ public class PostApi implements Define {
     public Disposable getReplyList(int page, String postId, SuccessCallback<ResponseModel<ArrayList<ReplyModel>>> callback,
                                    ErrorCallback errorCallback) {
         return apiService.replyList(page, postId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -132,6 +139,8 @@ public class PostApi implements Define {
     public Disposable getReplyCount(String postId, SuccessCallback<ResponseModel<Object>> callback,
                                     ErrorCallback errorCallback) {
         return apiService.replyCount(postId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -216,6 +225,8 @@ public class PostApi implements Define {
     public Disposable deletePost(String postId, SuccessCallback<ResponseModel<PostModel>> callback,
                                  ErrorCallback errorCallback) {
         return apiService.deletePost(postId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -224,6 +235,8 @@ public class PostApi implements Define {
 
     public Disposable deleteReply(String replyId, SuccessCallback<ResponseModel<ReplyModel>> callback, ErrorCallback errorCallback) {
         return apiService.deleteReply(replyId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,

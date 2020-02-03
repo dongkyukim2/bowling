@@ -2,11 +2,13 @@ package com.dk.project.post.base;
 
 import android.app.Application;
 
-import androidx.room.Database;
-import androidx.room.Room;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.dk.project.post.R;
-import com.dk.project.post.manager.AppDatabase;
+import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AppExecutors;
 import com.dk.project.post.utils.ImagePipelineConfigFactory;
 import com.dk.project.post.utils.KakaoSDKAdapter;
@@ -22,7 +24,7 @@ import static com.google.android.gms.ads.RequestConfiguration.TAG_FOR_CHILD_DIRE
  * Created by dkkim on 2017-10-05.
  */
 
-public class BaseApplication extends Application {
+public class BaseApplication extends Application implements LifecycleObserver {
 
     private AppExecutors mAppExecutors;
     private static volatile BaseApplication obj = null;
@@ -46,6 +48,8 @@ public class BaseApplication extends Application {
                 .setTagForChildDirectedTreatment(TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE)
                 .setMaxAdContentRating(MAX_AD_CONTENT_RATING_G)
                 .build();
+
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
     }
 
 
@@ -53,6 +57,17 @@ public class BaseApplication extends Application {
         return obj;
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onForeground() {
+        System.out.println("++++++++++    onForeground");
+        LoginManager.getInstance().startTimer();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void onBackground() {
+        System.out.println("++++++++++    onBackground");
+        LoginManager.getInstance().stopTimer();
+    }
 
    /*
    public AppDatabase getDatabase() {

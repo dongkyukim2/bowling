@@ -27,11 +27,6 @@ public class LoginManager {
     private AtomicLong time;
     private Disposable disposable;
 
-
-    public LoginManager() {
-        startTimer();
-    }
-
     public static LoginManager getInstance() {
         if (loginManager == null) {
             loginManager = new LoginManager();
@@ -40,9 +35,10 @@ public class LoginManager {
     }
 
     public void startTimer() {
+        stopTimer();
         if (disposable == null) {
             time = new AtomicLong(System.currentTimeMillis());
-            disposable = Observable.interval(0, 5, TimeUnit.SECONDS)
+            disposable = Observable.interval(0, 10, TimeUnit.SECONDS)
                     .map(aLong -> System.currentTimeMillis())
                     .subscribe(aLong -> time.set(aLong));
         }

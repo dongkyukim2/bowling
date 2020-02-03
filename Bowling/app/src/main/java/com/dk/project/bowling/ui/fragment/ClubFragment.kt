@@ -133,8 +133,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         viewModel.executeRx(Observable.timer(2, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                bottomSheetBehavior.peekHeight =
-                    binding.recommendClubParentSpace.height - resources.getDimension(R.dimen.bottom_ad_height).toInt()
+                bottomSheetBehavior.peekHeight = binding.recommendClubParentSpace.height - resources.getDimension(R.dimen.bottom_ad_height).toInt()
                 binding.recommendClubParent.requestLayout()
             })
     }

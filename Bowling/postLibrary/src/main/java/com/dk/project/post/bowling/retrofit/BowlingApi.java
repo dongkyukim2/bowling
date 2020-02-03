@@ -55,6 +55,8 @@ public class BowlingApi {
                                       SuccessCallback<ResponseModel<ArrayList<ScoreClubUserModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getClubUserList(clubId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -67,6 +69,8 @@ public class BowlingApi {
                                  SuccessCallback<ResponseModel<ClubModel>> callback,
                                  ErrorCallback errorCallback) {
         return apiService.createClub(clubModel)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -78,6 +82,8 @@ public class BowlingApi {
                                  SuccessCallback<ResponseModel<ClubModel>> callback,
                                  ErrorCallback errorCallback) {
         return apiService.deleteClub(clubModel)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -88,6 +94,8 @@ public class BowlingApi {
     public Disposable getSignUpClubList(SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
                                         ErrorCallback errorCallback) {
         return apiService.getSignUpClub()
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -98,6 +106,8 @@ public class BowlingApi {
     public Disposable getRecommendClubList(SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
                                            ErrorCallback errorCallback) {
         return apiService.getRecommendClubList()
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -108,6 +118,8 @@ public class BowlingApi {
     public Disposable getSearchClubList(String clubId, int page, SuccessCallback<ResponseModel<ArrayList<ClubModel>>> callback,
                                         ErrorCallback errorCallback) {
         return apiService.getSearchClubList(clubId, page)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -116,8 +128,10 @@ public class BowlingApi {
 
     // 내가 가입하고 추천하는 클럽 목록
     public void getSignUpAndRecommendClubList(SuccessCallback<Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>>> callback, ErrorCallback errorCallback) {
-        Observable.zip(apiService.getSignUpClub().subscribeOn(Schedulers.io()),
-                apiService.getRecommendClubList().subscribeOn(Schedulers.io()),
+        Observable.zip(apiService.getSignUpClub().doOnError(throwable -> Thread.sleep(1000))
+                        .retry(3).subscribeOn(Schedulers.io()),
+                apiService.getRecommendClubList().doOnError(throwable -> Thread.sleep(1000))
+                        .retry(3).subscribeOn(Schedulers.io()),
                 (signUpClubList, recommendClubList) -> Pair.create(signUpClubList, recommendClubList))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -129,6 +143,8 @@ public class BowlingApi {
                                  SuccessCallback<ResponseModel<ScoreModel>> callback,
                                  ErrorCallback errorCallback) {
         return apiService.writeScore(scoreModel)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -140,6 +156,8 @@ public class BowlingApi {
             SuccessCallback<ResponseModel<List<ScoreModel>>> callback,
             ErrorCallback errorCallback) {
         return apiService.getScoreList()
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -151,6 +169,8 @@ public class BowlingApi {
                                       SuccessCallback<ResponseModel<ArrayList<ScoreModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getScoreAvgList(count)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -163,6 +183,8 @@ public class BowlingApi {
             SuccessCallback<ResponseModel<ScoreModel>> callback,
             ErrorCallback errorCallback) {
         return apiService.getScoreMonthAvg()
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -174,6 +196,8 @@ public class BowlingApi {
                                               SuccessCallback<ResponseModel<ScoreAvgModel>> callback,
                                               ErrorCallback errorCallback) {
         return apiService.getScoreMonthAgvDayList(date)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -204,6 +228,8 @@ public class BowlingApi {
                                       SuccessCallback<ResponseModel<ArrayList<ScoreModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getScoreDayList(date)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -216,6 +242,8 @@ public class BowlingApi {
                                           SuccessCallback<ResponseModel<GameModel>> callback,
                                           ErrorCallback errorCallback) {
         return apiService.writeGame(gameModel)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -227,6 +255,8 @@ public class BowlingApi {
                                         SuccessCallback<ResponseModel<String>> callback,
                                         ErrorCallback errorCallback) {
         return apiService.deleteGame(gameId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -236,9 +266,11 @@ public class BowlingApi {
 
     // 클럽 게임 및 점수 목록
     public Disposable getGameList(String clubId, int count,
-                                          SuccessCallback<ResponseModel<ArrayList<ReadGameModel>>> callback,
-                                          ErrorCallback errorCallback) {
+                                  SuccessCallback<ResponseModel<ArrayList<ReadGameModel>>> callback,
+                                  ErrorCallback errorCallback) {
         return apiService.getGameList(clubId, count)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -250,6 +282,8 @@ public class BowlingApi {
                                       SuccessCallback<ResponseModel<ReadGameModel>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getGame(gameId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -261,6 +295,8 @@ public class BowlingApi {
                                       SuccessCallback<ResponseModel<ArrayList<LoginInfoModel>>> callback,
                                       ErrorCallback errorCallback) {
         return apiService.getGameUserList(gameId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
@@ -270,7 +306,9 @@ public class BowlingApi {
 
     public Disposable getGameAndUserListAndScoreList(String gameId, SuccessCallback<Pair<ResponseModel<ArrayList<LoginInfoModel>>, ResponseModel<ReadGameModel>>> callback,
                                                      ErrorCallback errorCallback) {
-        return Observable.zip(apiService.getGameUserList(gameId), apiService.getGame(gameId), apiService.getGameScoreList(gameId),
+        return Observable.zip(apiService.getGameUserList(gameId).doOnError(throwable -> Thread.sleep(1000))
+                        .retry(3), apiService.getGame(gameId), apiService.getGameScoreList(gameId).doOnError(throwable -> Thread.sleep(1000))
+                        .retry(3),
                 (arrayListResponseModel, readGameModelResponseModel, arrayListScoreResponseModel) -> {
                     readGameModelResponseModel.getData().setScoreList(arrayListScoreResponseModel.getData());
                     return new Pair<>(arrayListResponseModel, readGameModelResponseModel);
@@ -286,6 +324,8 @@ public class BowlingApi {
                                             SuccessCallback<ResponseModel<ClubUserModel>> callback,
                                             ErrorCallback errorCallback) {
         return apiService.setModifyClubUserType(clubUserModel)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onSuccess,
