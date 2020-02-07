@@ -111,7 +111,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         }
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.recommendClubParent)
-
+        bottomSheetBehavior.skipCollapsed = true
+        viewModel.setBottomSheetBehavior(bottomSheetBehavior)
 //        bottomSheetBehavior.addBottomSheetCallback(object :
 //            BottomSheetBehavior.BottomSheetCallback() {
 //            override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -130,10 +131,10 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     }
 
     private fun setRecommendClubHeight() {
-        viewModel.executeRx(Observable.timer(2, TimeUnit.SECONDS)
+        viewModel.executeRx(Observable.intervalRange(0, 10, 1, 500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                bottomSheetBehavior.peekHeight = binding.recommendClubParentSpace.height - resources.getDimension(R.dimen.bottom_ad_height).toInt()
+                bottomSheetBehavior.peekHeight = binding.recommendClubParentSpace.height
                 binding.recommendClubParent.requestLayout()
             })
     }
