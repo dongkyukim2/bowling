@@ -112,18 +112,18 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.recommendClubParent)
 
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//        bottomSheetBehavior.addBottomSheetCallback(object :
+//            BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
 //                binding.signClubViewPager.alpha = abs(1.0f - slideOffset)
 //                binding.recommendClubTextView
 //                    .setBackgroundColor(Utils.getColorWithAlpha(Color.WHITE, slideOffset))
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-            }
-        })
+//            }
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//
+//            }
+//        })
         setRecommendClubHeight()
 
         return view

@@ -78,7 +78,9 @@ public class LoginInfoViewModel extends BaseViewModel {
             ToastUtil.showWaitToastCenter(mContext);
             return;
         }
-        requestSignUp = true;
+        if (view.getId() != R.id.user_profile_image) {
+            requestSignUp = true;
+        }
 
         if (view.getId() == R.id.sign_up_btn) {
             if (TextUtils.isEmpty(signId)) {

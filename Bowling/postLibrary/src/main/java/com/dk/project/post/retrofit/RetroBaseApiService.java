@@ -4,6 +4,8 @@ import com.dk.project.post.model.LikeModel;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
+import com.dk.project.post.model.VersionModel;
+
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.*;
@@ -16,6 +18,10 @@ public interface RetroBaseApiService {
 
     @GET("ping")
     Observable<ResponseModel> pingCheck();
+
+
+    @POST("community/image/token/")
+    Observable<ResponseModel<VersionModel>> getToken();
 
 
     @POST("community/post/")

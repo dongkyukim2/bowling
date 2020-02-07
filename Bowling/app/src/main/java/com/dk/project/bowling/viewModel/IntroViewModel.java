@@ -15,6 +15,7 @@ import com.dk.project.bowling.ui.activity.MainActivity;
 import com.dk.project.post.base.BaseActivity;
 import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
+import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.ui.activity.WriteActivity;
@@ -23,11 +24,6 @@ import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.dk.project.post.utils.Utils;
 import com.dk.project.post.utils.YoutubeUtil;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.util.exception.KakaoException;
 
@@ -37,9 +33,6 @@ import com.kakao.util.exception.KakaoException;
 
 public class IntroViewModel extends BaseViewModel {
 
-    private FirebaseDatabase database;
-    private DatabaseReference dbRef;
-    private ValueEventListener valueEventListener;
     private ISessionCallback iSessionCallback;
 
     public IntroViewModel(@NonNull Application application) {
@@ -66,10 +59,32 @@ public class IntroViewModel extends BaseViewModel {
             mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
             mContext.finish();
         } else {
-            database = FirebaseDatabase.getInstance();
-            dbRef = database.getReference("version");
-            database.goOnline();
-            checkVersion();
+
+            BowlingApi.getInstance().getVersion(serverVersion -> {
+                try {
+                    String appVersion = BuildConfig.VERSION_NAME;
+                    String[] serverArray = serverVersion.getData().split("\\.");
+                    String[] appArray = appVersion.split("\\.");
+
+                    if (Integer.parseInt(serverArray[0]) > Integer.parseInt(appArray[0])) {// 첫번째 자리가 크면 강업
+                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.",
+                                (dialog, which) -> goMarket(), (dialog, which) -> mContext.finish());
+                    } else if (Integer.parseInt(serverArray[1]) > Integer.parseInt(appArray[1])) {  // 두번째 자리가 크면 강업
+                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.",
+                                (dialog, which) -> goMarket(), (dialog, which) -> mContext.finish());
+                    } else {
+                        startMainActivity();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mContext.finish();
+                }
+
+
+
+            },errorData -> {
+
+            });
         }
     }
 
@@ -175,46 +190,6 @@ public class IntroViewModel extends BaseViewModel {
 //                Toast.makeText(mContext, "로그인 실패 - 이유 모름", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void checkVersion() {
-        valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    String serverVersion = dataSnapshot.getValue(String.class);
-                    String appVersion = BuildConfig.VERSION_NAME;
-
-                    String[] serverArray = serverVersion.split("\\.");
-                    String[] appArray = appVersion.split("\\.");
-
-                    if (Integer.parseInt(serverArray[0]) > Integer.parseInt(appArray[0])) {// 첫번째 자리가 크면 강업
-                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.",
-                                (dialog, which) -> goMarket(), (dialog, which) -> mContext.finish());
-                    } else if (Integer.parseInt(serverArray[1]) > Integer.parseInt(appArray[1])) {  // 두번째 자리가 크면 강업
-                        AlertDialogUtil.showAlertDialog(mContext, null, "최신버전이 있습니다.\n업데이트후 사용해주세요.",
-                                (dialog, which) -> goMarket(), (dialog, which) -> mContext.finish());
-                    } else {
-                        startMainActivity();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    startMainActivity();
-                } finally {
-                    dbRef.removeEventListener(valueEventListener);
-                    database.goOffline();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                startMainActivity();
-                dbRef.removeEventListener(valueEventListener);
-                database.goOffline();
-            }
-        };
-
-        dbRef.addValueEventListener(valueEventListener);
     }
 
     private void goMarket() {

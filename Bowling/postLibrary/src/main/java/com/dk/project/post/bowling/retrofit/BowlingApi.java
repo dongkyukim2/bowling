@@ -50,6 +50,19 @@ public class BowlingApi {
         return apiService;
     }
 
+
+    public Disposable getVersion(SuccessCallback<ResponseModel<String>> callback,
+                                      ErrorCallback errorCallback) {
+        return apiService.getVersion("bowling")
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+
     // 클럽에 가입한 유저 목록
     public Disposable getClubUserList(String clubId,
                                       SuccessCallback<ResponseModel<ArrayList<ScoreClubUserModel>>> callback,

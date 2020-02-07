@@ -29,6 +29,9 @@ public interface RetroBaseApiService {
     @GET("ping")
     Observable<ResponseModel> pingCheck();
 
+    @GET("community/bowling/version/")
+    Observable<ResponseModel<String>> getVersion(@Query("appName") String appName);
+
     @POST("community/bowling/")
     Observable<ResponseModel<ScoreModel>> writeScore(@Body ScoreModel scoreModel);
 

@@ -9,6 +9,7 @@ import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
+import com.dk.project.post.model.VersionModel;
 import com.dk.project.post.retrofit.ProgressRequestBody.ProgressListener;
 import com.dk.project.post.utils.ImageUtil;
 
@@ -53,6 +54,16 @@ public class PostApi implements Define {
         return apiService;
     }
 
+
+    public Disposable getToken(SuccessCallback<ResponseModel<VersionModel>> callback, ErrorCallback errorCallback) {
+        return apiService.getToken()
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
 
     public Disposable signUp(LoginInfoModel loginInfoModel, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
         return apiService.signUp(loginInfoModel)
