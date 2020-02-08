@@ -16,7 +16,9 @@ import com.dk.project.bowling.viewModel.SearchClubViewModel
 import com.dk.project.post.base.BindActivity
 import com.dk.project.post.base.Define
 import com.dk.project.post.utils.RecyclerViewClickListener
+import com.dk.project.post.utils.RxBus
 import com.dk.project.post.utils.TextViewUtil
+import io.reactivex.functions.Consumer
 
 class ClubSearchActivity : BindActivity<ActivityClubSearchBinding, SearchClubViewModel>() {
 

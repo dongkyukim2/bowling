@@ -6,12 +6,35 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.dk.project.bowling.ui.activity.ClubSearchActivity
 import com.dk.project.post.base.BaseViewModel
+import com.dk.project.post.base.Define
 import com.dk.project.post.bowling.model.ClubModel
+import com.dk.project.post.bowling.model.ClubUserModel
 import com.dk.project.post.bowling.retrofit.BowlingApi
+import com.dk.project.post.utils.RxBus
 
-class SearchClubViewModel(application: Application) : BaseViewModel<ClubSearchActivity>(application) {
+class SearchClubViewModel(application: Application) :
+    BaseViewModel<ClubSearchActivity>(application) {
 
     val searchLiveData = MutableLiveData<Pair<ArrayList<ClubModel>, Boolean>>()
+
+    init {
+        executeRx(RxBus.getInstance().registerRxObserver {
+            when (it.first) {
+                Define.EVENT_UPDATE_CLUB_STATUS -> {
+                    searchLiveData.value?.first?.let { clubModelList ->
+                        val clubUserModel = it.second as ClubUserModel
+                        for (clubModel in clubModelList) {
+                            if (clubUserModel.clubId == clubModel.clubId) {
+                                clubModel.type = clubUserModel.type
+                                break
+                            }
+                        }
+                        searchLiveData.value = Pair(searchLiveData.value?.first!!, true)
+                    }
+                }
+            }
+        })
+    }
 
     override fun onThrottleClick(view: View?) {
 

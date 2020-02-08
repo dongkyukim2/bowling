@@ -137,6 +137,7 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                 executeRx(BowlingApi.getInstance().setModifyClubUserType(clubUserModel, receivedData -> {
                     if (receivedData.isSuccess()) {
                         RxBus.getInstance().eventPost(new Pair(Define.EVENT_REFRESH_MY_CLUB_LIST, true));
+                        RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_UPDATE_CLUB_STATUS, clubUserModel));
                         mContext.finish();
                     } else {
                         Toast.makeText(mContext, msg + "하기 실패", Toast.LENGTH_SHORT).show();

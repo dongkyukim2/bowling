@@ -132,6 +132,9 @@ public interface Define {
     int EVENT_ALREADY_DELETE_POST = 12324; // 이미 삭제된 포스트
 
 
+    int EVENT_UPDATE_CLUB_STATUS = 3432; // 클럽의 생태값이 바꼈을떼
+
+
 
 
 
