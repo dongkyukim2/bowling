@@ -36,7 +36,6 @@ import com.dk.project.post.viewModel.ReadViewModel;
 public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewModel> implements NestedScrollView.OnScrollChangeListener {
 
     private ReplyAdapter replyAdapter;
-    //    private ReplyAdapter bottomSheetReplyAdapter;
     private int scrollPosition = -1;
     private int scrollY;
     private int oldScrollY;
@@ -51,8 +50,6 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
     private int layoutMargin;
     private int toolbarHeight;
     private int userInfoHeight;
-
-    private PostModel postModel;
 
     private LinearLayoutManager linearLayoutManager;
 
@@ -76,16 +73,16 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         viewModel.getReplyItemList().observe(this, replyModels -> {
             replyAdapter.setReplyList(replyModels, true);
 
-            postModel.getReplyList().clear();
+            viewModel.getPostModel().getReplyList().clear();
             switch (replyModels.size()) {
                 case 0:
                     break;
                 case 1:
                 case 2:
-                    postModel.getReplyList().addAll(replyModels);
+                    viewModel.getPostModel().getReplyList().addAll(replyModels);
                     break;
                 default:
-                    postModel.getReplyList().addAll(replyModels.subList(0, 2));
+                    viewModel.getPostModel().getReplyList().addAll(replyModels.subList(0, 2));
                     break;
             }
         });
@@ -130,9 +127,7 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         layoutMargin = ScreenUtil.dpToPixel(6);
         layoutMargin = 0;
 
-        postModel = getIntent().getParcelableExtra(POST_MODEL);
-
-        viewModel.setPostModel(postModel);
+        viewModel.setPostModel(getIntent().getParcelableExtra(POST_MODEL));
 
         viewModel.setPostLayout(binding.readContentLayout);
 
@@ -154,25 +149,25 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
 
         binding.userName.setSelected(true);
 
-        binding.writeDate.setText(Utils.converterDate(postModel.getWriteDate()));
+        binding.writeDate.setText(Utils.converterDate(viewModel.getPostModel().getWriteDate()));
 
-        GlideApp.with(this).load(Define.IMAGE_URL + postModel.getUserProfile())
+        GlideApp.with(this).load(Define.IMAGE_URL + viewModel.getPostModel().getUserProfile())
                 .apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
                 .into(binding.userProfile);
 
-        binding.likeImageView.setImageResource(postModel.isLikeSelected() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
+        binding.likeImageView.setImageResource(viewModel.getPostModel().isLikeSelected() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
 
-        binding.replyCountText.setText(String.valueOf(postModel.getReplyCount()));
+        binding.replyCountText.setText(String.valueOf(viewModel.getPostModel().getReplyCount()));
 
-        binding.likeCountText.setText(String.valueOf(postModel.getLikeCount()));
+        binding.likeCountText.setText(String.valueOf(viewModel.getPostModel().getLikeCount()));
 
-        if (LoginManager.getInstance().isPermissionUser(postModel.getUserId()) == Define.OK) {
+        if (LoginManager.getInstance().isPermissionUser(viewModel.getPostModel().getUserId()) == Define.OK) {
             binding.moreImageView.setVisibility(View.VISIBLE);
         }
         binding.moreImageView.setOnClickListener(view -> AlertDialogUtil.showBottomSheetDialog(this, v -> {
             if (v.getId() == R.id.btnModify) {
                 Intent intent = new Intent(this, WriteActivity.class);
-                intent.putExtra(POST_MODEL, postModel);
+                intent.putExtra(POST_MODEL, viewModel.getPostModel());
                 startActivityForResult(intent, MODIFY_POST);
             } else if (v.getId() == R.id.btnDelete) {
                 if (requestDeletePost) {
@@ -181,7 +176,7 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
                 }
                 requestDeletePost = true;
                 AlertDialogUtil.showAlertDialog(this, null, "삭제 하시겠습니까?", (dialog, which) ->
-                                PostApi.getInstance().deletePost(postModel.getPostId(), receivedData -> {
+                                PostApi.getInstance().deletePost(viewModel.getPostModel().getPostId(), receivedData -> {
                                     if (receivedData.isSuccess()) {
                                         RxBus.getInstance().eventPost(new Pair(EVENT_DELETE_POST, receivedData.getData()));
                                         finish();
@@ -233,8 +228,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         replyAdapter.unSubscribeFromObservable();
 
         String replyCount = viewModel.getReplyCountLiveData().getValue();
-        postModel.setReplyCount(Integer.parseInt(replyCount == null ? "0" : replyCount));
-        RxBus.getInstance().eventPost(new Pair<>(EVENT_POST_REFRESH_REPLY_LIKE, postModel));
+        viewModel.getPostModel().setReplyCount(Integer.parseInt(replyCount == null ? "0" : replyCount));
+        RxBus.getInstance().eventPost(new Pair<>(EVENT_POST_REFRESH_REPLY_LIKE, viewModel.getPostModel()));
     }
 
     @Override

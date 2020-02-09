@@ -84,6 +84,7 @@ public class ReadViewModel extends BaseViewModel {
                         int count = postLayout.getChildCount();
                         postLayout.removeViews(0, count - 2);
                         setReadPost(postLayout, modifyPostModel);
+                        postModel = modifyPostModel;
                     }
                     break;
             }

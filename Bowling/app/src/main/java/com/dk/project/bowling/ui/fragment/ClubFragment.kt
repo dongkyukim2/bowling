@@ -131,7 +131,7 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     }
 
     private fun setRecommendClubHeight() {
-        viewModel.executeRx(Observable.intervalRange(0, 10, 1, 500, TimeUnit.MILLISECONDS)
+        viewModel.executeRx(Observable.intervalRange(0, 20, 1, 500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 bottomSheetBehavior.peekHeight = binding.recommendClubParentSpace.height
