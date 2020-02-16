@@ -127,7 +127,8 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
         layoutMargin = ScreenUtil.dpToPixel(6);
         layoutMargin = 0;
 
-        viewModel.setPostModel(getIntent().getParcelableExtra(POST_MODEL));
+        PostModel postModel = getIntent().getParcelableExtra(POST_MODEL);
+        viewModel.setPostModel(postModel);
 
         viewModel.setPostLayout(binding.readContentLayout);
 
