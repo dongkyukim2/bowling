@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import androidx.core.content.ContextCompat;
 import com.dk.project.bowling.R;
-import com.dk.project.bowling.utils;
+import com.dk.project.bowling.Utils;
 
 import java.text.DecimalFormat;
 
@@ -85,15 +85,15 @@ public class ArcProgress extends View {
         super(context, attrs, defStyleAttr);
 
 //        default_text_size = Util.sp2px(getResources(), 18);
-        min_size = (int) utils.dp2px(getResources(), 100);
+        min_size = (int) Utils.dp2px(getResources(), 100);
 
-        default_text_size = utils.sp2px(getResources(), 26 * 2);
-        default_suffix_text_size = utils.sp2px(getResources(), 15);
+        default_text_size = Utils.sp2px(getResources(), 26 * 2);
+        default_suffix_text_size = Utils.sp2px(getResources(), 15);
 
-        default_suffix_padding = utils.dp2px(getResources(), 4);
+        default_suffix_padding = Utils.dp2px(getResources(), 4);
         default_suffix_text = "";
-        default_bottom_text_size = utils.sp2px(getResources(), 14);
-        default_stroke_width = utils.dp2px(getResources(), 4);
+        default_bottom_text_size = Utils.sp2px(getResources(), 14);
+        default_stroke_width = Utils.dp2px(getResources(), 4);
 
         default_finished_color = ContextCompat.getColor(context, R.color.startColor);
 

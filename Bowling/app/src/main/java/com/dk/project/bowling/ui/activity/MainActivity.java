@@ -345,7 +345,7 @@ public class MainActivity extends BindActivity<ActivityMainBinding, MainViewMode
     public void asd() {
         new Thread(() -> {
             File file = new File("/storage/emulated/0/a.png");
-            if(file.exists()){
+            if (file.exists()) {
                 OkHttpClient client = new OkHttpClient();
 
                 RequestBody body = RequestBody.create(new File("/storage/emulated/0/a.png"), MediaType.parse("image/*"));
