@@ -57,7 +57,8 @@ public interface RetroBaseApiService {
     @POST("community/bowling/club/create/")
     Observable<ResponseModel<ClubModel>> createClub(@Body ClubModel clubModel);
 
-    @POST("community/bowling/club/delete/")
+//    @POST("community/bowling/club/delete/")  이거는 정말 삭제하는거
+    @POST("community/bowling/club/delete/status")
     Observable<ResponseModel<ClubModel>> deleteClub(@Body ClubModel clubModel);
 
     @GET("community/bowling/club/me/")
