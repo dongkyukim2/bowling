@@ -4,24 +4,27 @@ import com.dk.project.post.model.LikeModel;
 import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
-import com.dk.project.post.model.VersionModel;
+import com.dk.project.post.model.TokenModel;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.http.*;
 
 import java.util.ArrayList;
 
 public interface RetroBaseApiService {
 
-    String Base_URL = "http://project-dk.iptime.org:8081/";
+//    String Base_URL = "http://project-dk.iptime.org:8081/";
+    String Base_URL = "http://133.186.143.97:8081/";
 
     @GET("ping")
     Observable<ResponseModel> pingCheck();
 
 
     @POST("community/image/token/")
-    Observable<ResponseModel<VersionModel>> getToken();
+    Observable<ResponseModel<TokenModel>> getToken();
 
 
     @POST("community/post/")
@@ -51,6 +54,10 @@ public interface RetroBaseApiService {
     @Multipart
     @POST("community/image/")
     Observable<ResponseModel<String>> uploadFile(@Part MultipartBody.Part file);
+
+    @Multipart
+    @PUT
+    Observable<ResponseBody> uploadImage(@Url String url, @Header("X-Auth-Token") String token, @Part MultipartBody.Part file);
 
 
     @FormUrlEncoded

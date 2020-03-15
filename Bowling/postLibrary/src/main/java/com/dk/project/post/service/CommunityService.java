@@ -18,6 +18,7 @@ import com.dk.project.post.base.BaseService;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
+import com.dk.project.post.retrofit.CountingRequestBody;
 import com.dk.project.post.retrofit.PostApi;
 import com.dk.project.post.retrofit.ProgressRequestBody.ProgressListener;
 import com.dk.project.post.ui.activity.WriteActivity;
@@ -84,11 +85,38 @@ public class CommunityService extends BaseService {
             setForeground();
 
             AtomicInteger fileCount = new AtomicInteger(0);
-            PostApi.getInstance().uploadFile(this, postModel, receivedData -> {
+//            PostApi.getInstance().uploadFile(this, postModel, receivedData -> {
+//                writePost(modify, postModel);
+//            }, errorData -> {
+//                Toast.makeText(this, "업로드 실패", Toast.LENGTH_LONG).show();
+//            }, new ProgressListener() {
+//                @Override
+//                public void onUploadStart(String fileName) {
+//                    contentView.setTextViewText(R.id.noti_file_count, fileCount.incrementAndGet() + "/" + uploadFileCount.get());
+//                    notifyManager.notify(notificationId, mNotification);
+//                }
+//
+//                @Override
+//                public void onRequestProgress(long bytesWritten, long contentLength) {
+//                    int progress = (int) ((double) bytesWritten / (double) contentLength * 100.0);
+//                    contentView.setTextViewText(R.id.noti_file_percent, progress + "%");
+//                    contentView.setProgressBar(R.id.noti_file_progress, (int) contentLength, (int) bytesWritten, false);
+//                    notifyManager.notify(notificationId, mNotification);
+//                }
+//
+//                @Override
+//                public void onUploadEnd(String fileName) {
+//
+//                }
+//            });
+
+
+            PostApi.getInstance().uploadFile(this, postModel.getImageList(), imageList -> {
+                postModel.setImageList(imageList);
                 writePost(modify, postModel);
             }, errorData -> {
                 Toast.makeText(this, "업로드 실패", Toast.LENGTH_LONG).show();
-            }, new ProgressListener() {
+            }, new CountingRequestBody.Listener() {
                 @Override
                 public void onUploadStart(String fileName) {
                     contentView.setTextViewText(R.id.noti_file_count, fileCount.incrementAndGet() + "/" + uploadFileCount.get());

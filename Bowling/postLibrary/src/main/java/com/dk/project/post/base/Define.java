@@ -44,8 +44,9 @@ public interface Define {
 
     int IMAGE_LIMIT_COUNT = 5;
 
-    String IMAGE_URL = "http://project-dk.iptime.org:8081/community/image/";
-    String S3_DEFAULT_PATH = "https://s3.ap-northeast-2.amazonaws.com/2018community/";
+    String IMAGE_URL = "https://api-storage.cloud.toast.com/v1/AUTH_34ee9d51c09041778e1ad43165b6370d/bowling_image/";
+//    String IMAGE_URL = "http://project-dk.iptime.org:8081/community/image/";
+//    String S3_DEFAULT_PATH = "https://s3.ap-northeast-2.amazonaws.com/2018community/";
 
     String YOUTUBE_PREVIEW_TAG = "YOUTUBE_PREVIEW";
     String YOUTUBE_FRAGMENT_TAG = "YoutubeFragment";

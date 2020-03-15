@@ -24,7 +24,8 @@ import retrofit2.http.Query;
 
 public interface RetroBaseApiService {
 
-    String Base_URL = "http://project-dk.iptime.org:8080/";
+//    String Base_URL = "http://project-dk.iptime.org:8080/";
+    String Base_URL = "http://133.186.143.97:8080/";
 
     @GET("ping")
     Observable<ResponseModel> pingCheck();

@@ -16,11 +16,12 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.model.ClubModel;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.controller.ListController;
+import com.dk.project.post.retrofit.CountingRequestBody;
 import com.dk.project.post.retrofit.PostApi;
-import com.dk.project.post.retrofit.ProgressRequestBody;
 import com.dk.project.post.ui.activity.MediaSelectActivity;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.PermissionsUtil;
+import com.dk.project.post.utils.ProgressUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ToastUtil;
 
@@ -69,13 +70,14 @@ public class CreateClubViewModel extends BaseViewModel<CreateClubActivity> {
                     return;
                 }
                 if (mContext.getBinding().clubTitleTextView.getText().toString().trim().isEmpty()) {
-                    ToastUtil.showToastCenter(mContext,"제목을 입력해주세요.");
+                    ToastUtil.showToastCenter(mContext, "제목을 입력해주세요.");
                     return;
                 }
                 if (mContext.getBinding().clubSubTitleTextView.getText().toString().trim().isEmpty()) {
-                    ToastUtil.showToastCenter(mContext,"내용을 입력해주세요.");
+                    ToastUtil.showToastCenter(mContext, "내용을 입력해주세요.");
                     return;
                 }
+                ProgressUtil.INSTANCE.showProgress(mContext);
                 guardRequest = true;
                 ClubModel clubModel = new ClubModel();
                 clubModel.setClubTitle(mContext.getBinding().clubTitleTextView.getText().toString().trim());
@@ -84,11 +86,12 @@ public class CreateClubViewModel extends BaseViewModel<CreateClubActivity> {
                 if (ListController.getInstance().getMediaSelectList().isEmpty()) {
                     createClub(clubModel, String.valueOf(defaultImageIndex));
                 } else {
-                    executeRx(PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
-                        createClub(clubModel, receivedData.get(0));
+                    executeRx(PostApi.getInstance().uploadFile(mContext, ListController.getInstance().getMediaSelectList(), receivedData -> {
+                        createClub(clubModel, receivedData.get(0).getFilePath());
                     }, errorData -> {
+                        ProgressUtil.INSTANCE.hideProgress();
                         guardRequest = false;
-                    }, new ProgressRequestBody.ProgressListener() {
+                    }, new CountingRequestBody.Listener() {
                         @Override
                         public void onUploadStart(String fileName) {
 
@@ -96,7 +99,6 @@ public class CreateClubViewModel extends BaseViewModel<CreateClubActivity> {
 
                         @Override
                         public void onRequestProgress(long bytesWritten, long contentLength) {
-
                         }
 
                         @Override
@@ -137,9 +139,11 @@ public class CreateClubViewModel extends BaseViewModel<CreateClubActivity> {
             mContext.setResult(Activity.RESULT_OK, intent);
             mContext.finish();
             guardRequest = false;
+            ProgressUtil.INSTANCE.hideProgress();
         }, errorData -> {
             Toast.makeText(mContext, "클럽 만들기 실패", Toast.LENGTH_LONG).show();
             guardRequest = false;
+            ProgressUtil.INSTANCE.hideProgress();
         }));
     }
 

@@ -15,8 +15,8 @@ import com.dk.project.post.base.Define;
 import com.dk.project.post.controller.ListController;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.model.LoginInfoModel;
+import com.dk.project.post.retrofit.CountingRequestBody;
 import com.dk.project.post.retrofit.PostApi;
-import com.dk.project.post.retrofit.ProgressRequestBody;
 import com.dk.project.post.ui.activity.MediaSelectActivity;
 import com.dk.project.post.ui.widget.CircleImageView;
 import com.dk.project.post.utils.GlideApp;
@@ -117,7 +117,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                                     mContext.finish();
                                     if (modify) {
                                         ToastUtil.showToastCenter(mContext, "수정 성공했습니다.");
-                                        RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_PROFILE_SUCCESS,true));
+                                        RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_PROFILE_SUCCESS, true));
                                     } else {
                                         ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
                                     }
@@ -141,11 +141,11 @@ public class LoginInfoViewModel extends BaseViewModel {
                     if (modify) {
                         loginInfoModel.setUserPhoto(userPhoto);
                     }
-                    executeRx(PostApi.getInstance().test(mContext, ListController.getInstance().getMediaSelectList(), iamgeList -> {
-                        if (iamgeList.isEmpty()) { // 등록하다가 올리면 이미지 못올려서 예외처리
+                    executeRx(PostApi.getInstance().uploadFile(mContext, ListController.getInstance().getMediaSelectList(), imageList -> {
+                        if (imageList.isEmpty()) { // 등록하다가 올리면 이미지 못올려서 예외처리
                             loginInfoModel.setNewUserPhoto(userPhoto);
                         } else {
-                            loginInfoModel.setNewUserPhoto(iamgeList.get(0));
+                            loginInfoModel.setNewUserPhoto(imageList.get(0).getFilePath());
                         }
                         executeRx(PostApi.getInstance().signUp(loginInfoModel,
                                 receivedData -> {
@@ -157,7 +157,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                                         mContext.finish();
                                         if (modify) {
                                             ToastUtil.showToastCenter(mContext, "수정 성공했습니다.");
-                                            RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_PROFILE_SUCCESS,true));
+                                            RxBus.getInstance().eventPost(new Pair<>(Define.EVENT_PROFILE_SUCCESS, true));
                                         } else {
                                             ToastUtil.showToastCenter(mContext, "가입 성공했습니다.");
                                         }
@@ -179,7 +179,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                                 }));
                     }, errorData -> {
                         requestSignUp = false;
-                    }, new ProgressRequestBody.ProgressListener() {
+                    }, new CountingRequestBody.Listener() {
                         @Override
                         public void onUploadStart(String fileName) {
 
@@ -196,17 +196,19 @@ public class LoginInfoViewModel extends BaseViewModel {
                         }
                     }));
                 }
-
-
             }
         } else if (view.getId() == R.id.user_profile_image) {
-            PermissionsUtil.isPermission(mContext, granted -> {
-                if (granted) {
-                    Intent intent = new Intent(mContext, MediaSelectActivity.class);
-                    intent.putExtra(Define.IMAGE_MULTI_SELECT, false);
-                    mContext.startActivityForResult(intent, Define.MEDIA_ATTACH_LIST);
-                }
-            });
+            if (LoginManager.getInstance().isLogIn()) {
+                PermissionsUtil.isPermission(mContext, granted -> {
+                    if (granted) {
+                        Intent intent = new Intent(mContext, MediaSelectActivity.class);
+                        intent.putExtra(Define.IMAGE_MULTI_SELECT, false);
+                        mContext.startActivityForResult(intent, Define.MEDIA_ATTACH_LIST);
+                    }
+                });
+            } else {
+                requestSignUp = false;
+            }
         }
 
     }

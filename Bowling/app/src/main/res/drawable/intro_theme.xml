@@ -3,11 +3,11 @@
 
     <item android:drawable="@drawable/intro_drawable" />
 
-    <item
-            android:width="300dp"
-            android:height="300dp"
-            android:drawable="@drawable/intro"
-            android:gravity="center">
-    </item>
+<!--    <item-->
+<!--            android:width="300dp"-->
+<!--            android:height="300dp"-->
+<!--            android:drawable="@drawable/intro"-->
+<!--            android:gravity="center">-->
+<!--    </item>-->
 
 </layer-list>

@@ -247,6 +247,38 @@ public class ImageUtil implements Define {
         return linearLayout;
     }
 
+
+    public static Single<List<MediaSelectListModel>> compressImageObservable(Context context, List<MediaSelectListModel> imageList) {
+        return Observable.fromIterable(imageList).
+                filter(mediaSelectListModel -> {
+                    if (TextUtils.isEmpty(mediaSelectListModel.getFilePath())) {
+                        return false;
+                    }
+                    File file = new File(mediaSelectListModel.getFilePath());
+                    return file.exists();
+                }).
+                map(selectFile -> {
+                    String selectFilePath = selectFile.getFilePath();
+                    String ext = FilenameUtils.getExtension(selectFilePath);
+                    File file = new File(selectFilePath);
+                    if (TextUtils.isEmpty(selectFile.getYoutubeUrl()) && !selectFile.isGif() && file.exists()) {
+                        selectFile.setOriginalFileName(FilenameUtils.getName(selectFile.getFilePath()));
+
+                        Bitmap bitmap = GlideApp.with(context).asBitmap().load(selectFilePath).submit(800, 800).get();
+                        File destFile = new File(imagePath, UUID.randomUUID().toString() + "." + ext);
+                        destFile.createNewFile();
+                        OutputStream out = new FileOutputStream(destFile);
+                        if (ext.equalsIgnoreCase("png")) {
+                            bitmap.compress(CompressFormat.PNG, 100, out);
+                        } else {
+                            bitmap.compress(CompressFormat.JPEG, 100, out);
+                        }
+                        selectFile.setFilePath(destFile.getAbsolutePath());
+                    }
+                    return selectFile;
+                }).toList();
+    }
+
     public static Single<List<MediaSelectListModel>> compressImageObservable(Context context, PostModel postModel) {
         return Observable.fromIterable(postModel.getImageList()).
                 filter(mediaSelectListModel -> {

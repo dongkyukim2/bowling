@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -152,9 +153,12 @@ public class ReadActivity extends BindActivity<ActivityReadBinding, ReadViewMode
 
         binding.writeDate.setText(Utils.converterDate(viewModel.getPostModel().getWriteDate()));
 
-        GlideApp.with(this).load(Define.IMAGE_URL + viewModel.getPostModel().getUserProfile())
-                .apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
-                .into(binding.userProfile);
+        if (!TextUtils.isEmpty(viewModel.getPostModel().getUserProfile())) {
+            GlideApp.with(this).load(Define.IMAGE_URL + viewModel.getPostModel().getUserProfile())
+                    .apply(ImageUtil.getGlideRequestOption().placeholder(R.drawable.user_profile))
+                    .into(binding.userProfile);
+        }
+
 
         binding.likeImageView.setImageResource(viewModel.getPostModel().isLikeSelected() ? R.drawable.ic_heart_red : R.drawable.ic_heart_outline_grey);
 

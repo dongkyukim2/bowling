@@ -9,7 +9,7 @@ import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.model.MediaSelectListModel;
 import com.dk.project.post.model.PostModel;
 import com.dk.project.post.model.ReplyModel;
-import com.dk.project.post.model.VersionModel;
+import com.dk.project.post.model.TokenModel;
 import com.dk.project.post.retrofit.ProgressRequestBody.ProgressListener;
 import com.dk.project.post.utils.ImageUtil;
 
@@ -24,7 +24,10 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.MultipartBody.Part;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by dkkim on 2017-12-12.
@@ -37,9 +40,12 @@ public class PostApi implements Define {
     private RetroClient retroClient;
     private RetroBaseApiService apiService;
 
+    private TokenModel tokenModel;
+
     private PostApi() {
         retroClient = RetroClient.getInstance();
         apiService = RetroClient.getApiService();
+        tokenModel = new TokenModel();
     }
 
     public static PostApi getInstance() {
@@ -52,17 +58,6 @@ public class PostApi implements Define {
     // Rx로 조합할때 사용
     public RetroBaseApiService getApiService() {
         return apiService;
-    }
-
-
-    public Disposable getToken(SuccessCallback<ResponseModel<VersionModel>> callback, ErrorCallback errorCallback) {
-        return apiService.getToken()
-                .doOnError(throwable -> Thread.sleep(1000))
-                .retry(3)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onSuccess,
-                        throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
     public Disposable signUp(LoginInfoModel loginInfoModel, SuccessCallback<ResponseModel<LoginInfoModel>> callback, ErrorCallback errorCallback) {
@@ -168,10 +163,11 @@ public class PostApi implements Define {
                         throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
-
+    // 내 로컬에서
     public Disposable uploadFile(Context context, PostModel postModel, SuccessCallback<Object> callback, ErrorCallback errorCallback,
                                  ProgressListener progressListener) {
         return ImageUtil.compressImageObservable(context, postModel).flatMap(mediaSelectListModels -> {
+
             return Observable.fromIterable(mediaSelectListModels).map(selectModel -> {
 
                 Part body;
@@ -195,12 +191,59 @@ public class PostApi implements Define {
                 progressListener.onUploadEnd("uploadEnd");
                 return objectResponseModel.getData();
             }).toList();
+
+
         }).subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onSuccess,
                 throwable -> retroClient.errorHandling(throwable, errorCallback));
     }
 
 
+    public Disposable uploadFile(Context context, ArrayList<MediaSelectListModel> imageList,
+                                 SuccessCallback<ArrayList<MediaSelectListModel>> callback,
+                                 ErrorCallback errorCallback,
+                                 CountingRequestBody.Listener progressListener) {
+
+        ArrayList<MediaSelectListModel> tempImageList = new ArrayList<>(imageList);
+
+        return ImageUtil.compressImageObservable(context, tempImageList).flatMap(mediaSelectListModels -> {
+            return Observable.fromIterable(mediaSelectListModels).filter(mediaSelectListModel -> {
+                return TextUtils.isEmpty(mediaSelectListModel.getYoutubeUrl()) && !mediaSelectListModel.getFilePath().startsWith("http");
+            }).map(selectModel -> {
+                File file = new File(selectModel.getFilePath());
+                CountingRequestBody body = new CountingRequestBody(file, RequestBody.create(file, MediaType.parse("image/*")), progressListener);
+                selectModel.setFilePath(file.getName());
+                return body;
+            }).toList();
+        }).flatMapObservable(countingRequestBodies -> {
+            tokenModel = apiService.getToken().blockingFirst().getData();
+            return Observable.fromIterable(countingRequestBodies).map(countingRequestBody -> {
+                progressListener.onUploadStart(countingRequestBody.getFile().getName());
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url("https://api-storage.cloud.toast.com/v1/AUTH_34ee9d51c09041778e1ad43165b6370d/bowling_image/" + countingRequestBody.getFile().getName())
+                        .put(countingRequestBody)
+                        .addHeader("X-Auth-Token", tokenModel.getToken())
+                        .build();
+                Response response = client.newCall(request).execute();
+                progressListener.onUploadEnd("uploadEnd");
+                return response;
+            });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    System.out.println("++++++++++++++++++++    uploadFile next");
+                }, throwable -> {
+                    System.out.println("++++++++++++++++++++    uploadFile throwable");
+                    errorCallback.onError(new ErrorResponse(1, throwable.getMessage()));
+                }, () -> {
+                    System.out.println("++++++++++++++++++++    uploadFile complete");
+                    callback.onSuccess(tempImageList);
+                });
+    }
+
+
+    // 내 로컬에서
     //todo 전반적인 파일 업로드 로직 수정
     public Disposable test(Context context, ArrayList<MediaSelectListModel> fileList,
                            SuccessCallback<List<String>> callback,
@@ -246,6 +289,16 @@ public class PostApi implements Define {
 
     public Disposable deleteReply(String replyId, SuccessCallback<ResponseModel<ReplyModel>> callback, ErrorCallback errorCallback) {
         return apiService.deleteReply(replyId)
+                .doOnError(throwable -> Thread.sleep(1000))
+                .retry(3)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onSuccess,
+                        throwable -> retroClient.errorHandling(throwable, errorCallback));
+    }
+
+    public Disposable getToken(SuccessCallback<ResponseModel<TokenModel>> callback, ErrorCallback errorCallback) {
+        return apiService.getToken()
                 .doOnError(throwable -> Thread.sleep(1000))
                 .retry(3)
                 .subscribeOn(Schedulers.io())

@@ -134,7 +134,7 @@ public class IntroViewModel extends BaseViewModel {
                     LoginManager.getInstance().setLoginInfoModel(null);
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
                     mContext.finish();
-                    Toast.makeText(mContext, "로그아웃 상태로 진입", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, "로그아웃 상태로 진입", Toast.LENGTH_LONG).show();
                 }
             }
         } else if (Build.MODEL.equalsIgnoreCase("SM-G900K")) {
