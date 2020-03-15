@@ -147,12 +147,12 @@ public class PostModel implements Parcelable {
 
     public void sumLikeCount() {
         likeCount++;
-        System.out.println("==============  sumLikeCount  "+likeCount);
+//        System.out.println("==============  sumLikeCount  "+likeCount);
     }
 
     public void subLikeCount() {
         likeCount--;
-        System.out.println("==============  subLikeCount  "+likeCount);
+//        System.out.println("==============  subLikeCount  "+likeCount);
     }
 
     public String getClubId() {

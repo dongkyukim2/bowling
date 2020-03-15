@@ -52,11 +52,10 @@ public class BaseActivity extends AppCompatActivity implements Define {
             BaseActivity baseActivity = activityStack.get(activityStack.size() - 1);
             if (baseActivity.getClass().getSimpleName().equals("IntroActivity")) {
                 baseActivity = activityStack.get(activityStack.size() - 2);
-//        baseActivity = activityStack.get(0);
-                System.out.println("=============       return   " + baseActivity.getClass().getSimpleName());
+//                System.out.println("=============       return   " + baseActivity.getClass().getSimpleName());
                 return baseActivity;
             } else {
-                System.out.println("=============       return   " + baseActivity.getClass().getSimpleName());
+//                System.out.println("=============       return   " + baseActivity.getClass().getSimpleName());
                 return baseActivity;
             }
         }

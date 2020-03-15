@@ -100,7 +100,7 @@ public class IntroViewModel extends BaseViewModel {
     }
 
     private void startMainActivity() {
-        if (Build.MODEL.equalsIgnoreCase("SM-G965N")) {
+//        if (Build.MODEL.equalsIgnoreCase("SM-G965N")) {
             // todo 여기도 수정해야함
             if (mContext.getIntent().hasExtra(Define.INTRO_DELAY)) {
                 Intent intent = new Intent(mContext, MainActivity.class);
@@ -125,7 +125,6 @@ public class IntroViewModel extends BaseViewModel {
                                 LoginManager.getInstance().setLoginInfoModel(null);
                                 mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
                                 mContext.finish();
-//                                Toast.makeText(mContext, "카카오 로그인 안함", Toast.LENGTH_LONG).show();
                             }
                         };
                         KakaoLoginUtils.openSession(mContext, iSessionCallback);
@@ -134,28 +133,28 @@ public class IntroViewModel extends BaseViewModel {
                     LoginManager.getInstance().setLoginInfoModel(null);
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
                     mContext.finish();
-//                    Toast.makeText(mContext, "로그아웃 상태로 진입", Toast.LENGTH_LONG).show();
                 }
             }
-        } else if (Build.MODEL.equalsIgnoreCase("SM-G900K")) {
-            // todo LoginInfoModel, setUserCode 중복 수정해야함
-            LoginInfoModel loginInfoModel = new LoginInfoModel();
-            loginInfoModel.setUserId("1087708737");
-            loginInfoModel.setUserName("박철수");
-            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
-            Intent intent = new Intent(mContext, MainActivity.class);
-            mContext.startActivity(intent);
-            mContext.finish();
-        } else if (Build.MODEL.equalsIgnoreCase("SM-N900L")) {
-            // todo LoginInfoModel, setUserCode 중복 수정해야함
-            LoginInfoModel loginInfoModel = new LoginInfoModel();
-            loginInfoModel.setUserId("1087708739");
-            loginInfoModel.setUserName("최길동");
-            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
-            Intent intent = new Intent(mContext, MainActivity.class);
-            mContext.startActivity(intent);
-            mContext.finish();
-        }
+//        }
+//        else if (Build.MODEL.equalsIgnoreCase("SM-G900K")) {
+//            // todo LoginInfoModel, setUserCode 중복 수정해야함
+//            LoginInfoModel loginInfoModel = new LoginInfoModel();
+//            loginInfoModel.setUserId("1087708737");
+//            loginInfoModel.setUserName("박철수");
+//            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
+//            Intent intent = new Intent(mContext, MainActivity.class);
+//            mContext.startActivity(intent);
+//            mContext.finish();
+//        } else if (Build.MODEL.equalsIgnoreCase("SM-N900L")) {
+//            // todo LoginInfoModel, setUserCode 중복 수정해야함
+//            LoginInfoModel loginInfoModel = new LoginInfoModel();
+//            loginInfoModel.setUserId("1087708739");
+//            loginInfoModel.setUserName("최길동");
+//            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
+//            Intent intent = new Intent(mContext, MainActivity.class);
+//            mContext.startActivity(intent);
+//            mContext.finish();
+//        }
     }
 
     private void loginCheck() {
@@ -194,7 +193,6 @@ public class IntroViewModel extends BaseViewModel {
 
     private void goMarket() {
         String appPackageName = mContext.getPackageName();
-        appPackageName = "com.kakao.talk";
         try {
             mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
         } catch (Exception e) {

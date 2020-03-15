@@ -256,13 +256,13 @@ public class Utils {
                 @Override
                 public void onAdLoaded() {
                     super.onAdLoaded();
-                    System.out.println("+++++++++++     onAdLoaded");
+//                    System.out.println("+++++++++++     onAdLoaded");
                 }
 
                 @Override
                 public void onAdFailedToLoad(int error) {
                     super.onAdFailedToLoad(error);
-                    System.out.println("+++++++++++     onAdFailedToLoad     " + error);
+//                    System.out.println("+++++++++++     onAdFailedToLoad     " + error);
                 }
             });
             adView.loadAd(adRequest);

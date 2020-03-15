@@ -127,7 +127,9 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                     requestUserType = false;
                 });
 
-            }, (dialog, which) -> requestUserType = false);
+            }, (dialog, which) -> requestUserType = false).setOnCancelListener(dialog -> {
+                requestUserType = false;
+            });
         } else {
             AlertDialogUtil.showAlertDialog(mContext, "알림", "정말 " + msg + " 하시겠습니까?", (dialog, which) -> {
                 ClubUserModel clubUserModel = new ClubUserModel();
@@ -148,7 +150,9 @@ public class ClubDetailHomeViewModel extends BaseViewModel {
                     requestUserType = false;
                 }));
 
-            }, (dialog, which) -> requestUserType = false);
+            }, (dialog, which) -> requestUserType = false).setOnCancelListener(dialog -> {
+                requestUserType = false;
+            });
         }
     }
 }
