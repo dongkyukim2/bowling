@@ -131,11 +131,15 @@ class CreateGameActivity : BindActivity<ActivityCreateGameBinding, CreateGameVie
         if (createGameAdapter.isDeleteMode) {
             createGameAdapter.deleteSelectUser()
         } else {
-            if (requestWriteGame) {
-                ToastUtil.showWaitToastCenter(this)
-                return
+            if (createGameAdapter.userList.isEmpty()) {
+                ToastUtil.showToastCenter(this, "팀을 추가해주세요")
+            } else {
+                if (requestWriteGame) {
+                    ToastUtil.showWaitToastCenter(this)
+                    return
+                }
+                showDateDialog()
             }
-            showDateDialog()
         }
     }
 

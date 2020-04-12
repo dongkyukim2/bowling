@@ -3,10 +3,8 @@ package com.dk.project.bowling.viewModel;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -17,7 +15,6 @@ import com.dk.project.post.base.BaseViewModel;
 import com.dk.project.post.base.Define;
 import com.dk.project.post.bowling.retrofit.BowlingApi;
 import com.dk.project.post.manager.LoginManager;
-import com.dk.project.post.model.LoginInfoModel;
 import com.dk.project.post.ui.activity.WriteActivity;
 import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.ImageUtil;
@@ -81,8 +78,7 @@ public class IntroViewModel extends BaseViewModel {
                 }
 
 
-
-            },errorData -> {
+            }, errorData -> {
 
             });
         }
@@ -101,55 +97,44 @@ public class IntroViewModel extends BaseViewModel {
 
     private void startMainActivity() {
 //        if (Build.MODEL.equalsIgnoreCase("SM-G965N")) {
-            // todo 여기도 수정해야함
-            if (mContext.getIntent().hasExtra(Define.INTRO_DELAY)) {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                mContext.startActivity(intent);
-                mContext.finish();
-            } else {
-                if (LoginManager.getInstance().autoLogIn()) {
-                    // 세션이 열려있는지
-                    // todo 로그인되어있으면 열려있는듯
-                    if (KakaoLoginUtils.checkLogin()) {
-                        loginCheck();
-                    } else {
-                        iSessionCallback = new ISessionCallback() {
-                            @Override
-                            public void onSessionOpened() {
-                                loginCheck();
-                            }
+        if (mContext.getIntent().hasExtra(Define.INTRO_DELAY)) {
+            Intent intent = new Intent(mContext, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            mContext.startActivity(intent);
+            mContext.finish();
+        } else {
+            if (LoginManager.getInstance().autoLogIn()) {
+                // 세션이 열려있는지
+                // todo 로그인되어있으면 열려있는듯
+                if (KakaoLoginUtils.checkLogin()) {
+                    loginCheck();
+                } else {
+                    iSessionCallback = new ISessionCallback() {
+                        @Override
+                        public void onSessionOpened() {
+                            loginCheck();
+                        }
 
-                            @Override
-                            public void onSessionOpenFailed(KakaoException exception) { // 카카오 로그인 화면 열었다가 닫기하면
-                                LoginManager.getInstance().setLoginInfoModel(null);
-                                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
-                                mContext.finish();
-                            }
-                        };
-                        KakaoLoginUtils.openSession(mContext, iSessionCallback);
-                    }
-                } else { // 로그아웃 상태
-                    LoginManager.getInstance().setLoginInfoModel(null);
-                    mContext.startActivity(new Intent(mContext, MainActivity.class));
-                    mContext.finish();
+                        @Override
+                        public void onSessionOpenFailed(KakaoException exception) { // 카카오 로그인 화면 열었다가 닫기하면
+                            LoginManager.getInstance().setLoginInfoModel(null);
+                            mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+                            mContext.finish();
+                        }
+                    };
+                    KakaoLoginUtils.openSession(mContext, iSessionCallback);
                 }
+            } else { // 로그아웃 상태
+                LoginManager.getInstance().setLoginInfoModel(null);
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
+                mContext.finish();
             }
+        }
 //        }
 //        else if (Build.MODEL.equalsIgnoreCase("SM-G900K")) {
-//            // todo LoginInfoModel, setUserCode 중복 수정해야함
 //            LoginInfoModel loginInfoModel = new LoginInfoModel();
 //            loginInfoModel.setUserId("1087708737");
 //            loginInfoModel.setUserName("박철수");
-//            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
-//            Intent intent = new Intent(mContext, MainActivity.class);
-//            mContext.startActivity(intent);
-//            mContext.finish();
-//        } else if (Build.MODEL.equalsIgnoreCase("SM-N900L")) {
-//            // todo LoginInfoModel, setUserCode 중복 수정해야함
-//            LoginInfoModel loginInfoModel = new LoginInfoModel();
-//            loginInfoModel.setUserId("1087708739");
-//            loginInfoModel.setUserName("최길동");
 //            LoginManager.getInstance().setLoginInfoModel(loginInfoModel);
 //            Intent intent = new Intent(mContext, MainActivity.class);
 //            mContext.startActivity(intent);

@@ -46,21 +46,24 @@ public class ClubUserListAdapter extends BaseRecyclerViewAdapter<ClubUserViewHol
                 holder.getBinding().joinYesNoParent.setVisibility(View.GONE);
             } else {
                 holder.getBinding().userCheckBox.setVisibility(View.GONE);
-                holder.getBinding().joinYesNoParent.setVisibility(View.VISIBLE);
-                if (userModel.getType() == Define.USER_TYPE_JOIN_WAIT) {
-                    holder.getBinding().joinNo.setVisibility(View.VISIBLE);
-                    holder.getBinding().joinYes.setVisibility(View.VISIBLE);
-                    holder.getBinding().joinNo.setText("거부");
-                    holder.getBinding().joinYes.setText("수락");
+                if (userModel.getUserId().equalsIgnoreCase(clubUserListViewModel.getClubModel().getCreateUserId())) {
+                    holder.getBinding().joinYesNoParent.setVisibility(View.GONE);
                 } else {
-
-                    if (userModel.getUserId().startsWith("N_")) { // 가입 안하고 추가한 회원
-                        holder.getBinding().joinNo.setText("삭제");
+                    holder.getBinding().joinYesNoParent.setVisibility(View.VISIBLE);
+                    if (userModel.getType() == Define.USER_TYPE_JOIN_WAIT) {
+                        holder.getBinding().joinNo.setVisibility(View.VISIBLE);
+                        holder.getBinding().joinYes.setVisibility(View.VISIBLE);
+                        holder.getBinding().joinNo.setText("거부");
+                        holder.getBinding().joinYes.setText("수락");
                     } else {
-                        holder.getBinding().joinNo.setText("추방");
+                        if (userModel.getUserId().startsWith("N_")) { // 가입 안하고 추가한 회원
+                            holder.getBinding().joinNo.setText("삭제");
+                        } else {
+                            holder.getBinding().joinNo.setText("추방");
+                        }
+                        holder.getBinding().joinNo.setVisibility(View.VISIBLE);
+                        holder.getBinding().joinYes.setVisibility(View.INVISIBLE);
                     }
-                    holder.getBinding().joinNo.setVisibility(View.VISIBLE);
-                    holder.getBinding().joinYes.setVisibility(View.INVISIBLE);
                 }
             }
         } else {
