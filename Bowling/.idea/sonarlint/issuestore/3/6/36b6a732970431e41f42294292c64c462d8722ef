@@ -1,0 +1,26 @@
+
+
+java:S1319Ê"tThe type of the "imageList" object should be an interface such as "List" rather than the implementation "ArrayList".(‘ÂÕûÿÿÿÿ
+
+java:S1319ø"sThe type of the "fileList" object should be an interface such as "List" rather than the implementation "ArrayList".(³¬ øÿÿÿÿ
+b
+java:S1192±"FDefine a constant instead of duplicating this literal "image" 3 times.(—Ÿ”ãùÿÿÿÿ
+a
+java:S1192¿"JDefine a constant instead of duplicating this literal "uploadEnd" 3 times.(üÛâ¶
+j
+java:S1602©"SRemove useless curly braces around statement and then remove useless return keyword(ƒÊüó
+O	java:S106¼"9Replace this use of System.out or System.err by a logger.(¥»§ª
+j
+java:S1602Ñ"SRemove useless curly braces around statement and then remove useless return keyword(ŒÏô¬
+j
+java:S1602Ò"SRemove useless curly braces around statement and then remove useless return keyword(É“Í½
+B
+java:S1602ê",Remove useless curly braces around statement(Ÿ·ã
+T	java:S106ë"9Replace this use of System.out or System.err by a logger.(°‘ÊÃùÿÿÿÿ
+T	java:S106í"9Replace this use of System.out or System.err by a logger.(“¿Úôúÿÿÿÿ
+O	java:S106ğ"9Replace this use of System.out or System.err by a logger.(©ã†È
+I
+java:S1135÷"2Complete the task associated to this TODO comment.(¾´¤›
+X
+java:S1126ş"AReplace this if-then-else statement by a single return statement.(ù°êÍ
+O	java:S106Œ"9Replace this use of System.out or System.err by a logger.(¥»§ª

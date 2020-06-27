@@ -54,63 +54,67 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
 
         binding.viewModel = viewModel
 
-        arguments?.apply {
-            getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
-                binding.clubTitleTextView.text = clubTitle
-                binding.clubSubTitleTextView.text = clubInfo
-                binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
+        activity?.let { activity ->
+            arguments?.apply {
+                getParcelable<ClubModel?>(Define.CLUB_MODEL)?.apply {
+                    binding.clubTitleTextView.text = clubTitle
+                    binding.clubSubTitleTextView.text = clubInfo
+                    binding.clubSubTitleTextView.movementMethod = ScrollingMovementMethod()
 
-                GlideApp.with(activity!!).asBitmap()
-                    .load(if (clubImage.length == 1) R.drawable.team_default_1 else Define.IMAGE_URL + clubImage)
-                    .centerCrop()
-                    .apply(ImageUtil.getGlideRequestOption())
-                    .into(binding.clubTitleImage)
+                    GlideApp.with(activity).asBitmap()
+                        .load(if (clubImage.length == 1) R.drawable.team_default_1 else Define.IMAGE_URL + clubImage)
+                        .centerCrop()
+                        .apply(ImageUtil.getGlideRequestOption())
+                        .into(binding.clubTitleImage)
 
-                viewModel.clubModel = this
+                    viewModel.clubModel = this
 
-                getUserList()
+                    getUserList()
 
-                when (type) {
-                    Define.USER_TYPE_JOIN,
-                    Define.USER_TYPE_OWNER -> {
-                        binding.signUpBtn.text = "탈퇴하기"
+                    when (type) {
+                        Define.USER_TYPE_JOIN,
+                        Define.USER_TYPE_OWNER -> {
+                            binding.signUpBtn.text = "탈퇴하기"
+                        }
+                        Define.USER_TYPE_JOIN_WAIT -> {
+                            binding.signUpBtn.text = "가입신청 취소하기"
+                        }
+                        Define.USER_TYPE_SECESSION,
+                        Define.USER_TYPE_FORCE_SECESSION,
+                        Define.USER_TYPE_NOT_JOIN -> {
+                            binding.signUpBtn.text = "가입신청 하기"
+                        }
                     }
-                    Define.USER_TYPE_JOIN_WAIT -> {
-                        binding.signUpBtn.text = "가입신청 취소하기"
+                }
+            }
+
+            (binding.space.layoutParams as ConstraintLayout.LayoutParams).apply {
+                matchConstraintPercentHeight =
+                    if (ScreenUtil.screenRatio(activity) < 56) { // 세로가 짧은 디바이스
+                        0.1.toFloat()
+                    } else { // 세로가 긴 디바이스
+                        0.2.toFloat()
                     }
-                    Define.USER_TYPE_SECESSION,
-                    Define.USER_TYPE_FORCE_SECESSION,
-                    Define.USER_TYPE_NOT_JOIN -> {
-                        binding.signUpBtn.text = "가입신청 하기"
-                    }
+                binding.space.layoutParams = this
+            }
+
+            when (LoginManager.getInstance().isPermissionUser(viewModel.clubModel.createUserId)) {
+                Define.OK -> {
+                    binding.clubSetting.visibility = View.VISIBLE
+                    binding.signUpBtn.visibility = View.VISIBLE
+                }
+                Define.NO_PERMISSION -> {
+                    binding.clubSetting.visibility = View.INVISIBLE
+                    binding.signUpBtn.visibility = View.VISIBLE
+                }
+                Define.LOGOUT -> {
+                    binding.clubSetting.visibility = View.INVISIBLE
+                    binding.signUpBtn.visibility = View.INVISIBLE
                 }
             }
         }
 
-        (binding.space.layoutParams as ConstraintLayout.LayoutParams).apply {
-            matchConstraintPercentHeight =
-                if (ScreenUtil.screenRatio(activity) < 56) { // 세로가 짧은 디바이스
-                    0.1.toFloat()
-                } else { // 세로가 긴 디바이스
-                    0.2.toFloat()
-                }
-            binding.space.layoutParams = this
-        }
 
-        when (LoginManager.getInstance().isPermissionUser(viewModel.clubModel.createUserId)) {
-            Define.OK -> {
-                binding.clubSetting.visibility = View.VISIBLE
-                binding.signUpBtn.visibility = View.VISIBLE
-            }
-            Define.NO_PERMISSION -> {
-                binding.clubSetting.visibility = View.INVISIBLE
-                binding.signUpBtn.visibility = View.VISIBLE
-            }
-            Define.LOGOUT -> {
-                binding.clubSetting.visibility = View.INVISIBLE
-                binding.signUpBtn.visibility = View.INVISIBLE
-            }
-        }
         return view
     }
 
@@ -138,7 +142,7 @@ class ClubDetailFragment : BindFragment<FragmentClubDetailBinding, ClubDetailHom
                 binding.clubTitleTextView.text = viewModel.clubModel.clubTitle
                 binding.clubSubTitleTextView.text = viewModel.clubModel.clubInfo
 
-                GlideApp.with(activity!!).asBitmap()
+                GlideApp.with(binding.clubTitleImage.context).asBitmap()
                     .load(if (viewModel.clubModel.clubImage.length == 1) R.drawable.team_default_1 else Define.IMAGE_URL + viewModel.clubModel.clubImage)
                     .centerCrop()
                     .apply(ImageUtil.getGlideRequestOption())

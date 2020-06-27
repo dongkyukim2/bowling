@@ -17,9 +17,11 @@ object ProgressUtil {
         hideProgress()
         progressDialog = AppCompatDialog(activity, R.style.Theme_CustomDialog)
         progressDialog!!.setCancelable(false)
-        progressDialog!!.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-        progressDialog!!.setContentView(R.layout.progress_loading)
-        progressDialog!!.show()
+        progressDialog!!.window?.let {
+            it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+            progressDialog!!.setContentView(R.layout.progress_loading)
+            progressDialog!!.show()
+        }
     }
 
     fun hideProgress() {

@@ -1,0 +1,15 @@
+
+V	java:S125&"<This block of commented-out lines of code should be removed.(—¯ëóÿÿÿÿÿ
+Q
+java:S2696)"6Make the enclosing method "static" or remove this set.(—©·¢ùÿÿÿÿ
+G
+java:S1068"1Remove this unused "mAppExecutors" private field.(¬¹ú
+N	java:S106D"9Replace this use of System.out or System.err by a logger.(ÊÌ´–
+V	java:S125I"<This block of commented-out lines of code should be removed.(¯­ôÿûÿÿÿÿ
+r
+java:S3077"WUse a thread-safe type; adding "volatile" is not enough to make this field thread-safe.(İ°Ö°ÿÿÿÿÿ
+M
+java:S1874,"2Remove this use of "initialize"; it is deprecated.(£Š¯ªşÿÿÿÿ
+N	java:S106>"9Replace this use of System.out or System.err by a logger.(»Íè³
+r
+java:S1450"\Remove the "mAppExecutors" field and declare it as a local variable in the relevant methods.(¬¹ú

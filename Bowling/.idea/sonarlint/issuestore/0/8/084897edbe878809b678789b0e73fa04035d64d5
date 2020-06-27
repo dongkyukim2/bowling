@@ -1,0 +1,24 @@
+
+m	java:S116"XRename this field "WRITE_TIMEOUT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†œ
+C
+java:S1444"-Make this "public static baseUrl" field final(×‚è¸
+7
+java:S1170"!Make this final field static too.(†œ
+<
+java:S1170"!Make this final field static too.(òõ«İÿÿÿÿÿ
+7
+java:S1170"!Make this final field static too.(éÂ½†
+S	java:S106]"9Replace this use of System.out or System.err by a logger.(èÚìùÿÿÿÿ
+o	java:S116"ZRename this field "CONNECT_TIMEOUT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éÂ½†
+S	java:S106_"9Replace this use of System.out or System.err by a logger.(ÇåœÅùÿÿÿÿ
+H
+java:S16114"3Remove the parentheses around the "chain" parameter(ÁËùc
+Y
+java:S1854h">Remove this useless assignment to local variable "statusCode".(†€‚Ãÿÿÿÿÿ
+J
+java:S1481h"/Remove this unused "statusCode" local variable.(†€‚Ãÿÿÿÿÿ
+i
+java:S1104"SMake baseUrl a static final constant or non-public and provide accessors if needed.(×‚è¸
+\
+java:S1128"ARemove this unused import 'org.apache.commons.lang3.StringUtils'.(Øœ¼ºúÿÿÿÿ
+q	java:S116"WRename this field "READ_TIMEOUT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òõ«İÿÿÿÿÿ
