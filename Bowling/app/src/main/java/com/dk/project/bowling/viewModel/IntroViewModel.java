@@ -58,6 +58,7 @@ public class IntroViewModel extends BaseViewModel {
         } else {
 
             BowlingApi.getInstance().getVersion(serverVersion -> {
+
                 try {
                     String appVersion = BuildConfig.VERSION_NAME;
                     String[] serverArray = serverVersion.getData().split("\\.");
