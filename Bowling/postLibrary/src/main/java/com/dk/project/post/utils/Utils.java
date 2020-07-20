@@ -17,6 +17,7 @@ import android.view.View;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 
+import com.dk.project.post.BuildConfig;
 import com.dk.project.post.service.CommunityService;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
@@ -137,19 +138,24 @@ public class Utils {
     }
 
     public static String getHashKey(Context context) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                return Base64.encodeToString(md.digest(), Base64.DEFAULT);
+
+        if (BuildConfig.DEBUG) {
+            return "QlxmeS6ASo0zHfm0l6H28OHwNBw=";
+        } else {
+            try {
+                PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+                for (Signature signature : info.signatures) {
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    md.update(signature.toByteArray());
+                    return Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            return "";
         }
-        return "";
     }
 
     public static String Encrypt(String text, String key) throws Exception {

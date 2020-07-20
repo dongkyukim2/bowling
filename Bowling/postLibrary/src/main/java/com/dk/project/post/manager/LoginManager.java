@@ -77,7 +77,6 @@ public class LoginManager {
 
     public String getEncodeId() {
         try {
-//            System.out.println("+++++++++++   requestTime = " + Utils.DateFormat_0.format(new Date(time.get())));
             return Utils.Encrypt(getUserCode() + "|" + time.get(), Utils.getHashKey(BaseApplication.getGlobalApplicationContext()));
         } catch (Exception e) {
             e.printStackTrace();

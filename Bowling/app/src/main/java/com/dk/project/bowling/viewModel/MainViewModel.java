@@ -80,12 +80,14 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
                         iSessionCallback = new ISessionCallback() {
                             @Override
                             public void onSessionOpened() {
+                                System.out.println("+++++++++++    onSessionOpened");
                                 KakaoLoginUtils.removeCallback(iSessionCallback);
                                 requestLogin();
                             }
 
                             @Override
                             public void onSessionOpenFailed(KakaoException exception) {
+                                System.out.println("+++++++++++    onSessionOpenFailed    " + exception.toString());
                                 KakaoLoginUtils.removeCallback(iSessionCallback);
                             }
                         };

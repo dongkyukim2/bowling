@@ -142,16 +142,21 @@ public class CommunityService extends BaseService {
     private void writePost(boolean modify, PostModel postModel) {
         executeRx(PostApi.getInstance().writePost(postModel, modify,
                 writeReceivedData -> {
-                    if (modify) {
-                        RxBus.getInstance().eventPost(new Pair(EVENT_POST_REFRESH_MODIFY, writeReceivedData.getData()));
+                    if (writeReceivedData.isSuccess()) {
+                        if (modify) {
+                            RxBus.getInstance().eventPost(new Pair(EVENT_POST_REFRESH_MODIFY, writeReceivedData.getData()));
+                        } else {
+                            RxBus.getInstance().eventPost(new Pair(EVENT_POST_REFRESH, postModel.getClubId()));
+                        }
+                        ToastUtil.showUploadSuccessToast(this);
                     } else {
-                        RxBus.getInstance().eventPost(new Pair(EVENT_POST_REFRESH, postModel.getClubId()));
+                        ToastUtil.showToastCenter(this,writeReceivedData.getMessage());
                     }
-                    ToastUtil.showUploadSuccessToast(this);
+
                     stopSelf();
                 },
                 errorData -> {
-                    Toast.makeText(this, "글쓰기 성공", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "실패하였습니다.", Toast.LENGTH_LONG).show();
                     stopSelf();
                 }
         ));
@@ -178,7 +183,6 @@ public class CommunityService extends BaseService {
             int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
             notifyManager.createNotificationChannel(mChannel);
-
         }
 
         contentView = new RemoteViews(getPackageName(), R.layout.notification);
