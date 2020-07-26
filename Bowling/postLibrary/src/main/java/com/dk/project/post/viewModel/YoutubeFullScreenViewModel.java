@@ -2,7 +2,9 @@ package com.dk.project.post.viewModel;
 
 import android.app.Application;
 import android.view.View;
+
 import androidx.annotation.NonNull;
+
 import com.dk.project.post.base.BaseViewModel;
 
 /**
@@ -11,23 +13,23 @@ import com.dk.project.post.base.BaseViewModel;
 
 public class YoutubeFullScreenViewModel extends BaseViewModel {
 
-  public YoutubeFullScreenViewModel(@NonNull Application application) {
-    super(application);
-  }
+    public YoutubeFullScreenViewModel(@NonNull Application application) {
+        super(application);
+    }
 
-  @Override
-  protected void onCreated() {
-    super.onCreated();
-  }
+    @Override
+    protected void onCreated() {
+        super.onCreated();
+    }
 
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-  }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
-  @Override
-  public void onThrottleClick(View view) {
+    @Override
+    public void onThrottleClick(View view) {
 
-  }
+    }
 
 }

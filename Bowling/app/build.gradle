@@ -33,12 +33,15 @@ android {
             versionCode 1
             versionName "1.0.0"
             flavorDimensions "last"
+            resValue "string", "flavored_app_name", "모두의 볼링 Guest 1"
+
         }
         guest2 {
             applicationIdSuffix ".bowling.guest2"
             versionCode 1
             versionName "1.0.0"
             flavorDimensions "last"
+            resValue "string", "flavored_app_name", "모두의 볼링 Guest 2"
         }
 
         real {
@@ -46,6 +49,7 @@ android {
             versionCode 1
             versionName "1.0.0"
             flavorDimensions "last"
+            resValue "string", "flavored_app_name", "모두의 볼링"
         }
     }
 
@@ -115,11 +119,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.2.0'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
-
     implementation 'androidx.room:room-rxjava2:2.2.5'
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
-
 
     implementation 'com.facebook.fresco:fresco:2.3.0'
     implementation 'com.facebook.fresco:animated-gif:2.3.0'
@@ -141,7 +143,6 @@ dependencies {
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 
     implementation 'com.github.yalantis:ucrop:2.2.4-native'
-
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.3.0-rc01'
