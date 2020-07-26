@@ -29,6 +29,11 @@ public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewM
                 subscribe(this::onThrottleClick));
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        System.out.println("+++++++++++++++++++++   onCleared");
+    }
 
     protected void onCreate() {
     }
