@@ -6,7 +6,6 @@ import com.dk.project.post.retrofit.ErrorCallback;
 import com.dk.project.post.retrofit.ErrorResponse;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -51,7 +50,7 @@ public class RetroClient {
             builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS) //연결 타임아웃 시간 설정
                     .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS) //쓰기 타임아웃 시간 설정
                     .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
-                    .connectionPool(new ConnectionPool(10,10,TimeUnit.SECONDS))
+                    .connectionPool(new ConnectionPool(10, 10, TimeUnit.SECONDS))
                     .addInterceptor((chain) -> {
                         Request.Builder requestBuilder = chain.request().newBuilder();
                         String userId = "";

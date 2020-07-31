@@ -32,7 +32,7 @@ public abstract class BaseViewModel<T extends BaseActivity> extends AndroidViewM
     @Override
     protected void onCleared() {
         super.onCleared();
-        System.out.println("+++++++++++++++++++++   onCleared");
+        System.out.println("onCleared : " + getClass().getSimpleName());
     }
 
     protected void onCreate() {

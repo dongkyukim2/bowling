@@ -37,17 +37,7 @@ public class ClubViewModel extends BaseViewModel {
     @Override
     protected void onCreated() {
         super.onCreated();
-        if (!LoginManager.getInstance().isLogIn()) {
-            BowlingApi.getInstance().getRecommendClubList(receivedData -> {
-                ResponseModel<ArrayList<ClubModel>> emptyModel = new ResponseModel<>();
-                emptyModel.setCode("0000");
-                emptyModel.setData(new ArrayList<>());
-                clubListLiveData.setValue(new Pair(emptyModel, receivedData));
-            }, errorData -> {
-            });
-        } else {
-            getClubList();
-        }
+        getInitClubList();
     }
 
     @Override
@@ -69,7 +59,20 @@ public class ClubViewModel extends BaseViewModel {
                 }
                 break;
         }
+    }
 
+    public void getInitClubList() {
+        if (!LoginManager.getInstance().isLogIn()) {
+            BowlingApi.getInstance().getRecommendClubList(receivedData -> {
+                ResponseModel<ArrayList<ClubModel>> emptyModel = new ResponseModel<>();
+                emptyModel.setCode("0000");
+                emptyModel.setData(new ArrayList<>());
+                clubListLiveData.setValue(new Pair(emptyModel, receivedData));
+            }, errorData -> {
+            });
+        } else {
+            getClubList();
+        }
     }
 
     public MutableLiveData<Pair<ResponseModel<ArrayList<ClubModel>>, ResponseModel<ArrayList<ClubModel>>>> getClubListLiveData() {

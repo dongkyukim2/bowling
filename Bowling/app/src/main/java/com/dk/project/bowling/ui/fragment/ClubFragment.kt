@@ -24,6 +24,7 @@ import com.dk.project.post.utils.ScreenUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.fragment_club.*
 import java.util.concurrent.TimeUnit
 
 
@@ -41,7 +42,8 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
     ).get(ClubViewModel::class.java)
 
     override fun registerLiveData() {
-        viewModel.clubListLiveData.observe(this, Observer {
+        viewModel.clubListLiveData.observe(viewLifecycleOwner, Observer {
+            binding.recyclerViewRefresh.isRefreshing = false
             binding.emptyView.visibility =
                 if (it.first?.data?.isEmpty()!!) View.VISIBLE else View.GONE
 
@@ -113,18 +115,24 @@ class ClubFragment : BindFragment<FragmentClubBinding, ClubViewModel>() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.recommendClubParent)
         bottomSheetBehavior.skipCollapsed = true
         viewModel.setBottomSheetBehavior(bottomSheetBehavior)
-//        bottomSheetBehavior.addBottomSheetCallback(object :
-//            BottomSheetBehavior.BottomSheetCallback() {
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//                binding.signClubViewPager.alpha = abs(1.0f - slideOffset)
-//                binding.recommendClubTextView
-//                    .setBackgroundColor(Utils.getColorWithAlpha(Color.WHITE, slideOffset))
-//            }
-//
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//
-//            }
-//        })
+
+        binding.recyclerViewRefresh.setOnRefreshListener {
+            viewModel.getInitClubList()
+        }
+
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> recyclerView_refresh.isEnabled = false
+                    BottomSheetBehavior.STATE_COLLAPSED -> recyclerView_refresh.isEnabled = true
+                }
+            }
+        })
         setRecommendClubHeight()
 
         return view

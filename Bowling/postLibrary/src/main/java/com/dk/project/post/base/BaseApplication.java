@@ -59,13 +59,11 @@ public class BaseApplication extends Application implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onForeground() {
-        System.out.println("++++++++++    onForeground");
         LoginManager.getInstance().startTimer();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void onBackground() {
-        System.out.println("++++++++++    onBackground");
         LoginManager.getInstance().stopTimer();
     }
 

@@ -5,16 +5,8 @@ package com.dk.project.post.base;
  */
 
 public interface Define {
-
-
+    
     boolean ON_CREATE_LOG = false;
-
-    //    boolean TEST_USER = false;
-//    boolean TEST_USER = true;
-//    String TEST_ID = "1087708737";
-//    String TEST_NAME = "박철수";
-//    String TEST_ID = "1087708739";
-//    String TEST_NAME = "최길동";
 
     boolean USE_GLIDE = false;
 

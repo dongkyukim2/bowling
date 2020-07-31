@@ -63,9 +63,12 @@ public class ClubAdapter extends BaseRecyclerViewAdapter<ClubViewHolder> {
 
         receiveClubList.addAll(clubListModel.second.getData());
 
-        DiffUtil.DiffResult result = getDiffUtil(this.clubList, receiveClubList);
-        this.clubList = receiveClubList;
-        result.dispatchUpdatesTo(this);
+        this.clubList.clear();
+        this.clubList.addAll(receiveClubList);
+        notifyDataSetChanged();
+//        DiffUtil.DiffResult result = getDiffUtil(this.clubList, receiveClubList);
+//        this.clubList = receiveClubList;
+//        result.dispatchUpdatesTo(this);
 
     }
 
