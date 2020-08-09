@@ -22,6 +22,7 @@ import com.dk.project.post.ui.widget.CircleImageView;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.PermissionsUtil;
+import com.dk.project.post.utils.ProgressUtil;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.ToastUtil;
 import com.dk.project.post.utils.Utils;
@@ -98,6 +99,7 @@ public class LoginInfoViewModel extends BaseViewModel {
             } else if (!Utils.stringCheck(nickName)) {
                 ToastUtil.showToastCenter(mContext, "한글, 영문, 숫자만 가능합니다.");
             } else {
+                ProgressUtil.INSTANCE.showProgress(mContext);
                 LoginInfoModel loginInfoModel = new LoginInfoModel();
                 loginInfoModel.setUserId(signId);
                 loginInfoModel.setUserName(nickName);
@@ -109,6 +111,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                     }
                     executeRx(PostApi.getInstance().signUp(loginInfoModel,
                             receivedData -> {
+                                ProgressUtil.INSTANCE.hideProgress();
                                 if (receivedData.isSuccess()) { // 회원가입성공
                                     LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
                                     Intent intent = new Intent(Define.MAIN);
@@ -130,6 +133,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                                 }
                                 requestSignUp = false;
                             }, errorData -> {
+                                ProgressUtil.INSTANCE.hideProgress();
                                 if (modify) {
                                     ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
                                 } else {
@@ -149,6 +153,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                         }
                         executeRx(PostApi.getInstance().signUp(loginInfoModel,
                                 receivedData -> {
+                                    ProgressUtil.INSTANCE.hideProgress();
                                     if (receivedData.isSuccess()) { // 회원가입성공
                                         LoginManager.getInstance().setLoginInfoModel(receivedData.getData());
                                         Intent intent = new Intent(Define.MAIN);
@@ -170,6 +175,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                                     }
                                     requestSignUp = false;
                                 }, errorData -> {
+                                    ProgressUtil.INSTANCE.hideProgress();
                                     if (modify) {
                                         ToastUtil.showToastCenter(mContext, "수정 실패했습니다.");
                                     } else {
@@ -178,6 +184,7 @@ public class LoginInfoViewModel extends BaseViewModel {
                                     requestSignUp = false;
                                 }));
                     }, errorData -> {
+                        ProgressUtil.INSTANCE.hideProgress();
                         requestSignUp = false;
                     }, new CountingRequestBody.Listener() {
                         @Override

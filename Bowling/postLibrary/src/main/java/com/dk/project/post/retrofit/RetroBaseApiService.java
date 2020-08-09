@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public interface RetroBaseApiService {
 
-    String Base_URL = "http://project-dk.iptime.org:8081/";
-//    String Base_URL = "http://133.186.143.97:8081/";
+//    String Base_URL = "http://project-dk.iptime.org:8081/";
+    String Base_URL = "http://133.186.143.97:8081/";
 
     @GET("ping")
     Observable<ResponseModel> pingCheck();
