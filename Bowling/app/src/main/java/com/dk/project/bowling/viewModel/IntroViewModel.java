@@ -22,16 +22,12 @@ import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.dk.project.post.utils.Utils;
 import com.dk.project.post.utils.YoutubeUtil;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.util.exception.KakaoException;
 
 /**
  * Created by dkkim on 2017-10-04.
  */
 
 public class IntroViewModel extends BaseViewModel {
-
-    private ISessionCallback iSessionCallback;
 
     public IntroViewModel(@NonNull Application application) {
         super(application);
@@ -57,9 +53,7 @@ public class IntroViewModel extends BaseViewModel {
             mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
             mContext.finish();
         } else {
-
             BowlingApi.getInstance().getVersion(serverVersion -> {
-
                 try {
                     String appVersion = BuildConfig.VERSION_NAME;
                     String[] serverArray = serverVersion.getData().split("\\.");
@@ -89,7 +83,6 @@ public class IntroViewModel extends BaseViewModel {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        KakaoLoginUtils.removeCallback(iSessionCallback);
     }
 
     @Override
@@ -106,26 +99,24 @@ public class IntroViewModel extends BaseViewModel {
                 mContext.finish();
             } else {
                 if (LoginManager.getInstance().autoLogIn()) {
-                    // 세션이 열려있는지
-                    // todo 로그인되어있으면 열려있는듯
-                    if (KakaoLoginUtils.checkLogin()) {
-                        loginCheck();
-                    } else {
-                        iSessionCallback = new ISessionCallback() {
-                            @Override
-                            public void onSessionOpened() {
-                                loginCheck();
+                    KakaoLoginUtils.getInstance().getUserInfo(mContext, receivedData -> {
+                        if (receivedData.getSecond() != null) {
+                            LoginManager.getInstance().setLoginInfoModel(receivedData.getSecond());
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            Intent shareIntent = mContext.getIntent();
+                            if (Utils.isShareIntent(shareIntent)) {
+                                Bundle bundle = shareIntent.getExtras();
+                                if (bundle != null) {
+                                    intent.putExtras(bundle);
+                                }
                             }
-
-                            @Override
-                            public void onSessionOpenFailed(KakaoException exception) { // 카카오 로그인 화면 열었다가 닫기하면
-                                LoginManager.getInstance().setLoginInfoModel(null);
-                                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
-                                mContext.finish();
-                            }
-                        };
-                        KakaoLoginUtils.openSession(mContext, iSessionCallback);
-                    }
+                            mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
+                        } else {
+                            LoginManager.getInstance().setLoginInfoModel(null);
+                            mContext.startActivity(new Intent(mContext, MainActivity.class));
+                        }
+                        mContext.finish();
+                    });
                 } else { // 로그아웃 상태
                     LoginManager.getInstance().setLoginInfoModel(null);
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
@@ -148,39 +139,39 @@ public class IntroViewModel extends BaseViewModel {
         }
     }
 
-    private void loginCheck() {
-        KakaoLoginUtils.getUserInfo(receivedData -> {
-            if (receivedData.first > 0 && receivedData.second != null) { // 카카오에서 유저정보 가져오고, 회원정보 있음
-                LoginManager.getInstance().setLoginInfoModel(receivedData.second);
-                Intent intent = new Intent(mContext, MainActivity.class);
-                Intent shareIntent = mContext.getIntent();
-                if (Utils.isShareIntent(shareIntent)) {
-                    Bundle bundle = shareIntent.getExtras();
-                    if (bundle != null) {
-                        intent.putExtras(bundle);
-                    }
-                }
-                mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
-                mContext.finish();
-//                Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_LONG).show();
-            } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상태
-                LoginManager.getInstance().setLoginInfoModel(null);
-                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
-                mContext.finish();
-//                Toast.makeText(mContext, "로그인 실패 - 가입안된 상태", Toast.LENGTH_LONG).show();
-            } else if (receivedData.first <= 0) { // 카카오에서 유저정보 못가져옴, 결국 로그인 실패
-                LoginManager.getInstance().setLoginInfoModel(null);
-                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
-                mContext.finish();
-//                Toast.makeText(mContext, "로그인 실패 - 카카오 로그인 실패", Toast.LENGTH_LONG).show();
-            } else { // 이거 타는 경우가 있나??
-                LoginManager.getInstance().setLoginInfoModel(null);
-                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
-                mContext.finish();
-//                Toast.makeText(mContext, "로그인 실패 - 이유 모름", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+//    private void loginCheck() {
+//        KakaoLoginUtils.getUserInfo(receivedData -> {
+//            if (receivedData.first > 0 && receivedData.second != null) { // 카카오에서 유저정보 가져오고, 회원정보 있음
+//                LoginManager.getInstance().setLoginInfoModel(receivedData.second);
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                Intent shareIntent = mContext.getIntent();
+//                if (Utils.isShareIntent(shareIntent)) {
+//                    Bundle bundle = shareIntent.getExtras();
+//                    if (bundle != null) {
+//                        intent.putExtras(bundle);
+//                    }
+//                }
+//                mContext.startActivity(intent); // 로그인 된 상태로 메인 진입
+//                mContext.finish();
+////                Toast.makeText(mContext, "로그인 성공", Toast.LENGTH_LONG).show();
+//            } else if (receivedData.first > 0 && receivedData.second == null) { // 카카오에서 유저정보 가져오고, 회원정보 없음, 가입안된 상태
+//                LoginManager.getInstance().setLoginInfoModel(null);
+//                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+//                mContext.finish();
+////                Toast.makeText(mContext, "로그인 실패 - 가입안된 상태", Toast.LENGTH_LONG).show();
+//            } else if (receivedData.first <= 0) { // 카카오에서 유저정보 못가져옴, 결국 로그인 실패
+//                LoginManager.getInstance().setLoginInfoModel(null);
+//                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+//                mContext.finish();
+////                Toast.makeText(mContext, "로그인 실패 - 카카오 로그인 실패", Toast.LENGTH_LONG).show();
+//            } else { // 이거 타는 경우가 있나??
+//                LoginManager.getInstance().setLoginInfoModel(null);
+//                mContext.startActivity(new Intent(mContext, MainActivity.class)); // 비로그인 된 상태로 메인 진입
+//                mContext.finish();
+////                Toast.makeText(mContext, "로그인 실패 - 이유 모름", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     private void goMarket() {
         String appPackageName = mContext.getPackageName();

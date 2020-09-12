@@ -11,11 +11,10 @@ import com.dk.project.post.R;
 import com.dk.project.post.manager.LoginManager;
 import com.dk.project.post.utils.AppExecutors;
 import com.dk.project.post.utils.ImagePipelineConfigFactory;
-import com.dk.project.post.utils.KakaoSDKAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.google.android.gms.ads.MobileAds;
-import com.kakao.auth.KakaoSDK;
+import com.kakao.sdk.common.KakaoSdk;
 
 import static com.google.android.gms.ads.RequestConfiguration.MAX_AD_CONTENT_RATING_G;
 import static com.google.android.gms.ads.RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE;
@@ -29,17 +28,16 @@ public class BaseApplication extends Application implements LifecycleObserver {
     private AppExecutors mAppExecutors;
     private static volatile BaseApplication obj = null;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         Stetho.initializeWithDefaults(this);
-//        Fresco.initialize(this, ImagePipelineConfigFactory.getImagePipelineConfig(this));
         Fresco.initialize(this, ImagePipelineConfigFactory.getOkHttpImagePipelineConfig(this));
         mAppExecutors = new AppExecutors();
         obj = this;
-        KakaoSDK.init(new KakaoSDKAdapter());
+
+        KakaoSdk.init(this, getString(R.string.kakao_app_key));
 
         MobileAds.initialize(this, getResources().getString(R.string.admob_app_id));
 

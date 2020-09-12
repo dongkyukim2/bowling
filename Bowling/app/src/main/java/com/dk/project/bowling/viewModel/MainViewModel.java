@@ -23,8 +23,6 @@ import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.KakaoLoginUtils;
 import com.dk.project.post.utils.RxBus;
 import com.dk.project.post.utils.Utils;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.util.exception.KakaoException;
 
 import java.util.Calendar;
 
@@ -36,8 +34,6 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
 
     //  Note : 메인스레드에서 LiveData를 갱신하려면 반드시 setValue(T) 메서드를 호출해야 한다.
     // 만약, 작업스레드에서 LiveData를 갱신하려면 postValue(T) 메서드를 호출해야 한다.
-
-    private ISessionCallback iSessionCallback;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -63,8 +59,6 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
 
     @Override
     public void onThrottleClick(View view) {
-
-
         switch (view.getId()) {
             case R.id.setting:
                 mContext.onBackPressed();
@@ -73,31 +67,20 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
                 break;
             case R.id.login:
                 mContext.onBackPressed();
-                if (KakaoLoginUtils.checkLogin()) { // 카카오 세션이 열려있나?
-                    requestLogin();
-                } else {
-                    if (iSessionCallback == null) {
-                        iSessionCallback = new ISessionCallback() {
-                            @Override
-                            public void onSessionOpened() {
-                                System.out.println("+++++++++++    onSessionOpened");
-                                KakaoLoginUtils.removeCallback(iSessionCallback);
-                                requestLogin();
-                            }
-
-                            @Override
-                            public void onSessionOpenFailed(KakaoException exception) {
-                                System.out.println("+++++++++++    onSessionOpenFailed    " + exception.toString());
-                                KakaoLoginUtils.removeCallback(iSessionCallback);
-                            }
-                        };
+                KakaoLoginUtils.getInstance().login(mContext, receivedData -> {
+                    if (receivedData.getSecond() == null) { // 디비에 가입된 이력 없음
+                        Intent tempIntent = new Intent(mContext, LoginInfoActivity.class);
+                        tempIntent.putExtra(Define.ID, String.valueOf(receivedData.getFirst()));
+                        mContext.startActivity(tempIntent);
+                    } else {
+                        LoginManager.getInstance().setLoginInfoModel(receivedData.getSecond());
+                        RxBus.getInstance().eventPost(new Pair(Define.EVENT_LOGIN_SUCCESS, true));
                     }
-                    KakaoLoginUtils.openSession(mContext, iSessionCallback);
-                }
+                });
                 break;
             case R.id.logout:
                 AlertDialogUtil.showAlertDialog(mContext, "알림", "로그아웃 하시겠습니까?", (dialog, which) -> {
-                    KakaoLoginUtils.logout(mContext);
+                    KakaoLoginUtils.getInstance().logout(mContext);
                 });
                 mContext.onBackPressed();
                 break;
@@ -144,18 +127,5 @@ public class MainViewModel extends BaseViewModel<MainActivity> {
         textView.setText((calendar.get(Calendar.AM_PM) == 0 ? "오전 " : "오후 ") +
                 String.format("%02d", calendar.get(Calendar.HOUR)) + ":" +
                 String.format("%02d", calendar.get(Calendar.MINUTE)));
-    }
-
-    private void requestLogin() {
-        KakaoLoginUtils.getUserInfo(receivedData -> {
-            if (receivedData.second == null) { // 디비에 가입된 이력 없음
-                Intent intent = new Intent(mContext, LoginInfoActivity.class);
-                intent.putExtra(Define.ID, String.valueOf(receivedData.first));
-                mContext.startActivity(intent);
-            } else {
-                LoginManager.getInstance().setLoginInfoModel(receivedData.second);
-                RxBus.getInstance().eventPost(new Pair(Define.EVENT_LOGIN_SUCCESS, true));
-            }
-        });
     }
 }

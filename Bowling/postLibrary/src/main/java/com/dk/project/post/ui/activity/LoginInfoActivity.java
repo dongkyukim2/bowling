@@ -16,8 +16,7 @@ import com.dk.project.post.utils.AlertDialogUtil;
 import com.dk.project.post.utils.GlideApp;
 import com.dk.project.post.utils.ImageUtil;
 import com.dk.project.post.viewModel.LoginInfoViewModel;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.sdk.user.UserApiClient;
 
 public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, LoginInfoViewModel> {
 
@@ -61,11 +60,9 @@ public class LoginInfoActivity extends BindActivity<ActivityLoginInfoBinding, Lo
             msg = "수정을 취소하겠습니까?";
         }
         AlertDialogUtil.showAlertDialog(this, null, msg, (dialog, which) -> {
-            UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
-                @Override
-                public void onCompleteLogout() {
-                    finish();
-                }
+            UserApiClient.getInstance().unlink(throwable -> {
+                finish();
+                return null;
             });
         });
     }

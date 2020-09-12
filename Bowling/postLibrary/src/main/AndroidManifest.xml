@@ -73,10 +73,6 @@
                 android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
                 android:enabled="true"
                 android:exported="false"/>
-
-        <meta-data
-                android:name="com.kakao.sdk.AppKey"
-                android:value="@string/kakao_app_key"/>
     </application>
 
 </manifest>
